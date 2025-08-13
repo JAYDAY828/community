@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>부평구금융인 통합 가이드</title>
+<style>
+:root{
+  --bg:#0b0e14;--bg-elev:#0f131b;--panel:#111827;--card:#0d1220;
+  --text:#e7eaf0;--muted:#a8b3c7;--brand:#ffcc4d;--brand-2:#8ab4ff;
+  --border:#1f2634;--shadow:0 10px 30px rgba(0,0,0,.4);
+  --accent:#4fd1c5;--danger:#ff6b6b;--ok:#34d399;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family: Inter, Segoe UI, Roboto, Apple SD Gothic Neo, Noto Sans KR, system-ui, -apple-system, sans-serif;
+  line-height:1.6}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+/* Header */
+.app-header{position:sticky;top:0;z-index:1000;background:
+  radial-gradient(1200px 400px at 20% -50%, rgba(255,204,77,.15), transparent),
+  linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.7));
+  border-bottom:1px solid var(--border);backdrop-filter:saturate(160%) blur(8px)}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:10px;background:
+  linear-gradient(135deg, var(--brand), #ffdca3);box-shadow:var(--shadow);display:grid;place-items:center;color:#222;font-weight:900}
+.brand h1{font-size:20px;margin:0}
+.header-actions{display:flex;align-items:center;gap:8px}
+button.icon{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:12px;cursor:pointer}
+button.icon:hover{outline:2px solid rgba(255,255,255,.06)}
+select.switcher{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:12px;cursor:pointer}
+.searchbar{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:var(--panel);
+  border:1px solid var(--border);padding:8px 12px;border-radius:12px}
+.searchbar input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:14px}
+kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bottom-width:2px;border-right-width:2px;border-radius:6px;padding:2px 6px}
+/* Layout */
+.layout{display:grid;grid-template-columns:270px 1fr;gap:16px;max-width:1200px;margin:16px auto;padding:0 20px}
+.sidebar{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;position:sticky;top:84px;height:calc(100vh - 110px);overflow:auto}
+.sidebar h3{margin:8px 0 10px 4px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.nav-group{display:flex;flex-direction:column;gap:8px}
+.nav-group button{display:flex;align-items:center;gap:10px;background:transparent;border:1px solid var(--border);padding:10px 12px;border-radius:12px;color:var(--text);cursor:pointer}
+.nav-group button.active{outline:2px solid var(--brand)}
+.nav-group svg{opacity:.85}
+.toc{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.toc a{font-size:13px;color:var(--muted);padding:6px 8px;border-radius:8px}
+.toc a:hover{background:rgba(255,255,255,.04);color:var(--text)}
+/* Main content */
+.main{min-height:60vh}
+.guide{display:none}
+.guide.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.guide h2:first-of-type{color:var(--brand);margin-top:0}
+.meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:8px 0 12px}
+.footer{max-width:1200px;margin:40px auto 20px;padding:0 20px;color:var(--muted);display:flex;justify-content:space-between;font-size:12px}
+/* Utilities */
+.badge{font-size:12px;padding:2px 8px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted)}
+.hl{background:rgba(255,204,77,.25);border-radius:4px;padding:0 2px}
+/* Light theme */
+:root.light{
+  --bg:#f7f8fb;--bg-elev:#ffffff;--panel:#ffffff;--card:#ffffff;--text:#0d1020;--muted:#5e6b85;--border:#e6e8ef;
+  --shadow:0 6px 24px rgba(16,24,40,.08);
+}
+.app-header{transition:background .2s ease}
+/* Print */
+@media print{
+  .app-header,.sidebar,.footer{display:none}
+  .layout{grid-template-columns:1fr;padding:0}
+  .guide{display:block}
+  body{background:#fff;color:#000}
+}
+
+/* Search results dropdown */
+#searchResults{position:sticky;top:64px;z-index:999;display:none}
+#searchResults .card{max-width:1200px;margin:8px auto;box-shadow:var(--shadow)}
+@media (max-width: 720px){
+  #searchResults .card{margin:8px 12px}
+}
+
+/* ===== Clean scrollbar (hide but keep scrollable) ===== */
+.sidebar::-webkit-scrollbar,
+.toc::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.sidebar, .toc {
+  scrollbar-width: none; /* Firefox */
+}
+/* ensure scrollability */
+.sidebar { overflow-y: auto; }
+.toc { overflow-y: auto; }
+
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">BP</div>
+      <h1>Binance API : All-in-one</h1>
+      <span class="badge">부평구금융인</span>
+    </div>
+    <div class="searchbar" role="search">
+      <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"></circle><path d="M20 20l-3-3" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+      <input aria-label="Search all guides" id="q" placeholder="가이드 검색… ( / 키 )"/>
+      <kbd>/</kbd>
+    </div>
+    <select aria-label="가이드 선택" class="switcher">
+      <option value="terms-of-service">이용약관</option>
+      <option value="crypto-detector">Crypto Detector</option>
+      <option value="order-toolkit-v15-0-5">Order Toolkit</option>
+      <option value="trades-v14-8-1">Trades</option>
+    </select>
+    <div class="header-actions">
+      <button class="icon" id="theme" title="테마 전환 (t)">테마</button>
+      <!-- 텔레그램 아이콘 버튼 (인쇄 버튼 자리) -->
+      <a class="icon" href="https://t.me/+_1EVjnyCr-FhNjE1" rel="noopener" target="_blank" title="Telegram 입장">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 23 24">
+          <path d="M9.036 15.58l-.398 5.603c.568 0 .814-.244 1.11-.535l2.664-2.54 5.518 4.004c1.012.555 1.73.263 1.993-.935l3.617-16.988.001-.001c.322-1.5-.542-2.084-1.528-1.721l-21.29 8.204c-1.453.565-1.431 1.375-.247 1.741l5.443 1.699 12.607-7.844c.593-.386 1.13-.173.687.213"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+<div id="searchResults"></div>
+
+<div class="layout">
+  <aside aria-label="Guide navigation" class="sidebar">
+    <h3>가이드</h3>
+    <div class="nav-group">
+      <button aria-label="이용약관" data-id="terms-of-service" onclick="activate('terms-of-service')">
+        <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+        <span>이용약관</span>
+      </button>
+      <button aria-label="Crypto Detector" data-id="crypto-detector" onclick="activate('crypto-detector')">
+        <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+        <span>Crypto Detector</span>
+      </button>
+      <button aria-label="Order Toolkit" data-id="order-toolkit-v15-0-5" onclick="activate('order-toolkit-v15-0-5')">
+        <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+        <span>Order Toolkit</span>
+      </button>
+      <button aria-label="Trades" data-id="trades-v14-8-1" onclick="activate('trades-v14-8-1')">
+        <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+        <span>Trades</span>
+      </button>
+    </div>
+    <h3 style="margin-top:14px">이 섹션 목차</h3>
+    <nav class="toc" id="toc"></nav>
+  </aside>
+
+  <main class="main">
+    <section class="guide" id="terms-of-service">
+      <div class="card">
+        <div class="meta"><span class="badge">이용약관</span></div>
+        <main class="wrap">
+          <section class="card">
+            <h2>목차</h2>
+            <nav class="toc">
+              <a href="#tos-purpose">제1조 목적</a>
+              <a href="#tos-sponsorship">제2조 운영 성격 및 후원</a>
+              <a href="#tos-privacy">제3조 개인정보 및 접속 정보 수집</a>
+              <a href="#tos-disclaimer">제4조 책임 제한</a>
+              <a href="#tos-restrictions">제5조 이용 제한</a>
+              <a href="#tos-etc">제6조 기타</a>
+            </nav>
+          </section>
+          <section class="card" id="tos-purpose">
+            <h2>제1조 (목적)</h2>
+            <p>이 약관은 <strong>부평구금융인 BINANCE API</strong>의 이용과 관련하여, 이용자와 운영자 간의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+          </section>
+          <section class="card" id="tos-sponsorship">
+            <h2>제2조 (운영 성격 및 후원)</h2>
+            <ul>
+              <li>부평구금융인 BINANCE API는 <strong>후원 기반</strong>으로 운영됩니다.</li>
+              <li>이용자는 후원 금액에 따라 일정 기간 이용 혜택을 받을 수 있으며, 기간은 운영 상황에 따라 변동될 수 있습니다.</li>
+              <li>이용 제공 여부 및 기간은 후원 상황, 기술적 여건, 기타 운영 사정에 따라 조정될 수 있습니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="tos-privacy">
+            <h2>제3조 (개인정보 및 접속 정보 수집)</h2>
+            <p>부평구금융인 BINANCE API는 부정 사용 방지 및 안정적인 이용 제공을 위해 다음 정보를 수집·저장할 수 있습니다.</p>
+            <ul>
+              <li>접속 시간, IP 주소, 기기 정보, 시리얼키 사용 기록</li>
+            </ul>
+            <p>수집된 정보는 부정 접속 적발 및 운영 목적 외에는 사용하지 않으며, 보관 기간은 <strong>최대 1년</strong>입니다.</p>
+            <p>부정 사용이 적발된 경우, 이용자의 계정은 사전 경고 없이 영구 정지될 수 있습니다.</p>
+            <p>부평구금융인 BINANCE API를 이용하는 경우, 개인정보 수집에 동의한 것으로 간주됩니다.</p>
+          </section>
+          <section class="card" id="tos-disclaimer">
+            <h2>제4조 (책임 제한)</h2>
+            <ul>
+              <li>본 도구는 바이낸스(Binance) API를 기반으로 작동하며, 모든 거래·체결·시세 데이터는 바이낸스 시스템에서 처리됩니다.</li>
+              <li>부평구금융인 BINANCE API는 이용자의 지갑이나 자산에 직접 접근할 권한이 없으며, 이용자가 제공한 API 키 발급을 통해 <strong>허용한 기능 범위 내</strong>에서만 작동합니다.</li>
+              <li>운영자는 바이낸스의 서버 장애, API 변경, 지연, 오류 등으로 인한 거래 문제에 대해 어떠한 책임도 지지 않습니다.</li>
+              <li>이용자의 매매 손익, 주문 오류, 네트워크 장애, 계정 설정 실수 등으로 발생한 손실에 대해 운영자는 책임을 지지 않습니다.</li>
+              <li>부평구금융인 BINANCE API는 투자 자문이나 재정적 권고를 제공하지 않으며, 모든 투자 판단과 책임은 이용자 본인에게 있습니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="tos-restrictions">
+            <h2>제5조 (이용 제한)</h2>
+            <p>이용자가 다음 각 호에 해당하는 경우 이용을 제한하거나 종료할 수 있습니다.</p>
+            <ul>
+              <li>타인의 계정 정보 도용</li>
+              <li>시리얼키 불법 공유 또는 판매</li>
+              <li>부평구금융인 BINANCE API의 역분석·복제·변조 행위</li>
+              <li>법령 및 본 약관 위반</li>
+            </ul>
+            <p>위 사유로 인해 발생한 불이익에 대해 운영자는 책임을 지지 않습니다.</p>
+          </section>
+          <section class="card" id="tos-etc">
+            <h2>제6조 (기타)</h2>
+            <ul>
+              <li>본 약관에서 정하지 않은 사항은 관계 법령 및 상관례를 따릅니다.</li>
+              <li>운영자는 필요한 경우 본 약관을 변경할 수 있으며, 변경된 약관은 공지 또는 안내 후 적용됩니다.</li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </section>
+
+    <section class="guide" id="crypto-detector">
+      <div class="card">
+        <div class="meta"><span class="badge">Crypto Detector</span><span class="badge">v4.5.2</span></div>
+        <main class="wrap">
+          <section class="card">
+            <h2>목차</h2>
+            <nav class="toc">
+              <a href="#intro">1. 소개</a>
+              <a href="#launcher">2. 런처·로그인키</a>
+              <a href="#logic">3. 필터값 &amp; 감지 로직</a>
+              <a href="#ui">4. 메인 UI &amp; 버튼</a>
+              <a href="#defaults">5. 시작 기본 상태</a>
+              <a href="#clipboard">6. 클립보드(바이낸스 URL)</a>
+              <a href="#logs">7. 로그·히스토리</a>
+              <a href="#tips">8. 기타 안내</a>
+              <a href="#troubleshoot">9. 문제 해결</a>
+            </nav>
+          </section>
+          <section class="card" id="intro">
+            <h2>1) 소개</h2>
+            <p><strong>Crypto Detector</strong>는 장세에 맞는 필터로 빠르게 후보 종목을 추출하고,
+               변동률/거래대금/미체결(OI) 정보를 기반으로 즉시 모니터링할 수 있는 감지 도구입니다.
+               바이낸스 사용자는 클립보드 복사 기능을 통해 선물 화면으로 즉시 이동할 수 있습니다.</p>
+          </section>
+          <section class="card" id="launcher">
+            <h2>2) 런처·로그인키</h2>
+            <ul>
+              <li><strong>런처</strong>: 업데이트 시에만 실행하면 되며, 매번 런처로 실행해도 무방합니다.</li>
+              <li><strong>직접 실행</strong>: 필요 시 폴더 내 <code>Crypto Detector v**.exe</code>를 직접 실행할 수 있습니다.</li>
+              <li><strong>로그인키</strong>: 부정 사용이 확인되면 별도 통보 없이 정지될 수 있습니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="logic">
+            <h2>3) 필터값 &amp; 감지 로직</h2>
+            <div class="grid">
+              <div>
+                <h3>감지 기준</h3>
+                <ul>
+                  <li><strong>CHANGE %</strong>: 최근 1분 가격 등락률이 설정값 이상일 때 감지 (예: 3.0 → 1분간 3% 이상 변동 시)</li>
+                  <li><strong>24H VOLUME</strong>: 24시간 거래대금이 설정값 이상일 때 감지 (예: 1,000,000 → 24h 거래대금 ≥ 1M USDT)</li>
+                </ul>
+                <p class="note">두 조건을 <strong>모두 충족</strong>해야 실시간 리스트에 표시됩니다.</p>
+              </div>
+              <div>
+                <h3>표시 항목</h3>
+                <ul>
+                  <li>심볼 / 등락률 / 현재가 / 1분 거래대금 / 24시간 거래대금 / 미체결(OI) / 감지 시간</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="ui">
+            <h2>4) 메인 UI &amp; 버튼</h2>
+            <div class="grid">
+              <div>
+                <h3>버튼 영역</h3>
+                <ul>
+                  <li><strong>▶ · ■</strong> — 감시 <em>시작/중지</em></li>
+                  <li><strong>🧹</strong> — 감지 목록 전체 초기화</li>
+                  <li><strong>📌 · 📍</strong> — 창 <em>항상 위</em> 토글 (📍: 항상 위 / 📌: 해제)</li>
+                  <li><strong>🔔</strong> — 알람 설정 관리(사운드팩 커스터마이징 가능)</li>
+                  <li><strong>📋 · 📑</strong> — 바이낸스 URL 자동 복사 ON/OFF<br/><small>(활성 시 종목명 클릭으로도 주소 복사)</small></li>
+                  <li><strong>🚫</strong> — 감지 제외 심볼 관리(팝업에서 추가/삭제)</li>
+                  <li><strong>LOG</strong> — 1주일 로그 및 TOP 10 감지 내역 보기</li>
+                </ul>
+              </div>
+              <div>
+                <h3>리스트 영역</h3>
+                <ul>
+                  <li>필터 충족 종목을 <em>실시간</em>으로 추가·정렬</li>
+                  <li>감지 팝업(5초)으로 심볼·가격·거래대금을 빠르게 확인</li>
+                  <li>창 위치·필터·버튼 상태 등은 자동 저장·복원</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="defaults">
+            <h2>5) 시작 기본 상태</h2>
+            <ul>
+              <li>감시(▶): <strong>OFF</strong></li>
+              <li>사운드(🔔): <strong>ON</strong></li>
+              <li>클립보드(📑): <strong>OFF</strong></li>
+              <li>항상위(📌): <strong>OFF</strong></li>
+              <li>필터 값: 기본값 표시</li>
+            </ul>
+            <p class="note">버튼/설정은 자동 저장되어, 재실행 시 복원됩니다.</p>
+          </section>
+          <section class="card" id="clipboard">
+            <h2>6) 클립보드(바이낸스 URL)</h2>
+            <ul>
+              <li><strong>ON(📋)</strong> 감지시 자동으로 클립보드에 복사되며, 리스트의 심볼을 클릭해도 해당 선물 URL이 자동 복사됩니다.</li>
+              <li>예: <code>BTC</code> 클릭 → <code>https://www.binance.com/en/futures/BTCUSDT</code></li>
+              <li>복사 시 상단에 <em>[ Copied : BTC ]</em> 알림 표시</li>
+              <li><strong>OFF(📑)</strong> 상태에서는 클릭 동작 없음</li>
+            </ul>
+          </section>
+          <section class="card" id="logs">
+            <h2>7) 로그</h2>
+            <ul>
+              <li><strong>LOG</strong> 화면에서 최근 1주 로그와 <em>TOP 10 감지</em> 내역을 확인할 수 있습니다.</li>
+              <li><strong>Top 10 로그</strong>를 통해 모멘텀을 파악할 수 있습니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="tips">
+            <h2>8) 기타 안내</h2>
+            <ul>
+              <li><strong>감지 제외 리스트(🚫)</strong>: 등록된 심볼은 모든 알림·표시·사운드에서 제외됩니다.</li>
+              <li>일부 기능(팝업/사운드 등)은 OS·권한 설정에 따라 제한될 수 있습니다.</li>
+              <li>바이낸스 사용자라면 클립보드 URL 복사를 적극 활용해 즉시 차트/거래 화면으로 이동하세요.</li>
+            </ul>
+          </section>
+          <section class="card" id="troubleshoot">
+            <h2>9) 문제 해결</h2>
+            <ul>
+              <li><strong>리스트가 비어 있음</strong>: 필터값이 과도하게 높을 수 있습니다. 장세에 맞춰 조정하세요.</li>
+              <li><strong>URL 복사 안 됨</strong>: 클립보드가 <strong>📋(ON)</strong> 상태인지 확인하세요.</li>
+              <li><strong>팝업/사운드 미출력</strong>: OS 알림 권한·오디오 장치를 확인하세요.</li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </section>
+
+    <section class="guide" id="order-toolkit-v15-0-5">
+      <div class="card">
+        <div class="meta"><span class="badge">Order Toolkit</span><span class="badge">v15.0.5</span></div>
+        <main class="wrap">
+          <section class="card">
+            <h2>목차</h2>
+            <nav class="toc">
+              <a href="#intro">1. 소개</a>
+              <a href="#serial">2. 시리얼 키 인증</a>
+              <a href="#topbar">3. 상단 메뉴 (레버리지·마진·심볼·API)</a>
+              <a href="#lists">4. 종목 리스트 &amp; 연동</a>
+              <a href="#order">5. 주문 설정 (ORDER·BBO·PRICE)</a>
+              <a href="#risk">6. 리스크·보호 옵션 (Auto Stop Loss, Price Protection)</a>
+              <a href="#actions">7. 주문/포지션 실행</a>
+              <a href="#balance">8. 잔고·코스트·핀/기본값</a>
+              <a href="#sfx-theme">9. SFX·테마</a>
+              <a href="#shortcuts">10. 단축키</a>
+              <a href="#debug">11. 크롬 디버깅 모드 연동</a>
+              <a href="#troubleshoot">12. 문제해결</a>
+            </nav>
+          </section>
+          <section class="card" id="intro">
+            <h2>1) 소개</h2>
+            <p>Order Toolkit은 바이낸스 USDⓂ 선물 거래를 빠르고 일관적으로 실행하기 위한 주문 툴입니다. 기본적으로 크롬 브라우저와 연동되며, 필요 시 <strong>Manual Mode</strong>로 단독 운용할 수 있습니다.</p>
+            <div class="note">권장: 실거래 전 테스트 모드에서 UI/단축키를 충분히 숙지하세요.</div>
+          </section>
+          <section class="card" id="serial">
+            <h2>2) 시리얼 키 인증</h2>
+            <ul>
+              <li><strong>Serial Key Verification</strong> 다이얼로그에서 키를 입력하고 <em>REMEMBER ME</em> 체크 시 마지막 키가 암호화 저장됩니다.</li>
+              <li>시리얼 키 부정사용 적발시 경고없이 삭제됩니다.
+                <li>3회 실패 시 프로그램이 종료됩니다.</li>
+              </li>
+            </ul>
+          </section>
+          <section class="card" id="topbar">
+            <h2>3) 상단 메뉴</h2>
+            <div class="grid">
+              <div>
+                <h3>레버리지</h3>
+                <p>드롭다운에서 <em>1x~125x</em> 선택. 현재 포지션 정보와 동기화되어 표시됩니다. * 배율별 맥스 포지션 한도를 확인하세요.</p>
+              </div>
+              <div>
+                <h3>마진 타입</h3>
+                <p><strong>Cross / Isolated</strong> 토글 버튼. 바이낸스 계정 설정과 실시간 동기화됩니다.</p>
+              </div>
+              <div>
+                <h3>심볼(SYMBOL)</h3>
+                <p>예: <code>BTCUSDT</code>, <code>btc</code>, <code>eth</code> (대소문자 무관). 입력창 클릭 시 자동완성. 기본적으로 크롬과 종목 동기화.</p>
+              </div>
+              <div>
+                <h3>API</h3>
+                <p>바이낸스에서 발급받은 API 키 리스트를 관리합니다.</p>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="lists">
+            <h2>4) 종목 리스트 &amp; 연동</h2>
+            <ul>
+              <li><strong>Add/Remove</strong>로 현재 심볼을 리스트에 추가/삭제.</li>
+              <li><strong>Auto</strong>: 크롬 디버깅 포트(기본 <code>9222</code>)의 바이낸스 선물 탭 URL에서 <em>/futures/&lt;SYMBOL&gt;USDT</em> 패턴을 감지하여 자동 동기화.</li>
+              <li><strong>Manual</strong>: 심볼을 수동 전환.</li>
+            </ul>
+            <div class="note">Auto 모드에서 크롬이 디버깅 모드로 실행되지 않으면 연동되지 않습니다.</div>
+          </section>
+          <section class="card" id="order">
+            <h2>5) 주문 설정</h2>
+            <h3>ORDER</h3>
+            <ul>
+              <li><strong>Limit</strong>, <strong>Market</strong>, <strong>Stop Market</strong> 지원</li>
+            </ul>
+            <h3>BBO (가격 기준)</h3>
+            <ul>
+              <li><strong>Queue n</strong>: 현재 호가창 n번째 가격 기준 지정가</li>
+              <li><strong>Counterparty n</strong>: 상대 최우선 호가 n번째 기준</li>
+              <li><strong>Grid x%</strong>: 현재가 ±범위에 다중 분할 주문</li>
+            </ul>
+            <p><strong>BBO 버튼</strong> ON 시 PRICE 입력은 자동/잠금. OFF 시 수동 입력 가능.</p>
+            <h3>PRICE 빠른 지정</h3>
+            <p>PRICE 라벨 <span class="kbd">좌클릭</span> → 매수 기준(매도1호가), <span class="kbd">우클릭</span> → 매도 기준(매수1호가)로 즉시 세팅.</p>
+            <p>BTC, ETH 같은 폭발적인 거래량으로 인한 과부하 시에는 가격 지정 후 포지션 진입하는 것을 권장합니다.</p>
+            <h3>SYNC</h3>
+            <p>클립보드 가격연동. 트레이딩뷰 우클릭 가격 복사 및 호가 API에서의 가격 동기화.</p>
+            <h3>QTY - USDT</h3>
+            <p>수량 모드 - USDT 환산 수량 모드 전환 버튼.</p>
+          </section>
+          <section class="card" id="risk">
+            <h2>6) 리스크·보호 옵션</h2>
+            <div class="grid">
+              <div>
+                <h3>Auto Stop Market Percent (%)</h3>
+                <p>기본값: <code>0.5</code>. SETTING에서 지정한 퍼센트 값에 따라 오토 스탑 기능 활성 시, 해당 비율 기준으로 시장가 청산 주문이 자동 생성됩니다.</p>
+              </div>
+              <div>
+                <h3>Price Protection</h3>
+                <p>
+                  스탑마켓 주문 트리거 발동 시점에 현재 시장가격과 트리거 가격의 괴리율이 거래소 허용 범위를 초과하면 주문이 거부되도록 하는 안전 장치입니다.<br/>
+                  - <strong>ON</strong>: 급격한 가격 변동 시 비정상 체결 방지 (변동성 장세·중·장기 주문에 유리)<br/>
+                  - <strong>OFF</strong>: 괴리율과 무관하게 즉시 발동·체결 (초단타·스캘핑에 유리)<br/>
+                  일반적으로 스캘핑·단타에서는 OFF를 권장합니다.
+                </p>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="actions">
+            <h2>7) 주문/포지션 실행</h2>
+            <ul>
+              <li><strong>Buy/Long</strong>, <strong>Sell/Short</strong></li>
+              <li><strong>Cancel Orders</strong>: 현재 심볼 미체결 전부 취소</li>
+              <li><strong>Close Position</strong>: 현재 심볼 포지션 시장가 청산</li>
+              <li><strong>Reduce-Only</strong> 체크 지원</li>
+              <li><strong>Auto-Reduce</strong>: 포지션 종료 주문 시 Reduce-Only가 자동 활성화되어 역방향 신규 진입을 방지하는 옵션</li>
+              <li><strong>TIF</strong>: GTC 고정</li>
+            </ul>
+            <div class="note">주문/체결/취소 사운드는 버튼 클릭이 아니라 실제 응답 이벤트를 기준으로 재생됩니다.</div>
+          </section>
+          <section class="card" id="balance">
+            <h2>8) 잔고·코스트·창 설정</h2>
+            <ul>
+              <li><strong>BALANCE</strong>: 계정 잔고 및 미실현 PnL</li>
+              <li><strong>COST VALUE</strong>: 좌클릭시 밸류 업데이트, 우클릭시 예상 청산가 및 수수료 안내 팝업</li>
+              <li><strong>Pin</strong>: 항상 위</li>
+              <li><strong>Default</strong>: 설정 팝업 ( 테마 / 사운드 / 오토 스탑 % )</li>
+            </ul>
+          </section>
+          <section class="card" id="sfx-theme">
+            <h2>9) SFX·테마</h2>
+            <ul>
+              <li><strong>SFX</strong>: 원하는 사운드 팩 선택. 동일한 양식으로 커스터마이징 자유롭게 가능.</li>
+              <li><strong>THEME</strong>: 원하는 테마 선택. 동일한 양식으로 커스터마이징 자유롭게 가능</li>
+            </ul>
+          </section>
+          <section class="card" id="shortcuts">
+            <h2>10) 단축키</h2>
+            <div class="grid">
+              <div>
+                <h3>고정 단축키</h3>
+                <ul>
+                  <li><span class="kbd">Alt</span>: AMOUNT 절반(누르고 있는 동안)</li>
+                  <li><span class="kbd">Caps Lock</span>: Reduce‑Only 토글</li>
+                  <li><span class="kbd">ESC</span>: Cancel Orders 실행</li>
+                </ul>
+              </div>
+              <div>
+                <h3>사용자 정의</h3>
+                <p><span class="kbd">Ctrl+숫자</span> 또는 <span class="kbd">F13~F22</span>로 BBO 타입 전환 및 매수/매도/청산 등 매핑.</p>
+                <pre><code>{
+  "Ctrl+1": "Queue 1",
+  "Ctrl+2": "Counterparty 5",
+  "Ctrl+3": "Grid 0.5%",
+  "F13": "Buy", "F14": "Sell", "F15": "Close Position",
+  "F16": "Halve Amount", "F17": "Double Amount"
+}</code></pre>
+                <p><code>shortcut_settings.json</code> 파일에서 정의·수정 후 프로그램 재실행.</p>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="debug">
+            <h2>11) 크롬 디버깅 모드 연동(자동 심볼 감지)</h2>
+            <p>바탕화면 바로가기 대상 경로 예시:</p>
+            <pre><code>"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:/ChromeDebugProfile"</code></pre>
+            <p>디버깅 모드의 바이낸스 선물 탭 URL에서 현재 심볼을 자동 추적합니다.</p>
+            <p>동봉된 바로가기를 사용해도 됩니다.</p>
+          </section>
+          <section class="card" id="troubleshoot">
+            <h2>12) 문제 해결</h2>
+            <ul>
+              <li>실행 불가: 전체 삭제 후 런처 재실행</li>
+              <li>주문 실패: 거래소 과부하·네트워크 상태 확인.</li>
+              <li>연동 불가: 크롬 디버깅 포트/프로필 경로 확인.</li>
+            </ul>
+            <div class="warn"><strong>면책</strong>: 프로그램 사용 중 발생한 손익은 사용자 책임입니다. 키·API 자격 증명은 안전하게 보관하세요.</div>
+          </section>
+        </main>
+      </div>
+    </section>
+
+    <section class="guide" id="trades-v14-8-1">
+      <div class="card">
+        <div class="meta"><span class="badge">Trades</span><span class="badge">v14.8.1</span></div>
+        <main class="wrap">
+          <section class="card">
+            <h2>목차</h2>
+            <nav class="toc">
+              <a href="#intro">1. 소개</a>
+              <a href="#main-ui">2. 메인 UI</a>
+              <a href="#liq">3. 청산(LIQ) 다이얼로그</a>
+              <a href="#market-type">4. 현물/선물 전환 (PERP/Spot)</a>
+              <a href="#settings">5. 설정 다이얼로그</a>
+              <a href="#shortcuts">6. 단축키</a>
+              <a href="#troubleshoot">7. 문제 해결 / 팁</a>
+            </nav>
+          </section>
+          <section class="card" id="intro">
+            <h2>1) 소개</h2>
+            <p><strong>Trades</strong>는 바이낸스 스트림의 <em>실시간 체결내역</em> 과 <em>청산 주문</em> 이벤트 뷰어 입니다.
+            </p>
+            <div class="note">본 프로그램은 개발자 모드 크롬 브라우저와 연동됩니다..</div>
+          </section>
+          <section class="card" id="main-ui">
+            <h2>2) 메인 UI</h2>
+            <div class="grid">
+              <div>
+                <h3>가격/체결 테이블</h3>
+                <ul>
+                  <li>좌측 열: <strong>가격</strong></li>
+                  <li>우측 열: <strong>체결 규모(USD)</strong> — <code>price × qty</code></li>
+                  <li>컬러 코딩: <span style="color:#2EBD74;font-weight:bold">BUY</span>, <span style="color:#F6465D;font-weight:bold">SELL</span></li>
+                  <li>강조: 설정 임계값 이상 체결은 <em>폰트 확대/굵게</em> 표시</li>
+                </ul>
+              </div>
+              <div>
+                <h3>상단 정보·컨트롤</h3>
+                <ul>
+                  <li><strong>Title Bar</strong>: <code>Cap : 시가총액 - 마지막 수신시각</code> 형식</li>
+                  <li><strong>심볼 라벨</strong>: 현재 스트림 심볼(예: <code>BTCUSDT</code>)</li>
+                  <li><strong>순간 대금</strong>: 3초 누적 매수/매도 시장가 체결건 USDT 환산.</li>
+                </ul>
+              </div>
+            </div>
+            <h3>메인 버튼</h3>
+            <ul>
+              <li><strong>PIN</strong>: 창을 항상 위에 고정(토글). 상태는 설정에 저장·복원됩니다.</li>
+              <li><strong>LIQ</strong>: 청산 다이얼로그 열기/닫기 (자세한 설명은 아래 참조)</li>
+              <li><strong>PERP</strong>: 선물/현물 모드 전환(현물 지원 심볼일 때만 Spot 활성)</li>
+              <li><strong>SET</strong>: 설정 다이얼로그 열기</li>
+            </ul>
+          </section>
+          <section class="card" id="liq">
+            <h2>3) 청산(Force Order) 다이얼로그</h2>
+            <p>바이낸스 <code>forceOrder</code> 이벤트를 실시간 표로 표시합니다. 현재 UI 심볼과 <em>일치하는</em> 청산만 기록하여 과거 잔여 콜백을 차단합니다.</p>
+            <div class="grid">
+              <div>
+                <h3>표시 항목</h3>
+                <ul>
+                  <li><strong>TIME</strong> / <strong>SIDE</strong> / <strong>QTY</strong> / <strong>PRICE</strong> / <strong>VALUE</strong></li>
+                  <li>가치(Value)는 K/M/B 단위 축약 표기</li>
+                  <li>최대 100건 유지, 최소값 필터로 실시간 정제</li>
+                </ul>
+              </div>
+              <div>
+                <h3>옵션</h3>
+                <ul>
+                  <li><strong>AUTO POPUP (3s)</strong>: 신규 청산 발생 시 자동 팝업(3초 후 자동 숨김)</li>
+                  <li><strong>ALERT SOUND</strong>: 청산 알림음 재생(중복 재생 방지)</li>
+                  <li><strong>MIN SIZE</strong>: 이 값 이상인 청산만 표/알림에 반영</li>
+                </ul>
+              </div>
+            </div>
+            <h3>NEW 배지 &amp; 읽지 않음 표시</h3>
+            <p>오토팝업을 끄고 창이 닫혀 있는 상태에서 조건 충족 청산이 발생하면, 메인 UI의 <strong>LIQ</strong> 버튼에 <em>NEW</em> 깜빡임이 표시됩니다.</p>
+            <h3>통계 라벨</h3>
+            <ul>
+              <li><strong>1M</strong>: 최근 1분 청산 LONG/SHORT 누적</li>
+              <li><strong>3S</strong>: 최근 3초 청산 LONG/SHORT 누적</li>
+            </ul>
+          </section>
+          <section class="card" id="market-type">
+            <h2>4) 현물/선물 전환 (PERP/Spot)</h2>
+            <ul>
+              <li><strong>PERP</strong>(선물) 버튼 클릭 시, 심볼이 현물로 지원되면 <strong>Spot</strong>으로 전환/복귀합니다.</li>
+              <li>현물 미지원 심볼은 버튼이 비활성화되며, 자동으로 <strong>PERP</strong>로 유지됩니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="settings">
+            <h2>5) 설정 다이얼로그</h2>
+            <div class="grid">
+              <div>
+                <h3>Rows</h3>
+                <p>표시 행 수(10~100). 적용 시 즉시 테이블 레이아웃에 반영됩니다.</p>
+                <h3>Highlight Large Trades</h3>
+                <p>대량 체결 강조 표시 온/오프와 임계값(USD) 지정.</p>
+              </div>
+              <div>
+                <h3>PIN on Top</h3>
+                <p>항상 위 상태 저장·복원. 메인 PIN 토글과 동기화됩니다.</p>
+                <h3>Apply / Reset / Cancel</h3>
+                <ul>
+                  <li><strong>Apply</strong>: 저장 및 재연결(스트림/UI 리프레시)</li>
+                  <li><strong>Reset</strong>: 기본값으로 초기화(캐시 초기화 포함)</li>
+                  <li><strong>Cancel</strong>: 변경 취소</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section class="card" id="shortcuts">
+            <h2>6) 단축키</h2>
+            <ul>
+              <li><span class="kbd">ESC</span>: 기본 종료(운영체제/환경에 따라 다를 수 있음)</li>
+              <li>일부 환경에서는 심볼 전환·포커스 이동 등 사용자 정의 단축키를 보조 툴로 매핑해 사용할 수 있습니다.</li>
+            </ul>
+          </section>
+          <section class="card" id="troubleshoot">
+            <h2>7) 문제 해결 / 팁</h2>
+            <ul>
+              <li><strong>데이터 지연/미수신</strong>: 네트워크 상태, 바이낸스 상태 점검. 필요 시 프로그램 재시작.</li>
+              <li><strong>현물 전환 불가</strong>: 해당 심볼이 현물 미지원일 수 있습니다. <em>PERP</em> 유지.</li>
+              <li><strong>청산 알림음 미재생</strong>: <code>liq.wav</code> 파일 존재 여부와 오디오 장치를 확인하세요.</li>
+              <li><strong>로그 확인</strong>: 오류·경고는 <code>log_trades.log</code>를 확인하세요.</li>
+            </ul>
+            <div class="warn"><strong>면책</strong>: 본 도구 사용으로 인한 손익은 전적으로 사용자 책임입니다.</div>
+          </section>
+        </main>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="footer">
+  <div>© 2025 부평구금융인 Binance API : All-in-one. @trader_jayday</div>
+  <div class="badge">⌘/Ctrl+1..3 전환 · / 검색 · t 테마</div>
+</footer>
+
+<script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "trades-v14-8-1", "title": "Trades"}]</script>
+<script>
+const state = {
+  guides: [],
+  activeId: null,
+  index: []
+};
+
+function byId(id){ return document.getElementById(id); }
+function qs(sel, root=document){ return root.querySelector(sel); }
+function qsa(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+function activate(id){
+  state.activeId = id;
+  qsa('.nav-group button').forEach(b=>b.classList.toggle('active', b.dataset.id===id));
+  qsa('.guide').forEach(s=>s.classList.toggle('active', s.id===id));
+  const select = qs('.switcher');
+  if(select && select.value !== id) select.value = id;
+  // Build TOC for active section
+  buildTOC();
+  // Persist
+  localStorage.setItem('unified.active', id);
+}
+
+function buildIndex(){
+  state.index = state.guides.map(g=>{
+    const el = byId(g.id);
+    const text = el ? el.textContent.toLowerCase() : "";
+    return { id:g.id, title:g.title, text };
+  });
+}
+
+function buildTOC(){
+  const toc = byId('toc');
+  toc.innerHTML = '';
+  const active = byId(state.activeId);
+  if(!active) return;
+  const heads = qsa('h2, h3', active);
+  heads.forEach(h => {
+    const anchorId = h.id || (h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+    h.id = anchorId;
+    const a = document.createElement('a');
+    a.href = '#'+anchorId;
+    a.textContent = h.textContent.replace(/[#]+/g,'');
+    toc.appendChild(a);
+  });
+}
+
+function onSearchInput(ev){
+  const q = ev.target.value.trim().toLowerCase();
+  const results = byId('searchResults') || document.createElement('div');
+  results.innerHTML = '';
+  if(!q){ results.style.display='none'; return; }
+  // Simple search across the index
+  const hits = state.index.flatMap(doc => {
+    const idx = doc.text.indexOf(q);
+    if(idx===-1) return [];
+    const start = Math.max(0, idx-60);
+    const end = Math.min(doc.text.length, idx+120);
+    const snippet = doc.text.slice(start, end).replaceAll('\\n',' ').replace(/\\s+/g,' ');
+    return [{id: doc.id, title: doc.title, snippet}];
+  }).slice(0,8);
+  hits.forEach(h=>{
+    const item = document.createElement('div');
+    item.className = 'card';
+    item.style.padding='10px 12px'; item.style.marginTop='8px';
+    item.innerHTML = `<div class="badge">${h.title}</div><div style="font-size:13px;margin-top:6px">${escapeHtml(h.snippet)}</div>`;
+    item.onclick = () => { activate(h.id); results.style.display='none'; byId('q').blur(); };
+    results.appendChild(item);
+  });
+  results.style.display = hits.length ? 'block' : 'none';
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function toggleTheme(){
+  const root = document.documentElement;
+  root.classList.toggle('light');
+  localStorage.setItem('unified.theme', root.classList.contains('light') ? 'light' : 'dark');
+}
+
+function onPrint(){ window.print(); }
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Populate state
+  state.guides = JSON.parse(byId('guides-data').textContent);
+  // Restore theme
+  const savedTheme = localStorage.getItem('unified.theme');
+  if(savedTheme==='light') document.documentElement.classList.add('light');
+
+  // Wire controls
+  byId('q').addEventListener('input', onSearchInput);
+  qs('.switcher').addEventListener('change', e=>activate(e.target.value));
+  byId('theme').addEventListener('click', toggleTheme);
+
+  // print 버튼이 없을 수도 있으므로 방어
+  const printBtn = byId('print');
+  if (printBtn) printBtn.addEventListener('click', onPrint);
+
+  // Keyboard shortcuts
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='/'){ e.preventDefault(); byId('q').focus(); }
+    if(['1','2','3','4','5'].includes(e.key)){
+      const idx = parseInt(e.key,10)-1;
+      if(state.guides[idx]) activate(state.guides[idx].id);
+    }
+    if(e.key.toLowerCase()==='t'){ toggleTheme(); }
+  });
+
+  // Default active
+  const saved = localStorage.getItem('unified.active');
+  activate(saved && state.guides.find(g=>g.id===saved) ? saved : state.guides[0].id);
+
+  // Build search index once content is in DOM
+  buildIndex();
+});
+</script>
+</body>
+</html>
