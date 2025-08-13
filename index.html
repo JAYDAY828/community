@@ -116,7 +116,11 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
     </select>
     <div class="header-actions">
       <button class="icon" id="theme" title="테마 전환 (t)">테마</button>
-      <!-- 텔레그램 아이콘 버튼 (인쇄 버튼 자리) -->
+
+      <!-- 가입 버튼 (구글폼 링크 연동) -->
+      <button class="icon" id="join" title="가입 신청">가입</button>
+
+      <!-- 텔레그램 아이콘 버튼 -->
       <a class="icon" href="https://t.me/+_1EVjnyCr-FhNjE1" rel="noopener" target="_blank" title="Telegram 입장">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 23 24">
           <path d="M9.036 15.58l-.398 5.603c.568 0 .814-.244 1.11-.535l2.664-2.54 5.518 4.004c1.012.555 1.73.263 1.993-.935l3.617-16.988.001-.001c.322-1.5-.542-2.084-1.528-1.721l-21.29 8.204c-1.453.565-1.431 1.375-.247 1.741l5.443 1.699 12.607-7.844c.593-.386 1.13-.173.687.213"/>
@@ -658,6 +662,14 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
   <div>© 2025 부평구금융인 Binance API : All-in-one. @trader_jayday</div>
   <div class="badge">⌘/Ctrl+1..3 전환 · / 검색 · t 테마</div>
 </footer>
+
+
+<script>
+  // 가입 버튼 클릭 시 구글 폼 링크 열기
+  document.getElementById('join').addEventListener('click', function() {
+    window.open('https://forms.gle/r7pxYEqeCE77mmJW6', '_blank');
+  });
+</script>
 
 <script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "trades-v14-8-1", "title": "Trades"}]</script>
 <script>
