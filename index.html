@@ -1067,7 +1067,7 @@ header, .header, #siteHeader { display: block; }
 </main>
 </div>
 <footer class="footer">
-<div>© 2025 부평구금융인 Binance API : All-in-one. @trader_jayday</div>
+<div>© 2025 부평구금융인 | Binance API : All-in-One. Powered by @trader_jayday</div>
 <div class="badge">⌘/Ctrl + 1~9 전환 · [ / ] 검색 · [ T ] 테마</div>
 </footer>
 <script>
@@ -1293,6 +1293,37 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const copyEl = document.querySelector('footer .footer div:first-child'); 
+  // © 2025~ 카피문구 영역 선택
+
+  if (copyEl) {
+    function applyCentering() {
+      if (window.innerWidth <= 768) {
+        copyEl.style.textAlign = 'center';
+        copyEl.style.width = '100%';       // 가운데 정렬 안정화
+      } else {
+        copyEl.style.textAlign = '';
+        copyEl.style.width = '';
+      }
+    }
+
+    applyCentering(); // 초기 실행
+    window.addEventListener('resize', applyCentering);
+  }
+});
+</script>
+<style>
+@media (max-width: 768px) {
+  footer {
+    display: flex;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+</style>
+
 <script>
 (function(){
   // "1) " 또는 "제1조" 형태 허용
