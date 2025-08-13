@@ -6,7 +6,6 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="noindex, nofollow" name="robots"/>
 <title>부평구금융인 커뮤니티</title>
-
 <style>
 :root{
   --bg:#0b0e14;--bg-elev:#0f131b;--panel:#0f131b;--card:#0d1220;
@@ -160,8 +159,89 @@ kbd {
 /* 드문 레이아웃 흔들림 방지 – 전체 문서 레벨 가로스크롤 차단(안전) */
 html, body { overflow-x: hidden; }
 
-</style>
 
+
+/* === Sidebar stretch + sticky inner (override) === */
+.layout{align-items:stretch;}
+.sidebar{
+  position: static !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+.sidebar-inner{
+  position: sticky;
+  top: 84px;
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  padding: 14px;
+}
+@media (max-width: 768px){
+  .sidebar{
+    position: fixed !important;
+    top: 56px; bottom: 0; left: 0;
+    width: 82%; max-width: 300px;
+    z-index: 1001;
+    transform: translateX(-104%);
+    transition: transform .18s ease;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  body.menu-open .sidebar{ transform: translateX(0) }
+  .sidebar-inner{
+    position: static;
+    max-height: none;
+    overflow: auto;
+    padding: 14px;
+  }
+}
+
+
+/* Hide scrollbar in sidebar (keep scrolling) */
+.sidebar-inner{
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE/Edge legacy */
+}
+.sidebar-inner::-webkit-scrollbar{ /* Chrome/Safari/Edge */
+  width: 0;
+  height: 0;
+}
+
+
+/* Normalize Order Toolkit section width by matching card padding */
+#order-toolkit-v15-0-5 .card{
+  padding: 20px !important;  /* same as global .card */
+}
+
+
+/* --- Normalize Order Toolkit container width/centering --- */
+#order-toolkit-v15-0-5 .card{
+  max-width: 1200px !important;
+  margin: 8px auto !important;
+  padding: 20px !important;
+}
+#order-toolkit-v15-0-5 .wrap{
+  max-width: 100%;
+}
+/* Guard: prevent any wide child from pushing layout */
+#order-toolkit-v15-0-5 :where(img, table, pre, code, iframe){
+  max-width: 100% !important;
+}
+#order-toolkit-v15-0-5 pre{
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+/* Align top edge of Order Toolkit section with others */
+#order-toolkit-v15-0-5 > .card{
+  margin-top: 0 !important;
+}
+#order-toolkit-v15-0-5 .meta{
+  margin-top: 0 !important;
+}
+</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/><style id="link-banners-style">
 /* LINK vertical banners – clean 5 banners */
 #links .link-banners{
@@ -242,7 +322,6 @@ body.no-scroll{ overflow:hidden; }
   #searchResults .card{ margin:8px 12px }
 }
 </style>
-
 <style>
 /* ===== Mobile Header Refinements (Injected v2) ===== */
 @media (max-width: 768px){
@@ -272,8 +351,6 @@ body.no-scroll{ overflow:hidden; }
 }
 /* (removed aggressive mobile-hide CSS - will use scoped rules) */
 </style>
-
-
 <style>
 /* ===== Safer Mobile Shortcut Hiding (v3) ===== */
 @media (max-width: 768px){
@@ -282,8 +359,6 @@ body.no-scroll{ overflow:hidden; }
 /* Always show header even if any earlier script added classes */
 header, .header, #siteHeader { display: block; }
 </style>
-
-
 <style>
 /* ===== Mobile Header Single Row Fix (v4) ===== */
 @media (max-width: 768px){
@@ -314,16 +389,14 @@ header, .header, #siteHeader { display: block; }
   }
 }
 </style>
-
 </head>
 <body>
 <header class="app-header">
-<button class="icon hamburger" id="menuToggle" aria-label="메뉴" aria-expanded="false" aria-controls="sidebar" style="display:none">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
+<button aria-controls="sidebar" aria-expanded="false" aria-label="메뉴" class="icon hamburger" id="menuToggle" style="display:none">
+<svg aria-hidden="true" fill="none" height="18" viewbox="0 0 24 24" width="18">
+<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
 </button>
-
 <div class="header-inner">
 <div class="brand">
 <div class="logo">BP</div>
@@ -348,20 +421,15 @@ header, .header, #siteHeader { display: block; }
 <button class="icon" id="join" title="가입 신청">가입</button>
 <!-- 텔레그램 아이콘 버튼 -->
 <a class="icon" href="https://t.me/+_1EVjnyCr-FhNjE1" rel="noopener" target="_blank" title="Telegram 입장">
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png"
-    alt="Telegram"
-    width="19"
-    height="19"
-    style="display:inline-block; vertical-align:middle; border-radius:4px;">
+<img alt="Telegram" height="19" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png" style="display:inline-block; vertical-align:middle; border-radius:4px;" width="19"/>
 </a>
 </div>
 </div>
 </header>
-<div class="overlay" id="overlay" hidden></div>
+<div class="overlay" hidden="" id="overlay"></div>
 <div id="searchResults"></div>
 <div class="layout">
-<aside aria-label="Guide navigation" class="sidebar">
+<aside aria-label="Guide navigation" class="sidebar"><div class="sidebar-inner">
 <h3>Menu</h3>
 <div class="nav-group">
 <button aria-label="이용약관" data-id="terms-of-service" onclick="activate('terms-of-service')">
@@ -399,7 +467,7 @@ header, .header, #siteHeader { display: block; }
 </div>
 <h3 style="margin-top:14px">Section</h3>
 <nav class="toc" id="toc"></nav>
-</aside>
+</div></aside>
 <main class="main">
 <section class="guide" id="terms-of-service">
 <div class="card">
@@ -950,43 +1018,35 @@ header, .header, #siteHeader { display: block; }
 </div>
 </section>
 <section class="guide" id="links">
-  <div class="card">
-    <div class="link-banners">
-
-      <a aria-label="Telegram" class="link-banner" href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank" rel="noopener">
-        <img alt="Telegram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"/>
-        <span class="link-text">Telegram : 공지 / 문의 / 커뮤니티</span>
-      </a>
-
-      <a aria-label="KakaoTalk" class="link-banner" href="https://open.kakao.com/o/s73fjkPd" target="_blank" rel="noopener">
-        <img alt="KakaoTalk" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/600px-KakaoTalk_logo.svg.png"/>
-        <span class="link-text">KakaoTalk : 부평구금융인</span>
-      </a>
-
-      <a aria-label="YouTube" class="link-banner" href="https://www.youtube.com/@trader_jayday" target="_blank" rel="noopener">
-        <img alt="YouTube" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"/>
-        <span class="link-text">YouTube : 부평구금융인</span>
-      </a>
-
-      <a aria-label="Instagram" class="link-banner" href="https://www.instagram.com/trader_jayday/" target="_blank" rel="noopener">
-        <img alt="Instagram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"/>
-        <span class="link-text">Instagram : @trader_jayday</span>
-      </a>
-
-      <a aria-label="Google Form Join" class="link-banner" href="https://forms.gle/r7pxYEqeCE77mmJW6" target="_blank" rel="noopener">
-        <img alt="Google Forms" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"/>
-        <span class="link-text">Goolge Forms : API 사용 신청</span>
-      </a>
-
-      <a aria-label="바이낸스" class="link-banner" href="https://accounts.binance.com/register?ref=JAYDAY828" target="_blank" rel="noopener">
-        <img alt="바이낸스" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg"/>
-        <span class="link-text">Binance Refferal : JAYDAY828</span>
-      </a>
-
-    </div>
-  </div>
+<div class="card">
+<div class="link-banners">
+<a aria-label="Telegram" class="link-banner" href="https://t.me/+_1EVjnyCr-FhNjE1" rel="noopener" target="_blank">
+<img alt="Telegram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"/>
+<span class="link-text">Telegram : 공지 / 문의 / 커뮤니티</span>
+</a>
+<a aria-label="KakaoTalk" class="link-banner" href="https://open.kakao.com/o/s73fjkPd" rel="noopener" target="_blank">
+<img alt="KakaoTalk" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/600px-KakaoTalk_logo.svg.png"/>
+<span class="link-text">KakaoTalk : 부평구금융인</span>
+</a>
+<a aria-label="YouTube" class="link-banner" href="https://www.youtube.com/@trader_jayday" rel="noopener" target="_blank">
+<img alt="YouTube" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"/>
+<span class="link-text">YouTube : 부평구금융인</span>
+</a>
+<a aria-label="Instagram" class="link-banner" href="https://www.instagram.com/trader_jayday/" rel="noopener" target="_blank">
+<img alt="Instagram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"/>
+<span class="link-text">Instagram : @trader_jayday</span>
+</a>
+<a aria-label="Google Form Join" class="link-banner" href="https://forms.gle/r7pxYEqeCE77mmJW6" rel="noopener" target="_blank">
+<img alt="Google Forms" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"/>
+<span class="link-text">Goolge Forms : API 사용 신청</span>
+</a>
+<a aria-label="바이낸스" class="link-banner" href="https://accounts.binance.com/register?ref=JAYDAY828" rel="noopener" target="_blank">
+<img alt="바이낸스" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg"/>
+<span class="link-text">Binance Refferal : JAYDAY828</span>
+</a>
+</div>
+</div>
 </section>
-
 <section class="guide" id="sponsorship">
 <div class="card">
 <div class="meta"><span class="badge">후원</span></div>
@@ -1180,10 +1240,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
-
-
-
-
 <script>
 // ===== Mobile Shortcut Hider (v3, conservative) =====
 (function(){
@@ -1218,8 +1274,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }catch(e){ /* no-op */ }
 })();
 </script>
-
-
 <script>
 // ===== Mobile Header DOM Fix (v5) =====
 (function(){
@@ -1239,6 +1293,39 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
+<script>
+(function(){
+  // "1) " 또는 "제1조" 형태 허용
+  const rx = /^\s*(\d+\)|제\d+조)\s?/;
 
+  function filterTOC(){
+    const toc = document.getElementById('toc');
+    if(!toc) return;
+    toc.querySelectorAll('a').forEach(a=>{
+      const t = (a.textContent||'').trim();
+      if(!rx.test(t)) a.remove();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    // 첫 생성 후 정리
+    setTimeout(filterTOC, 0);
+
+    // TOC가 재생성될 때마다 정리
+    const toc = document.getElementById('toc');
+    if(toc){
+      const mo = new MutationObserver(()=>setTimeout(filterTOC, 0));
+      mo.observe(toc, {childList:true});
+    }
+  });
+
+  // 섹션 전환 후에도 정리
+  const originalActivate = window.activate;
+  window.activate = function(id){
+    if (typeof originalActivate === 'function') originalActivate(id);
+    setTimeout(filterTOC, 0);
+  };
+})();
+</script>
 </body>
 </html>
