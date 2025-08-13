@@ -134,7 +134,7 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 
 <div class="layout">
   <aside aria-label="Guide navigation" class="sidebar">
-    <h3>- Menu</h3>
+    <h3>Menu</h3>
     <div class="nav-group">
       <button aria-label="이용약관" data-id="terms-of-service" onclick="activate('terms-of-service')">
         <svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
@@ -157,7 +157,7 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
         <span>Trades</span>
       </button>
     </div>
-    <h3 style="margin-top:14px">- Section</h3>
+    <h3 style="margin-top:14px">Section</h3>
     <nav class="toc" id="toc"></nav>
   </aside>
 
@@ -821,6 +821,11 @@ function toggleTheme(){
 }
 
 function onPrint(){ window.print(); }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    activate('terms-of-service'); // 페이지 진입 시 항상 이용약관 활성화
+    localStorage.removeItem('lastPage'); // 마지막 페이지 저장 기능 초기화
+  });
 
 window.addEventListener('DOMContentLoaded', () => {
   // Populate state
