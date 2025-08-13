@@ -5,66 +5,100 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="noindex, nofollow" name="robots"/>
-<title>부평구금융인 통합 가이드</title>
+<title>부평구금융인 커뮤니티</title>
+
 <style>
 :root{
-  --bg:#0b0e14;--bg-elev:#0f131b;--panel:#111827;--card:#0d1220;
+  --bg:#0b0e14;--bg-elev:#0f131b;--panel:#0f131b;--card:#0d1220;
   --text:#e7eaf0;--muted:#a8b3c7;--brand:#ffcc4d;--brand-2:#8ab4ff;
-  --border:#1f2634;--shadow:0 10px 30px rgba(0,0,0,.4);
+  --border:#202637;--shadow:0 12px 32px rgba(0,0,0,.45);
   --accent:#4fd1c5;--danger:#ff6b6b;--ok:#34d399;
+  --radius:16px; --radius-lg:20px;
+  --fs-xxl:28px; --fs-xl:22px; --fs-lg:18px; --fs-md:16px; --fs-sm:14px; --fs-xs:12px;
+  --lh:1.75;
 }
+/* CSS Reset (safe) */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+html,body{margin:0;padding:0}
+img{max-width:100%;display:block}
+/* Typography */
+html{font-size:16px}
+body{
+  background:var(--bg);color:var(--text);
   font-family: Inter, Segoe UI, Roboto, Apple SD Gothic Neo, Noto Sans KR, system-ui, -apple-system, sans-serif;
-  line-height:1.6}
-a{color:var(--brand-2);text-decoration:none}
-a:hover{text-decoration:underline}
+  line-height:var(--lh); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--brand-2);text-decoration:none} a:hover{text-decoration:underline}
+p{margin:0 0 12px}
+:where(ul,ol){margin:0 0 14px 1.25rem; padding:0}
+:where(li){margin:6px 0}
+h1,h2,h3{margin:0 0 10px; line-height:1.3}
+h1{font-size:var(--fs-xxl)}
+h2{font-size:var(--fs-xl); color:var(--brand)}
+h3{font-size:var(--fs-lg)}
+small{font-size:var(--fs-xs); color:var(--muted)}
+.meta{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:var(--fs-xs); margin:8px 0 12px}
+kbd{font-size:var(--fs-xs); color:var(--muted); border:1px solid var(--border); border-bottom-width:2px; border-right-width:2px; border-radius:6px; padding:2px 6px}
+
 /* Header */
 .app-header{position:sticky;top:0;z-index:1000;background:
-  radial-gradient(1200px 400px at 20% -50%, rgba(255,204,77,.15), transparent),
+  radial-gradient(1200px 400px at 20% -50%, rgba(255,204,77,.14), transparent),
   linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.7));
   border-bottom:1px solid var(--border);backdrop-filter:saturate(160%) blur(8px)}
 .header-inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{width:36px;height:36px;border-radius:10px;background:
   linear-gradient(135deg, var(--brand), #ffdca3);box-shadow:var(--shadow);display:grid;place-items:center;color:#222;font-weight:900}
-.brand h1{font-size:20px;margin:0}
+.brand h1{font-size:18px;margin:0}
 .header-actions{display:flex;align-items:center;gap:8px}
-button.icon{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:12px;cursor:pointer}
-button.icon:hover{outline:2px solid rgba(255,255,255,.06)}
+button.icon, a.icon{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button.icon:hover, a.icon:hover{outline:2px solid rgba(255,255,255,.06)}
 select.switcher{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:12px;cursor:pointer}
 .searchbar{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:var(--panel);
   border:1px solid var(--border);padding:8px 12px;border-radius:12px}
-.searchbar input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:14px}
-kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bottom-width:2px;border-right-width:2px;border-radius:6px;padding:2px 6px}
+.searchbar input{flex:1;background:transparent;border:none;color:var(--text);outline:none;font-size:var(--fs-sm)}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;     /* 너비 */
+  height: 23px;    /* 높이 */
+  border-radius: 6px; /* 모서리 둥글기 */
+}
+
 /* Layout */
 .layout{display:grid;grid-template-columns:270px 1fr;gap:16px;max-width:1200px;margin:16px auto;padding:0 20px}
-.sidebar{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;position:sticky;top:84px;height:calc(100vh - 110px);overflow:auto}
-.sidebar h3{margin:8px 0 10px 4px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.sidebar{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;position:sticky;top:84px;height:calc(100vh - 110px);overflow:auto}
+.sidebar h3{margin:8px 0 10px 4px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .nav-group{display:flex;flex-direction:column;gap:8px}
 .nav-group button{display:flex;align-items:center;gap:10px;background:transparent;border:1px solid var(--border);padding:10px 12px;border-radius:12px;color:var(--text);cursor:pointer}
 .nav-group button.active{outline:2px solid var(--brand)}
-.nav-group svg{opacity:.85}
 .toc{margin-top:12px;display:flex;flex-direction:column;gap:6px}
 .toc a{font-size:13px;color:var(--muted);padding:6px 8px;border-radius:8px}
 .toc a:hover{background:rgba(255,255,255,.04);color:var(--text)}
-/* Main content */
+
+/* Main content cards & spacing */
 .main{min-height:60vh}
 .guide{display:none}
 .guide.active{display:block;animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none}}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow)}
+.wrap .card + .card{margin-top:14px}
 .guide h2:first-of-type{color:var(--brand);margin-top:0}
-.meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:8px 0 12px}
-.footer{max-width:1200px;margin:40px auto 20px;padding:0 20px;color:var(--muted);display:flex;justify-content:space-between;font-size:12px}
-/* Utilities */
+/* TOS body typography refinement */
+#terms-of-service .card p{margin:0 0 10px}
+#terms-of-service .meta{margin-top:6px;margin-bottom:12px}
+#terms-of-service :where(ul,ol){margin:0 0 12px 1.25rem}
+#terms-of-service li{margin:6px 0}
+#terms-of-service h2{margin-top:18px}
+/* Utility badges */
 .badge{font-size:12px;padding:2px 8px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted)}
-.hl{background:rgba(255,204,77,.25);border-radius:4px;padding:0 2px}
+/* Clean scrollbars */
+.sidebar::-webkit-scrollbar,.toc::-webkit-scrollbar{width:0;height:0}
+.sidebar,.toc{scrollbar-width:none}
 /* Light theme */
-:root.light{
-  --bg:#f7f8fb;--bg-elev:#ffffff;--panel:#ffffff;--card:#ffffff;--text:#0d1020;--muted:#5e6b85;--border:#e6e8ef;
-  --shadow:0 6px 24px rgba(16,24,40,.08);
-}
+:root.light{--bg:#f7f8fb;--bg-elev:#ffffff;--panel:#ffffff;--card:#ffffff;--text:#0d1020;--muted:#5e6b85;--border:#e6e8ef;--shadow:0 6px 24px rgba(16,24,40,.08)}
 .app-header{transition:background .2s ease}
 /* Print */
 @media print{
@@ -72,30 +106,51 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
   .layout{grid-template-columns:1fr;padding:0}
   .guide{display:block}
   body{background:#fff;color:#000}
+  a{color:#000;text-decoration:none}
 }
-
 /* Search results dropdown */
 #searchResults{position:sticky;top:64px;z-index:999;display:none}
 #searchResults .card{max-width:1200px;margin:8px auto;box-shadow:var(--shadow)}
-@media (max-width: 720px){
-  #searchResults .card{margin:8px 12px}
-}
-
-/* ===== Clean scrollbar (hide but keep scrollable) ===== */
-.sidebar::-webkit-scrollbar,
-.toc::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-.sidebar, .toc {
-  scrollbar-width: none; /* Firefox */
-}
-/* ensure scrollability */
-.sidebar { overflow-y: auto; }
-.toc { overflow-y: auto; }
-
+@media (max-width: 720px){ #searchResults .card{margin:8px 12px} }
 </style>
-</head>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/><style id="link-banners-style">
+/* LINK vertical banners – clean 5 banners */
+#links .link-banners{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+#links .link-banner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px 18px;
+  min-height:64px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  text-decoration:none;
+  color:var(--text);
+  transition: transform .1s ease, border-color .2s ease, background .2s ease;
+  outline: none;
+}
+#links .link-banner:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.22);
+  background: var(--bg-elev);
+  text-decoration: none;
+}
+#links .link-icon{
+  width:28px; height:28px; flex:0 0 28px;
+  display:inline-block; object-fit:contain; border-radius:6px;
+  background:#0c1117;
+}
+#links .link-text{ font-weight:600; letter-spacing:.1px; }
+</style></head>
 <body>
 <header class="app-header">
 <div class="header-inner">
@@ -111,20 +166,23 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 </div>
 <select aria-label="가이드 선택" class="switcher">
 <option value="terms-of-service">이용약관</option>
-<option value="binance-api-key">Binance API 키 생성</option>
+<option value="binance-api-key">Binance API Key</option>
 <option value="crypto-detector">Crypto Detector</option>
 <option value="order-toolkit-v15-0-5">Order Toolkit</option>
 <option value="trades-v14-8-1">Trades</option>
-</select>
+<option value="links">바로가기</option><option value="sponsorship">후원</option></select>
 <div class="header-actions">
 <button class="icon" id="theme" title="테마 전환 (t)">테마</button>
 <!-- 가입 버튼 (구글폼 링크 연동) -->
 <button class="icon" id="join" title="가입 신청">가입</button>
 <!-- 텔레그램 아이콘 버튼 -->
 <a class="icon" href="https://t.me/+_1EVjnyCr-FhNjE1" rel="noopener" target="_blank" title="Telegram 입장">
-<svg fill="currentColor" height="18" viewbox="0 0 23 24" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M9.036 15.58l-.398 5.603c.568 0 .814-.244 1.11-.535l2.664-2.54 5.518 4.004c1.012.555 1.73.263 1.993-.935l3.617-16.988.001-.001c.322-1.5-.542-2.084-1.528-1.721l-21.29 8.204c-1.453.565-1.431 1.375-.247 1.741l5.443 1.699 12.607-7.844c.593-.386 1.13-.173.687.213"></path>
-</svg>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png"
+    alt="Telegram"
+    width="19"
+    height="19"
+    style="display:inline-block; vertical-align:middle; border-radius:4px;">
 </a>
 </div>
 </div>
@@ -138,9 +196,9 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
 <span>이용약관</span>
 </button>
-<button aria-label="Binance API 키 생성" data-id="binance-api-key" onclick="activate('binance-api-key')">
+<button aria-label="Binance API Key" data-id="binance-api-key" onclick="activate('binance-api-key')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
-<span>Binance API 키 생성</span>
+<span>Binance API Key</span>
 </button>
 <button aria-label="Crypto Detector" data-id="crypto-detector" onclick="activate('crypto-detector')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
@@ -154,7 +212,12 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
 <span>Trades</span>
 </button>
-
+<button aria-label="LINK" data-id="links" onclick="activate('links')">
+<svg fill="none" height="18" viewbox="0 0 24 24" width="18">
+<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span>바로가기</span>
+</button>
 <button aria-label="후원" data-id="sponsorship" onclick="activate('sponsorship')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18">
 <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
@@ -236,24 +299,24 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 </section>
 <section class="guide" id="binance-api-key">
 <div class="card">
-<div class="meta"><span class="badge">Binance API 키 생성</span></div>
+<div class="meta"><span class="badge">Binance API Key</span></div>
 <main class="wrap">
 <section class="card">
 <h2>목차</h2>
 <nav class="toc">
-<a href="#api-quick">1. 간단 생성 절차</a>
+<a href="#api-quick">1. 발급 절차</a>
 <a href="#api-restrict">2. API 권한</a>
 <a href="#ip-restrict">3. IP 제한</a>
 <a href="#apply-toolkit">4. Order Toolkit 입력</a>
 </nav>
 </section>
 <section class="card" id="api-quick">
-<h2>1) 간단 생성 절차</h2>
+<h2>1) 발급 절차</h2>
 <ol>
 <li>바이낸스 로그인 → 우측 상단 <strong>Account</strong> → <strong>API Management</strong></li>
 <li><strong>Create API</strong> 클릭 → <strong>System generated</strong> 선택</li>
 <li><strong>라벨(Label)</strong> 입력 (예: <code>futures-toolkit</code>)</li>
-<li><strong>Security Verification</strong> 수행 (이메일/휴대폰 또는 OTP)</li>
+<li><strong>Security Verification</strong> 보안 인증 (이메일 / 휴대폰 또는 OTP)</li>
 </ol>
 </section>
 <section class="card" id="api-restrict">
@@ -264,8 +327,8 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <li>그 외 항목 — 모두 해제(✗)</li>
 </ul>
 <div class="note">
-<strong>안내</strong>: 본 가이드는 <strong>Enable Futures</strong> 옵션만 허용하며, 
-            발급된 API 키는 본인 외에는 누구도 접근할 수 없습니다. 
+<strong>안내</strong>: 본 가이드는 <strong>Enable Futures</strong> 옵션만 허용하며,
+            발급된 API 키는 본인 외에는 누구도 접근할 수 없습니다.
             운영자는 개인 자산(현물, 출금 등)에 대한 권한이 전혀 없으니 안심하셔도 됩니다.
           </div>
 </section>
@@ -428,21 +491,20 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <a href="#sfx-theme">9. SFX·테마</a>
 <a href="#shortcuts">10. 단축키</a>
 <a href="#debug">11. 크롬 디버깅 모드 연동</a>
-<a href="#troubleshoot">12. 문제해결</a>
+<a href="#troubleshoot">12. 문제 해결</a>
 </nav>
 </section>
 <section class="card" id="intro">
 <h2>1) 소개</h2>
-<p>Order Toolkit은 바이낸스 USDⓂ 선물 거래를 빠르고 일관적으로 실행하기 위한 주문 툴입니다. 기본적으로 크롬 브라우저와 연동되며, 필요 시 <strong>Manual Mode</strong>로 단독 운용할 수 있습니다.</p>
+<p>Order Toolkit은 바이낸스 USDⓂ 선물 거래를 빠르고 일관적으로 실행하기 위한 주문 툴입니다. 기본적으로 디버깅 모드 크롬 브라우저와 연동되며, 필요 시 <strong>Manual Mode</strong>로 단독 운용할 수 있습니다.</p>
 <div class="note">권장: 실거래 전 테스트 모드에서 UI/단축키를 충분히 숙지하세요.</div>
 </section>
 <section class="card" id="serial">
 <h2>2) 시리얼 키 인증</h2>
 <ul>
 <li><strong>Serial Key Verification</strong> 다이얼로그에서 키를 입력하고 <em>REMEMBER ME</em> 체크 시 마지막 키가 암호화 저장됩니다.</li>
-<li>시리얼 키 부정사용 적발시 경고없이 삭제됩니다.
-                <li>3회 실패 시 프로그램이 종료됩니다.</li>
-</li>
+<li>시리얼 키 부정사용 적발시 경고없이 삭제됩니다.</li>
+<li>3회 실패 시 프로그램이 종료됩니다.</li>
 </ul>
 </section>
 <section class="card" id="topbar">
@@ -492,7 +554,7 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <p>PRICE 라벨 <span class="kbd">좌클릭</span> → 매수 기준(매도1호가), <span class="kbd">우클릭</span> → 매도 기준(매수1호가)로 즉시 세팅.</p>
 <p>BTC, ETH 같은 폭발적인 거래량으로 인한 과부하 시에는 가격 지정 후 포지션 진입하는 것을 권장합니다.</p>
 <h3>SYNC</h3>
-<p>클립보드 가격연동. 트레이딩뷰 우클릭 가격 복사 및 호가 API에서의 가격 동기화. 
+<p>클립보드 가격연동. 트레이딩뷰 우클릭 가격 복사 및 호가 API에서의 가격 동기화.
             <p>Order Book 툴킷과도 연동됩니다.</p>
 <h3>QTY - USDT</h3>
 <p>수량 모드 - USDT 환산 수량 모드 전환 버튼.</p>
@@ -600,14 +662,14 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <a href="#market-type">4. 현물/선물 전환 (PERP/Spot)</a>
 <a href="#settings">5. 설정 다이얼로그</a>
 <a href="#shortcuts">6. 단축키</a>
-<a href="#troubleshoot">7. 문제 해결 / 팁</a>
+<a href="#troubleshoot">7. 문제 해결</a>
 </nav>
 </section>
 <section class="card" id="intro">
 <h2>1) 소개</h2>
-<p><strong>Trades</strong>는 바이낸스 스트림의 <em>실시간 체결내역</em> 과 <em>청산 주문</em> 이벤트 뷰어 입니다.
+<p><strong>Trades</strong>는 바이낸스의 <em>실시간 체결내역</em> 과 <em>청산 주문</em> 이벤트 뷰어 입니다.
             </p>
-<div class="note">본 프로그램은 개발자 모드 크롬 브라우저와 연동됩니다..</div>
+<div class="note">본 프로그램은 디버깅 모드 크롬 브라우저와 연동됩니다.</div>
 </section>
 <section class="card" id="main-ui">
 <h2>2) 메인 UI</h2>
@@ -703,7 +765,7 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 </ul>
 </section>
 <section class="card" id="troubleshoot">
-<h2>7) 문제 해결 / 팁</h2>
+<h2>7) 문제 해결</h2>
 <ul>
 <li><strong>데이터 지연/미수신</strong>: 네트워크 상태, 바이낸스 상태 점검. 필요 시 프로그램 재시작.</li>
 <li><strong>현물 전환 불가</strong>: 해당 심볼이 현물 미지원일 수 있습니다. <em>PERP</em> 유지.</li>
@@ -715,6 +777,43 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 </main>
 </div>
 </section>
+<section class="guide" id="links">
+  <div class="card">
+    <div class="link-banners">
+
+      <a aria-label="Telegram" class="link-banner" href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank" rel="noopener">
+        <img alt="Telegram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"/>
+        <span class="link-text">Telegram : 공지 / 문의 / 커뮤니티</span>
+      </a>
+
+      <a aria-label="KakaoTalk" class="link-banner" href="https://open.kakao.com/o/s73fjkPd" target="_blank" rel="noopener">
+        <img alt="KakaoTalk" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/600px-KakaoTalk_logo.svg.png"/>
+        <span class="link-text">KakaoTalk : 부평구금융인</span>
+      </a>
+
+      <a aria-label="YouTube" class="link-banner" href="https://www.youtube.com/@trader_jayday" target="_blank" rel="noopener">
+        <img alt="YouTube" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"/>
+        <span class="link-text">YouTube : 부평구금융인</span>
+      </a>
+
+      <a aria-label="Instagram" class="link-banner" href="https://www.instagram.com/trader_jayday/" target="_blank" rel="noopener">
+        <img alt="Instagram" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"/>
+        <span class="link-text">Instagram : @trader_jayday</span>
+      </a>
+
+      <a aria-label="Google Form Join" class="link-banner" href="https://forms.gle/r7pxYEqeCE77mmJW6" target="_blank" rel="noopener">
+        <img alt="Google Forms" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"/>
+        <span class="link-text">Goolge Forms : API 사용 신청</span>
+      </a>
+
+      <a aria-label="바이낸스" class="link-banner" href="https://accounts.binance.com/register?ref=JAYDAY828" target="_blank" rel="noopener">
+        <img alt="바이낸스" class="link-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg"/>
+        <span class="link-text">Binance Refferal : JAYDAY828</span>
+      </a>
+
+    </div>
+  </div>
+</section>
 
 <section class="guide" id="sponsorship">
 <div class="card">
@@ -723,11 +822,11 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
 <section class="card">
 <h2>후원 안내</h2>
 <p>부평구금융인 BINANCE API 프로젝트는 안정적인 서비스 제공과 지속적인 기능 개선을 위해
-   이용자 여러분의 자발적인 후원으로 운영되고 있습니다.</p>
+   이용자의 후원으로 운영되고 있습니다.</p>
 <ul>
-  <li>후원금은 서버 유지비, 개발·유지보수, 안정성 향상, 신규 기능 연구 등에 사용됩니다.</li>
-  <li>운영 상황에 따라 후원자분께는 감사의 표시로 일부 기능 또는 편의 혜택이 제공될 수 있습니다.</li>
-  <li>후원 방법과 계좌·링크 등 구체적인 안내는 가입 신청이 검토·승인된 후 운영자가 별도로 제공합니다.</li>
+<li>후원금은 서버, 유지보수, 안정성 향상, 신규 기능 개발 등에 사용됩니다.</li>
+<li>운영 상황에 따라 후원자에게 일부 기능 또는 편의 혜택이 제공될 수 있습니다.</li>
+<li>후원 방법과 구체적인 안내는 가입 신청이 검토·승인된 후 운영자가 연락드립니다.</li>
 </ul>
 </section>
 </main>
@@ -745,7 +844,7 @@ kbd{font-size:11px;color:var(--muted);border:1px solid var(--border);border-bott
     window.open('https://forms.gle/r7pxYEqeCE77mmJW6', '_blank');
   });
 </script>
-<script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "binance-api-key", "title": "Binance API 키 생성"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "trades-v14-8-1", "title": "Trades"}, {"id": "sponsorship", "title": "후원"}]</script>
+<script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "binance-api-key", "title": "Binance API Key"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "trades-v14-8-1", "title": "Trades"}, {"id": "links", "title": "LINK"}, {"id": "sponsorship", "title": "후원"}]</script>
 <script>
 const state = {
   guides: [],
