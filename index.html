@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
@@ -23,6 +22,11 @@
   
 <title>부평구금융인 커뮤니티</title>
 <style>
+/* === 스크롤바 공간 확보  === */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}  
 :root{
   --bg:#0b0e14;--bg-elev:#0f131b;--panel:#0f131b;--card:#0d1220;
   --text:#e7eaf0;--muted:#a8b3c7;--brand:#ffcc4d;--brand-2:#8ab4ff;
@@ -254,9 +258,7 @@ html, body { overflow-x: hidden; }
 #order-toolkit-v15-0-5 > .card{
   margin-top: 0 !important;
 }
-#order-toolkit-v15-0-5 .meta{
-  margin-top: 0 !important;
-}
+
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/><style id="link-banners-style">
 /* LINK vertical banners – clean 5 banners */
@@ -429,6 +431,7 @@ header, .header, #siteHeader { display: block; }
 <option value="binance-api-key">Binance API Key</option>
 <option value="crypto-detector">Crypto Detector</option>
 <option value="order-toolkit-v15-0-5">Order Toolkit</option>
+<option value="orderbook-v4-7">Order Book</option>
 <option value="trades-v14-8-1">Trades</option>
 <option value="links">바로가기</option><option value="sponsorship">후원</option></select>
 <div class="header-actions">
@@ -463,6 +466,10 @@ header, .header, #siteHeader { display: block; }
 <button aria-label="Order Toolkit" data-id="order-toolkit-v15-0-5" onclick="activate('order-toolkit-v15-0-5')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
 <span>Order Toolkit</span>
+</button>
+<button aria-label="Order Book" data-id="orderbook-v4-7" onclick="activate('orderbook-v4-7')">
+<svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
+<span>Order Book</span>
 </button>
 <button aria-label="Trades" data-id="trades-v14-8-1" onclick="activate('trades-v14-8-1')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
@@ -758,7 +765,7 @@ header, .header, #siteHeader { display: block; }
     Order Toolkit은 바이낸스 USDⓂ 선물 거래를 빠르고 일관적으로 실행하기 위한 주문 툴입니다. 
     기본적으로 디버깅 모드 크롬 브라우저와 연동되며, 필요 시 <strong>Manual Mode</strong>로 단독 운용할 수 있습니다.
   </p>
-  <h3>주요 강점</h3>
+  <h3>주요 특징</h3>
   <ul>
     <li>
       <strong>그리드 자동호가 지정가 주문</strong><br>
@@ -934,6 +941,101 @@ header, .header, #siteHeader { display: block; }
 </main>
 </div>
 </section>
+<section class="guide" id="orderbook-v4-7">
+<div class="card">
+<div class="meta"><span class="badge">Order Book</span><span class="badge">v4</span></div>
+<main class="wrap">
+<section class="card">
+<h2>목차</h2>
+<nav class="toc">
+<a href="#intro">1. 소개</a>
+<a href="#features">2. 메인 UI 및 기능</a>
+<a href="#controls">3. 상단 컨트롤</a>
+<a href="#table-details">4. 호가창 테이블 상세</a>
+<a href="#chrome-sync">5. 크롬 디버깅 모드 연동</a>
+<a href="#troubleshoot">6. 문제 해결</a>
+</nav>
+</section>
+<section class="card" id="intro">
+  <h2>1) 소개</h2>
+  <p>
+    바이낸스 웹사이트의 호가창은 스냅샷(Snapshot) 방식으로 제공되어 실시간성이 떨어집니다. 이러한 한계를 극복하고 스캘핑 거래의 결정적인 순간 포착을 위해 설계된 <strong>리얼타임(Real-time) 오더북</strong> 뷰어입니다.
+  </p>
+  <h3>주요 특징</h3>
+  <ul>
+    <li>
+      <strong>모든 호가 및 체결 물량은 실시간 USDT 가치로 자동 환산</strong>되어, 주문 규모를 매우 직관적으로 파악할 수 있습니다.
+    </li>
+    <li>
+      <strong>3초 누적 거래대금</strong>을 통해 웹에서는 볼 수 없는 순간적인 매수/매도 힘의 세기를 시각적으로 파악할 수 있습니다.
+    </li>
+    <li>
+      실시간으로 쌓이는 호가를 통해 주요 <strong>매물대</strong>(지지/저항)를 빠르게 확인할 수 있습니다.
+    </li>
+    <li>
+      <strong>Order Toolkit과의 연동</strong>으로, 호가창에서 확인한 가격을 클릭 한 번으로 주문창에 즉시 반영하여 신속한 거래를 지원합니다.
+    </li>
+    <li>
+      선물(Futures)뿐만 아니라 <strong>현물(Spot) 호가</strong>를 지원하며, 강력한 <strong>모아보기(Aggregation) 필터</strong>를 통해 시장 깊이를 다각도로 분석할 수 있습니다.
+    </li>
+  </ul>
+</section>
+<section class="card" id="features">
+<h2>2) 메인 UI 및 기능</h2>
+<ul>
+    <li><strong>상단 컨트롤 영역</strong>: 모아보기 단위, 마켓(선물/현물), 설정 저장 방식을 제어합니다.</li>
+    <li><strong>호가창 테이블</strong>: 매도(Ask), 매수(Bid) 호가와 잔량을 실시간으로 표시합니다.</li>
+    <li><strong>체결가 영역 (중앙)</strong>: 마지막 체결가와 방향(↑/↓), 3초 누적 매수/매도 대금을 표시합니다.</li>
+    <li><strong>하단 총합 영역</strong>: 현재 호가창에 표시된 매수/매도 잔량의 총합(USDT 환산)을 보여줍니다.</li>
+</ul>
+</section>
+<section class="card" id="controls">
+<h2>3) 상단 컨트롤</h2>
+<div class="grid">
+<div>
+<h3>GLOBAL / SYMBOL 버튼</h3>
+<p>모아보기(Aggregation) 설정을 저장하는 방식을 선택합니다.</p>
+<ul>
+    <li><strong>GLOBAL</strong>: 모든 심볼에 대해 마지막 설정을 공통으로 적용합니다.</li>
+    <li><strong>SYMBOL</strong>: 각 심볼별로 모아보기 설정을 개별적으로 저장하고 복원합니다.</li>
+</ul>
+</div>
+<div>
+<h3>모아보기 (1, 10, 100, 1000)</h3>
+<p>호가를 묶어서 볼 단위를 선택합니다. 예를 들어 '10'을 선택하면 틱 사이즈의 10배 단위로 호가를 그룹화하여 보여줍니다.</p>
+</div>
+<div>
+<h3>FUTURES / SPOT 버튼</h3>
+<p>선물(Futures) 마켓과 현물(Spot) 마켓 간에 전환합니다. 해당 심볼이 현물 마켓에 상장되어 있을 때만 활성화됩니다.</p>
+</div>
+</div>
+</section>
+<section class="card" id="table-details">
+<h2>4) 호가창 테이블 상세</h2>
+<ul>
+    <li><strong>컬러</strong>: 매도(Ask)는 <span style="color:#F6465D;font-weight:bold">빨간색</span>, 매수(Bid)는 <span style="color:#2EBD74;font-weight:bold">녹색</span>으로 표시됩니다.</li>
+    <li><strong>컬럼 구성</strong>: 좌측/우측 열에는 해당 호가의 주문량을 USDT 가치로 환산하여 표시하고, 중앙 열에는 실제 호가(가격)를 표시합니다.</li>
+    <li><strong>대량 주문 강조 (●)</strong>: 설정된 기준(평균 거래량 대비 비율, 절대값)을 초과하는 큰 규모의 주문이 있는 호가에 <code>●</code> 아이콘을 표시하여 시각적으로 강조합니다.</li>
+    <li><strong>3초 누적 거래대금</strong>: 중앙 체결가 좌우에 표시되며, 최근 3초 동안 체결된 시장가 주문의 매수/매도 대금 총합을 보여주어 순간적인 매매 강도를 파악할 수 있습니다.</li>
+    <li><strong>상호작용</strong>: 호가창의 가격(중앙 컬럼)을 클릭하면 해당 가격이 클립보드에 복사됩니다.</li>
+</ul>
+</section>
+<section class="card" id="chrome-sync">
+<h2>5) 크롬 디버깅 모드 연동(자동 심볼 감지)</h2>
+<p>Order Toolkit과 동일하게, 디버깅 모드로 실행된 크롬 브라우저의 바이낸스 종목 URL을 감지하여 자동으로 심볼을 전환합니다.</p>
+</section>
+<section class="card" id="troubleshoot">
+<h2>6) 문제 해결</h2>
+<ul>
+    <li><strong>데이터가 표시되지 않음</strong>: 네트워크 연결 상태나 바이낸스 서버 상태를 확인하세요. 잠시 후에도 문제가 지속되면 프로그램을 재시작해보세요.</li>
+    <li><strong>크롬 연동이 안 됨</strong>: 크롬이 디버깅 모드로 정상 실행되었는지, 포트 번호가 <code>9222</code>로 맞게 설정되었는지 확인하세요.</li>
+    <li><strong>프로그램이 느려짐</strong>: 바이낸스 서버 폭주시 간헐적으로 문제가 발생할 수 있습니다. 재시작하면 대부분 해결됩니다.</li>
+    <li><strong>오류 발생 시</strong>: 프로그램 폴더에 생성되는 <code>log_orderbook.log</code> 파일을 확인하면 원인 파악에 도움이 될 수 있습니다.</li>
+</ul>
+</section>
+</main>
+</div>
+</section>
 <section class="guide" id="trades-v14-8-1">
 <div class="card">
 <div class="meta"><span class="badge">Trades</span><span class="badge">v14</span></div>
@@ -952,8 +1054,10 @@ header, .header, #siteHeader { display: block; }
 </section>
 <section class="card" id="intro">
 <h2>1) 소개</h2>
-<p><strong>Trades</strong>는 바이낸스의 <em>실시간 체결내역</em> 과 <em>청산 주문</em> 이벤트 뷰어 입니다.
-            </p>
+<p><strong>Trades</strong>는 바이낸스의 <em>실시간 체결내역</em> 과 <em>청산 주문</em> 이벤트 뷰어입니다.</p>
+<p>바이낸스 웹에서 제공되는 체결내역은 스냅샷 형태로 제공되기 때문에, 실시간 주요 물량을 확인하기에는 한계가 있습니다.</p>
+<p>본 프로그램은 <strong>거래대금 필터</strong>를 통해 원하는 체결건만 선별적으로 확인할 수 있으며, <strong>청산 감지 기능</strong>을 통해 단기 변곡 구간에서 발생하는 시그널을 포착할 수 있습니다.</p>
+<p>또한 <strong>3초 누적 대금</strong>을 통해 순간적인 매수·매도 힘의 강도를 파악할 수 있습니다.</p>
 <div class="note">본 프로그램은 디버깅 모드 크롬 브라우저와 연동됩니다.</div>
 </section>
 <section class="card" id="main-ui">
@@ -1137,7 +1241,7 @@ header, .header, #siteHeader { display: block; }
     window.open('https://forms.gle/r7pxYEqeCE77mmJW6', '_blank');
   });
 </script>
-<script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "binance-api-key", "title": "Binance API Key"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "trades-v14-8-1", "title": "Trades"}, {"id": "links", "title": "LINK"}, {"id": "sponsorship", "title": "후원"}]</script>
+<script id="guides-data" type="application/json">[{"id": "terms-of-service", "title": "이용약관"}, {"id": "binance-api-key", "title": "Binance API Key"}, {"id": "crypto-detector", "title": "Crypto Detector"}, {"id": "order-toolkit-v15-0-5", "title": "Order Toolkit"}, {"id": "orderbook-v4-7", "title": "Orderbook"}, {"id": "trades-v14-8-1", "title": "Trades"}, {"id": "links", "title": "LINK"}, {"id": "sponsorship", "title": "후원"}]</script>
 <script>
 const state = {
   guides: [],
@@ -1246,7 +1350,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Keyboard shortcuts
   window.addEventListener('keydown', (e)=>{
     if(e.key==='/'){ e.preventDefault(); byId('q').focus(); }
-    if(['1','2','3','4','5','6','7'].includes(e.key)){
+    if(['1','2','3','4','5','6','7','8'].includes(e.key)){ // 8번 단축키 추가
       const idx = parseInt(e.key,10)-1;
       if(state.guides[idx]) activate(state.guides[idx].id);
     }
