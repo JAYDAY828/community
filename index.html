@@ -1100,10 +1100,10 @@ html{ scroll-behavior:smooth; }
 <h3>버튼 영역</h3>
 <ul>
 <li><strong>▶ · ■</strong> — 감시 <em>시작/중지</em></li>
-<li><strong>🧹</strong> — 감지 목록 전체 초기화</li>
-<li><strong>📌 · 📍</strong> — 창 <em>항상 위</em> 토글 (📍: 항상 위 / 📌: 해제)</li>
-<li><strong>🔔</strong> — 알람 설정 (사운드/팝업, 볼륨, 클립보드 연동 등)</li>
-<li><strong>🚫</strong> — 감지 제외 심볼 관리(팝업에서 추가/삭제)</li>
+<li><strong>CLR</strong> — CLEAR. 감지 기록 테이블 초기화</li>
+<li><strong>PIN</strong> — 창 <em>항상 위</em> 토글 (PIN: 항상 위 / OFF: 해제)</li>
+<li><strong>SET</strong> — SETTING. 설정 (사운드/팝업, 볼륨, 클립보드 연동 등)</li>
+<li><strong>LIST</strong> — 감지 제외 종목 관리 (팝업에서 추가/삭제)</li>
 <li><strong>LOG</strong> — 1주일 로그 및 TOP 10 감지 내역 보기</li>
 </ul>
 </div>
@@ -1120,17 +1120,17 @@ html{ scroll-behavior:smooth; }
 <section class="card" id="defaults">
 <h2>5) 시작 기본 상태</h2>
 <ul>
-<li>감시(▶): <strong>OFF</strong></li>
-<li>알람(🔔): UP/DOWN 알람 기본 활성화</li>
-<li>클립보드 연동: <strong>OFF</strong> (알람 설정 🔔에서 활성화 가능)</li>
-<li>항상위(📌): <strong>OFF</strong></li>
+<li>감시: <strong>자동시작</strong></li>
+<li>설정: UP/DOWN 알람 기본 활성화</li>
+<li>클립보드 연동: <strong>OFF</strong> (설정에서 활성화 가능)</li>
+<li>항상위 PIN: <strong>OFF</strong></li>
 <li>필터 값: 기본값 표시</li>
 </ul>
 <p class="note">버튼/설정은 자동 저장되어, 재실행 시 복원됩니다.</p>
 </section>
 <section class="card" id="clipboard">
 <h2>6) 클립보드 연동 (바이낸스 URL)</h2>
-<p>감지된 종목의 정보를 클립보드로 자동 복사하는 기능입니다. <strong>알람 설정(🔔)</strong> 창에서 활성화할 수 있습니다.</p>
+<p>감지된 종목의 정보를 클립보드로 자동 복사하는 기능입니다. <strong>설정</strong> 창에서 활성화할 수 있습니다.</p>
 <ul>
     <li><strong>활성화</strong>: 설정 창에서 'CLIPBOARD SYNC' 체크박스를 켭니다.</li>
     <li><strong>포맷 선택</strong>:
@@ -1154,8 +1154,8 @@ html{ scroll-behavior:smooth; }
 <section class="card" id="tips">
 <h2>8) 기타 안내</h2>
 <ul>
-<li><strong>알람 설정(🔔)</strong>: 사운드 팩, UP/DOWN 별 사운드 및 팝업 ON/OFF, 알람 볼륨을 세부적으로 제어할 수 있습니다.</li>
-<li><strong>감지 제외 리스트(🚫)</strong>: 등록된 심볼은 모든 알림·표시·사운드에서 제외됩니다.</li>
+<li><strong>설정</strong>: 사운드 팩, UP/DOWN 별 사운드 및 팝업 ON/OFF, 알람 볼륨을 세부적으로 제어할 수 있습니다.</li>
+<li><strong>감지 제외 리스트</strong>: 등록된 심볼은 모든 알림·표시·사운드에서 제외됩니다.</li>
 <li>일부 기능(팝업/사운드 등)은 OS·권한 설정에 따라 제한될 수 있습니다.</li>
 <li>바이낸스 사용자라면 클립보드 연동 기능을 적극 활용해 즉시 차트/거래 화면으로 이동하세요.</li>
 </ul>
@@ -1164,8 +1164,8 @@ html{ scroll-behavior:smooth; }
 <h2>9) 문제 해결</h2>
 <ul>
 <li><strong>리스트가 비어 있음</strong>: 필터값이 과도하게 높을 수 있습니다. 장세에 맞춰 조정하세요.</li>
-<li><strong>URL 복사 안 됨</strong>: 알람 설정(🔔)에서 'CLIPBOARD SYNC' 옵션이 활성화되어 있는지 확인하세요.</li>
-<li><strong>팝업/사운드 미출력</strong>: 알람 설정(🔔)에서 각 항목이 켜져 있는지 확인하고, SFX 폴더의 파일 누락을 점검하세요.</li>
+<li><strong>URL 복사 안 됨</strong>: 설정에서 'CLIPBOARD SYNC' 옵션이 활성화되어 있는지 확인하세요.</li>
+<li><strong>팝업/사운드 미출력</strong>: 설정에서 각 항목이 켜져 있는지 확인하고, SFX 폴더의 파일 누락을 점검하세요.</li>
 </ul>
 </section>
 </main>
