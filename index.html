@@ -859,6 +859,18 @@ html{ scroll-behavior:smooth; }
 <aside aria-label="Guide navigation" class="sidebar"><div class="sidebar-inner">
 <h3>Menu</h3>
 <div class="nav-group">
+<button aria-label="LINK" data-id="links" onclick="activate('links')">
+<svg fill="none" height="18" viewbox="0 0 24 24" width="18">
+<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span>바로가기</span>
+</button>
+<button aria-label="후원" data-id="sponsorship" onclick="activate('sponsorship')">
+<svg fill="none" height="18" viewbox="0 0 24 24" width="18">
+<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span>후원</span>
+</button>  
 <button aria-label="이용약관" data-id="terms-of-service" onclick="activate('terms-of-service')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
 <span>이용약관</span>
@@ -882,18 +894,6 @@ html{ scroll-behavior:smooth; }
 <button aria-label="Trades" data-id="trades-v14-8-1" onclick="activate('trades-v14-8-1')">
 <svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>
 <span>Trades</span>
-</button>
-<button aria-label="LINK" data-id="links" onclick="activate('links')">
-<svg fill="none" height="18" viewbox="0 0 24 24" width="18">
-<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-</svg>
-<span>바로가기</span>
-</button>
-<button aria-label="후원" data-id="sponsorship" onclick="activate('sponsorship')">
-<svg fill="none" height="18" viewbox="0 0 24 24" width="18">
-<path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-</svg>
-<span>후원</span>
 </button>
 </div>
 <h3 style="margin-top:14px">Section</h3>
@@ -1933,7 +1933,7 @@ function toggleTheme(){
 function onPrint(){ window.print(); }
 
   document.addEventListener("DOMContentLoaded", function () {
-    activate('links'); // 페이지 진입 시 항상 이용약관 활성화 terms-of-service
+    activate('links'); // 페이지 진입 시 항상 바로가기 활성화 / 이용약관 활성화 terms-of-service
     localStorage.removeItem('lastPage'); // 마지막 페이지 저장 기능 초기화
   });
 
