@@ -129,10 +129,29 @@ kbd {
   body{background:#fff;color:#000}
   a{color:#000;text-decoration:none}
 }
-/* Search results dropdown */
-#searchResults{position:sticky;top:64px;z-index:999;display:none}
-#searchResults .card{max-width:1200px;margin:8px auto;box-shadow:var(--shadow)}
-@media (max-width: 720px){ #searchResults .card{margin:8px 12px} }
+/* Search results (NO overlap: keep in normal flow) */
+#searchResults{
+  position: relative;     /* sticky 제거 */
+  z-index: 2;
+  display: none;
+  max-width: 1200px;
+  margin: 8px auto 0;
+  padding: 0 20px;        /* layout과 동일한 좌우 패딩 */
+}
+
+/* 결과 카드 폭/간격 */
+#searchResults .card{
+  box-shadow: var(--shadow);
+  margin-top: 8px;        /* 기존 JS marginTop과 겹쳐도 문제 없음 */
+}
+
+/* 모바일 여백 */
+@media (max-width: 720px){
+  #searchResults{
+    padding: 0 12px;
+  }
+}
+
 
 /* === Fix: 모바일 메인 본문 가로 넘침 방지 (Crypto Detector / Order Toolkit) === */
 @media (max-width: 768px){
