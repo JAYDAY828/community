@@ -1099,12 +1099,14 @@ html{ scroll-behavior:smooth; }
 <h2>3) 필터값 &amp; 감지 로직</h2>
 <div class="grid">
   <div>
-    <h3>감지 기준</h3>
+    <h3>메인 감지 기준</h3>
     <ul>
       <li><strong>CHANGE %</strong>: 최근 1분 가격 등락률이 설정값 이상일 때 감지 (예: 3.0 → 1분간 3% 이상 변동 시)</li>
       <li><strong>24H VOLUME</strong>: 24시간 거래대금(USDT 기준)이 설정값 이상일 때 감지 (예: 1,000,000 → 24h 거래대금 ≥ 1M USDT)</li>
     </ul>
     <p class="note">기본 감지는 위 두 조건을 <strong>모두 충족</strong>해야 실시간 리스트에 표시됩니다.</p>
+
+    <hr>
 
     <h3>NEW PAIR (신규 상장 종목 거래대금 필터 예외)</h3>
     <p>
@@ -1118,6 +1120,8 @@ html{ scroll-behavior:smooth; }
       <li><strong>동작</strong>: <strong>CHANGE %만 충족</strong>해도 감지 (24H VOLUME 조건은 임시로 미적용)</li>
     </ul>
     <p class="note">NEW PAIR는 “메인 필터의 24H VOLUME 조건”에만 적용되는 예외 기능입니다.</p>
+
+    <hr>
 
     <h3>BTC / ETH / MAJ FILTER (대형주 보조 감지)</h3>
     <p>
@@ -1135,25 +1139,67 @@ html{ scroll-behavior:smooth; }
       MAJ 필터는 메인 UI를 변경하지 않고, Alert Settings(SET)에서 별도로 관리됩니다.
       동일 심볼은 동일 시간대에 중복 감지가 발생하지 않도록 제한됩니다.
     </p>
+
+    <hr>
+
+    <h3>BIG CANDLE (빅 롱/빅 숏 보조 감지)</h3>
+    <p>
+      메인 감지는 <strong>CHANGE %</strong>와 <strong>24H VOLUME</strong>을 모두 충족해야 표시됩니다.
+      다만 일부 종목은 거래대금이 낮아 <strong>24H VOLUME 필터에 걸려</strong> 급격한 단기 변동이 발생해도 감지되지 않을 수 있습니다.
+      이를 보완하기 위해 <strong>BIG CANDLE</strong> 옵션을 활성화하면,
+      <strong>메인 거래대금 기준(24H VOLUME)을 충족하지 못한 종목</strong>에 한해
+      설정한 퍼센트 이상의 큰 캔들(상승/하락)이 발생했을 때 보조적으로 감지합니다.
+    </p>
+
+    <ul>
+      <li><strong>적용 범위</strong>: <strong>메인 24H VOLUME 기준 미충족</strong> 종목</li>
+      <li><strong>감지 기준</strong>: 1분 변동률이 설정값 이상일 때 감지 (10 / 15 / 20 / 25 / 30%)</li>
+      <li><strong>동작</strong>: <strong>빅 롱/빅 숏</strong> 형태의 급격한 캔들을 보조적으로 포착</li>
+    </ul>
+
+    <p class="note">
+      BIG CANDLE은 <strong>보조 감지</strong>이며,
+      메인 감지(NEW PAIR 포함) 및 MAJ 감지와는 <strong>별도의 조건으로 병행 평가</strong>됩니다.
+    </p>
+
+    <hr>
+
+    <h3>BIG CANDLE 안전장치 (대하락 전용 서킷 브레이커)</h3>
+    <p>
+      시장 전반의 급격한 대하락으로 인해 BIG CANDLE 감지가 <strong>동시다발적으로 폭증</strong>하는 경우,
+      REST 조회(OI, 1분 거래대금 등)가 과도하게 증가할 수 있습니다.
+      이를 방지하기 위해 BIG CANDLE 기능에는 <strong>대하락 전용 서킷 브레이커</strong>가 적용됩니다.
+    </p>
+    <ul>
+      <li><strong>발동 조건</strong>: 짧은 시간 내 <strong>다수 종목</strong>에서 <strong>하락 방향</strong> BIG CANDLE이 동시 발생하는 경우</li>
+      <li><strong>동작</strong>: 발동 시 <strong>BIG CANDLE 기능만</strong> 일정 시간 자동 비활성화</li>
+      <li><strong>영향 범위</strong>: 메인 감지(NEW PAIR 포함) 및 MAJ 감지에는 영향을 주지 않습니다</li>
+    </ul>
+    <p class="note">
+      서킷 브레이커는 <strong>대하락 상황에서의 안정성</strong>을 위한 보호 장치이며,
+      비활성화 기간 동안에는 BIG CANDLE 감지/알림만 일시적으로 중지됩니다.
+    </p>
+    </ul>
   </div>
-<div>
-<h3>표시 항목</h3>
-<ul>
-<li>심볼 / 1분 등락률 / 24시간 등락률 / 1분 거래대금 / 24시간 거래대금 / 미체결(OI) / 감지 시간</li>
-</ul>
-</div>
+
 </div>
 </section>
 <section class="card" id="ui">
 <h2>4) 메인 UI &amp; 버튼</h2>
 <div class="grid">
 <div>
+<h3>표시 항목</h3>
+<ul>
+<li>심볼 / 1분 등락률 / 24시간 등락률 / 1분 거래대금 / 24시간 거래대금 / 미체결(OI) / 감지 시간</li>
+
+</div>  
+<div>
 <h3>버튼 영역</h3>
 <ul>
 <li><strong>▶ · ■</strong> — 감시 <em>시작/중지</em></li>
 <li><strong>CLR</strong> — CLEAR. 감지 기록 테이블 초기화</li>
 <li><strong>PIN</strong> — 창 <em>항상 위</em> 토글 (PIN: 항상 위 / OFF: 해제)</li>
-<li><strong>SET</strong> — SETTING. 설정 (사운드/팝업, 볼륨, 클립보드 연동 등)</li>
+<li><strong>SET</strong> — SETTING. 설정 (사운드/팝업, 볼륨, 클립보드, 보조감지)</li>
 <li><strong>LIST</strong> — 감지 제외 종목 관리 (팝업에서 추가/삭제)</li>
 <li><strong>LOG</strong> — 1주일 로그 및 TOP 10 감지 내역 보기</li>
 </ul>
