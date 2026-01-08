@@ -324,17 +324,19 @@
                 </div>
 
                 <!-- Bento Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Telegram (Large) -->
-                    <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank" class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer col-span-1 md:col-span-2 lg:col-span-2 relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
+                    <!-- Telegram (Large: 강조됨 유지 + 중앙 정렬) -->
+                    <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank" class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer col-span-1 md:col-span-2 lg:col-span-2 relative overflow-hidden h-full flex flex-col justify-center">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-[#229ED9]/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                        <div class="flex items-center gap-4 relative z-10">
-                            <div class="w-12 h-12 rounded-xl bg-[#229ED9] flex items-center justify-center text-white text-2xl">
+                        <div class="flex items-center gap-5 relative z-10">
+                            <!-- 큰 아이콘 (w-12 h-12) 유지 -->
+                            <div class="w-12 h-12 rounded-xl bg-[#229ED9] flex-shrink-0 flex items-center justify-center text-white text-2xl">
                                 <i class="fa-brands fa-telegram"></i>
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-white group-hover:text-[#229ED9] transition-colors">공식 텔레그램 채널</h3>
-                                <p class="text-sm text-gray-400">공지사항, 업데이트, 실시간 문의 및 커뮤니티</p>
+                                <!-- 큰 폰트 (text-lg) 유지 -->
+                                <h3 class="text-lg font-bold text-white group-hover:text-[#229ED9] transition-colors mb-1">공식 텔레그램 채널</h3>
+                                <p class="text-sm text-gray-400 leading-snug">공지사항, 업데이트, 실시간 문의 및 커뮤니티</p>
                             </div>
                         </div>
                     </a>
@@ -351,12 +353,17 @@
                     <!-- Binance -->
                     <a href="https://accounts.binance.com/register?ref=JAYDAY828" target="_blank" class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer">
                         <div class="flex items-center gap-4 mb-3">
-                            <div class="w-10 h-10 rounded-lg bg-brand flex items-center justify-center text-black"><i class="fa-solid fa-coins"></i></div>
-                            <h3 class="font-bold text-white">Binance 레퍼럴 가입</h3>
+                            <!-- 수정됨: 좌표가 완벽한 32px 로고 + 잘림 방지 여유 공간(-4) 적용 -->
+                            <div class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center">
+                                <svg viewBox="-4 -4 40 40" class="w-5 h-5" fill="#FCD535" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 0L9.5 6.5L16 13L22.5 6.5L16 0Z M4.5 11.5L0 16L4.5 20.5L9 16L4.5 11.5Z M27.5 11.5L23 16L27.5 20.5L32 16L27.5 11.5Z M16 19L9.5 25.5L16 32L22.5 25.5L16 19Z M16 14.5L14.5 16L16 17.5L17.5 16L16 14.5Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-bold text-white">Binance 회원가입</h3>
                         </div>
                         <p class="text-xs text-gray-400">가입 시 무료 이용 및 셀퍼럴 지급</p>
                     </a>
-
+                    
                     <!-- Kakao -->
                     <a href="https://open.kakao.com/o/s73fjkPd" target="_blank" class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer">
                         <div class="flex items-center gap-4 mb-3">
