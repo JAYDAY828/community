@@ -543,15 +543,16 @@
                             <p class="text-xs text-gray-500 mt-2">* 부평구금융인 BINANCE API를 이용하는 경우, 개인정보 수집에 동의한 것으로 간주됩니다.</p>
                         </div>
 
-                        <!-- 제4조 (면책 조항: 정렬 및 여백 수정) -->
+<!-- 제4조 (면책 조항: 표준 규격 p-6 적용 및 제목 숨은 여백 제거) -->
                         <div id="tos-disclaimer">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-red">제4조 (책임 제한)</h2>
                             
+                            <!-- Box: 다른 박스들과 동일하게 p-6 (1.5rem) 적용 -->
                             <div class="bg-red-900/10 border border-red-900/40 rounded-xl p-6">
-                                <h3 class="text-accent-red font-bold text-sm mb-4 flex items-center gap-2">
+                                <!-- Title: !mt-0 클래스로 h3 태그의 기본 상단 여백 제거 (핵심) -->
+                                <h3 class="text-accent-red font-bold text-sm mb-5 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-triangle-exclamation"></i> 면책 조항 (Disclaimer)
                                 </h3>
-                                <!-- 리스트: Flex로 불렛과 텍스트 정렬, 상하 여백 제거 -->
                                 <ul class="list-none space-y-2.5 !m-0 !p-0 text-gray-400 text-sm leading-relaxed">
                                     <li class="flex items-start gap-2.5">
                                         <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
@@ -576,7 +577,7 @@
                                 </ul>
                             </div>
                         </div>
-
+                        
                         <!-- 제5조 -->
                         <div id="tos-restrictions">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand">제5조 (이용 제한)</h2>
@@ -1815,50 +1816,58 @@
                         </div>
 
                         <!-- 상세 테이블 (Tier 0~3) -->
-                        <h3 class="text-white text-sm font-bold mb-3 pl-1 border-l-4 border-brand">바이낸스 공식 커미션 등급표 (2025-08-01 기준)</h3>
+                        <h3 class="text-white text-sm font-bold mb-3 pl-1 border-l-4 border-brand">
+                            바이낸스 공식 커미션 등급표 (2025-08-01 기준)
+                        </h3>
+
                         <div class="overflow-x-auto rounded-lg border border-gray-700 mb-6">
-                            <table class="w-full text-xs md:text-sm text-left text-gray-400 whitespace-nowrap">
+                            <table class="w-full text-xs md:text-sm text-gray-400 whitespace-nowrap">
                                 <thead class="text-xs text-gray-200 uppercase bg-[#1f2937]">
                                     <tr>
-                                        <th scope="col" class="px-4 py-3 border-b border-gray-600">Tier</th>
-                                        <th scope="col" class="px-4 py-3 border-b border-gray-600">Futures Commission</th>
-                                        <th scope="col" class="px-4 py-3 border-b border-gray-600">Time Limitation</th>
-                                        <th scope="col" class="px-4 py-3 border-b border-gray-600">Futures Trading Volume</th>
-                                        <th scope="col" class="px-4 py-3 border-b border-gray-600">New Traders</th>
+                                        <th class="px-4 py-3 border-b border-gray-600 text-center">Tier</th>
+                                        <th class="px-4 py-3 border-b border-gray-600 text-center">Futures Commission</th>
+                                        <th class="px-4 py-3 border-b border-gray-600 text-center">Time Limitation</th>
+                                        <th class="px-4 py-3 border-b border-gray-600 text-center">Futures Trading Volume</th>
+                                        <th class="px-4 py-3 border-b border-gray-600 text-center">New Traders</th>
                                     </tr>
                                 </thead>
+
                                 <tbody class="bg-[#111]">
                                     <tr class="border-b border-gray-800 hover:bg-gray-800/50">
-                                        <td class="px-4 py-3 font-bold text-gray-500">Tier 0</td>
-                                        <td class="px-4 py-3">10%</td>
-                                        <td class="px-4 py-3">1 year</td>
-                                        <td class="px-4 py-3">N/A</td>
-                                        <td class="px-4 py-3">N/A</td>
+                                        <td class="px-4 py-3 font-bold text-gray-500 text-center">Tier 0</td>
+                                        <td class="px-4 py-3 text-center">10%</td>
+                                        <td class="px-4 py-3 text-center">1 year</td>
+                                        <td class="px-4 py-3 text-center">N/A</td>
+                                        <td class="px-4 py-3 text-center">N/A</td>
                                     </tr>
+
                                     <tr class="border-b border-gray-800 hover:bg-gray-800/50">
-                                        <td class="px-4 py-3 font-bold text-white">Tier 1</td>
-                                        <td class="px-4 py-3 text-white">30%</td>
-                                        <td class="px-4 py-3">No limit</td>
-                                        <td class="px-4 py-3">$1,000,000</td>
-                                        <td class="px-4 py-3">3</td>
+                                        <td class="px-4 py-3 font-bold text-white text-center">Tier 1</td>
+                                        <td class="px-4 py-3 text-white text-center">30%</td>
+                                        <td class="px-4 py-3 text-center">No limit</td>
+                                        <td class="px-4 py-3 text-center">$1,000,000</td>
+                                        <td class="px-4 py-3 text-center">3</td>
                                     </tr>
+
                                     <tr class="border-b border-gray-800 hover:bg-gray-800/50">
-                                        <td class="px-4 py-3 font-bold text-white">Tier 2</td>
-                                        <td class="px-4 py-3 text-white">40%</td>
-                                        <td class="px-4 py-3">No limit</td>
-                                        <td class="px-4 py-3">$25,000,000</td>
-                                        <td class="px-4 py-3">10</td>
+                                        <td class="px-4 py-3 font-bold text-white text-center">Tier 2</td>
+                                        <td class="px-4 py-3 text-white text-center">40%</td>
+                                        <td class="px-4 py-3 text-center">No limit</td>
+                                        <td class="px-4 py-3 text-center">$25,000,000</td>
+                                        <td class="px-4 py-3 text-center">10</td>
                                     </tr>
+
                                     <tr class="hover:bg-gray-800/50">
-                                        <td class="px-4 py-3 font-bold text-brand">Tier 3</td>
-                                        <td class="px-4 py-3 text-brand font-bold">50%</td>
-                                        <td class="px-4 py-3">No limit</td>
-                                        <td class="px-4 py-3">$500,000,000</td>
-                                        <td class="px-4 py-3">15</td>
+                                        <td class="px-4 py-3 font-bold text-brand text-center">Tier 3</td>
+                                        <td class="px-4 py-3 text-brand font-bold text-center">50%</td>
+                                        <td class="px-4 py-3 text-center">No limit</td>
+                                        <td class="px-4 py-3 text-center">$500,000,000</td>
+                                        <td class="px-4 py-3 text-center">15</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+
 
                         <!-- 적용 원칙 리스트 -->
                         <h3 class="text-white text-sm font-bold mb-3 pl-1 border-l-4 border-gray-500">적용 원칙</h3>
