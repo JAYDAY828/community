@@ -1940,66 +1940,166 @@
         </div>
     </footer>
 
-    <!-- Three.js (Background Effect) -->
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <script>
-    (function(){
-      const canvas = document.getElementById('bg3d');
-      if(!canvas || !window.THREE) return;
-    
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-    
-      // Particles - Gold Dust
-      const particlesGeometry = new THREE.BufferGeometry();
-      const count = 800;
-      const posArray = new Float32Array(count * 3);
-      for(let i=0; i<count*3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 12; 
-      }
-      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-      const material = new THREE.PointsMaterial({
-        size: 0.025,
-        color: 0xFCD535, 
-        transparent: true,
-        opacity: 0.5,
-        blending: THREE.AdditiveBlending
-      });
-      const particles = new THREE.Points(particlesGeometry, material);
-      scene.add(particles);
-      
-      // Mouse Interaction
-      let mouseX = 0, mouseY = 0;
-      window.addEventListener('mousemove', (e) => {
-          mouseX = (e.clientX / window.innerWidth) - 0.5;
-          mouseY = (e.clientY / window.innerHeight) - 0.5;
-      });
+<!-- Three.js (Final: Wide & Subtle Universe) -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+    const canvas = document.getElementById('bg3d');
+    if(!canvas || !window.THREE) return;
 
-      const clock = new THREE.Clock();
-      function animate() {
-        const elapsedTime = clock.getElapsedTime();
-        particles.rotation.y = elapsedTime * 0.03;
-        // Parallax
-        particles.rotation.x += (mouseY * 0.05 - particles.rotation.x) * 0.05;
-        particles.rotation.y += (mouseX * 0.05 - particles.rotation.y) * 0.05;
+    // --- 1. 씬 설정 ---
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0b0e11, 0.002); // 짙은 안개 유지
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 60; // 카메라를 더 뒤로 빼서 전체적인 시야 확보
+
+    const renderer = new THREE.WebGLRenderer({ 
+        canvas, 
+        antialias: true,
+        alpha: true 
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // --- 2. 텍스처 (High-Quality Glow) ---
+    function createPulseTexture() {
+        const size = 64; 
+        const cvs = document.createElement('canvas');
+        cvs.width = size;
+        cvs.height = size;
+        const ctx = cvs.getContext('2d');
         
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
-      animate();
+        const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');      
+        gradient.addColorStop(0.2, 'rgba(252, 213, 53, 0.8)');  
+        gradient.addColorStop(0.5, 'rgba(252, 213, 53, 0.1)');   
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');            
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+        return new THREE.CanvasTexture(cvs);
+    }
+    const glowTexture = createPulseTexture();
+
+
+    // --- 3. 입자 시스템 생성 (분산 배치 로직 적용) ---
+    function createParticleSystem(count, baseSize, type) {
+        const geo = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        const sizes = new Float32Array(count);
+        const phases = new Float32Array(count);
+
+        for(let i=0; i<count; i++) {
+            // [핵심 수정] 가로(X)를 세로(Y)보다 훨씬 넓게 퍼트림 (Wide Ratio)
+            // 중앙 집중을 막기 위해 범위를 대폭 늘림
+            const spreadX = 160; 
+            const spreadY = 90;
+            const spreadZ = 60;
+
+            pos[i*3] = (Math.random() - 0.5) * spreadX;     // 가로로 넓게
+            pos[i*3+1] = (Math.random() - 0.5) * spreadY;   // 세로는 적당히
+            
+            // [핵심 수정] 너무 가까이 오지 못하게 Z축 깊이 조절
+            // type이 'main'이면 카메라 바로 앞(-10 ~ 10 구간)은 피하도록 설정
+            let z = (Math.random() - 0.5) * spreadZ;
+            if (type === 'main' && z > 20) z -= 40; // 너무 앞이면 뒤로 보냄
+            pos[i*3+2] = z;
+
+            // 크기: 아까보다 전반적으로 줄임
+            sizes[i] = baseSize * (0.6 + Math.random() * 0.8); 
+            
+            phases[i] = Math.random() * Math.PI * 2;
+        }
+
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        geo.setAttribute('phase', new THREE.BufferAttribute(phases, 1));
+
+        const mat = new THREE.PointsMaterial({
+            color: 0xFFFFFF,
+            size: baseSize, // 셰이더용 베이스 사이즈
+            map: glowTexture,
+            transparent: true,
+            opacity: 0.9,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            sizeAttenuation: true
+        });
+
+        const mesh = new THREE.Points(geo, mat);
+        return mesh;
+    }
+
+    // --- 4. 레이어 구성 (넓고 은은하게) ---
     
-      window.addEventListener('resize', () => {
+    // Layer 1: Main Stars (주요 노드)
+    // 개수는 늘리고(80), 크기는 줄임(1.8) -> 넓게 퍼진 별밭
+    const mainStars = createParticleSystem(80, 1.6, 'main');
+    scene.add(mainStars);
+
+    // Layer 2: Background Dust (배경 먼지)
+    // 아주 작고 많은 먼지들로 공간감 채움
+    const bgDust = createParticleSystem(300, 0.6, 'dust');
+    bgDust.material.opacity = 0.5; // 배경은 더 흐리게
+    scene.add(bgDust);
+
+    // Layer 3: Distant Sparks (생동감)
+    // 아주 가끔 반짝이는 작은 입자
+    const sparks = createParticleSystem(50, 0.4, 'spark');
+    scene.add(sparks);
+
+
+    // --- 5. 인터랙션 ---
+    let mouseX = 0;
+    let mouseY = 0;
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - windowHalfX) * 0.05;
+        mouseY = (event.clientY - windowHalfY) * 0.05;
+    });
+
+    // --- 6. 애니메이션 ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // 전체적인 회전 속도를 더 천천히 (차분함 유지)
+        mainStars.rotation.y = time * 0.03; 
+        bgDust.rotation.y = -time * 0.01;
+        sparks.rotation.y = time * 0.05;
+
+        // 마우스 Parallax (반응은 하되 과하지 않게)
+        const targetX = mouseX * 0.05;
+        const targetY = -mouseY * 0.05;
+
+        // 부드러운 감속 이동
+        mainStars.position.x += (targetX - mainStars.position.x) * 0.03;
+        mainStars.position.y += (targetY - mainStars.position.y) * 0.03;
+
+        bgDust.position.x += (targetX * 0.5 - bgDust.position.x) * 0.03;
+        bgDust.position.y += (targetY * 0.5 - bgDust.position.y) * 0.03;
+
+        // 펄싱 효과 (깜빡임)
+        // 너무 심하게 깜빡이지 않도록 범위 조절 (0.6 ~ 1.0)
+        const pulse = 0.8 + Math.sin(time * 1.0) * 0.2; 
+        mainStars.material.opacity = pulse;
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    })();
-    </script>
+    });
+})();
+</script>
 
 <!-- App Logic -->
     <script>
