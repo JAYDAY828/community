@@ -1064,22 +1064,27 @@
                                 </div>
                                 
                                 <div class="mt-8 pt-4 border-t border-gray-700 text-[11px] text-gray-500 leading-relaxed">
-                                    <i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="cd.logic.main.note">우측의 보조 필터들은 이 메인 조건을 무시하거나, 특정 상황(신규/대형주)에 맞춰 별도로 동작합니다.</span>
+                                    <i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="cd.logic.main.note">우측의 보조 필터들은 이 메인 조건을 기준으로 하되, 특정 상황(신규 상장, 대형주 등)에 맞춰 독립적으로 동작합니다.</span>
                                 </div>
                             </div>
 
-                            <!-- [RIGHT] Auxiliary Filters (2x2 Grid) -->
+<!-- [RIGHT] Auxiliary Filters (2x2 Grid) -->
                             <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                
                                 <!-- 1. New Pair -->
                                 <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col hover:border-gray-500 transition-all group shadow-md">
                                     <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                         <i class="fa-solid fa-rocket text-brand group-hover:animate-bounce"></i> 
                                         <span data-i18n="cd.logic.new.title">신규 상장 (New Pair)</span>
                                     </h3>
-                                    <div class="text-xs text-gray-400 mb-4 leading-relaxed flex-1" data-i18n="cd.logic.new.desc">
+                                    
+                                    <!-- 수정됨: 상단 정렬, 줄간격 좁힘, 하단 여백 확보 -->
+                                    <div class="text-sm text-gray-400 mb-6 leading-relaxed" data-i18n="cd.logic.new.desc">
                                         상장 직후 유동성이 불안정한 코인의 거래대금 부족 현상을 보완합니다.
                                     </div>
-                                    <div class="bg-gray-800/40 rounded p-3 border border-gray-700/50">
+
+                                    <!-- mt-auto로 박스를 최하단으로 밀어냄 -->
+                                    <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
                                         <div class="flex items-center gap-2 text-xs text-gray-300">
                                             <i class="fa-solid fa-check text-green-500 text-[10px]"></i>
                                             <span data-i18n="cd.logic.new.check"><strong>거래대금 무시</strong>, 등락률만 체크</span>
@@ -1093,11 +1098,13 @@
                                         <i class="fa-solid fa-scale-balanced text-yellow-500"></i> 
                                         <span data-i18n="cd.logic.tradfi.title">트레이드파이 (TradFi)</span>
                                     </h3>
-                                    <div class="text-xs text-gray-400 mb-4 leading-relaxed flex-1" data-i18n="cd.logic.tradfi.desc">
+                                    
+                                    <div class="text-sm text-gray-400 mb-6 leading-relaxed" data-i18n="cd.logic.tradfi.desc">
                                         무거운 원자재 기반 토큰의 미세한 변동성을 놓치지 않고 포착합니다.
                                     </div>
-                                    <div class="bg-gray-800/40 rounded p-3 border border-gray-700/50">
-                                        <div class="flex flex-col gap-1 text-xs text-gray-300">
+
+                                    <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
+                                        <div class="flex flex-col gap-1.5 text-xs text-gray-300">
                                             <div class="flex items-center gap-2">
                                                 <i class="fa-solid fa-crosshairs text-gray-500 text-[10px]"></i>
                                                 <span data-i18n="cd.logic.tradfi.target">Target: <strong>PAXG, XAU, XAG</strong></span>
@@ -1116,10 +1123,12 @@
                                         <i class="fa-brands fa-bitcoin text-orange-500"></i> 
                                         <span data-i18n="cd.logic.major.title">대형 코인 감지 (BTC/ETH/MAJ)</span>
                                     </h3>
-                                    <div class="text-xs text-gray-400 mb-4 leading-relaxed flex-1" data-i18n="cd.logic.major.desc">
+                                    
+                                    <div class="text-sm text-gray-400 mb-6 leading-relaxed" data-i18n="cd.logic.major.desc">
                                         알트코인 기준 설정 시, 움직임이 둔한 대형 코인 감지가 누락되는 것을 방지합니다.
                                     </div>
-                                    <div class="bg-gray-800/40 rounded p-3 border border-gray-700/50">
+
+                                    <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
                                         <div class="flex items-center gap-2 text-xs text-gray-300">
                                             <i class="fa-solid fa-sliders text-gray-500 text-[10px]"></i>
                                             <span data-i18n="cd.logic.major.cond">Condition: <strong>Low %</strong> & <strong>High Vol</strong></span>
@@ -1133,10 +1142,12 @@
                                         <i class="fa-solid fa-fire text-red-500 group-hover:text-red-400 transition-colors"></i> 
                                         <span data-i18n="cd.logic.big.title">빅 캔들 (Big Long/Short)</span>
                                     </h3>
-                                    <div class="text-xs text-gray-400 mb-4 leading-relaxed flex-1" data-i18n="cd.logic.big.desc">
+                                    
+                                    <div class="text-sm text-gray-400 mb-6 leading-relaxed" data-i18n="cd.logic.big.desc">
                                         거래량이 없는 잡코인의 상장빔, 스캠 무빙 등 이상 급등락을 감시합니다.
                                     </div>
-                                    <div class="bg-gray-800/40 rounded p-3 border border-gray-700/50">
+
+                                    <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
                                         <div class="flex items-center gap-2 text-xs text-gray-300">
                                             <i class="fa-solid fa-triangle-exclamation text-red-500 text-[10px]"></i>
                                             <span data-i18n="cd.logic.big.alert"><strong>10~30% 급변</strong> 시 조건 무시 알림</span>
@@ -2606,32 +2617,87 @@
         "cd.logic.title": { ko: "2) 감지 로직 &amp; 필터", en: "2) Detection Logic & Filters" },
         
         // Main
-        "cd.logic.main.title": { ko: "메인 감지 로직", en: "Main Detection" },
-        "cd.logic.main.sub": { ko: "두 조건 동시 충족 시 감지", en: "Detects when BOTH conditions are met" },
-        "cd.logic.main.change": { ko: "최근 1분간의 등락률이 설정값 이상일 때", en: "When 1m change % exceeds threshold" },
-        "cd.logic.main.vol": { ko: "24시간 누적 거래대금 조건을 충족할 때", en: "When 24h volume meets criteria" },
-        "cd.logic.main.note": { ko: "우측의 보조 필터들은 이 메인 조건을 무시하거나, 특정 상황(신규/대형주)에 맞춰 별도로 동작합니다.", en: "Auxiliary filters on the right override this or act separately for specific cases." },
+        "cd.logic.main.title": {
+            ko: "메인 감지 로직",
+            en: "Main Detection Logic"
+        },
+        "cd.logic.main.sub": {
+            ko: "두 조건 동시 충족 시 감지",
+            en: "Triggers only when both conditions are met"
+        },
+        "cd.logic.main.change": {
+            ko: "최근 1분간의 등락률이 설정값 이상일 때",
+            en: "When the 1-minute price change exceeds the configured threshold"
+        },
+        "cd.logic.main.vol": {
+            ko: "24시간 누적 거래대금 조건을 충족할 때",
+            en: "When the 24-hour cumulative trading volume meets the requirement"
+        },
+        "cd.logic.main.note": {
+            ko: "우측의 보조 필터들은 이 메인 조건을 기준으로 하되, 특정 상황(신규 상장, 대형주 등)에 맞춰 독립적으로 동작합니다.",
+            en: "The auxiliary filters on the right are based on this main logic, but operate independently for specific scenarios such as new listings or major coins."
+        },
 
         // New Pair
-        "cd.logic.new.title": { ko: "신규 상장 (New Pair)", en: "New Listings" },
-        "cd.logic.new.desc": { ko: "상장 직후 유동성이 불안정한 코인의 거래대금 부족 현상을 보완합니다.", en: "Compensates for low volume in newly listed coins." },
-        "cd.logic.new.check": { ko: "<strong>거래대금 무시</strong>, 등락률만 체크", en: "<strong>Ignore Vol</strong>, check Change % only" },
+        "cd.logic.new.title": {
+            ko: "신규 상장 (New Pair)",
+            en: "New Listings (New Pair)"
+        },
+        "cd.logic.new.desc": {
+            ko: "상장 직후 거래대금이 형성되지 않은 종목의 초기 변동을 놓치지 않기 위한 보조 감지입니다.",
+            en: "An auxiliary detector designed to capture early price movements of newly listed assets before sufficient trading volume is formed."
+        },
+        "cd.logic.new.check": {
+            ko: "<strong>거래대금 무시</strong>, 등락률만 체크",
+            en: "<strong>Ignores volume conditions</strong> and evaluates price change only"
+        },
 
         // TradFi
-        "cd.logic.tradfi.title": { ko: "트레이드파이 (TradFi)", en: "TradFi" },
-        "cd.logic.tradfi.desc": { ko: "무거운 원자재 기반 토큰의 미세한 변동성을 놓치지 않고 포착합니다.", en: "Captures micro-volatility of heavy commodity-based tokens." },
-        "cd.logic.tradfi.target": { ko: "Target: <strong>PAXG, XAU, XAG</strong>", en: "Target: <strong>PAXG, XAU, XAG</strong>" },
-        "cd.logic.tradfi.check": { ko: "<strong>낮은 변동폭</strong>도 즉시 감지", en: "Detects <strong>Low Volatility</strong> instantly" },
+        "cd.logic.tradfi.title": {
+            ko: "트레이드파이 (TradFi)",
+            en: "TradFi (Commodity-based Assets)"
+        },
+        "cd.logic.tradfi.desc": {
+            ko: "유동성 구조가 다른 TradFi(상품) 기반 자산을 거래대금 조건 없이 변동률 기준으로 감지합니다.",
+            en: "Detects price movements of TradFi (commodity-based) assets using change percentage only, without relying on trading volume due to their different liquidity structure."
+        },
+        "cd.logic.tradfi.target": {
+            ko: "Target: <strong>PAXG, XAU, XAG</strong>",
+            en: "Target: <strong>PAXG, XAU, XAG</strong>"
+        },
+        "cd.logic.tradfi.check": {
+            ko: "<strong>낮은 변동폭</strong>도 즉시 감지",
+            en: "Immediately detects even <strong>small price fluctuations</strong>"
+        },
 
         // Major
-        "cd.logic.major.title": { ko: "대형 코인 감지 (BTC/ETH/MAJ)", en: "Major Coins (BTC/ETH)" },
-        "cd.logic.major.desc": { ko: "알트코인 기준 설정 시, 움직임이 둔한 대형 코인 감지가 누락되는 것을 방지합니다.", en: "Prevents missing heavy major coins when settings are tuned for altcoins." },
-        "cd.logic.major.cond": { ko: "Condition: <strong>Low %</strong> &amp; <strong>High Vol</strong>", en: "Condition: <strong>Low %</strong> &amp; <strong>High Vol</strong>" },
+        "cd.logic.major.title": {
+            ko: "대형 코인 감지 (BTC/ETH/MAJ)",
+            en: "Major Coin Detection (BTC / ETH / MAJ)"
+        },
+        "cd.logic.major.desc": {
+            ko: "알트코인 기준 설정 시, 움직임이 둔한 대형 코인 감지가 누락되는 것을 방지합니다.",
+            en: "Prevents missing price movements of major coins when the main detection settings are optimized for altcoins."
+        },
+        "cd.logic.major.cond": {
+            ko: "Condition: <strong>Low %</strong> &amp; <strong>High Vol</strong>",
+            en: "Condition: <strong>Low %</strong> &amp; <strong>High Volume</strong>"
+        },
 
         // Big Candle
-        "cd.logic.big.title": { ko: "빅 캔들 (Big Long/Short)", en: "Big Candle" },
-        "cd.logic.big.desc": { ko: "거래량이 없는 잡코인의 상장빔, 스캠 무빙 등 이상 급등락을 감시합니다.", en: "Monitors abnormal spikes on low-volume coins (Scam wicks)." },
-        "cd.logic.big.alert": { ko: "<strong>10~30% 급변</strong> 시 조건 무시 알림", en: "Alerts on <strong>10~30%</strong> moves (Unconditional)" },
+        "cd.logic.big.title": {
+            ko: "빅 캔들 (Big Long/Short)",
+            en: "Big Candle (Big Long / Short)"
+        },
+        "cd.logic.big.desc": {
+            ko: "거래량이 없는 잡코인의 상장빔, 스캠 무빙 등 이상 급등락을 감시합니다.",
+            en: "Monitors abnormal spikes such as listing pumps or scam-driven moves on low-liquidity assets."
+        },
+        "cd.logic.big.alert": {
+            ko: "<strong>10~30% 급변</strong> 시 조건 무시 알림",
+            en: "Triggers alerts on <strong>10–30% sudden price moves</strong>, regardless of volume conditions"
+        },
+
 
         "cd.logic.circuit.title": { ko: "서킷 브레이커 (Circuit Breaker)", en: "Circuit Breaker" },
         "cd.logic.circuit.body": { ko: "시장 전체가 급락하여 <strong>하락 방향 BIG CANDLE</strong>이 동시다발적으로 폭증할 경우, API 과부하 및 렉 방지를 위해 <strong>BIG CANDLE 기능만 일시적으로 자동 비활성화</strong>됩니다.", en: "If the entire market dumps and downward <strong>BIG CANDLE</strong> signals surge simultaneously, only the <strong>BIG CANDLE feature</strong> is temporarily disabled automatically to prevent API overload and lag." },
