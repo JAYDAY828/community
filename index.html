@@ -273,7 +273,8 @@
     <div class="max-w-7xl mx-auto pt-24 pb-24 px-4 md:px-6 flex flex-col md:flex-row gap-8 min-h-screen">
         
         <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-[#0b0e11] md:bg-transparent transform -translate-x-full md:translate-x-0 md:static md:w-64 transition-transform duration-300 flex-shrink-0 border-r border-gray-800 md:border-0">
+        <!-- 수정 후 (w-64 -> w-80 변경) -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-[#0b0e11] md:bg-transparent transform -translate-x-full md:translate-x-0 md:static md:w-80 transition-transform duration-300 flex-shrink-0 border-r border-gray-800 md:border-0">
             <div class="h-full overflow-y-auto p-4 md:p-0 md:sticky md:top-24 scrollbar-hide">
                 
                 <!-- Mobile Only Header in Sidebar -->
@@ -324,8 +325,12 @@
                     </button>
                 </div>
 
-                <!-- Kakao AdFit Sidebar Banner -->
-                <div class="mt-8 hidden xl:block pl-2">
+<!-- 기존의 TOC(On This Page) div 전체 삭제 -->
+                
+                <!-- Kakao AdFit Sidebar Banner (위치 이동 및 TOC 대체) -->
+                <!-- xl:block은 화면이 아주 클 때만 보인다는 뜻입니다. 
+                     PC 전체에서 보이게 하려면 hidden md:block 으로 변경하는 것을 추천합니다. -->
+                <div class="mt-8 hidden md:block pl-2">
                     <ins class="kakao_ad_area"
                         style="display:block; width:300px; height:250px;"
                         data-ad-unit="DAN-5qUBmQWZuSyInM0g"
@@ -334,7 +339,7 @@
                 </div>
                 <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
-            </div>
+            </div> <!-- End of sidebar inner div -->
         </aside>
 
         <!-- Overlay -->
@@ -3294,87 +3299,6 @@
         element.classList.toggle('active');
     }
 
-    // --- Navigation Logic ---
-    function activate(id) {
-        // [Fix] 1. TOC 초기화: 이동 시 무조건 숨기고 비우기
-        const tocContainer = document.getElementById('toc-container');
-        const tocList = document.getElementById('toc');
-        
-        if (tocContainer && tocList) {
-            tocContainer.classList.add('hidden'); // 일단 숨김
-            tocList.innerHTML = '';               // 내용 비움
-        }
-
-        // 2. Sidebar Active State
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            const isActive = btn.dataset.id === id;
-            if(isActive) {
-                btn.classList.add('bg-white/10', 'text-white', 'border-l-4', 'border-brand');
-                btn.classList.remove('text-gray-300', 'border-l-0');
-            } else {
-                btn.classList.remove('bg-white/10', 'text-white', 'border-l-4', 'border-brand');
-                btn.classList.add('text-gray-300', 'border-l-0');
-            }
-        });
-
-        // 3. Section Visibility
-        document.querySelectorAll('.guide-section').forEach(sec => {
-            if(sec.id === id) {
-                sec.classList.remove('hidden');
-                sec.classList.add('fade-in');
-                
-                // [Fix] TOC가 필요한 섹션인지 확인 후 생성
-                // Home(links)과 Quick Links는 목차 생성 제외
-                if(id !== 'links' && id !== 'quick-links') {
-                    buildTOC(sec);
-                }
-            } else {
-                sec.classList.add('hidden');
-                sec.classList.remove('fade-in');
-            }
-        });
-
-        // 4. Mobile handling
-        toggleMobileMenu(false);
-        window.scrollTo(0,0);
-    }
-
-    // --- Table of Contents (TOC) ---
-    function buildTOC(section) {
-        const container = document.getElementById('toc-container');
-        const toc = document.getElementById('toc');
-        if(!container || !toc) return;
-
-        // 섹션 내의 h2, h3 태그 수집
-        const headings = section.querySelectorAll('h2, h3');
-        
-        // 헤딩이 없으면 TOC 표시 안 함
-        if(headings.length === 0) {
-            container.classList.add('hidden');
-            return;
-        }
-
-        // 헤딩이 있으면 컨테이너 표시
-        container.classList.remove('hidden');
-
-        headings.forEach(h => {
-            // ID가 없으면 텍스트로 생성
-            if(!h.id) h.id = h.textContent.trim().replace(/\s+/g, '-').toLowerCase();
-            
-            const a = document.createElement('a');
-            a.href = '#' + h.id;
-            // H3는 들여쓰기(pl-4) 적용
-            a.className = 'block py-1 text-sm text-gray-500 hover:text-white transition-colors truncate ' + 
-                          (h.tagName === 'H3' ? 'pl-4' : '');
-            a.textContent = h.textContent; // 태그 내 텍스트만 추출
-            
-            a.onclick = (e) => {
-                e.preventDefault();
-                h.scrollIntoView({behavior: 'smooth', block: 'start'});
-            };
-            toc.appendChild(a);
-        });
-    }
 
     // --- Mobile Menu ---
     function toggleMobileMenu(forceState) {
