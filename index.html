@@ -318,6 +318,10 @@
                     <button onclick="activate('trades-v14-8-1')" class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group" data-id="trades-v14-8-1">
                         <i class="fa-solid fa-bolt w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i> <span data-i18n="nav.trades">Trades</span>
                     </button>
+                    <!-- [추가] Market Briefing AI 메뉴 버튼 -->
+                    <button onclick="activate('market-briefing')" class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group" data-id="market-briefing">
+                        <i class="fa-solid fa-robot w-5 text-center text-gray-500 group-hover:text-blue-400 transition-colors"></i> <span data-i18n="nav.briefing">Market Briefing AI</span>
+                    </button>
                 </div>
 
 <!-- Auto TOC -->
@@ -2015,6 +2019,138 @@
                 </div>
             </section>
 
+            <!-- SECTION: MARKET BRIEFING AI -->
+            <section id="market-briefing" class="guide-section hidden content-body">
+                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                    <!-- Title Header -->
+                    <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
+                        <span class="badge text-blue-400 border-blue-400/50" data-i18n="mb.badge">AI Intelligence</span>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="mb.title">Market Briefing AI</h1>
+                            <p class="text-sm text-gray-400" data-i18n="mb.desc">네이버 증권 리포트 자동 수집 및 NotebookLM 기반 모닝 브리핑 생성기입니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-12">
+                        
+                        <!-- 1. Intro & Features -->
+                        <div id="mb-intro">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-blue-500" data-i18n="mb.intro.title">1) 소개 및 주요 특징</h2>
+                            <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="mb.intro.body">
+                                매일 아침 쏟아지는 증권사 리포트를 일일이 찾아볼 필요가 없습니다. 
+                                <strong>Market Briefing AI</strong>는 클릭 한 번으로 오늘자 핵심 리포트를 수집하고, 구글의 강력한 AI(NotebookLM)를 통해 시장의 핵심 요약과 인사이트를 제공합니다.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-file-pdf text-red-400"></i> <span data-i18n="mb.feature.collect.title">리포트 자동 수집</span>
+                                    </h4>
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="mb.feature.collect.body">
+                                        네이버 금융의 시황, 투자정보, 산업분석 등 주요 섹션을 크롤링하여 <strong>오늘 발행된 PDF</strong>만 자동으로 다운로드합니다.
+                                    </p>
+                                </div>
+                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-brands fa-google text-blue-400"></i> <span data-i18n="mb.feature.notebook.title">NotebookLM 연동</span>
+                                    </h4>
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="mb.feature.notebook.body">
+                                        수집된 자료를 사용자 구글 계정의 NotebookLM에 자동 업로드하고, 트레이더 관점에서 <strong>3줄 요약 및 핵심 브리핑</strong>을 생성합니다.
+                                    </p>
+                                </div>
+                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-comments text-brand"></i> <span data-i18n="mb.feature.chat.title">인터랙티브 Q&A</span>
+                                    </h4>
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="mb.feature.chat.body">
+                                        단순 요약을 넘어, "오늘 반도체 섹터 전망은?"과 같이 생성된 노트북에 대해 <strong>추가 질문</strong>을 던지고 답변을 받을 수 있습니다.
+                                    </p>
+                                </div>
+                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-folder-plus text-green-400"></i> <span data-i18n="mb.feature.manage.title">노트북 관리</span>
+                                    </h4>
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="mb.feature.manage.body">
+                                        새 노트북 생성뿐만 아니라, 기존에 만든 노트북을 불러오거나 개인 PDF 파일을 추가로 업로드하여 분석 범위를 확장할 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Setup & Execution -->
+                        <div id="mb-setup">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-blue-500" data-i18n="mb.setup.title">2) 설치 및 실행 가이드</h2>
+                            
+                            <div class="space-y-6">
+                                <!-- Step 1 -->
+                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="mb.setup.step1.title">Step 1. 초기 설정 (최초 1회)</h4>
+                                    <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
+                                        <li data-i18n="mb.setup.step1.item1">프로그램 최초 실행 시, PDF 분석을 위한 <strong>Chromium 브라우저</strong> 설치 안내창이 뜹니다.</li>
+                                        <li data-i18n="mb.setup.step1.item2"><strong>[확인]</strong>을 누르면 자동으로 다운로드가 진행되며, 완료 시까지 잠시 기다려주세요.</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="mb.setup.step2.title">Step 2. 구글 로그인 및 연동</h4>
+                                    <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
+                                        <li data-i18n="mb.setup.step2.item1"><strong>[계정 관리]</strong> → <strong>[로그인 / 계정 변경]</strong> 버튼을 클릭합니다.</li>
+                                        <li data-i18n="mb.setup.step2.item2">새로 열리는 브라우저 창에서 구글 계정으로 로그인하고 권한을 부여합니다.</li>
+                                        <li data-i18n="mb.setup.step2.item3">로그인이 완료되면 프로그램 메인 화면의 상태가 <span class="text-green-400 font-bold">● NotebookLM 연결됨</span>으로 변경됩니다.</li>
+                                    </ul>
+                                    <div class="mt-3 p-3 bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400 flex items-start gap-2">
+                                        <i class="fa-solid fa-circle-info text-blue-400 mt-0.5"></i>
+                                        <span data-i18n="mb.setup.note">브라우저 창이 닫히지 않고 유지되어야 연결 상태가 지속됩니다. (최소화 가능)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="mb.setup.step3.title">Step 3. 브리핑 생성</h4>
+                                    <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
+                                        <li data-i18n="mb.setup.step3.item1">좌측 사이드바에서 수집할 리포트 섹션(시황, 산업분석 등)을 체크합니다.</li>
+                                        <li data-i18n="mb.setup.step3.item2"><strong>[금일 브리핑 실행]</strong> 버튼을 누르면 다운로드 및 업로드가 자동으로 진행됩니다.</li>
+                                        <li data-i18n="mb.setup.step3.item3">잠시 후 우측 채팅창에 AI가 작성한 <strong>모닝 브리핑 요약본</strong>이 출력됩니다.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Troubleshooting -->
+                        <div id="mb-trouble">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500" data-i18n="mb.trouble.title">3) 문제 해결</h2>
+                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                        <div>
+                                            <strong class="text-gray-300 block mb-1" data-i18n="mb.trouble.item1.title">로그인이 자꾸 풀립니다.</strong>
+                                            <span data-i18n="mb.trouble.item1.body">NotebookLM 세션은 브라우저 쿠키 기반입니다. 로그인을 수행한 브라우저 창을 강제로 종료하지 마시고 켜두거나 최소화해주세요.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                        <div>
+                                            <strong class="text-gray-300 block mb-1" data-i18n="mb.trouble.item2.title">PDF 다운로드가 안 됩니다.</strong>
+                                            <span data-i18n="mb.trouble.item2.body">네이버 금융 서버 상태에 따라 일시적인 오류일 수 있습니다. 잠시 후 다시 시도하거나, 체크한 섹션에 오늘 발행된 리포트가 있는지 확인해주세요.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                        <div>
+                                            <strong class="text-gray-300 block mb-1" data-i18n="mb.trouble.item3.title">실행 시 임시폴더(_MEI) 오류가 발생합니다.</strong>
+                                            <span data-i18n="mb.trouble.item3.body">v1.2 업데이트에서 Playwright 경로 버그가 수정되었습니다. 반드시 최신 버전의 런처를 통해 실행해주세요.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
 <!-- SECTION: SPONSORSHIP -->
             <section id="sponsorship" class="guide-section hidden content-body">
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
@@ -2912,6 +3048,49 @@
         "tr.trouble.item2.body": { ko: "해당 코인이 바이낸스 현물 마켓(USDT)에 상장되어 있는지 확인해주세요. 미지원 시 PERP 모드로 고정됩니다.", en: "Check if the coin is listed on Binance Spot (USDT). If not, it stays in PERP mode." },
         "tr.trouble.item3.title": { ko: "청산 알림음이 안 들립니다.", en: "No liquidation alert sound." },
         "tr.trouble.item3.body": { ko: "프로그램 폴더 내 <code>SFX</code> 폴더에 <code>liq.wav</code> 파일이 존재하는지, 윈도우 볼륨 믹서 설정을 확인하세요.", en: "Check that <code>liq.wav</code> exists in the <code>SFX</code> folder and verify Windows volume mixer settings." },
+
+        // --- [추가] Market Briefing AI ---
+        "nav.briefing": { ko: "Market Briefing AI", en: "Market Briefing AI" },
+
+        "mb.badge": { ko: "AI Intelligence", en: "AI Intelligence" },
+        "mb.title": { ko: "Market Briefing AI", en: "Market Briefing AI" },
+        "mb.desc": { ko: "네이버 증권 리포트 자동 수집 및 NotebookLM 기반 모닝 브리핑 생성기입니다.", en: "Auto-collects market reports and generates AI briefings via NotebookLM." },
+
+        "mb.intro.title": { ko: "1) 소개 및 주요 특징", en: "1) Overview & Key Features" },
+        "mb.intro.body": { ko: "매일 아침 쏟아지는 증권사 리포트를 일일이 찾아볼 필요가 없습니다. <strong>Market Briefing AI</strong>는 클릭 한 번으로 오늘자 핵심 리포트를 수집하고, 구글의 강력한 AI(NotebookLM)를 통해 시장의 핵심 요약과 인사이트를 제공합니다.", en: "No need to manually search for daily market reports. <strong>Market Briefing AI</strong> collects key reports with a single click and provides core summaries and insights using Google's NotebookLM." },
+
+        "mb.feature.collect.title": { ko: "리포트 자동 수집", en: "Auto Report Collection" },
+        "mb.feature.collect.body": { ko: "네이버 금융의 시황, 투자정보, 산업분석 등 주요 섹션을 크롤링하여 <strong>오늘 발행된 PDF</strong>만 자동으로 다운로드합니다.", en: "Crawls major sections like Market, Investment, and Industry analysis to automatically download only <strong>today's PDFs</strong>." },
+        "mb.feature.notebook.title": { ko: "NotebookLM 연동", en: "NotebookLM Integration" },
+        "mb.feature.notebook.body": { ko: "수집된 자료를 사용자 구글 계정의 NotebookLM에 자동 업로드하고, 트레이더 관점에서 <strong>3줄 요약 및 핵심 브리핑</strong>을 생성합니다.", en: "Uploads data to your NotebookLM account and generates <strong>summaries and key briefings</strong> from a trader's perspective." },
+        "mb.feature.chat.title": { ko: "인터랙티브 Q&A", en: "Interactive Q&A" },
+        "mb.feature.chat.body": { ko: "단순 요약을 넘어, \"오늘 반도체 섹터 전망은?\"과 같이 생성된 노트북에 대해 <strong>추가 질문</strong>을 던지고 답변을 받을 수 있습니다.", en: "Beyond summaries, you can ask <strong>follow-up questions</strong> like \"What's the outlook for the semiconductor sector today?\"" },
+        "mb.feature.manage.title": { ko: "노트북 관리", en: "Notebook Management" },
+        "mb.feature.manage.body": { ko: "새 노트북 생성뿐만 아니라, 기존에 만든 노트북을 불러오거나 개인 PDF 파일을 추가로 업로드하여 분석 범위를 확장할 수 있습니다.", en: "Create new notebooks, load existing ones, or upload personal PDF files to expand your analysis." },
+
+        "mb.setup.title": { ko: "2) 설치 및 실행 가이드", en: "2) Setup & Execution Guide" },
+        "mb.setup.step1.title": { ko: "Step 1. 초기 설정 (최초 1회)", en: "Step 1. Initial Setup (One-time)" },
+        "mb.setup.step1.item1": { ko: "프로그램 최초 실행 시, PDF 분석을 위한 <strong>Chromium 브라우저</strong> 설치 안내창이 뜹니다.", en: "On first run, a prompt will appear to install the <strong>Chromium browser</strong> for PDF analysis." },
+        "mb.setup.step1.item2": { ko: "<strong>[확인]</strong>을 누르면 자동으로 다운로드가 진행되며, 완료 시까지 잠시 기다려주세요.", en: "Click <strong>[OK]</strong> to start the automatic download and wait for completion." },
+
+        "mb.setup.step2.title": { ko: "Step 2. 구글 로그인 및 연동", en: "Step 2. Google Login" },
+        "mb.setup.step2.item1": { ko: "<strong>[계정 관리]</strong> → <strong>[로그인 / 계정 변경]</strong> 버튼을 클릭합니다.", en: "Click <strong>[Account]</strong> → <strong>[Login / Switch Account]</strong>." },
+        "mb.setup.step2.item2": { ko: "새로 열리는 브라우저 창에서 구글 계정으로 로그인하고 권한을 부여합니다.", en: "Log in with your Google account in the new browser window and grant permissions." },
+        "mb.setup.step2.item3": { ko: "로그인이 완료되면 프로그램 메인 화면의 상태가 <span class='text-green-400 font-bold'>● NotebookLM 연결됨</span>으로 변경됩니다.", en: "Once logged in, the status changes to <span class='text-green-400 font-bold'>● NotebookLM Connected</span>." },
+        "mb.setup.note": { ko: "브라우저 창이 닫히지 않고 유지되어야 연결 상태가 지속됩니다. (최소화 가능)", en: "The browser window must remain open (can be minimized) to maintain the connection." },
+
+        "mb.setup.step3.title": { ko: "Step 3. 브리핑 생성", en: "Step 3. Generate Briefing" },
+        "mb.setup.step3.item1": { ko: "좌측 사이드바에서 수집할 리포트 섹션(시황, 산업분석 등)을 체크합니다.", en: "Select report sections (Market, Industry, etc.) from the sidebar." },
+        "mb.setup.step3.item2": { ko: "<strong>[금일 브리핑 실행]</strong> 버튼을 누르면 다운로드 및 업로드가 자동으로 진행됩니다.", en: "Click <strong>[Run Daily Briefing]</strong> to auto-download and upload." },
+        "mb.setup.step3.item3": { ko: "잠시 후 우측 채팅창에 AI가 작성한 <strong>모닝 브리핑 요약본</strong>이 출력됩니다.", en: "Shortly after, an AI-generated <strong>morning briefing summary</strong> will appear in the chat." },
+
+        "mb.trouble.title": { ko: "3) 문제 해결", en: "3) Troubleshooting" },
+        "mb.trouble.item1.title": { ko: "로그인이 자꾸 풀립니다.", en: "Login keeps disconnecting." },
+        "mb.trouble.item1.body": { ko: "NotebookLM 세션은 브라우저 쿠키 기반입니다. 로그인을 수행한 브라우저 창을 강제로 종료하지 마시고 켜두거나 최소화해주세요.", en: "NotebookLM sessions are cookie-based. Do not force-close the browser window used for login; keep it open or minimized." },
+        "mb.trouble.item2.title": { ko: "PDF 다운로드가 안 됩니다.", en: "PDF download fails." },
+        "mb.trouble.item2.body": { ko: "네이버 금융 서버 상태에 따라 일시적인 오류일 수 있습니다. 잠시 후 다시 시도하거나, 체크한 섹션에 오늘 발행된 리포트가 있는지 확인해주세요.", en: "It may be a temporary Naver Finance server error. Retry later or check if there are reports published today in the selected sections." },
+        "mb.trouble.item3.title": { ko: "실행 시 임시폴더(_MEI) 오류가 발생합니다.", en: "_MEI folder error on startup." },
+        "mb.trouble.item3.body": { ko: "v1.2 업데이트에서 Playwright 경로 버그가 수정되었습니다. 반드시 최신 버전의 런처를 통해 실행해주세요.", en: "The Playwright path bug was fixed in v1.2. Please run via the latest Launcher." },
 
         // Sponsorship
         "sponsor.badge": { ko: "Support", en: "Support" },
