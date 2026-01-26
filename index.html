@@ -2152,17 +2152,44 @@
                                     </ul>
                                 </div>
 
-                                <!-- Step 2 -->
+                                <!-- Step 2 (수정됨) -->
                                 <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="mb.setup.step2.title">Step 2. 구글 로그인 및 연동</h4>
-                                    <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
+                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="mb.setup.step2.title">Step 2. 계정 설정 및 로그인</h4>
+                                    
+                                    <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500 mb-4">
                                         <li data-i18n="mb.setup.step2.item1"><strong>[계정 관리]</strong> → <strong>[로그인 / 계정 변경]</strong> 버튼을 클릭합니다.</li>
-                                        <li data-i18n="mb.setup.step2.item2">새로 열리는 브라우저 창에서 구글 계정으로 로그인하고 권한을 부여합니다.</li>
+                                        
+                                        <!-- [추가된 부분: 계정 유형 선택 안내] -->
+                                        <li>
+                                            <span data-i18n="mb.setup.step2.type.desc">팝업창에서 본인의 <strong>NotebookLM 요금제(무료/유료)</strong>를 선택합니다.</span>
+                                            <div class="mt-2 mb-2 bg-[#161b22] border border-gray-600/50 rounded-lg p-3">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fa-solid fa-check-circle text-brand text-xs"></i>
+                                                    <span class="text-xs text-gray-300 font-bold" data-i18n="mb.setup.step2.type.title">계정 유형에 따른 소스 제한</span>
+                                                </div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                                    <div class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col">
+                                                        <span class="text-yellow-400 font-bold mb-0.5">● 무료 (Free)</span>
+                                                        <span class="text-gray-500" data-i18n="mb.setup.step2.type.free">최대 50개 소스 (기본)</span>
+                                                    </div>
+                                                    <div class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col">
+                                                        <span class="text-gray-300 font-bold mb-0.5">○ 플러스 (Plus)</span>
+                                                        <span class="text-gray-500" data-i18n="mb.setup.step2.type.plus">최대 300개 소스 (유료)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-[10px] text-gray-500 mt-2 leading-relaxed" data-i18n="mb.setup.step2.type.note">
+                                                    * 선택된 유형에 맞춰 브리핑 생성 시 <strong>리포트 처리 개수가 자동으로 조절</strong>됩니다.
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li data-i18n="mb.setup.step2.item2">하단의 로그인 버튼을 눌러 구글 계정으로 로그인하고 권한을 부여합니다.</li>
                                         <li data-i18n="mb.setup.step2.item3">로그인이 완료되면 프로그램 메인 화면의 상태가 <span class="text-green-400 font-bold">● NotebookLM 연결됨</span>으로 변경됩니다.</li>
                                     </ul>
+
                                     <div class="mt-3 p-3 bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400 flex items-start gap-2">
                                         <i class="fa-solid fa-circle-info text-blue-400 mt-0.5"></i>
-                                        <span data-i18n="mb.setup.note">브라우저 창이 닫히지 않고 유지되어야 연결 상태가 지속됩니다. (최소화 가능)</span>
+                                        <span data-i18n="mb.setup.note">브라우저 로그인 후, 프로그램의 확인 버튼을 눌러야 로그인이 완료됩니다. 이후 브라우저는 자동으로 종료됩니다.</span>
                                     </div>
                                 </div>
 
@@ -3146,9 +3173,17 @@
         "mb.setup.step1.item1": { ko: "프로그램 최초 실행 시, PDF 분석을 위한 <strong>Chromium 브라우저</strong> 설치 안내창이 뜹니다.", en: "On first run, a prompt will appear to install the <strong>Chromium browser</strong> for PDF analysis." },
         "mb.setup.step1.item2": { ko: "<strong>[확인]</strong>을 누르면 자동으로 다운로드가 진행되며, 완료 시까지 잠시 기다려주세요.", en: "Click <strong>[OK]</strong> to start the automatic download and wait for completion." },
 
-        "mb.setup.step2.title": { ko: "Step 2. 구글 로그인 및 연동", en: "Step 2. Google Login" },
+        "mb.setup.step2.title": { ko: "Step 2. 계정 설정 및 로그인", en: "Step 2. Account Settings & Login" },
         "mb.setup.step2.item1": { ko: "<strong>[계정 관리]</strong> → <strong>[로그인 / 계정 변경]</strong> 버튼을 클릭합니다.", en: "Click <strong>[Account]</strong> → <strong>[Login / Switch Account]</strong>." },
-        "mb.setup.step2.item2": { ko: "새로 열리는 브라우저 창에서 구글 계정으로 로그인하고 권한을 부여합니다.", en: "Log in with your Google account in the new browser window and grant permissions." },
+        
+        // [새로 추가된 번역 키]
+        "mb.setup.step2.type.desc": { ko: "팝업창에서 본인의 <strong>NotebookLM 요금제(무료/유료)</strong>를 선택합니다.", en: "Select your <strong>NotebookLM plan (Free/Plus)</strong> in the popup window." },
+        "mb.setup.step2.type.title": { ko: "계정 유형에 따른 소스 제한", en: "Source Limits by Account Type" },
+        "mb.setup.step2.type.free": { ko: "최대 50개 소스 (기본)", en: "Max 50 Sources (Default)" },
+        "mb.setup.step2.type.plus": { ko: "최대 300개 소스 (유료)", en: "Max 300 Sources (Paid)" },
+        "mb.setup.step2.type.note": { ko: "* 선택된 유형에 맞춰 브리핑 생성 시 <strong>리포트 처리 개수가 자동으로 조절</strong>됩니다.", en: "* The number of processed reports is <strong>automatically adjusted</strong> based on your selection." },
+        
+        "mb.setup.step2.item2": { ko: "하단의 로그인 버튼을 눌러 구글 계정으로 로그인하고 권한을 부여합니다.", en: "Click the login button below to sign in with Google and grant permissions." },
         "mb.setup.step2.item3": { ko: "로그인이 완료되면 프로그램 메인 화면의 상태가 <span class='text-green-400 font-bold'>● NotebookLM 연결됨</span>으로 변경됩니다.", en: "Once logged in, the status changes to <span class='text-green-400 font-bold'>● NotebookLM Connected</span>." },
         "mb.setup.note": {
             ko: "브라우저 로그인 후, 프로그램의 확인 버튼을 눌러야 로그인이 완료됩니다. 이후 브라우저는 자동으로 종료됩니다.",
