@@ -445,6 +445,13 @@
                             class="fa-solid fa-gavel w-5 text-center text-gray-500 group-hover:text-accent-blue transition-colors"></i>
                         <span data-i18n="nav.toolkit">Order Toolkit</span>
                     </button>
+                    <button onclick="activate('auto-trading-bot')"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
+                        data-id="auto-trading-bot">
+                        <i
+                            class="fa-solid fa-robot w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        <span data-i18n="nav.atb">Trading Bot</span>
+                    </button>
                     <button onclick="activate('orderbook-v4-7')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="orderbook-v4-7">
@@ -1141,7 +1148,8 @@
                             <!-- Permissions Grid -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <!-- Allowed -->
-                                <div class="bg-[#161b22] border border-green-900/50 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-green-900/50 rounded-xl p-6 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-accent-green font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-check-circle"></i> <span
                                             data-i18n="api.step2.allow.title">반드시 체크 (허용)</span>
@@ -1158,7 +1166,8 @@
                                     </ul>
                                 </div>
                                 <!-- Prohibited -->
-                                <div class="bg-[#161b22] border border-red-900/30 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-gray-400 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-ban text-gray-500"></i> <span
                                             data-i18n="api.step2.deny.title">체크 해제 (금지)</span>
@@ -1408,7 +1417,7 @@
 
                                     <!-- 1. New Pair -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col hover:border-gray-500 transition-all group shadow-md">
+                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-rocket text-brand group-hover:animate-bounce"></i>
                                             <span data-i18n="cd.logic.new.title">신규 상장 (New Pair)</span>
@@ -1432,7 +1441,7 @@
 
                                     <!-- 2. TradFi -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col hover:border-gray-500 transition-all group shadow-md">
+                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-scale-balanced text-yellow-500"></i>
                                             <span data-i18n="cd.logic.tradfi.title">트레이드파이 (TradFi)</span>
@@ -1461,7 +1470,7 @@
 
                                     <!-- 3. Major -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col hover:border-gray-500 transition-all group shadow-md">
+                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-brands fa-bitcoin text-orange-500"></i>
                                             <span data-i18n="cd.logic.major.title">대형 코인 감지 (BTC/ETH/MAJ)</span>
@@ -1483,7 +1492,7 @@
 
                                     <!-- 4. Big Candle -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col hover:border-gray-500 transition-all group shadow-md">
+                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i
                                                 class="fa-solid fa-fire text-red-500 group-hover:text-red-400 transition-colors"></i>
@@ -1674,7 +1683,8 @@
                             </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-blue/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-layer-group text-accent-blue"></i> <span
                                             data-i18n="ot.feature.grid.title">그리드 자동호가</span>
@@ -1684,7 +1694,8 @@
                                         절약합니다.
                                     </p>
                                 </div>
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-red/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-shield-halved text-accent-red"></i> <span
                                             data-i18n="ot.feature.stop.title">Auto Stop Market</span>
@@ -1717,7 +1728,8 @@
                             </p>
 
                             <!-- Easy Method -->
-                            <div class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-4">
+                            <div
+                                class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <h4 class="text-blue-400 font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-check-circle"></i> <span data-i18n="ot.chrome.easy.title">간편
                                         실행 방법 (권장)</span>
@@ -1729,7 +1741,8 @@
                             </div>
 
                             <!-- Manual Method -->
-                            <div class="bg-gray-900 border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="bg-gray-900 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <div class="text-xs text-gray-500 mb-2" data-i18n="ot.chrome.manual.label">수동 바로가기 생성 시
                                     대상(Target) 경로 예시:</div>
                                 <code class="text-xs md:text-sm text-gray-400 font-mono break-all block mb-3">
@@ -2116,6 +2129,250 @@
                         </div>
             </section>
 
+            <!-- SECTION: AUTOMATED TRADING BOT -->
+            <section id="auto-trading-bot" class="guide-section hidden content-body">
+                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                    <!-- Title Header -->
+                    <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
+                        <span class="badge text-brand border-brand/50" data-i18n="atb.badge">Bot Integration</span>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="atb.title">Automated Trading Bot
+                            </h1>
+                            <p class="text-sm text-gray-400" data-i18n="atb.desc">디텍터와 툴킷을 연동하여 신호 발생 시 자동으로 매매를 수행합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-12">
+                        <!-- 1. System Flow & Architecture -->
+                        <div id="atb-intro">
+                            <h2 class="text-xl font-bold text-white mb-6 pl-3 border-l-4 border-brand"
+                                data-i18n="atb.intro.title">1) 작동 원리 및 시스템 흐름</h2>
+
+                            <!-- Flow Diagram -->
+                            <div
+                                class="relative w-full max-w-4xl mx-auto mb-8 p-6 bg-[#0d1117] rounded-xl border border-gray-800 overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10">
+                                </div>
+
+                                <div
+                                    class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono">
+
+                                    <!-- Detector -->
+                                    <div
+                                        class="flex-1 w-full p-4 bg-gray-800/50 rounded-lg border border-gray-700 text-center group hover:border-accent-green transition-colors">
+                                        <div class="text-accent-green font-bold mb-2 text-lg"><i
+                                                class="fa-solid fa-satellite-dish"></i> DETECTOR</div>
+                                        <div class="text-gray-400">Signal Detection</div>
+                                        <div class="mt-2 text-[10px] text-gray-500 bg-black/30 rounded py-1">Pump/Dump
+                                            Logic</div>
+                                    </div>
+
+                                    <!-- Arrow 1 -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[10px] text-gray-500 mb-1">Socket (12345)</div>
+                                        <i class="fa-solid fa-arrow-right text-gray-600 text-xl hidden md:block"></i>
+                                        <i class="fa-solid fa-arrow-down text-gray-600 text-xl md:hidden"></i>
+                                    </div>
+
+                                    <!-- Toolkit -->
+                                    <div
+                                        class="flex-1 w-full p-4 bg-gray-800/50 rounded-lg border border-gray-700 text-center group hover:border-accent-blue transition-colors relative">
+                                        <div
+                                            class="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-900/50">
+                                            3s Timeout</div>
+                                        <div class="text-accent-blue font-bold mb-2 text-lg"><i
+                                                class="fa-solid fa-gavel"></i> TOOLKIT</div>
+                                        <div class="text-gray-400">Execution Engine</div>
+                                        <div class="mt-2 text-[10px] text-gray-500 bg-black/30 rounded py-1">Auto SL /
+                                            Retry</div>
+                                    </div>
+
+                                    <!-- Arrow 2 -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[10px] text-gray-500 mb-1">API Request</div>
+                                        <i class="fa-solid fa-arrow-right text-gray-600 text-xl hidden md:block"></i>
+                                        <i class="fa-solid fa-arrow-down text-gray-600 text-xl md:hidden"></i>
+                                    </div>
+
+                                    <!-- Binance -->
+                                    <div
+                                        class="flex-1 w-full p-4 bg-[#FCD535]/10 rounded-lg border border-[#FCD535]/30 text-center group hover:bg-[#FCD535]/20 transition-colors">
+                                        <div class="text-[#FCD535] font-bold mb-2 text-lg"><i
+                                                class="fa-solid fa-server"></i> BINANCE</div>
+                                        <div class="text-gray-400">Exchange Server</div>
+                                        <div class="mt-2 text-[10px] text-[#FCD535]/50 bg-black/30 rounded py-1">Order
+                                            Filled</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <p class="text-gray-400 mb-4 leading-relaxed text-sm" data-i18n="atb.intro.body">
+                                Automated Trading Bot은 <strong>Crypto Detector</strong>에서 포착된 급등/급락 신호를 로컬 소켓(Local
+                                Socket)을 통해
+                                <strong>Order Toolkit</strong>으로 즉시 전송합니다.
+                                툴킷은 수신된 신호를 받아 <strong>3초 타임아웃(Timeout)</strong> 규칙을 적용하여 바이낸스 서버로 주문을 전송하며, 체결 즉시 안전
+                                장치(Auto SL)를
+                                가동합니다.
+                            </p>
+                        </div>
+
+                        <!-- 2. Setup Guide -->
+                        <div id="atb-setup">
+                            <h2 class="text-xl font-bold text-white mb-6 pl-3 border-l-4 border-brand"
+                                data-i18n="atb.setup.title">2) 설정 및 준비</h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Step 1 -->
+                                <div
+                                    class="bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                                        <span class="bg-gray-700 text-xs px-2 py-1 rounded">STEP 1</span>
+                                        <span data-i18n="atb.setup.ot.title">Order Toolkit 설정</span>
+                                    </h3>
+                                    <ul class="list-none space-y-3 text-sm text-gray-400">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-regular fa-square-check text-brand mt-1"></i>
+                                            <span data-i18n="atb.setup.ot.item1">SETTING 창에서 <strong>Bot Mode
+                                                    Enabled</strong>
+                                                체크</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i
+                                                class="fa-solid fa-dollar-sign text-accent-green mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item2"><strong>Entry Amount</strong>: 진입 금액($)
+                                                설정</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-shield-halved text-red-400 mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item3"><strong>Stop Loss</strong>: 자동 손절 비율(%)
+                                                설정</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div
+                                    class="bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-accent-green/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                                        <span class="bg-gray-700 text-xs px-2 py-1 rounded">STEP 2</span>
+                                        <span data-i18n="atb.setup.cd.title">Crypto Detector 설정</span>
+                                    </h3>
+                                    <ul class="list-none space-y-3 text-sm text-gray-400">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-power-off text-accent-green mt-1"></i>
+                                            <span data-i18n="atb.setup.cd.item1">상단 <strong>BOT</strong> 버튼 클릭 →
+                                                활성화(Green)</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-tower-broadcast text-gray-500 mt-1"></i>
+                                            <span data-i18n="atb.setup.cd.item2">감지 시 자동으로 신호 송신 시작</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Advanced Logic -->
+                        <div id="atb-logic">
+                            <h2 class="text-xl font-bold text-white mb-6 pl-3 border-l-4 border-brand"
+                                data-i18n="atb.logic.title">3) 핵심 매매 로직 및 안전 장치</h2>
+
+                            <div class="space-y-4">
+                                <!-- Logic Card 1: Unique Client ID -->
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20">
+                                        <i class="fa-solid fa-fingerprint text-xl"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-white font-bold text-sm mb-1" data-i18n="atb.logic.id.title">주문
+                                            추적 (Unique Client ID)</h3>
+                                        <p class="text-xs text-gray-400 leading-relaxed" data-i18n="atb.logic.id.body">
+                                            모든 봇 주문은 <code>BOT_E_...</code> 형식의 고유 ID를 부여받습니다.
+                                            이를 통해 툴킷은 수동 주문과 봇 주문을 완벽하게 구분하며 최적화된 로직을 적용합니다.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Logic Card 2: 3s Timeout -->
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-400 border border-red-500/20">
+                                        <i class="fa-solid fa-stopwatch text-xl"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-white font-bold text-sm mb-1"
+                                            data-i18n="atb.logic.timeout.title">3초 타임아웃 (3s Timeout)</h3>
+                                        <p class="text-xs text-gray-400 leading-relaxed"
+                                            data-i18n="atb.logic.timeout.body">
+                                            진입 주문 후 <strong>3초 이내에 체결되지 않으면</strong> 주문은 즉시 취소됩니다.
+                                            고점에 물리는 것을 방지하는 강력한 속도 기반 리스크 관리 기능입니다.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Logic Card 3: Detector Retry -->
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 border border-green-500/20">
+                                        <i class="fa-solid fa-rotate-right text-xl"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-white font-bold text-sm mb-1" data-i18n="atb.logic.retry.title">
+                                            연결 안정성 (Socket Retry)</h3>
+                                        <p class="text-xs text-gray-400 leading-relaxed"
+                                            data-i18n="atb.logic.retry.body">
+                                            연결이 끊어질 경우 최대 3회까지 자동 재접속을 시도합니다.
+                                            일시적인 네트워크 불안정 시에도 신호 누락을 최소화하여 안정성을 보장합니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Performance Tips -->
+                        <div id="atb-tips">
+                            <h2 class="text-xl font-bold text-white mb-6 pl-3 border-l-4 border-gray-500"
+                                data-i18n="atb.tips.title">4) 실전 운용 팁</h2>
+                            <ul class="list-none space-y-8 mt-4">
+                                <li class="flex items-start gap-4">
+                                    <div
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-700/50 rounded-full flex items-center justify-center">
+                                        <i class="fa-solid fa-circle-question text-[10px] text-gray-400"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="text-brand text-sm block mb-0.5 font-bold">PORT
+                                            CHECK</strong>
+                                        <p class="text-xs text-gray-400 leading-relaxed" data-i18n="atb.tips.port">
+                                            포트 12345는 윈도우 방화벽에서 기본 허용되지만, 타사 백신 사용 시 예외 처리가 필요할 수 있습니다.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div
+                                        class="flex-shrink-0 w-6 h-6 bg-gray-700/50 rounded-full flex items-center justify-center">
+                                        <i class="fa-solid fa-circle-question text-[10px] text-gray-400"></i>
+                                    </div>
+                                    <div>
+                                        <strong class="text-brand text-sm block mb-0.5 font-bold">MANUAL
+                                            OVERRIDE</strong>
+                                        <p class="text-xs text-gray-400 leading-relaxed" data-i18n="atb.tips.manual">
+                                            봇이 작동 중일 때 사람이 개입하여 '청산' 버튼을 누르면, 봇 로직보다 사용자의 수동 명령이 최우선으로 처리됩니다.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- SECTION: ORDER BOOK -->
             <section id="orderbook-v4-7" class="guide-section hidden content-body">
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
@@ -2138,21 +2395,24 @@
                                 data-i18n="ob.intro.title">1) 소개 및 주요 특징</h2>
                             <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="ob.intro.body">
                                 바이낸스 웹사이트의 호가창(Snapshot 방식)은 갱신 주기가 느려 스캘핑에 불리합니다.
-                                본 뷰어는 **Socket 기반 리얼타임 호가창**으로, 결정적인 순간의 매수/매도 벽과 체결 강도를 실시간으로 포착합니다.
+                                본 뷰어는 <strong>Socket 기반 리얼타임 호가창</strong>으로, 결정적인 순간의 매수/매도 벽과 체결 강도를 실시간으로 포착합니다.
                             </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-coins text-brand"></i> <span
                                             data-i18n="ob.feature.usdt.title">실시간 USDT 환산</span>
                                     </h4>
                                     <p class="text-xs text-gray-400 !m-0" data-i18n="ob.feature.usdt.body">
-                                        모든 호가 물량을 코인 개수가 아닌 <strong>USDT(금액) 가치</strong>로 자동 환산하여 표시합니다. 허수 주문과 실제 매물대를
+                                        모든 호가 물량을 코인 개수가 아닌 <strong>USDT(금액) 가치</strong>로 자동 환산하여 표시합니다. 허수 주문과 실제
+                                        매물대를
                                         직관적으로 파악할 수 있습니다.
                                     </p>
                                 </div>
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-stopwatch text-accent-purple"></i> <span
                                             data-i18n="ob.feature.volume.title">3초 누적 체결량</span>
@@ -2161,17 +2421,20 @@
                                         순간적인 매수/매도세의 힘을 시각화하기 위해, 최근 3초간 체결된 시장가 주문의 총액을 중앙에 표시합니다.
                                     </p>
                                 </div>
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-layer-group text-blue-400"></i> <span
                                             data-i18n="ob.feature.agg.title">강력한 모아보기</span>
                                     </h4>
                                     <p class="text-xs text-gray-400 !m-0" data-i18n="ob.feature.agg.body">
-                                        틱(Tick) 단위뿐만 아니라 10, 100, 1000 단위의 <strong>Aggregation(모아보기)</strong>을 지원하여 시장의
+                                        틱(Tick) 단위뿐만 아니라 10, 100, 1000 단위의 <strong>Aggregation(모아보기)</strong>을 지원하여
+                                        시장의
                                         깊이(Depth)를 다각도로 분석합니다.
                                     </p>
                                 </div>
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-link text-accent-green"></i> <span
                                             data-i18n="ob.feature.link.title">툴킷 연동</span>
@@ -2190,7 +2453,8 @@
                                 data-i18n="ob.ui.title">2) 메인 UI 및 컨트롤</h2>
 
                             <!-- Top Controls -->
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-6">
+                            <div
+                                class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <h3 class="text-white font-bold text-base mb-4 !mt-0 border-b border-gray-700 pb-2"
                                     data-i18n="ob.ui.top.title">상단 컨트롤 패널</h3>
                                 <ul class="list-none space-y-4 !m-0 !p-0 text-sm text-gray-300">
@@ -2217,7 +2481,8 @@
                             </div>
 
                             <!-- Table Details -->
-                            <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                 <h3 class="text-white font-bold text-base mb-4 !mt-0 border-b border-gray-700 pb-2"
                                     data-i18n="ob.ui.table.title">호가창 테이블 상세</h3>
 
@@ -2227,17 +2492,20 @@
                                         <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                             <li class="flex items-center gap-2">
                                                 <span class="w-3 h-3 rounded-full bg-[#F6465D]"></span>
-                                                <span data-i18n="ob.ui.table.ask"><strong>매도(Ask)</strong>: 상단에 위치, 붉은색
+                                                <span data-i18n="ob.ui.table.ask"><strong>매도(Ask)</strong>: 상단에 위치,
+                                                    붉은색
                                                     계열</span>
                                             </li>
                                             <li class="flex items-center gap-2">
                                                 <span class="w-3 h-3 rounded-full bg-[#2EBD74]"></span>
-                                                <span data-i18n="ob.ui.table.bid"><strong>매수(Bid)</strong>: 하단에 위치, 초록색
+                                                <span data-i18n="ob.ui.table.bid"><strong>매수(Bid)</strong>: 하단에 위치,
+                                                    초록색
                                                     계열</span>
                                             </li>
                                             <li class="flex items-center gap-2">
                                                 <i class="fa-solid fa-circle text-white text-[0.6rem]"></i>
-                                                <span data-i18n="ob.ui.table.whale"><strong>대량 주문(●)</strong>: 설정된 기준을
+                                                <span data-i18n="ob.ui.table.whale"><strong>대량 주문(●)</strong>: 설정된
+                                                    기준을
                                                     초과하는 '왕건이' 물량 강조</span>
                                             </li>
                                         </ul>
@@ -2249,10 +2517,12 @@
                                             체결가 영역</strong>
                                         <ul class="text-xs text-gray-300 space-y-1">
                                             <li data-i18n="ob.ui.center.item1">• 마지막 체결 가격 및 등락 방향(↑/↓)</li>
-                                            <li data-i18n="ob.ui.center.item2">• <strong>좌측</strong>: 최근 3초간 누적된 <span
-                                                    class="text-[#2EBD74]">매수 체결액</span></li>
-                                            <li data-i18n="ob.ui.center.item3">• <strong>우측</strong>: 최근 3초간 누적된 <span
-                                                    class="text-[#F6465D]">매도 체결액</span></li>
+                                            <li data-i18n="ob.ui.center.item2">• <strong>좌측</strong>: 최근 3초간 누적된
+                                                <span class="text-[#2EBD74]">매수 체결액</span>
+                                            </li>
+                                            <li data-i18n="ob.ui.center.item3">• <strong>우측</strong>: 최근 3초간 누적된
+                                                <span class="text-[#F6465D]">매도 체결액</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -2267,8 +2537,10 @@
                                 Order Toolkit과 동일한 방식을 사용하여, 웹 브라우저의 종목 변경을 감지하고 호가창을 자동으로 전환합니다.
                             </p>
 
-                            <div class="bg-gray-900 border border-gray-700 rounded-xl p-6">
-                                <div class="text-xs text-gray-500 mb-2" data-i18n="ob.sync.note">필수: 크롬 디버깅 모드 실행 (바로가기
+                            <div
+                                class="bg-gray-900 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
+                                <div class="text-xs text-gray-500 mb-2" data-i18n="ob.sync.note">필수: 크롬 디버깅 모드 실행
+                                    (바로가기
                                     활용)</div>
                                 <code class="text-xs md:text-sm text-gray-400 font-mono break-all">
                                     "C:\...\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:/ChromeDebugProfile"
@@ -2283,9 +2555,11 @@
                             <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
                                 <li data-i18n="ob.trouble.item1"><strong>데이터가 표시되지 않음</strong>: 네트워크 상태를 확인하거나 프로그램을
                                     재시작하세요. 바이낸스 소켓 연결이 일시적으로 끊겼을 수 있습니다.</li>
-                                <li data-i18n="ob.trouble.item2"><strong>크롬 연동 불가</strong>: 크롬이 디버깅 모드(포트 9222)로 실행되었는지
+                                <li data-i18n="ob.trouble.item2"><strong>크롬 연동 불가</strong>: 크롬이 디버깅 모드(포트 9222)로
+                                    실행되었는지
                                     확인하세요. 일반 모드의 크롬 창이 켜져 있다면 모두 종료 후 재실행해야 합니다.</li>
-                                <li data-i18n="ob.trouble.item3"><strong>프로그램 지연</strong>: 거래량이 폭발하는 시점에는 데이터 처리량이 급증하여
+                                <li data-i18n="ob.trouble.item3"><strong>프로그램 지연</strong>: 거래량이 폭발하는 시점에는 데이터 처리량이
+                                    급증하여
                                     일시적인 지연이 발생할 수 있습니다.</li>
                                 <li data-i18n="ob.trouble.item4"><strong>오류 로그</strong>: 프로그램 폴더 내
                                     <code>log_orderbook.log</code> 파일을 확인하면 원인 파악에 도움이 됩니다.
@@ -2320,11 +2594,13 @@
                                 data-i18n="tr.intro.title">1) 소개 및 주요 특징</h2>
                             <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="tr.intro.body">
                                 바이낸스 웹에서 제공하는 체결내역은 단순 스냅샷으로, 시장의 속도와 중요 체결을 놓치기 쉽습니다.
-                                본 툴은 **거래대금 필터**를 통해 '의미 있는 체결'만 선별하여 보여주며, **청산(Liquidation)** 이벤트를 실시간으로 포착합니다.
+                                본 툴은 <strong>거래대금 필터</strong>를 통해 '의미 있는 체결'만 선별하여 보여주며,
+                                <strong>청산(Liquidation)</strong> 이벤트를 실시간으로 포착합니다.
                             </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-filter text-yellow-400"></i> <span
                                             data-i18n="tr.feature.filter.title">거래대금 필터링</span>
@@ -2333,7 +2609,8 @@
                                         설정된 금액(USD) 미만의 자잘한 체결은 걸러내고, 고래들의 대량 체결만 시각적으로 강조하여 흐름을 파악합니다.
                                     </p>
                                 </div>
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-skull-crossbones text-accent-red"></i> <span
                                             data-i18n="tr.feature.liq.title">청산(Liquidation) 감지</span>
@@ -2352,7 +2629,8 @@
 
                             <!-- Table & Top Bar -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="tr.ui.table.title">체결 테이블 (Main Table)</h3>
                                     <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
@@ -2378,13 +2656,15 @@
                                     </ul>
                                 </div>
 
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="tr.ui.top.title">상단 정보바 (Top Bar)</h3>
                                     <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-tag text-gray-500 mt-1"></i>
-                                            <span data-i18n="tr.ui.top.item1"><strong>Symbol Info</strong>: 현재 연결된 종목명 및
+                                            <span data-i18n="tr.ui.top.item1"><strong>Symbol Info</strong>: 현재 연결된
+                                                종목명 및
                                                 시가총액(Cap)</span>
                                         </li>
                                         <li class="flex items-start gap-2">
@@ -2405,7 +2685,8 @@
                                 <div class="flex flex-wrap gap-3">
                                     <div
                                         class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
-                                        <span data-i18n="tr.ui.buttons.liq"><strong>LIQ</strong> : 청산 다이얼로그 열기/닫기</span>
+                                        <span data-i18n="tr.ui.buttons.liq"><strong>LIQ</strong> : 청산 다이얼로그
+                                            열기/닫기</span>
                                     </div>
                                     <div
                                         class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
@@ -2430,18 +2711,21 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-yellow-400"
                                 data-i18n="tr.liq.title">3) 청산(Liquidation) 감지</h2>
                             <p class="text-gray-400 mb-4" data-i18n="tr.liq.body">
-                                <strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고 이전
+                                <strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고
+                                이전
                                 기록은 자동 삭제됩니다.
                             </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <!-- Display Info -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.data.title">표시
                                         데이터</h4>
-                                    <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
                                         <li data-i18n="tr.liq.data.item1"><strong>TIME</strong> : 발생 시각</li>
-                                        <li data-i18n="tr.liq.data.item2"><strong>SIDE</strong> : 청산 방향 (Long / Short)
+                                        <li data-i18n="tr.liq.data.item2"><strong>SIDE</strong> : 청산 방향 (Long /
+                                            Short)
                                         </li>
                                         <li data-i18n="tr.liq.data.item3"><strong>PRICE</strong> : 청산 가격</li>
                                         <li data-i18n="tr.liq.data.item4"><strong>QTY / VALUE</strong> : 청산 물량 및 금액
@@ -2454,28 +2738,37 @@
                                 </div>
 
                                 <!-- Alert Options -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.alert.title">
                                         알림 옵션 (Alerts)</h4>
-                                    <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
-                                        <li class="flex items-start gap-3">
-                                            <span class="shrink-0 min-w-[100px]"
-                                                data-i18n="tr.liq.alert.item1.title"><strong>AUTO POPUP
-                                                    (3s)</strong></span>
-                                            <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                data-i18n="tr.liq.alert.item1.desc">청산 발생 시 자동 팝업 후 3초 뒤 숨김</span>
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                                        <li>
+                                            <div class="flex items-start gap-3">
+                                                <span class="shrink-0 min-w-[100px]"
+                                                    data-i18n="tr.liq.alert.item1.title"><strong>AUTO POPUP
+                                                        (3s)</strong></span>
+                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                    data-i18n="tr.liq.alert.item1.desc">청산 발생 시 자동 팝업 후 3초 뒤 숨김</span>
+                                            </div>
                                         </li>
-                                        <li class="flex items-start gap-3">
-                                            <span class="shrink-0 min-w-[100px]"
-                                                data-i18n="tr.liq.alert.item2.title"><strong>ALERT SOUND</strong></span>
-                                            <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                data-i18n="tr.liq.alert.item2.desc">청산 발생 시 경고음 재생</span>
+                                        <li>
+                                            <div class="flex items-start gap-3">
+                                                <span class="shrink-0 min-w-[100px]"
+                                                    data-i18n="tr.liq.alert.item2.title"><strong>ALERT
+                                                        SOUND</strong></span>
+                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                    data-i18n="tr.liq.alert.item2.desc">청산 발생 시 경고음 재생</span>
+                                            </div>
                                         </li>
-                                        <li class="flex items-start gap-3">
-                                            <span class="shrink-0 min-w-[100px]"
-                                                data-i18n="tr.liq.alert.item3.title"><strong>MIN SIZE</strong></span>
-                                            <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                data-i18n="tr.liq.alert.item3.desc">설정된 금액 이상의 청산만 알림</span>
+                                        <li>
+                                            <div class="flex items-start gap-3">
+                                                <span class="shrink-0 min-w-[100px]"
+                                                    data-i18n="tr.liq.alert.item3.title"><strong>MIN
+                                                        SIZE</strong></span>
+                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                    data-i18n="tr.liq.alert.item3.desc">설정된 금액 이상의 청산만 알림</span>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -2485,8 +2778,10 @@
                             <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 flex items-start gap-3">
                                 <i class="fa-solid fa-lightbulb text-yellow-400 mt-0.5"></i>
                                 <div class="text-sm text-gray-300" data-i18n="tr.liq.tip">
-                                    <strong>Tip:</strong> 오토 팝업을 끈 상태에서 창이 닫혀있더라도, 조건에 맞는 청산이 발생하면 메인 UI의 <strong>LIQ
-                                        버튼</strong>에 <span class="text-brand font-bold animate-pulse">NEW</span> 배지가 깜빡여
+                                    <strong>Tip:</strong> 오토 팝업을 끈 상태에서 창이 닫혀있더라도, 조건에 맞는 청산이 발생하면 메인 UI의
+                                    <strong>LIQ
+                                        버튼</strong>에 <span class="text-brand font-bold animate-pulse">NEW</span> 배지가
+                                    깜빡여
                                     알려줍니다.
                                 </div>
                             </div>
@@ -2499,10 +2794,11 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Settings -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="tr.settings.set.title">설정 (SET)</h4>
-                                    <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
                                         <li data-i18n="tr.settings.set.item1">
                                             <strong class="text-white block mb-1">Highlight Large Trades</strong>
                                             <span>설정한 금액(USD) 이상의 체결 건을 굵은 폰트로 강조하여 보여줍니다. (필터링 핵심)</span>
@@ -2515,7 +2811,8 @@
                                 </div>
 
                                 <!-- Market Type -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="tr.settings.market.title">마켓 전환 (PERP/Spot)</h4>
                                     <p class="text-sm text-gray-400 !m-0 mb-3" data-i18n="tr.settings.market.body">
@@ -2540,7 +2837,8 @@
                                         <div>
                                             <strong class="text-gray-300 block mb-1"
                                                 data-i18n="tr.trouble.item1.title">데이터가 멈추거나 지연됩니다.</strong>
-                                            <span data-i18n="tr.trouble.item1.body">네트워크 상태를 확인하세요. 바이낸스 소켓 연결이 끊긴 경우
+                                            <span data-i18n="tr.trouble.item1.body">네트워크 상태를 확인하세요. 바이낸스 소켓 연결이 끊긴
+                                                경우
                                                 <strong>SET → Apply</strong>를 눌러 재연결을 시도하세요.</span>
                                         </div>
                                     </li>
@@ -2549,7 +2847,8 @@
                                         <div>
                                             <strong class="text-gray-300 block mb-1"
                                                 data-i18n="tr.trouble.item2.title">현물(Spot) 전환이 안 됩니다.</strong>
-                                            <span data-i18n="tr.trouble.item2.body">해당 코인이 바이낸스 현물 마켓(USDT)에 상장되어 있는지
+                                            <span data-i18n="tr.trouble.item2.body">해당 코인이 바이낸스 현물 마켓(USDT)에 상장되어
+                                                있는지
                                                 확인해주세요. 미지원 시 PERP 모드로 고정됩니다.</span>
                                         </div>
                                     </li>
@@ -2575,10 +2874,13 @@
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
-                        <span class="badge text-blue-400 border-blue-400/50" data-i18n="mb.badge">AI Intelligence</span>
+                        <span class="badge text-blue-400 border-blue-400/50" data-i18n="mb.badge">AI
+                            Intelligence</span>
                         <div>
-                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="mb.title">Market Briefing AI</h1>
-                            <p class="text-sm text-gray-400" data-i18n="mb.desc">네이버 증권 리포트 자동 수집 및 NotebookLM 기반 모닝 브리핑
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="mb.title">Market Briefing AI
+                            </h1>
+                            <p class="text-sm text-gray-400" data-i18n="mb.desc">네이버 증권 리포트 자동 수집 및 NotebookLM 기반 모닝
+                                브리핑
                                 생성기입니다.</p>
                         </div>
                     </div>
@@ -2592,7 +2894,8 @@
 
                             <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="mb.intro.body">
                                 매일 아침 쏟아지는 증권사 리포트를 일일이 찾아볼 필요가 없습니다.
-                                <strong>Market Briefing AI</strong>는 클릭 한 번으로 오늘자 핵심 리포트를 수집하고, 구글의 강력한 AI(NotebookLM)를
+                                <strong>Market Briefing AI</strong>는 클릭 한 번으로 오늘자 핵심 리포트를 수집하고, 구글의 강력한
+                                AI(NotebookLM)를
                                 통해 시장의 핵심 요약과 인사이트를 제공합니다.
                             </p>
 
@@ -2614,7 +2917,8 @@
                             <!-- 기능 카드 4종 (data-i18n 추가됨) -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                                 <!-- Card 1: Collect -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-solid fa-file-pdf text-red-400"></i>
                                         <span data-i18n="mb.feature.collect.title">리포트 자동 수집</span>
@@ -2626,7 +2930,8 @@
                                 </div>
 
                                 <!-- Card 2: NotebookLM -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-brands fa-google text-blue-400"></i>
                                         <span data-i18n="mb.feature.notebook.title">NotebookLM 연동</span>
@@ -2638,7 +2943,8 @@
                                 </div>
 
                                 <!-- Card 3: Interactive Q&A -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-regular fa-comments text-yellow-300"></i>
                                         <span data-i18n="mb.feature.qa.title">인터랙티브 Q&amp;A</span>
@@ -2650,7 +2956,8 @@
                                 </div>
 
                                 <!-- Card 4: Management -->
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-5">
+                                <div
+                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-solid fa-folder-plus text-green-400"></i>
                                         <span data-i18n="mb.feature.manage.title">노트북 관리</span>
@@ -2663,7 +2970,8 @@
                             </div>
 
                             <!-- [NEW] 브리핑 결과물 예시 (data-i18n 추가됨) -->
-                            <div class="bg-[#0b0e11] border border-gray-700 rounded-xl p-6 relative overflow-hidden">
+                            <div
+                                class="bg-[#0b0e11] border border-gray-700 rounded-xl p-6 relative overflow-hidden transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <div
                                     class="absolute top-0 right-0 bg-gray-800 text-xs text-gray-400 px-3 py-1 rounded-bl-lg border-l border-b border-gray-700 font-mono">
                                     Example Output</div>
@@ -2704,25 +3012,31 @@
 
                             <div class="space-y-6">
                                 <!-- Step 1 -->
-                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step1.title">Step 1. 초기 설정 (최초 1회)</h4>
                                     <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
-                                        <li data-i18n="mb.setup.step1.item1">프로그램 최초 실행 시, PDF 분석을 위한 <strong>Chromium
-                                                브라우저</strong> 설치 안내창이 뜹니다.</li>
-                                        <li data-i18n="mb.setup.step1.item2"><strong>[확인]</strong>을 누르면 자동으로 다운로드가 진행되며,
+                                        <li data-i18n="mb.setup.step1.item1">프로그램 최초 실행 시, PDF 분석을 위한
+                                            <strong>Chromium
+                                                브라우저</strong> 설치 안내창이 뜹니다.
+                                        </li>
+                                        <li data-i18n="mb.setup.step1.item2"><strong>[확인]</strong>을 누르면 자동으로 다운로드가
+                                            진행되며,
                                             완료 시까지 잠시 기다려주세요.</li>
                                     </ul>
                                 </div>
 
                                 <!-- Step 2 (수정됨) -->
-                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step2.title">Step 2. 계정 설정 및 로그인</h4>
 
                                     <ul
                                         class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500 mb-4">
-                                        <li data-i18n="mb.setup.step2.item1"><strong>[계정 관리]</strong> → <strong>[로그인 /
+                                        <li data-i18n="mb.setup.step2.item1"><strong>[계정 관리]</strong> → <strong>[로그인
+                                                /
                                                 계정 변경]</strong> 버튼을 클릭합니다.</li>
 
                                         <!-- [추가된 부분: 계정 유형 선택 안내] -->
@@ -2738,17 +3052,20 @@
                                                 </div>
                                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                                                     <div
-                                                        class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col">
+                                                        class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                                         <span class="text-yellow-400 font-bold mb-0.5">● 무료
                                                             (Free)</span>
                                                         <span class="text-gray-500"
-                                                            data-i18n="mb.setup.step2.type.free">최대 50개 소스 (기본)</span>
+                                                            data-i18n="mb.setup.step2.type.free">최대 50개 소스
+                                                            (기본)</span>
                                                     </div>
                                                     <div
-                                                        class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col">
-                                                        <span class="text-gray-300 font-bold mb-0.5">○ 플러스 (Plus)</span>
+                                                        class="bg-gray-800 p-2 rounded border border-gray-700 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                                        <span class="text-gray-300 font-bold mb-0.5">○ 플러스
+                                                            (Plus)</span>
                                                         <span class="text-gray-500"
-                                                            data-i18n="mb.setup.step2.type.plus">최대 300개 소스 (유료)</span>
+                                                            data-i18n="mb.setup.step2.type.plus">최대 300개 소스
+                                                            (유료)</span>
                                                     </div>
                                                 </div>
                                                 <p class="text-[10px] text-gray-500 mt-2 leading-relaxed"
@@ -2761,7 +3078,8 @@
                                         <li data-i18n="mb.setup.step2.item2">하단의 로그인 버튼을 눌러 구글 계정으로 로그인하고 권한을 부여합니다.
                                         </li>
                                         <li data-i18n="mb.setup.step2.item3">로그인이 완료되면 프로그램 메인 화면의 상태가 <span
-                                                class="text-green-400 font-bold">● NotebookLM 연결됨</span>으로 변경됩니다.</li>
+                                                class="text-green-400 font-bold">● NotebookLM 연결됨</span>으로 변경됩니다.
+                                        </li>
                                     </ul>
 
                                     <div
@@ -2773,13 +3091,16 @@
                                 </div>
 
                                 <!-- Step 3 -->
-                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step3.title">Step 3. 브리핑 생성</h4>
                                     <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
-                                        <li data-i18n="mb.setup.step3.item1">좌측 사이드바에서 수집할 리포트 섹션(시황, 산업분석 등)을 체크합니다.
+                                        <li data-i18n="mb.setup.step3.item1">좌측 사이드바에서 수집할 리포트 섹션(시황, 산업분석 등)을
+                                            체크합니다.
                                         </li>
-                                        <li data-i18n="mb.setup.step3.item2"><strong>[금일 브리핑 실행]</strong> 버튼을 누르면 다운로드 및
+                                        <li data-i18n="mb.setup.step3.item2"><strong>[금일 브리핑 실행]</strong> 버튼을 누르면
+                                            다운로드 및
                                             업로드가 자동으로 진행됩니다.</li>
                                         <li data-i18n="mb.setup.step3.item3">잠시 후 우측 채팅창에 AI가 작성한 <strong>모닝 브리핑
                                                 요약본</strong>이 출력됩니다.</li>
@@ -2800,7 +3121,8 @@
                                         <div>
                                             <strong class="text-gray-300 block mb-1"
                                                 data-i18n="mb.trouble.manual.title">매일 자동으로 실행되나요?</strong>
-                                            <span data-i18n="mb.trouble.manual.body">본 도구는 <strong>사용자 실행 기반</strong>이며,
+                                            <span data-i18n="mb.trouble.manual.body">본 도구는 <strong>사용자 실행
+                                                    기반</strong>이며,
                                                 자동 예약 실행이나 상시 백그라운드 동작은 지원하지 않습니다. 장 시작 전 버튼을 눌러 브리핑을 받아보세요.</span>
                                         </div>
                                     </li>
@@ -2809,7 +3131,8 @@
                                         <div>
                                             <strong class="text-gray-300 block mb-1"
                                                 data-i18n="mb.trouble.item1.title">로그인이 자꾸 풀립니다.</strong>
-                                            <span data-i18n="mb.trouble.item1.body">NotebookLM 세션은 브라우저 쿠키 기반입니다. 로그인을
+                                            <span data-i18n="mb.trouble.item1.body">NotebookLM 세션은 브라우저 쿠키 기반입니다.
+                                                로그인을
                                                 수행한 브라우저 창을 강제로 종료하지 마시고 켜두거나 최소화해주세요.</span>
                                         </div>
                                     </li>
@@ -2817,7 +3140,8 @@
                                         <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
                                         <div>
                                             <strong class="text-gray-300 block mb-1"
-                                                data-i18n="mb.trouble.item3.title">실행 시 임시폴더(_MEI) 오류가 발생합니다.</strong>
+                                                data-i18n="mb.trouble.item3.title">실행 시 임시폴더(_MEI) 오류가
+                                                발생합니다.</strong>
                                             <span data-i18n="mb.trouble.item3.body">v1.2 업데이트에서 Playwright 경로 버그가
                                                 수정되었습니다. 반드시 최신 버전의 런처를 통해 실행해주세요.</span>
                                         </div>
@@ -2839,7 +3163,8 @@
                             data-i18n="sponsor.badge">Support</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="sponsor.title">후원 및 라이선스</h1>
-                            <p class="text-sm text-gray-400" data-i18n="sponsor.desc">서버 유지 및 기능 개발을 위한 후원 옵션 안내입니다.</p>
+                            <p class="text-sm text-gray-400" data-i18n="sponsor.desc">서버 유지 및 기능 개발을 위한 후원 옵션 안내입니다.
+                            </p>
                         </div>
                     </div>
 
@@ -2856,8 +3181,10 @@
                             </p>
                             <!-- 리스트 여백 제거 및 정렬 -->
                             <ul class="list-disc pl-5 space-y-1.5 text-gray-400 !m-0 !pb-0">
-                                <li data-i18n="sponsor.notice.item1">후원금은 서버 유지보수, 시스템 안정성 향상, 신규 기능 개발 등에 사용됩니다.</li>
-                                <li data-i18n="sponsor.notice.item2">운영 상황에 따라 후원자에게 감사의 의미로 일부 기능 또는 편의 혜택(이용 기간 등)이
+                                <li data-i18n="sponsor.notice.item1">후원금은 서버 유지보수, 시스템 안정성 향상, 신규 기능 개발 등에 사용됩니다.
+                                </li>
+                                <li data-i18n="sponsor.notice.item2">운영 상황에 따라 후원자에게 감사의 의미로 일부 기능 또는 편의 혜택(이용 기간
+                                    등)이
                                     제공될 수 있습니다.</li>
                                 <li data-i18n="sponsor.notice.item3">후원 방법과 구체적인 안내는 <strong>가입 신청이 검토·승인된 후 운영자가 개별
                                         연락</strong>드립니다.</li>
@@ -2870,11 +3197,12 @@
 
                         <!-- Left Card: Crypto Detector -->
                         <div
-                            class="bg-[#161b22] rounded-xl border border-gray-700 p-6 flex flex-col relative hover:border-gray-500 transition-colors">
+                            class="bg-[#161b22] rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                             <div class="mb-6">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1"
                                     data-i18n="sponsor.card.crypto.title">Crypto Detector</h3>
-                                <p class="text-xs text-gray-500" data-i18n="sponsor.card.crypto.desc">시세 포착 툴킷 (단독형)</p>
+                                <p class="text-xs text-gray-500" data-i18n="sponsor.card.crypto.desc">시세 포착 툴킷 (단독형)
+                                </p>
                             </div>
 
                             <div class="flex-1 space-y-0">
@@ -2912,7 +3240,7 @@
 
                         <!-- Right Card: All-in-One Toolkit -->
                         <div
-                            class="bg-[#161b22] rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)]">
+                            class="bg-[#161b22] rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(252,213,53,0.3)] hover:-translate-y-1">
                             <!-- Badge -->
                             <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wide shadow-lg shadow-brand/20"
                                 data-i18n="sponsor.card.popular">
@@ -2922,7 +3250,8 @@
                             <div class="mb-6 mt-2">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1" data-i18n="sponsor.card.all.title">
                                     All-in-One Toolkit</h3>
-                                <p class="text-xs text-brand/80" data-i18n="sponsor.card.all.desc">레퍼럴 가입시 무료 ( 셀퍼럴 OK!
+                                <p class="text-xs text-brand/80" data-i18n="sponsor.card.all.desc">레퍼럴 가입시 무료 ( 셀퍼럴
+                                    OK!
                                     하단 안내 참고 )</p>
                             </div>
 
@@ -3058,10 +3387,12 @@
                         <h3 class="text-white text-sm font-bold mb-3 pl-1 border-l-4 border-gray-500"
                             data-i18n="sponsor.referral.rules.title">적용 원칙</h3>
                         <ul class="text-sm text-gray-400 space-y-2 list-disc pl-5">
-                            <li data-i18n="sponsor.referral.rules.item1"><strong>Tier 0</strong>: 초대자 10% / 가입자 0% 고정
+                            <li data-i18n="sponsor.referral.rules.item1"><strong>Tier 0</strong>: 초대자 10% / 가입자 0%
+                                고정
                                 (정책상 변경 불가능한 최소값)</li>
-                            <li data-i18n="sponsor.referral.rules.item2"><strong>Tier 1 이상</strong>: 초대자 10% 고정, <span
-                                    class="text-brand">상승분(20%~)은 전부 가입자에게 자동 환급(셀퍼럴)</span></li>
+                            <li data-i18n="sponsor.referral.rules.item2"><strong>Tier 1 이상</strong>: 초대자 10% 고정,
+                                <span class="text-brand">상승분(20%~)은 전부 가입자에게 자동 환급(셀퍼럴)</span>
+                            </li>
                             <li data-i18n="sponsor.referral.rules.item3">셀퍼럴은 바이낸스 정책에 따라 자동 환급됩니다.</li>
                             <li data-i18n="sponsor.referral.rules.item4">VIP 2 등급 이상 사용자는 자체 혜택을 받기 때문에 레퍼럴 커미션 산정에는
                                 포함되지 않습니다.</li>
@@ -3072,13 +3403,15 @@
                     <!-- 3. USDT Notice (Box 3: Flex 리스트로 정렬 완벽 수정) -->
                     <div class="bg-red-900/10 border border-red-900/30 rounded-xl p-6">
                         <h3 class="text-accent-red font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="sponsor.usdt.title">USDT 후원
+                            <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="sponsor.usdt.title">USDT
+                                후원
                                 유의사항</span>
                         </h3>
                         <ul class="list-none space-y-2.5 !m-0 !p-0 text-xs text-gray-400">
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item1">국내외 거래소 이용 시 트래블룰 규정에 따라 출금·입금이 제한될 수 있으므로 본인 계정에서
+                                <span data-i18n="sponsor.usdt.item1">국내외 거래소 이용 시 트래블룰 규정에 따라 출금·입금이 제한될 수 있으므로 본인
+                                    계정에서
                                     정상 절차로 송금해주세요.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
@@ -3088,7 +3421,8 @@
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item3">송금 시 발생하는 수수료는 후원자 부담이며, 수수료 차감으로 금액 미달 시 추가 송금을
+                                <span data-i18n="sponsor.usdt.item3">송금 시 발생하는 수수료는 후원자 부담이며, 수수료 차감으로 금액 미달 시 추가
+                                    송금을
                                     요청드릴 수 있습니다.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
@@ -3698,6 +4032,39 @@
             "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: 크롬 디버깅 포트(9222)가 다른 프로그램과 충돌하는지 확인하거나 프로필 경로를 점검하세요.", en: "<strong>Link failed</strong>: check if Chrome debugging port (9222) conflicts or verify the profile path." },
             "ot.trouble.item4": { ko: "<strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면 API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.", en: "<strong>Time sync</strong>: if PC time differs from server time, API requests are rejected. Sync time via Windows [Date & Time settings] → <strong>'Sync now'</strong>." },
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
+
+            // Automated Trading Bot
+            "nav.atb": { ko: "Trading Bot", en: "Trading Bot" },
+            "atb.badge": { ko: "Bot Integration", en: "Bot Integration" },
+            "atb.title": { ko: "Automated Trading Bot", en: "Automated Trading Bot" },
+            "atb.desc": { ko: "디텍터와 툴킷을 연동하여 신호 발생 시 자동으로 매매를 수행합니다.", en: "Integrates Detector and Toolkit to automatically execute trades when signals occur." },
+
+            "atb.intro.title": { ko: "1) 작동 원리 및 시스템 흐름", en: "1) System Flow & Architecture" },
+            "atb.intro.body": { ko: "Automated Trading Bot은 <strong>Crypto Detector</strong>에서 포착된 급등/급락 신호를 로컬 소켓(Local Socket)을 통해 <strong>Order Toolkit</strong>으로 즉시 전송합니다. 툴킷은 수신된 신호를 받아 <strong>3초 타임아웃(Timeout)</strong> 규칙을 적용하여 바이낸스 서버로 주문을 전송하며, 체결 즉시 안전 장치(Auto SL)를 가동합니다.", en: "The Automated Trading Bot instantly transmits pump/dump signals captured by the <strong>Crypto Detector</strong> to the <strong>Order Toolkit</strong> via a local socket. The toolkit applies a <strong>3-second timeout</strong> rule to send orders to Binance and activates safety mechanisms (Auto SL) immediately upon execution." },
+
+            "atb.setup.title": { ko: "2) 설정 및 준비", en: "2) Setup & Preparation" },
+            "atb.setup.ot.title": { ko: "Order Toolkit 설정", en: "Order Toolkit Setup" },
+            "atb.setup.ot.item1": { ko: "SETTING 창에서 <strong>Bot Mode Enabled</strong> 체크", en: "Check <strong>Bot Mode Enabled</strong> in SETTING." },
+            "atb.setup.ot.item2": { ko: "<strong>Entry Amount</strong>: 진입 금액($) 설정", en: "<strong>Entry Amount</strong>: Set entry size in USD." },
+            "atb.setup.ot.item3": { ko: "<strong>Stop Loss</strong>: 자동 손절 비율(%) 설정", en: "<strong>Stop Loss</strong>: Set auto stop-loss percentage." },
+
+            "atb.setup.cd.title": { ko: "Crypto Detector 설정", en: "Crypto Detector Setup" },
+            "atb.setup.cd.item1": { ko: "상단 <strong>BOT</strong> 버튼 클릭 → 활성화(Green)", en: "Click <strong>BOT</strong> button on top → Activate (Green)." },
+            "atb.setup.cd.item2": { ko: "감지 시 자동으로 신호 송신 시작", en: "Automatically starts sending signals upon detection." },
+
+            "atb.logic.title": { ko: "3) 핵심 매매 로직 및 안전 장치", en: "3) Core Logic & Safety" },
+            "atb.logic.id.title": { ko: "주문 추적 (Unique Client ID)", en: "Unique Client ID Tracking" },
+            "atb.logic.id.body": { ko: "모든 봇 주문은 <code>BOT_E_...</code> 형식의 고유 ID를 부여받습니다. 이를 통해 툴킷은 사용자가 직접 넣은 수동 주문과 봇이 넣은 자동 주문을 완벽하게 구분하며, 봇 주문에 대해서만 타임아웃 취소 등의 특수 로직을 적용합니다.", en: "All bot orders are assigned a unique ID format <code>BOT_E_...</code>. This allows the toolkit to perfectly distinguish between manual user orders and auto bot orders, applying special logic like timeout cancellation only to bot orders." },
+
+            "atb.logic.timeout.title": { ko: "3초 타임아웃 (3s Timeout)", en: "3-Second Timeout" },
+            "atb.logic.timeout.body": { ko: "봇 매매의 핵심은 '속도'입니다. 진입 주문 후 <strong>3초 이내에 체결되지 않으면</strong> 주문은 즉시 취소됩니다. 이는 이미 시세가 날아가버린 뒤 늦게 체결되어 고점에 물리는 것을 방지하는 강력한 리스크 관리 기능입니다. (Fill or Kill 유사 동작)", en: "Speed is key. If an entry order is <strong>not filled within 3 seconds</strong>, it is cancelled immediately. This prevents buying at the top after the price has already moved (similar to Fill or Kill)." },
+
+            "atb.logic.retry.title": { ko: "연결 안정성 (Socket Retry)", en: "Connection Stability (Retry)" },
+            "atb.logic.retry.body": { ko: "Crypto Detector는 툴킷과의 연결이 끊어질 경우 최대 3회까지 자동 재접속을 시도합니다. 일시적인 네트워크 불안정이나 툴킷 재실행 상황에서도 신호 누락을 최소화합니다.", en: "Crypto Detector attempts to reconnect up to 3 times if the connection to the toolkit is lost, minimizing missed signals during temporary network instability or restarts." },
+
+            "atb.tips.title": { ko: "4) 실전 운용 팁", en: "4) Pro Tips" },
+            "atb.tips.port": { ko: "포트 12345는 윈도우 방화벽에서 기본 허용되지만, 타사 백신 사용 시 예외 처리가 필요할 수 있습니다.", en: "Port 12345 is allowed by Windows Firewall by default, but may need exceptions if using third-party antivirus software." },
+            "atb.tips.manual": { ko: "봇이 작동 중일 때 사람이 개입하여 '청산' 버튼을 누르면, 봇 로직보다 사용자의 수동 명령이 최우선으로 처리됩니다.", en: "If you manually click 'Close' while the bot is running, your manual override takes priority over bot logic." },
 
             // Order Book
             "ob.badge": { ko: "Visual", en: "Visual" },
