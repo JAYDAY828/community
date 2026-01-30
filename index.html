@@ -2235,20 +2235,33 @@
                                     <ul class="list-none space-y-3 text-sm text-gray-400">
                                         <li class="flex items-start gap-2">
                                             <i class="fa-regular fa-square-check text-brand mt-1"></i>
-                                            <span data-i18n="atb.setup.ot.item1">SETTING 창에서 <strong>Bot Mode
-                                                    Enabled</strong>
-                                                체크</span>
-                                        </li>
-                                        <li class="flex items-start gap-2">
-                                            <i
-                                                class="fa-solid fa-dollar-sign text-accent-green mt-1 w-4 text-center"></i>
-                                            <span data-i18n="atb.setup.ot.item2"><strong>Entry Amount</strong>: 진입 금액($)
-                                                설정</span>
+                                            <span data-i18n="atb.setup.ot.item.enable"><strong>Enable Bot
+                                                    Connection</strong>: 봇 연동 활성화</span>
                                         </li>
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-shield-halved text-red-400 mt-1 w-4 text-center"></i>
-                                            <span data-i18n="atb.setup.ot.item3"><strong>Stop Loss</strong>: 자동 손절 비율(%)
+                                            <span data-i18n="atb.setup.ot.item.sl"><strong>Auto SL (%)</strong>: 자동 스탑로스
                                                 설정</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-piggy-bank text-green-400 mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item.tp"><strong>Auto TP (%)</strong>: 자동 익절
+                                                설정</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-coins text-yellow-400 mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item.qty"><strong>Auto Qty (USDT)</strong>: 진입
+                                                금액 설정</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-regular fa-clock text-blue-400 mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item.delay"><strong>Entry Delay</strong>: 진입
+                                                지연 시간</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-ban text-gray-400 mt-1 w-4 text-center"></i>
+                                            <span data-i18n="atb.setup.ot.item.max"><strong>Max Symbols</strong>: 동시 진입
+                                                제한</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -4044,9 +4057,12 @@
 
             "atb.setup.title": { ko: "2) 설정 및 준비", en: "2) Setup & Preparation" },
             "atb.setup.ot.title": { ko: "Order Toolkit 설정", en: "Order Toolkit Setup" },
-            "atb.setup.ot.item1": { ko: "SETTING 창에서 <strong>Bot Mode Enabled</strong> 체크", en: "Check <strong>Bot Mode Enabled</strong> in SETTING." },
-            "atb.setup.ot.item2": { ko: "<strong>Entry Amount</strong>: 진입 금액($) 설정", en: "<strong>Entry Amount</strong>: Set entry size in USD." },
-            "atb.setup.ot.item3": { ko: "<strong>Stop Loss</strong>: 자동 손절 비율(%) 설정", en: "<strong>Stop Loss</strong>: Set auto stop-loss percentage." },
+            "atb.setup.ot.item.enable": { ko: "<strong>Enable Bot Connection</strong>: 봇 연동 활성화 (체크 시 대기 상태)", en: "<strong>Enable Bot Connection</strong>: Activate bot connection (Standby when checked)" },
+            "atb.setup.ot.item.sl": { ko: "<strong>Auto SL (%)</strong>: 자동 스탑로스 퍼센트 설정", en: "<strong>Auto SL (%)</strong>: Set auto stop-loss percentage" },
+            "atb.setup.ot.item.tp": { ko: "<strong>Auto TP (%)</strong>: 자동 익절 퍼센트 설정", en: "<strong>Auto TP (%)</strong>: Set auto take-profit percentage" },
+            "atb.setup.ot.item.qty": { ko: "<strong>Auto Qty (USDT)</strong>: 1회 진입 금액 설정", en: "<strong>Auto Qty (USDT)</strong>: Set entry amount per trade" },
+            "atb.setup.ot.item.delay": { ko: "<strong>Entry Delay (ms)</strong>: 신호 감지 후 주문 실행까지의 대기 시간 (예: 1000ms)", en: "<strong>Entry Delay (ms)</strong>: Delay time from detection to order execution (e.g., 1000ms)" },
+            "atb.setup.ot.item.max": { ko: "<strong>Max Symbols / 1s</strong>: 초당 동시 진입 종목 수 제한", en: "<strong>Max Symbols / 1s</strong>: Limit max simultaneous entries per second" },
 
             "atb.setup.cd.title": { ko: "Crypto Detector 설정", en: "Crypto Detector Setup" },
             "atb.setup.cd.item1": { ko: "상단 <strong>BOT</strong> 버튼 클릭 → 활성화(Green)", en: "Click <strong>BOT</strong> button on top → Activate (Green)." },
