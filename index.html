@@ -437,6 +437,14 @@
                             class="fa-solid fa-satellite-dish w-5 text-center text-gray-500 group-hover:text-accent-green transition-colors"></i>
                         <span data-i18n="nav.detector">Crypto Detector</span>
                     </button>
+                    <!-- [NEW] Detector Preview Menu -->
+                    <button onclick="activate('crypto-detector-preview')"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
+                        data-id="crypto-detector-preview">
+                        <i
+                            class="fa-solid fa-eye w-5 text-center text-gray-500 group-hover:text-accent-red transition-colors"></i>
+                        <span data-i18n="nav.detector_preview">Detector (Preview)</span>
+                    </button>
                     <button onclick="activate('order-toolkit-v15-0-5')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="order-toolkit-v15-0-5">
@@ -685,7 +693,8 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"
                                 class="w-10 h-10" alt="YouTube">
                             <div>
-                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.youtube.title">YouTube : 부평구금융인</h3>
+                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.youtube.title">YouTube
+                                    : 부평구금융인</h3>
                                 <p class="text-xs text-gray-400 !m-0" data-i18n="quick.youtube.desc">부평구금융인 공식 채널</p>
                             </div>
                         </a>
@@ -709,7 +718,8 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"
                                 class="w-10 h-10" alt="YouTube">
                             <div>
-                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.youtube.sub.title">YouTube : 일당백만</h3>
+                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.youtube.sub.title">
+                                    YouTube : 일당백만</h3>
                                 <p class="text-xs text-gray-400 !m-0" data-i18n="quick.youtube.sub.desc">일당백만 공식 채널</p>
                             </div>
                         </a>
@@ -720,8 +730,9 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"
                                 class="w-10 h-10" alt="Telegram">
                             <div>
-                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.tele_news.title">Telegram : News
-                                    </h3>
+                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.tele_news.title">
+                                    Telegram : News
+                                </h3>
                                 <p class="text-xs text-gray-400 !m-0" data-i18n="quick.tele_news.desc">News</p>
                             </div>
                         </a>
@@ -765,6 +776,106 @@
                             </div>
                         </a>
                     </div>
+                </div>
+            </section>
+
+            <!-- SECTION: DETECTOR PREVIEW (NEW) -->
+            <section id="crypto-detector-preview" class="guide-section hidden fade-in">
+                <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8">
+                    <div class="flex items-center justify-between mb-8 border-b border-gray-800 pb-6">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                                <i class="fa-solid fa-satellite-dish text-accent-red text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-white mb-1">
+                                    Crypto Detector <span
+                                        class="text-xs px-2 py-0.5 rounded bg-brand text-black font-extrabold align-middle ml-2">PREVIEW</span>
+                                </h1>
+                                <p class="text-sm text-gray-400">실시간 시세 포착! Crypto Detector의 강력한 감지 성능을 체험해보세요!</p>
+                            </div>
+                        </div>
+                        <!-- Status Badge -->
+                        <div id="connection-status"
+                            class="px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-gray-500"></span> Disconnected
+                        </div>
+                    </div>
+
+                    <!-- Setup Controls -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <!-- Control 1: Threshold (LOCKED) -->
+                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
+                            <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
+                                title="Full Version Only"></i>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Threshold (%)</label>
+                            <input type="number" id="preview-threshold" value="1.0" disabled
+                                class="w-full bg-transparent text-gray-500 font-mono font-bold text-lg focus:outline-none border-b border-gray-700 cursor-not-allowed opacity-50"
+                                placeholder="1.0">
+                        </div>
+                        <!-- Control 2: Volume (LOCKED) -->
+                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
+                            <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
+                                title="Full Version Only"></i>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Min Vol
+                                (Million)</label>
+                            <input type="number" id="preview-volume" value="50" step="1" disabled
+                                class="w-full bg-transparent text-gray-500 font-mono font-bold text-lg focus:outline-none border-b border-gray-700 cursor-not-allowed opacity-50"
+                                placeholder="50">
+                        </div>
+                        <!-- Control 3: Sound Toggle -->
+                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center justify-between cursor-pointer"
+                            onclick="togglePreviewSound()">
+                            <label class="block text-xs font-bold text-gray-500 uppercase cursor-pointer">Sound
+                                Alert</label>
+                            <div id="preview-sound-btn"
+                                class="w-10 h-6 rounded-full bg-gray-700 relative transition-colors">
+                                <div class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Control 4: Start/Stop -->
+                        <button id="preview-toggle-btn" onclick="togglePreview()"
+                            class="bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl border border-gray-600 transition-all active:scale-95 flex flex-col items-center justify-center gap-1 group">
+                            <i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i>
+                            <span class="text-xs">START Engine</span>
+                        </button>
+                    </div>
+
+                    <!-- Detection Log List -->
+                    <div
+                        class="bg-[#111] rounded-xl border border-gray-800 overflow-hidden min-h-[400px] flex flex-col">
+                        <div
+                            class="bg-gray-900/80 px-4 py-2 border-b border-gray-800 flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-400 font-mono"><i
+                                    class="fa-solid fa-list-ul mr-2"></i>DETECTION LOG</span>
+                            <span id="active-symbol-count" class="text-xs font-mono text-gray-600">Active Symbols:
+                                0</span>
+                        </div>
+                        <!-- Log Header -->
+                        <div
+                            class="grid grid-cols-4 px-4 py-2 bg-gray-900/40 text-xs font-bold text-gray-500 border-b border-gray-800">
+                            <div>TIME</div>
+                            <div>SYMBOL</div>
+                            <div class="text-right">CHANGE</div>
+                            <div class="text-right">VOLUME 24H</div>
+                        </div>
+                        <!-- Log Body (Scrollable) -->
+                        <div id="preview-log-container"
+                            class="overflow-y-auto flex-1 p-2 space-y-1 font-mono text-sm max-h-[400px]">
+                            <!-- Logs will be appended here -->
+                            <div class="text-center text-gray-700 py-10 italic user-select-none">
+                                Engine is stopped. Press START to monitor.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PIP Toast Container (Fixed Bottom Right) -->
+                <div id="preview-toast-container"
+                    class="fixed bottom-6 right-6 flex flex-col gap-2 z-50 pointer-events-none">
+                    <!-- Javascript will inject toasts here -->
                 </div>
             </section>
 
@@ -4560,6 +4671,378 @@
             // Init
             activate('links');
         });
+    </script>
+    <!-- === TRIAL ENDED MODAL === -->
+    <div id="trial-ended-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <!-- Modal Content -->
+        <div
+            class="glass-panel w-full max-w-md p-8 rounded-2xl relative z-10 text-center border border-brand/30 shadow-[0_0_50px_rgba(252,213,53,0.1)]">
+            <div class="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-hourglass-end text-3xl text-brand"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">일일 체험 시간 종료</h2>
+            <p class="text-gray-400 mb-8 leading-relaxed">
+                오늘의 무료 체험 시간(30분)이 모두 소진되었습니다.<br>
+                무제한 감지 및 더 많은 기능을 원하시면<br>
+                <span class="text-brand font-bold">정식 버전을 이용해 주세요.</span>
+            </p>
+
+            <div class="space-y-3">
+                <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
+                    class="block w-full py-3 bg-brand hover:bg-yellow-400 text-black font-bold rounded-xl transition-all shadow-lg hover:shadow-brand/20">
+                    <i class="fa-brands fa-telegram mr-2"></i> 정식 버전 문의하기
+                </a>
+                <button onclick="document.getElementById('trial-ended-modal').classList.add('hidden')"
+                    class="block w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-xl transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- === DETECTOR PREVIEW LOGIC === -->
+    <script>
+        // --- CONFIG & STATE ---
+        const PREVIEW_CONFIG = {
+            wsUrl: "wss://fstream.binance.com/ws/!miniTicker@arr",
+            throttleMs: 200, // UI update throttling
+            maxLogEntries: 50,
+            dailyLimitSeconds: 1800, // 30 minutes
+            soundPath: {
+                up: "./sounds/up.wav",
+                down: "./sounds/down.wav"
+            }
+        };
+
+        let isPreviewRunning = false;
+        let isSoundEnabled = false;
+        let ws = null;
+        let minuteData = {}; // { symbol: { minId, open, high, low, close } }
+        let alertedInMinute = new Set();
+        let timerInterval = null;
+
+        // --- UI ELEMENTS ---
+        const ui = {
+            toggleBtn: document.getElementById('preview-toggle-btn'),
+            statusBadge: document.getElementById('connection-status'),
+            logContainer: document.getElementById('preview-log-container'),
+            toastContainer: document.getElementById('preview-toast-container'),
+            activeCount: document.getElementById('active-symbol-count'),
+            soundBtn: document.getElementById('preview-sound-btn'),
+            modal: document.getElementById('trial-ended-modal'),
+            inputs: {
+                threshold: document.getElementById('preview-threshold'),
+                volume: document.getElementById('preview-volume')
+            }
+        };
+
+        // --- STORAGE & LIMITS ---
+        function getRemainingTime() {
+            const today = new Date().toLocaleDateString();
+            const lastDate = localStorage.getItem('preview_date');
+
+            if (lastDate !== today) {
+                // Reset for new day
+                localStorage.setItem('preview_date', today);
+                localStorage.setItem('preview_remaining', PREVIEW_CONFIG.dailyLimitSeconds);
+                return PREVIEW_CONFIG.dailyLimitSeconds;
+            }
+            return parseInt(localStorage.getItem('preview_remaining') || PREVIEW_CONFIG.dailyLimitSeconds);
+        }
+
+        function updateRemainingTime(seconds) {
+            localStorage.setItem('preview_remaining', seconds);
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        // --- AUDIO ---
+        const audio = {
+            up: new Audio(PREVIEW_CONFIG.soundPath.up),
+            down: new Audio(PREVIEW_CONFIG.soundPath.down)
+        };
+        // Preload
+        audio.up.load();
+        audio.down.load();
+
+        // --- CONTROLS ---
+        function togglePreview() {
+            if (isPreviewRunning) {
+                stopEngine();
+            } else {
+                startEngine();
+            }
+        }
+
+        function togglePreviewSound() {
+            isSoundEnabled = !isSoundEnabled;
+            const knob = ui.soundBtn.querySelector('div');
+
+            if (isSoundEnabled) {
+                ui.soundBtn.classList.remove('bg-gray-700');
+                ui.soundBtn.classList.add('bg-brand');
+                knob.classList.add('translate-x-4');
+            } else {
+                ui.soundBtn.classList.add('bg-gray-700');
+                ui.soundBtn.classList.remove('bg-brand');
+                knob.classList.remove('translate-x-4');
+            }
+        }
+
+        // --- ENGINE ---
+        function startEngine() {
+            const remaining = getRemainingTime();
+            if (remaining <= 0) {
+                ui.modal.classList.remove('hidden');
+                return;
+            }
+
+            isPreviewRunning = true;
+            alertedInMinute.clear();
+            minuteData = {};
+
+            // UI Update
+            ui.toggleBtn.classList.remove('bg-gray-800');
+            ui.toggleBtn.classList.add('bg-brand', 'text-black', 'border-brand');
+            updateToggleBtnText(remaining);
+
+            updateStatus('connecting');
+            ui.logContainer.innerHTML = ''; // Clear logs
+
+            // Start Timer
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                let r = getRemainingTime();
+                r--;
+                updateRemainingTime(r);
+                updateToggleBtnText(r);
+
+                if (r <= 0) {
+                    stopEngine();
+                    ui.modal.classList.remove('hidden');
+                }
+            }, 1000);
+
+            // Connect WS
+            connectWebSocket();
+        }
+
+        function updateToggleBtnText(seconds) {
+            ui.toggleBtn.innerHTML = `<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP (${formatTime(seconds)})</span>`;
+        }
+
+        function stopEngine() {
+            isPreviewRunning = false;
+            if (timerInterval) clearInterval(timerInterval);
+
+            // UI Update
+            ui.toggleBtn.classList.add('bg-gray-800');
+            ui.toggleBtn.classList.remove('bg-brand', 'text-black', 'border-brand');
+            ui.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Engine</span>';
+
+            updateStatus('disconnected');
+
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+
+        function connectWebSocket() {
+            if (!isPreviewRunning) return;
+
+            ws = new WebSocket(PREVIEW_CONFIG.wsUrl);
+
+            ws.onopen = () => {
+                updateStatus('connected');
+            };
+
+            ws.onmessage = (event) => {
+                if (!isPreviewRunning) return;
+                try {
+                    const tickers = JSON.parse(event.data);
+                    processTickers(tickers);
+                } catch (e) {
+                    console.error("Parse Error", e);
+                }
+            };
+
+            ws.onclose = () => {
+                if (isPreviewRunning) {
+                    updateStatus('reconnecting');
+                    setTimeout(connectWebSocket, 3000);
+                } else {
+                    updateStatus('disconnected');
+                }
+            };
+
+            ws.onerror = (err) => {
+                console.error("WS Error", err);
+                ws.close();
+            };
+        }
+
+        function updateStatus(state) {
+            const dot = ui.statusBadge.querySelector('span');
+
+            if (state === 'connected') {
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-xs font-mono text-green-400 flex items-center gap-2";
+                dot.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Scanning...';
+            } else if (state === 'connecting') {
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-xs font-mono text-yellow-400 flex items-center gap-2";
+                dot.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span> Connecting...';
+            } else if (state === 'reconnecting') {
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-mono text-red-400 flex items-center gap-2";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Reconnecting...';
+            } else {
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-500"></span> Disconnected';
+            }
+        }
+
+        // --- CORE LOGIC (Ported from Python) ---
+        function processTickers(tickers) {
+            // Filter USDT pairs immediately
+            const relevant = tickers.filter(t => t.s.endsWith('USDT'));
+
+            // Update Active Count
+            ui.activeCount.innerText = `Active Symbols: ${Object.keys(minuteData).length}`;
+
+            const now = Date.now();
+            const currentMinuteId = Math.floor(now / 60000);
+
+            // GC: Clean old minute data & alerts every min (simplified)
+            // Just check alert set size occasionally or simply let it grow for this demo session
+
+            const userThreshold = parseFloat(ui.inputs.threshold.value) || 1.0;
+            const userMinVol = (parseFloat(ui.inputs.volume.value) || 10) * 1_000_000;
+
+            relevant.forEach(t => {
+                const symbol = t.s;
+                const price = parseFloat(t.c);
+                const volume = parseFloat(t.q); // 24h Quote Vol
+                const eventTime = t.E;
+
+                // Minute Candle Construction
+                let candle = minuteData[symbol];
+
+                if (!candle || candle.minId !== currentMinuteId) {
+                    // Start new minute candle
+                    candle = {
+                        minId: currentMinuteId,
+                        open: price,
+                        high: price,
+                        low: price,
+                        close: price
+                    };
+                    minuteData[symbol] = candle;
+                } else {
+                    // Update existing
+                    if (price > candle.high) candle.high = price;
+                    if (price < candle.low) candle.low = price;
+                    candle.close = price;
+                }
+
+                // Calculate Change from Minute Open
+                if (candle.open === 0) return;
+                const change = ((price - candle.open) / candle.open) * 100;
+
+                // Check Main Filter
+                // Condition: Abs(Change) >= Threshold AND Volume >= MinVol
+                if (Math.abs(change) >= userThreshold && volume >= userMinVol) {
+
+                    const alertKey = `${symbol}_${currentMinuteId}`;
+
+                    if (!alertedInMinute.has(alertKey)) {
+                        triggerAlert(symbol, change, volume);
+                        alertedInMinute.add(alertKey);
+                    }
+                }
+            });
+
+            // Clean up old alerts (simple clearing if minute changed drastically)
+            // For preview, we might just clear alertedInMinute if size gets too big
+            if (alertedInMinute.size > 2000) alertedInMinute.clear();
+        }
+
+        function triggerAlert(symbol, change, volume) {
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const isUp = change > 0;
+            const colorClass = isUp ? 'text-green-500' : 'text-red-500';
+            const bgClass = isUp ? 'bg-green-500' : 'bg-red-500';
+            const icon = isUp ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down';
+
+            // 1. Play Sound
+            if (isSoundEnabled) {
+                if (isUp) audio.up.play().catch(() => { });
+                else audio.down.play().catch(() => { });
+            }
+
+            // 2. Add to Log
+            const row = document.createElement('div');
+            row.className = "grid grid-cols-4 px-4 py-2 hover:bg-white/5 border-b border-gray-800/50 transition-colors animate-pulse";
+            row.innerHTML = `
+                <div class="text-gray-400">${timestamp}</div>
+                <div class="text-white font-bold">${symbol.replace('USDT', '')}</div>
+                <div class="text-right ${colorClass} font-bold">${isUp ? '+' : ''}${change.toFixed(2)}%</div>
+                <div class="text-right text-gray-400">${(volume / 1_000_000).toFixed(1)}M</div>
+            `;
+
+            ui.logContainer.insertBefore(row, ui.logContainer.firstChild);
+
+            // Limit Log Entries
+            if (ui.logContainer.children.length > PREVIEW_CONFIG.maxLogEntries) {
+                ui.logContainer.lastChild.remove();
+            }
+
+            // Stop animation after a bit
+            setTimeout(() => row.classList.remove('animate-pulse'), 1000);
+
+            // 3. Show Toast (PIP)
+            showToast(symbol, change, isUp);
+        }
+
+        function showToast(symbol, change, isUp) {
+            const toast = document.createElement('div');
+            const borderColor = isUp ? 'border-green-500' : 'border-red-500';
+            const bgColor = isUp ? 'bg-green-900/90' : 'bg-red-900/90';
+            const txtColor = isUp ? 'text-green-400' : 'text-red-400';
+
+            toast.className = `glass-panel pl-4 pr-6 py-4 rounded-xl border-l-4 ${borderColor} text-white shadow-2xl flex items-center gap-4 transform translate-y-10 opacity-0 transition-all duration-300 min-w-[280px]`;
+            toast.innerHTML = `
+                <div class="w-10 h-10 rounded-full ${bgColor} flex items-center justify-center flex-shrink-0">
+                   <i class="fa-solid ${isUp ? 'fa-bolt' : 'fa-triangle-exclamation'} text-white"></i>
+                </div>
+                <div>
+                     <div class="text-xs text-gray-300 font-bold mb-0.5">DETECTOR ALERT</div>
+                     <div class="text-lg font-black font-mono leading-none">
+                        ${symbol.replace('USDT', '')} 
+                        <span class="${txtColor} ml-2">${isUp ? '+' : ''}${change.toFixed(2)}%</span>
+                     </div>
+                </div>
+            `;
+
+            ui.toastContainer.appendChild(toast);
+
+            // Animate In
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
 </body>
 
