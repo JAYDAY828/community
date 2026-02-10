@@ -800,8 +800,7 @@
                         <!-- Status Badge -->
                         <div id="connection-status"
                             class="px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-gray-500"></span> <span
-                                data-i18n="preview.status.disconnected">Disconnected</span>
+                            <span class="w-2 h-2 rounded-full bg-gray-500"></span> Disconnected
                         </div>
                     </div>
 
@@ -811,8 +810,7 @@
                         <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
                             <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
                                 title="Full Version Only"></i>
-                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase"
-                                data-i18n="preview.threshold.label">Threshold (%)</label>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Threshold (%)</label>
                             <input type="number" id="preview-threshold" value="1.0" disabled
                                 class="w-full bg-transparent text-gray-500 font-mono font-bold text-lg focus:outline-none border-b border-gray-700 cursor-not-allowed opacity-50"
                                 placeholder="1.0">
@@ -821,8 +819,7 @@
                         <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
                             <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
                                 title="Full Version Only"></i>
-                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase"
-                                data-i18n="preview.volume.label">Min Vol
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Min Vol
                                 (Million)</label>
                             <input type="number" id="preview-volume" value="50" step="1" disabled
                                 class="w-full bg-transparent text-gray-500 font-mono font-bold text-lg focus:outline-none border-b border-gray-700 cursor-not-allowed opacity-50"
@@ -831,8 +828,7 @@
                         <!-- Control 3: Sound Toggle -->
                         <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center justify-between cursor-pointer"
                             onclick="togglePreviewSound()">
-                            <label class="block text-xs font-bold text-gray-500 uppercase cursor-pointer"
-                                data-i18n="preview.sound.label">Sound
+                            <label class="block text-xs font-bold text-gray-500 uppercase cursor-pointer">Sound
                                 Alert</label>
                             <div id="preview-sound-btn"
                                 class="w-10 h-6 rounded-full bg-gray-700 relative transition-colors">
@@ -844,7 +840,7 @@
                         <button id="preview-toggle-btn" onclick="togglePreview()"
                             class="bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl border border-gray-600 transition-all active:scale-95 flex flex-col items-center justify-center gap-1 group">
                             <i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i>
-                            <span class="text-xs" data-i18n="preview.btn.start">START Engine</span>
+                            <span class="text-xs">START Engine</span>
                         </button>
                     </div>
 
@@ -854,26 +850,23 @@
                         <div
                             class="bg-gray-900/80 px-4 py-2 border-b border-gray-800 flex justify-between items-center">
                             <span class="text-xs font-bold text-gray-400 font-mono"><i
-                                    class="fa-solid fa-list-ul mr-2"></i><span data-i18n="preview.log.title">DETECTION
-                                    LOG</span></span>
-                            <span id="active-symbol-count" class="text-xs font-mono text-gray-600"><span
-                                    data-i18n="preview.log.active">Active Symbols</span>:
+                                    class="fa-solid fa-list-ul mr-2"></i>DETECTION LOG</span>
+                            <span id="active-symbol-count" class="text-xs font-mono text-gray-600">Active Symbols:
                                 0</span>
                         </div>
                         <!-- Log Header -->
                         <div
                             class="grid grid-cols-4 px-4 py-2 bg-gray-900/40 text-xs font-bold text-gray-500 border-b border-gray-800">
-                            <div data-i18n="preview.log.head.time">TIME</div>
-                            <div data-i18n="preview.log.head.symbol">SYMBOL</div>
-                            <div class="text-right" data-i18n="preview.log.head.change">CHANGE</div>
-                            <div class="text-right" data-i18n="preview.log.head.vol">VOLUME 24H</div>
+                            <div>TIME</div>
+                            <div>SYMBOL</div>
+                            <div class="text-right">CHANGE</div>
+                            <div class="text-right">VOLUME 24H</div>
                         </div>
                         <!-- Log Body (Scrollable) -->
                         <div id="preview-log-container"
                             class="overflow-y-auto flex-1 p-2 space-y-1 font-mono text-sm max-h-[400px]">
                             <!-- Logs will be appended here -->
-                            <div class="text-center text-gray-700 py-10 italic user-select-none"
-                                data-i18n="preview.log.empty">
+                            <div class="text-center text-gray-700 py-10 italic user-select-none">
                                 Engine is stopped. Press START to monitor.
                             </div>
                         </div>
@@ -883,36 +876,36 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 border-t border-gray-800 pt-10">
                         <!-- Key Features -->
                         <div class="space-y-4">
-                            <h3 class="flex items-center gap-2 text-white font-bold mb-4"
-                                data-i18n="preview.info.features.title">
-                                <i class="fa-solid fa-circle-check text-accent-green"></i> 주요 기능
+                            <h3 class="flex items-center gap-2 text-white font-bold mb-4">
+                                <i class="fa-solid fa-circle-check text-accent-green"></i> <span
+                                    data-i18n="preview.features.title">주요 기능</span>
                             </h3>
                             <ul class="space-y-3">
                                 <li class="flex items-start gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full bg-accent-green mt-2 flex-shrink-0"></div>
                                     <div>
                                         <p class="text-sm font-bold text-gray-200"
-                                            data-i18n="preview.info.features.item1.title">실시간 감시</p>
-                                        <p class="text-xs text-gray-500" data-i18n="preview.info.features.item1.desc">1초
-                                            단위로 바이낸스 전 종목의 펌핑/덤핑을 즉각 포착합니다.</p>
+                                            data-i18n="preview.features.item1.title">실시간 감시</p>
+                                        <p class="text-xs text-gray-500" data-i18n="preview.features.item1.desc">1초 단위로
+                                            바이낸스 전 종목의 펌핑/덤핑을 즉각 포착합니다.</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full bg-accent-green mt-2 flex-shrink-0"></div>
                                     <div>
                                         <p class="text-sm font-bold text-gray-200"
-                                            data-i18n="preview.info.features.item2.title">사운드 알림</p>
-                                        <p class="text-xs text-gray-500" data-i18n="preview.info.features.item2.desc">
-                                            상승(Up)과 하락(Down) 시 전용 사운드로 직관적인 판단을 돕습니다.</p>
+                                            data-i18n="preview.features.item2.title">사운드 알림</p>
+                                        <p class="text-xs text-gray-500" data-i18n="preview.features.item2.desc">상승(Up)과
+                                            하락(Down) 시 전용 사운드로 직관적인 판단을 돕습니다.</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full bg-accent-green mt-2 flex-shrink-0"></div>
                                     <div>
                                         <p class="text-sm font-bold text-gray-200"
-                                            data-i18n="preview.info.features.item3.title">감지 팝업</p>
-                                        <p class="text-xs text-gray-500" data-i18n="preview.info.features.item3.desc">다른
-                                            작업을 하고 있어도 우측 하단 팝업을 통해 즉시 확인 가능합니다.</p>
+                                            data-i18n="preview.features.item3.title">감지 팝업</p>
+                                        <p class="text-xs text-gray-500" data-i18n="preview.features.item3.desc">다른 작업을
+                                            하고 있어도 우측 하단 팝업을 통해 즉시 확인 가능합니다.</p>
                                     </div>
                                 </li>
                             </ul>
@@ -922,9 +915,9 @@
                         <div class="space-y-6">
                             <!-- Trial Info -->
                             <div class="bg-yellow-500/5 border border-yellow-500/20 p-5 rounded-2xl">
-                                <h3 class="flex items-center gap-2 text-yellow-500 font-bold mb-2 text-sm"
-                                    data-i18n="preview.info.trial.title">
-                                    <i class="fa-solid fa-triangle-exclamation"></i> 체험판 특징 (1일 30분 무료)
+                                <h3 class="flex items-center gap-2 text-yellow-500 font-bold mb-2 text-sm">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> <span
+                                        data-i18n="preview.info.trial.title">체험판 특징 (1일 30분 무료)</span>
                                 </h3>
                                 <p class="text-xs text-gray-400 leading-relaxed" data-i18n="preview.info.trial.desc">
                                     체험판은 <span class="text-gray-200 font-bold">조건 고정 감지 모드</span>로 작동하여 모든 시세를 가감 없이
@@ -936,18 +929,18 @@
                             <!-- Full Version Promo -->
                             <div
                                 class="bg-blue-500/5 border border-blue-500/20 p-5 rounded-2xl group hover:border-blue-500/40 transition-colors">
-                                <h3 class="flex items-center gap-2 text-blue-400 font-bold mb-2 text-sm"
-                                    data-i18n="preview.info.full.title">
-                                    <i class="fa-solid fa-rocket"></i> PC 정식 버전 (Full Version)
+                                <h3 class="flex items-center gap-2 text-blue-400 font-bold mb-2 text-sm">
+                                    <i class="fa-solid fa-rocket"></i> <span data-i18n="preview.info.full.title">PC 정식
+                                        버전 (Full Version)</span>
                                 </h3>
                                 <p class="text-xs text-gray-400 leading-relaxed" data-i18n="preview.info.full.desc">
                                     <span class="text-blue-300 font-bold italic">'종목 자동 복사+붙여넣기'</span> 기능부터 세밀한 필터링까지!
                                     모든 편의 기능을 활용해 나만의 완벽한 감지 환경을 구축해 보세요.
                                 </p>
                                 <button onclick="activate('sponsorship')"
-                                    class="mt-4 text-[10px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors"
-                                    data-i18n="preview.info.full.cta">
-                                    정식 버전 플랜 확인하기 <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                                    class="mt-4 text-[10px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors">
+                                    <span data-i18n="preview.info.full.cta">정식 버전 플랜 확인하기</span> <i
+                                        class="fa-solid fa-chevron-right text-[8px]"></i>
                                 </button>
                             </div>
                         </div>
@@ -4044,6 +4037,42 @@
             "api.step4.warn.item1": { ko: "<strong>Secret Key</strong>는 생성 직후 1회만 표시되며, 페이지를 벗어나면 다시 확인할 수 없습니다.", en: "<strong>Secret Key</strong> is shown only once at creation and cannot be viewed again after leaving the page." },
             "api.step4.warn.item2": { ko: "Secret Key를 분실한 경우 API를 삭제하고 새로 생성해야 합니다.", en: "If the Secret Key is lost, you must delete and re-create the API." },
 
+            // Crypto Detector Preview (NEW)
+            "preview.title": { ko: "Crypto Detector", en: "Crypto Detector" },
+            "preview.desc": { ko: "실시간 시세 포착! Crypto Detector의 강력한 감지 성능을 체험해보세요!", en: "Capture price movements in real-time! Experience the powerful detection capabilities of Crypto Detector!" },
+            "preview.features.title": { ko: "주요 기능", en: "Key Features" },
+            "preview.features.item1.title": { ko: "실시간 감시", en: "Real-time Monitoring" },
+            "preview.features.item1.desc": { ko: "1초 단위로 바이낸스 전 종목의 펌핑/덤핑을 즉각 포착합니다.", en: "Instantly captures pumping/dumping of all Binance symbols every second." },
+            "preview.features.item2.title": { ko: "사운드 알림", en: "Sound Alerts" },
+            "preview.features.item2.desc": { ko: "상승(Up)과 하락(Down) 시 전용 사운드로 직관적인 판단을 돕습니다.", en: "Dedicated sounds for Up/Down movements help intuitive judgment." },
+            "preview.features.item3.title": { ko: "감지 팝업", en: "Detection Popup" },
+            "preview.features.item3.desc": { ko: "다른 작업을 하고 있어도 우측 하단 팝업을 통해 즉시 확인 가능합니다.", en: "Check instantly via the bottom-right popup even while doing other tasks." },
+            "preview.btn.stop": { ko: "STOP", en: "STOP" },
+            "preview.btn.start": { ko: "START Engine", en: "START Engine" },
+            "preview.status.connecting": { ko: "연결 중...", en: "Connecting..." },
+            "preview.status.scanning": { ko: "감지 중...", en: "Scanning..." },
+            "preview.status.reconnecting": { ko: "재연결 중...", en: "Reconnecting..." },
+            "preview.status.disconnected": { ko: "연결 끊김", en: "Disconnected" },
+            "preview.active_symbols": { ko: "감지 중인 종목:", en: "Active Symbols:" },
+            "preview.info.trial.title": { ko: "체험판 특징 (1일 30분 무료)", en: "Trial Features (Free 30m/day)" },
+            "preview.info.trial.desc": {
+                ko: "체험판은 <span class='text-gray-200 font-bold'>조건 고정 감지 모드</span>로 작동하여 모든 시세를 가감 없이 보여드립니다.<br>(필터링이 제한되어 노이즈가 포함될 수 있습니다.)",
+                en: "The trial runs in <span class='text-gray-200 font-bold'>Fixed Condition Mode</span>, showing all signals without filtering.<br>(This may include market noise due to limited filtering.)"
+            },
+            "preview.info.full.title": { ko: "PC 정식 버전 (Full Version)", en: "PC Full Version" },
+            "preview.info.full.desc": {
+                ko: "<span class='text-blue-300 font-bold italic'>'종목 자동 복사+붙여넣기'</span> 기능부터 세밀한 필터링까지! 모든 편의 기능을 활용해 나만의 완벽한 감지 환경을 구축해 보세요.",
+                en: "From <span class='text-blue-300 font-bold italic'>'Auto Copy & Paste'</span> to detailed filtering! Build your perfect detection environment with all premium features."
+            },
+            "preview.info.full.cta": { ko: "정식 버전 플랜 확인하기", en: "Check Full Version Plans" },
+            "preview.modal.title": { ko: "일일 체험 시간 종료", en: "Daily Trial Limit Reached" },
+            "preview.modal.desc": {
+                ko: "오늘의 무료 체험 시간(30분)이 모두 소진되었습니다.<br>무제한 감지 및 더 많은 기능을 원하시면<br><span class='text-brand font-bold'>정식 버전을 이용해 주세요.</span>",
+                en: "Your daily free trial time (30m) has been exhausted.<br>For unlimited detection and more features,<br><span class='text-brand font-bold'>please use the Full Version.</span>"
+            },
+            "preview.modal.cta": { ko: "정식 버전 문의하기", en: "Contact for Full Version" },
+            "preview.modal.close": { ko: "닫기", en: "Close" },
+
             // Crypto Detector (업데이트 완료)
             "cd.badge": { ko: "Signal Tool", en: "Signal Tool" },
             "cd.title": { ko: "Crypto Detector", en: "Crypto Detector" },
@@ -4506,50 +4535,6 @@
 
             // Footer
             "footer.copy": { ko: "부평구금융인", en: "부평구금융인" },
-
-            // Detector Preview (New)
-            "preview.title": { ko: "Crypto Detector", en: "Crypto Detector" },
-            "preview.desc": { ko: "실시간 시세 포착! Crypto Detector의 강력한 감지 성능을 체험해보세요!", en: "Real-time price capture! Experience the powerful detection performance of Crypto Detector!" },
-            "preview.status.disconnected": { ko: "Disconnected", en: "Disconnected" },
-            "preview.status.connecting": { ko: "Connecting...", en: "Connecting..." },
-            "preview.status.connected": { ko: "Connected", en: "Connected" },
-            "preview.status.running": { ko: "Monitoring", en: "Monitoring" },
-            "preview.threshold.label": { ko: "Threshold (%)", en: "Threshold (%)" },
-            "preview.volume.label": { ko: "Min Vol (Million)", en: "Min Vol (Million)" },
-            "preview.sound.label": { ko: "Sound Alert", en: "Sound Alert" },
-            "preview.btn.start": { ko: "START Engine", en: "START Engine" },
-            "preview.btn.stop": { ko: "STOP Engine", en: "STOP Engine" },
-            "preview.log.title": { ko: "DETECTION LOG", en: "DETECTION LOG" },
-            "preview.log.active": { ko: "Active Symbols", en: "Active Symbols" },
-            "preview.log.head.time": { ko: "TIME", en: "TIME" },
-            "preview.log.head.symbol": { ko: "SYMBOL", en: "SYMBOL" },
-            "preview.log.head.change": { ko: "CHANGE", en: "CHANGE" },
-            "preview.log.head.vol": { ko: "VOLUME 24H", en: "VOLUME 24H" },
-            "preview.log.empty": { ko: "Engine is stopped. Press START to monitor.", en: "Engine is stopped. Press START to monitor." },
-
-            "preview.info.features.title": { ko: "주요 기능", en: "Key Features" },
-            "preview.info.features.item1.title": { ko: "실시간 감시", en: "Real-time Monitoring" },
-            "preview.info.features.item1.desc": { ko: "1초 단위로 바이낸스 전 종목의 펌핑/덤핑을 즉각 포착합니다.", en: "Instantly captures pumps/dumps of all Binance symbols every second." },
-            "preview.info.features.item2.title": { ko: "사운드 알림", en: "Sound Alerts" },
-            "preview.info.features.item2.desc": { ko: "상승(Up)과 하락(Down) 시 전용 사운드로 직관적인 판단을 돕습니다.", en: "Helps intuitive judgment with exclusive sounds for Up and Down." },
-            "preview.info.features.item3.title": { ko: "감지 팝업", en: "Detection Popups" },
-            "preview.info.features.item3.desc": { ko: "다른 작업을 하고 있어도 우측 하단 팝업을 통해 즉시 확인 가능합니다.", en: "Check instantly via bottom-right popups even while doing other tasks." },
-
-            "preview.info.trial.title": { ko: "체험판 특징 (1일 30분 무료)", en: "Trial Edition (30m/Day Free)" },
-            "preview.info.trial.desc": { ko: "체험판은 <span class='text-gray-200 font-bold'>전체 감지 모드</span>로 작동하여 모든 시세를 가감 없이 보여드립니다. (필터링이 제한되어 노이즈가 포함될 수 있습니다.)", en: "The trial version runs in <span class='text-gray-200 font-bold'>Full Detection Mode</span>, showing all fluctuations without filtering. (Noise may be included.)" },
-
-            "preview.info.full.title": { ko: "PC 정식 버전 (Full Version)", en: "PC Full Version" },
-            "preview.info.full.desc": { ko: "<span class='text-blue-300 font-bold italic'>'종목 자동 복사+붙여넣기'</span> 기능부터 세밀한 필터링까지! 모든 편의 기능을 활용해 나만의 완벽한 감지 환경을 구축해 보세요.", en: "From <span class='text-blue-300 font-bold italic'>'Auto Symbol Copy+Paste'</span> to detailed filtering! Build your perfect environment with all convenience features." },
-            "preview.info.full.cta": { ko: "정식 버전 플랜 확인하기", en: "Check Full Version Plans" },
-
-            "preview.modal.title": { ko: "일일 체험 시간 종료", en: "Daily Trial Time Expired" },
-            "preview.modal.desc": { ko: "오늘의 무료 체험 시간(30분)이 모두 소진되었습니다.<br>무제한 감지 및 더 많은 기능을 원하시면<br><span class='text-brand font-bold'>정식 버전을 이용해 주세요.</span>", en: "Your free trial for today (30 minutes) has been exhausted.<br>For unlimited detection and more features,<br><span class='text-brand font-bold'>please use the full version.</span>" },
-            "preview.modal.cta": { ko: "정식 버전 문의하기", en: "Inquire about Full Version" },
-            "preview.modal.close": { ko: "닫기", en: "Close" },
-
-            "preview.toast.up": { ko: "상승 감지", en: "Up Detected" },
-            "preview.toast.down": { ko: "하락 감지", en: "Down Detected" },
-            "preview.toast.limit": { ko: "체험 종료까지", en: "Remaining Trial:" },
             "footer.search": { ko: "Search", en: "Search" },
             "footer.nav": { ko: "Navigate", en: "Navigate" },
         };
@@ -4808,8 +4793,8 @@
             <div class="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-6">
                 <i class="fa-solid fa-hourglass-end text-3xl text-brand"></i>
             </div>
-            <h2 class="text-2xl font-bold text-white mb-2" data-i18n="preview.modal.title">일일 체험 시간 종료</h2>
-            <p class="text-gray-400 mb-8 leading-relaxed" data-i18n="preview.modal.desc">
+            <h2 class="text-2xl font-bold text-white mb-2">일일 체험 시간 종료</h2>
+            <p class="text-gray-400 mb-8 leading-relaxed">
                 오늘의 무료 체험 시간(30분)이 모두 소진되었습니다.<br>
                 무제한 감지 및 더 많은 기능을 원하시면<br>
                 <span class="text-brand font-bold">정식 버전을 이용해 주세요.</span>
@@ -4817,13 +4802,11 @@
 
             <div class="space-y-3">
                 <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                    class="block w-full py-3 bg-brand hover:bg-yellow-400 text-black font-bold rounded-xl transition-all shadow-lg hover:shadow-brand/20"
-                    data-i18n="preview.modal.cta">
+                    class="block w-full py-3 bg-brand hover:bg-yellow-400 text-black font-bold rounded-xl transition-all shadow-lg hover:shadow-brand/20">
                     <i class="fa-brands fa-telegram mr-2"></i> 정식 버전 문의하기
                 </a>
                 <button onclick="document.getElementById('trial-ended-modal').classList.add('hidden')"
-                    class="block w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-xl transition-colors"
-                    data-i18n="preview.modal.close">
+                    class="block w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-xl transition-colors">
                     닫기
                 </button>
             </div>
@@ -4962,8 +4945,7 @@
         }
 
         function updateToggleBtnText(seconds) {
-            const btnText = translations['preview.btn.stop'][currentLang];
-            ui.toggleBtn.innerHTML = `<i class="fa-solid fa-stop text-xl"></i><span class="text-xs" data-i18n="preview.btn.stop">${btnText} (${formatTime(seconds)})</span>`;
+            ui.toggleBtn.innerHTML = `<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP (${formatTime(seconds)})</span>`;
         }
 
         function stopEngine() {
@@ -4973,8 +4955,7 @@
             // UI Update
             ui.toggleBtn.classList.add('bg-gray-800');
             ui.toggleBtn.classList.remove('bg-brand', 'text-black', 'border-brand');
-            const startText = translations['preview.btn.start'][currentLang];
-            ui.toggleBtn.innerHTML = `<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs" data-i18n="preview.btn.start">${startText}</span>`;
+            ui.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Engine</span>';
 
             updateStatus('disconnected');
 
@@ -5020,27 +5001,22 @@
 
         function updateStatus(state) {
             const dot = ui.statusBadge.querySelector('span');
-            let key = 'preview.status.disconnected';
-            let colorClasses = "bg-gray-800 border-gray-700 text-gray-400";
-            let dotClass = "bg-gray-500";
 
             if (state === 'connected') {
-                key = 'preview.status.running'; // "Scanning..." -> "Monitoring"
-                colorClasses = "bg-green-500/10 border-green-500/20 text-green-400";
-                dotClass = "bg-green-500 animate-pulse";
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-xs font-mono text-green-400 flex items-center gap-2";
+                dot.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Scanning...';
             } else if (state === 'connecting') {
-                key = 'preview.status.connecting';
-                colorClasses = "bg-yellow-500/10 border-yellow-500/20 text-yellow-500";
-                dotClass = "bg-yellow-500 animate-pulse";
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-xs font-mono text-yellow-400 flex items-center gap-2";
+                dot.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span> Connecting...';
             } else if (state === 'reconnecting') {
-                key = 'preview.status.connecting'; // Treat as connecting
-                colorClasses = "bg-red-500/10 border-red-500/20 text-red-400";
-                dotClass = "bg-red-500 animate-pulse";
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-mono text-red-400 flex items-center gap-2";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Reconnecting...';
+            } else {
+                ui.statusBadge.className = "px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2";
+                ui.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-500"></span> Disconnected';
             }
-
-            const label = translations[key][currentLang];
-            ui.statusBadge.className = `px-3 py-1.5 rounded-full ${colorClasses} text-xs font-mono flex items-center gap-2`;
-            ui.statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full ${dotClass}"></span> <span data-i18n="${key}">${label}</span>`;
         }
 
         // --- CORE LOGIC (Ported from Python) ---
@@ -5049,8 +5025,7 @@
             const relevant = tickers.filter(t => t.s.endsWith('USDT'));
 
             // Update Active Count
-            const activeLabel = translations['preview.log.active'][currentLang];
-            ui.activeCount.innerHTML = `<span data-i18n="preview.log.active">${activeLabel}</span>: ${Object.keys(minuteData).length}`;
+            ui.activeCount.innerText = `Active Symbols: ${Object.keys(minuteData).length}`;
 
             const now = Date.now();
             const currentMinuteId = Math.floor(now / 60000);
@@ -5151,7 +5126,6 @@
             const borderColor = isUp ? 'border-green-500' : 'border-red-500';
             const bgColor = isUp ? 'bg-green-900/90' : 'bg-red-900/90';
             const txtColor = isUp ? 'text-green-400' : 'text-red-400';
-            const titleKey = isUp ? 'preview.toast.up' : 'preview.toast.down';
 
             toast.className = `glass-panel pl-4 pr-6 py-4 rounded-xl border-l-4 ${borderColor} text-white shadow-2xl flex items-center gap-4 transform translate-y-10 opacity-0 transition-all duration-300 min-w-[280px]`;
             toast.innerHTML = `
@@ -5159,7 +5133,7 @@
                    <i class="fa-solid ${isUp ? 'fa-bolt' : 'fa-triangle-exclamation'} text-white"></i>
                 </div>
                 <div>
-                     <div class="text-xs text-gray-300 font-bold mb-0.5" data-i18n="${titleKey}">${translations[titleKey][currentLang]}</div>
+                     <div class="text-xs text-gray-300 font-bold mb-0.5">DETECTOR ALERT</div>
                      <div class="text-lg font-black font-mono leading-none">
                         ${symbol.replace('USDT', '')} 
                         <span class="${txtColor} ml-2">${isUp ? '+' : ''}${change.toFixed(2)}%</span>
