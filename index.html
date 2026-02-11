@@ -865,7 +865,7 @@
                         </div>
                         <!-- Log Body (Scrollable) -->
                         <div id="preview-log-container"
-                            class="overflow-y-auto flex-1 p-2 space-y-1 font-mono text-sm max-h-[400px]">
+                            class="overflow-y-auto p-2 space-y-1 font-mono text-sm h-[400px]">
                             <!-- Logs will be appended here -->
                             <div class="text-center text-gray-700 py-10 italic user-select-none">
                                 Engine is stopped. Press START to monitor.
@@ -4784,39 +4784,11 @@
             activate('links');
         });
     </script>
-    <!-- === TRIAL ENDED MODAL === -->
-    <div id="trial-ended-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-        <!-- Modal Content -->
-        <div
-            class="glass-panel w-full max-w-md p-8 rounded-2xl relative z-10 text-center border border-brand/30 shadow-[0_0_50px_rgba(252,213,53,0.1)]">
-            <div class="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-6">
-                <i class="fa-solid fa-hourglass-end text-3xl text-brand"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-white mb-2">일일 체험 시간 종료</h2>
-            <p class="text-gray-400 mb-8 leading-relaxed">
-                오늘의 무료 체험 시간(30분)이 모두 소진되었습니다.<br>
-                무제한 감지 및 더 많은 기능을 원하시면<br>
-                <span class="text-brand font-bold">정식 버전을 이용해 주세요.</span>
-            </p>
 
-            <div class="space-y-3">
-                <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                    class="block w-full py-3 bg-brand hover:bg-yellow-400 text-black font-bold rounded-xl transition-all shadow-lg hover:shadow-brand/20">
-                    <i class="fa-brands fa-telegram mr-2"></i> 정식 버전 문의하기
-                </a>
-                <button onclick="document.getElementById('trial-ended-modal').classList.add('hidden')"
-                    class="block w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-xl transition-colors">
-                    닫기
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- _0xCD: Protected Engine Logic (Simulation) -->
     <script>
-        const _0x1a = { wsUrl: "FAKE_WS_URL", throttleMs: 200, maxLogEntries: 50, dailyLimitSeconds: 1800, soundPath: { up: "./sounds/up.wav", down: "./sounds/down.wav" } }; let _0x2b = false, _0x3c = false, _0x4d = null, _0x5e = {}, _0x6f = new Set, _0x7g = null; const _0x1u = { toggleBtn: document.getElementById("preview-toggle-btn"), statusBadge: document.getElementById("connection-status"), logContainer: document.getElementById("preview-log-container"), toastContainer: document.getElementById("preview-toast-container"), activeCount: document.getElementById("active-symbol-count"), soundBtn: document.getElementById("preview-sound-btn"), modal: document.getElementById("trial-ended-modal"), inputs: { threshold: document.getElementById("preview-threshold"), volume: document.getElementById("preview-volume") } }; function _0x8h() { const e = (new Date).toLocaleDateString(), t = localStorage.getItem("preview_date"); return t !== e ? (localStorage.setItem("preview_date", e), localStorage.setItem("preview_remaining", _0x1a.dailyLimitSeconds), _0x1a.dailyLimitSeconds) : parseInt(localStorage.getItem("preview_remaining") || _0x1a.dailyLimitSeconds) } function _0x9i(e) { localStorage.setItem("preview_remaining", e) } function _0x0j(e) { const t = Math.floor(e / 60), n = e % 60; return `${t}:${n.toString().padStart(2, "0")}` } const _0x2v = { up: new Audio(_0x1a.soundPath.up), down: new Audio(_0x1a.soundPath.down) }; _0x2v.up.load(), _0x2v.down.load(); function _0x4a() { _0x2b ? _0x5o() : _0x3m() } function _0x4b() { _0x3c = !_0x3c; const e = _0x1u.soundBtn.querySelector("div"); _0x3c ? (_0x1u.soundBtn.classList.remove("bg-gray-700"), _0x1u.soundBtn.classList.add("bg-brand"), e.classList.add("translate-x-4")) : (_0x1u.soundBtn.classList.add("bg-gray-700"), _0x1u.soundBtn.classList.remove("bg-brand"), e.classList.remove("translate-x-4")) } function _0x3m() { const e = _0x8h(); if (e <= 0) { _0x1u.modal.classList.remove("hidden"); return } _0x2b = !0, _0x6f.clear(), _0x5e = {}, _0x1u.toggleBtn.classList.remove("bg-gray-800"), _0x1u.toggleBtn.classList.add("bg-brand", "text-black", "border-brand"), _0x4n(e), _0x7q("connecting"), _0x1u.logContainer.innerHTML = "", _0x7g && clearInterval(_0x7g), _0x7g = setInterval(() => { let e = _0x8h(); e--, _0x9i(e), _0x4n(e), e <= 0 && (_0x5o(), _0x1u.modal.classList.remove("hidden")) }, 1e3), setTimeout(() => { _0x7q("connected"); _0xSimulate() }, 1500) } function _0x4n(e) { _0x1u.toggleBtn.innerHTML = `<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP (${_0x0j(e)})</span>` } function _0x5o() { _0x2b = !1, _0x7g && clearInterval(_0x7g), _0x1u.toggleBtn.classList.add("bg-gray-800"), _0x1u.toggleBtn.classList.remove("bg-brand", "text-black", "border-brand"), _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Demo</span>', _0x7q("disconnected") }
+        const _0x1a = { wsUrl: "FAKE_WS_URL", throttleMs: 200, maxLogEntries: 50, soundPath: { up: "./sounds/up.wav", down: "./sounds/down.wav" } }; let _0x2b = false, _0x3c = false, _0x4d = null, _0x5e = {}, _0x6f = new Set; const _0x1u = { toggleBtn: document.getElementById("preview-toggle-btn"), statusBadge: document.getElementById("connection-status"), logContainer: document.getElementById("preview-log-container"), toastContainer: document.getElementById("preview-toast-container"), activeCount: document.getElementById("active-symbol-count"), soundBtn: document.getElementById("preview-sound-btn"), inputs: { threshold: document.getElementById("preview-threshold"), volume: document.getElementById("preview-volume") } }; const _0x2v = { up: new Audio(_0x1a.soundPath.up), down: new Audio(_0x1a.soundPath.down) }; _0x2v.up.load(), _0x2v.down.load(); function _0x4a() { _0x2b ? _0x5o() : _0x3m() } function _0x4b() { _0x3c = !_0x3c; const e = _0x1u.soundBtn.querySelector("div"); _0x3c ? (_0x1u.soundBtn.classList.remove("bg-gray-700"), _0x1u.soundBtn.classList.add("bg-brand"), e.classList.add("translate-x-4")) : (_0x1u.soundBtn.classList.add("bg-gray-700"), _0x1u.soundBtn.classList.remove("bg-brand"), e.classList.remove("translate-x-4")) } function _0x3m() { _0x2b = !0, _0x6f.clear(), _0x5e = {}, _0x1u.toggleBtn.classList.remove("bg-gray-800"), _0x1u.toggleBtn.classList.add("bg-brand", "text-black", "border-brand"), _0x4n(), _0x7q("connecting"), _0x1u.logContainer.innerHTML = "", setTimeout(() => { _0x7q("connected"); _0xSimulate() }, 1500) } function _0x4n() { _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP Demo</span>' } function _0x5o() { _0x2b = !1, _0x1u.toggleBtn.classList.add("bg-gray-800"), _0x1u.toggleBtn.classList.remove("bg-brand", "text-black", "border-brand"), _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Demo</span>', _0x7q("disconnected") }
 
         // --- SIMULATION LOGIC ---
         function _0xSimulate() {
