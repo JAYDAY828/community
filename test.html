@@ -4707,15 +4707,72 @@
             up: new Audio(PREVIEW_CONFIG.soundPath.up),
             down: new Audio(PREVIEW_CONFIG.soundPath.down)
         };
+        let isAudioUnlocked = false;
+        let isUnlockingAudio = false;
+
         // Preload
         audio.up.load();
         audio.down.load();
+        audio.up.preload = 'auto';
+        audio.down.preload = 'auto';
+
+        async function primeAudioElement(element) {
+            element.muted = true;
+            element.currentTime = 0;
+
+            const playPromise = element.play();
+            if (playPromise !== undefined) {
+                await playPromise;
+            }
+
+            element.pause();
+            element.currentTime = 0;
+            element.muted = false;
+        }
+
+        async function unlockPreviewAudio() {
+            if (isAudioUnlocked || isUnlockingAudio) return isAudioUnlocked;
+            isUnlockingAudio = true;
+
+            try {
+                await Promise.all([primeAudioElement(audio.up), primeAudioElement(audio.down)]);
+                isAudioUnlocked = true;
+            } catch (err) {
+                audio.up.muted = false;
+                audio.down.muted = false;
+            } finally {
+                isUnlockingAudio = false;
+            }
+
+            return isAudioUnlocked;
+        }
+
+        function bindAudioUnlockOnFirstGesture() {
+            const events = ['touchstart', 'pointerdown', 'click', 'keydown'];
+            const unlockHandler = () => {
+                unlockPreviewAudio().then((ok) => {
+                    if (!ok) return;
+                    events.forEach((eventName) => {
+                        window.removeEventListener(eventName, unlockHandler);
+                    });
+                });
+            };
+
+            events.forEach((eventName) => {
+                window.addEventListener(eventName, unlockHandler, { passive: true });
+            });
+        }
+
+        bindAudioUnlockOnFirstGesture();
 
         // --- CONTROLS ---
         function togglePreview() {
             if (isPreviewRunning) {
                 stopEngine();
             } else {
+                if (isSoundEnabled) {
+                    void unlockPreviewAudio();
+                }
                 startEngine();
             }
         }
@@ -4728,6 +4785,7 @@
                 ui.soundBtn.classList.remove('bg-gray-700');
                 ui.soundBtn.classList.add('bg-brand');
                 knob.classList.add('translate-x-4');
+                void unlockPreviewAudio();
             } else {
                 ui.soundBtn.classList.add('bg-gray-700');
                 ui.soundBtn.classList.remove('bg-brand');
@@ -4897,8 +4955,9 @@
 
             // 1. Play Sound
             if (isSoundEnabled) {
-                if (isUp) audio.up.play().catch(() => { });
-                else audio.down.play().catch(() => { });
+                const alertSound = isUp ? audio.up : audio.down;
+                alertSound.currentTime = 0;
+                alertSound.play().catch(() => { });
             }
 
             // 2. Add to Log

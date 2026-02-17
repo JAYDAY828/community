@@ -4788,7 +4788,143 @@
 
     <!-- _0xCD: Protected Engine Logic (Simulation) -->
     <script>
-        const _0x1a = { wsUrl: "FAKE_WS_URL", throttleMs: 200, maxLogEntries: 50, soundPath: { up: "./sounds/up.wav", down: "./sounds/down.wav" } }; let _0x2b = false, _0x3c = false, _0x4d = null, _0x5e = {}, _0x6f = new Set; const _0x1u = { toggleBtn: document.getElementById("preview-toggle-btn"), statusBadge: document.getElementById("connection-status"), logContainer: document.getElementById("preview-log-container"), toastContainer: document.getElementById("preview-toast-container"), activeCount: document.getElementById("active-symbol-count"), soundBtn: document.getElementById("preview-sound-btn"), inputs: { threshold: document.getElementById("preview-threshold"), volume: document.getElementById("preview-volume") } }; const _0x2v = { up: new Audio(_0x1a.soundPath.up), down: new Audio(_0x1a.soundPath.down) }; _0x2v.up.load(), _0x2v.down.load(); function _0x4a() { _0x2b ? _0x5o() : _0x3m() } function _0x4b() { _0x3c = !_0x3c; const e = _0x1u.soundBtn.querySelector("div"); _0x3c ? (_0x1u.soundBtn.classList.remove("bg-gray-700"), _0x1u.soundBtn.classList.add("bg-brand"), e.classList.add("translate-x-4")) : (_0x1u.soundBtn.classList.add("bg-gray-700"), _0x1u.soundBtn.classList.remove("bg-brand"), e.classList.remove("translate-x-4")) } function _0x3m() { _0x2b = !0, _0x6f.clear(), _0x5e = {}, _0x1u.toggleBtn.classList.remove("bg-gray-800"), _0x1u.toggleBtn.classList.add("bg-brand", "text-black", "border-brand"), _0x4n(), _0x7q("connecting"), _0x1u.logContainer.innerHTML = "", setTimeout(() => { _0x7q("connected"); _0xSimulate() }, 1500) } function _0x4n() { _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP Demo</span>' } function _0x5o() { _0x2b = !1, _0x1u.toggleBtn.classList.add("bg-gray-800"), _0x1u.toggleBtn.classList.remove("bg-brand", "text-black", "border-brand"), _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Demo</span>', _0x7q("disconnected") }
+        const _0x1a = {
+            wsUrl: "FAKE_WS_URL",
+            throttleMs: 200,
+            maxLogEntries: 50,
+            soundPath: {
+                up: "./sounds/up.wav",
+                down: "./sounds/down.wav"
+            }
+        };
+
+        let _0x2b = false;
+        let _0x3c = false;
+        let _0x5e = {};
+        let _0x6f = new Set();
+
+        const _0x1u = {
+            toggleBtn: document.getElementById("preview-toggle-btn"),
+            statusBadge: document.getElementById("connection-status"),
+            logContainer: document.getElementById("preview-log-container"),
+            toastContainer: document.getElementById("preview-toast-container"),
+            activeCount: document.getElementById("active-symbol-count"),
+            soundBtn: document.getElementById("preview-sound-btn"),
+            inputs: {
+                threshold: document.getElementById("preview-threshold"),
+                volume: document.getElementById("preview-volume")
+            }
+        };
+
+        const _0x2v = {
+            up: new Audio(_0x1a.soundPath.up),
+            down: new Audio(_0x1a.soundPath.down)
+        };
+        let _0xau = false;
+        let _0xbv = false;
+
+        _0x2v.up.load();
+        _0x2v.down.load();
+        _0x2v.up.preload = "auto";
+        _0x2v.down.preload = "auto";
+
+        async function _0xPrime(e) {
+            e.muted = true;
+            e.currentTime = 0;
+
+            const t = e.play();
+            if (t !== undefined) {
+                await t;
+            }
+
+            e.pause();
+            e.currentTime = 0;
+            e.muted = false;
+        }
+
+        async function _0xUnlock() {
+            if (_0xau || _0xbv) return _0xau;
+            _0xbv = true;
+
+            try {
+                await Promise.all([_0xPrime(_0x2v.up), _0xPrime(_0x2v.down)]);
+                _0xau = true;
+            } catch (e) {
+                _0x2v.up.muted = false;
+                _0x2v.down.muted = false;
+            } finally {
+                _0xbv = false;
+            }
+
+            return _0xau;
+        }
+
+        function _0xBindUnlock() {
+            const e = ["touchstart", "pointerdown", "click", "keydown"];
+            const t = () => {
+                _0xUnlock().then((n) => {
+                    if (!n) return;
+                    e.forEach((o) => window.removeEventListener(o, t));
+                });
+            };
+
+            e.forEach((n) => window.addEventListener(n, t, { passive: true }));
+        }
+
+        _0xBindUnlock();
+
+        function _0x4a() {
+            _0x2b ? _0x5o() : _0x3m();
+        }
+
+        function _0x4b() {
+            _0x3c = !_0x3c;
+            const e = _0x1u.soundBtn.querySelector("div");
+
+            if (_0x3c) {
+                _0x1u.soundBtn.classList.remove("bg-gray-700");
+                _0x1u.soundBtn.classList.add("bg-brand");
+                e.classList.add("translate-x-4");
+                void _0xUnlock();
+            } else {
+                _0x1u.soundBtn.classList.add("bg-gray-700");
+                _0x1u.soundBtn.classList.remove("bg-brand");
+                e.classList.remove("translate-x-4");
+            }
+        }
+
+        function _0x3m() {
+            _0x2b = true;
+            _0x6f.clear();
+            _0x5e = {};
+
+            _0x1u.toggleBtn.classList.remove("bg-gray-800");
+            _0x1u.toggleBtn.classList.add("bg-brand", "text-black", "border-brand");
+            _0x4n();
+            _0x7q("connecting");
+            _0x1u.logContainer.innerHTML = "";
+
+            if (_0x3c) {
+                void _0xUnlock();
+            }
+
+            setTimeout(() => {
+                _0x7q("connected");
+                _0xSimulate();
+            }, 1500);
+        }
+
+        function _0x4n() {
+            _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-stop text-xl"></i><span class="text-xs">STOP Demo</span>';
+        }
+
+        function _0x5o() {
+            _0x2b = false;
+            _0x1u.toggleBtn.classList.add("bg-gray-800");
+            _0x1u.toggleBtn.classList.remove("bg-brand", "text-black", "border-brand");
+            _0x1u.toggleBtn.innerHTML = '<i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i><span class="text-xs">START Demo</span>';
+            _0x7q("disconnected");
+        }
 
         // --- SIMULATION LOGIC ---
         function _0xSimulate() {
@@ -4812,7 +4948,92 @@
             setTimeout(_0xSimulate, 1000 + Math.random() * 3000);
         }
 
-        function _0x7q(e) { const t = _0x1u.statusBadge.querySelector("span"); "connected" === e ? (_0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 flex items-center gap-2", t.className = "w-2 h-2 rounded-full bg-blue-500 animate-pulse", _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> Demo Mode') : "connecting" === e ? (_0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-xs font-mono text-yellow-400 flex items-center gap-2", t.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse", _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span> Initializing...') : "reconnecting" === e ? (_0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-mono text-red-400 flex items-center gap-2", _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Reconnecting...') : (_0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2", _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-500"></span> Stopped') } function _0x8r(e) { } function _0x9s(e, t, n) { const o = (new Date).toLocaleTimeString("en-US", { hour12: !1, hour: "2-digit", minute: "2-digit", second: "2-digit" }), r = t > 0, l = r ? "text-green-500" : "text-red-500", a = r ? "bg-green-500" : "bg-red-500", i = r ? "fa-arrow-trend-up" : "fa-arrow-trend-down"; _0x3c && (r ? _0x2v.up.play().catch(() => { }) : _0x2v.down.play().catch(() => { })); const s = document.createElement("div"); s.className = "grid grid-cols-4 px-4 py-2 hover:bg-white/5 border-b border-gray-800/50 transition-colors animate-pulse", s.innerHTML = `\n                <div class="text-gray-400">${o}</div>\n                <div class="text-white font-bold">${e.replace("USDT", "")}</div>\n                <div class="text-right ${l} font-bold">${r ? "+" : ""}${t.toFixed(2)}%</div>\n                <div class="text-right text-gray-400">${(n / 1e6).toFixed(1)}M</div>\n            `, _0x1u.logContainer.insertBefore(s, _0x1u.logContainer.firstChild), _0x1u.logContainer.children.length > _0x1a.maxLogEntries && _0x1u.logContainer.lastChild.remove(), setTimeout(() => s.classList.remove("animate-pulse"), 1e3), _0x0t(e, t, r) } function _0x0t(e, t, n) { const o = document.createElement("div"), r = n ? "border-green-500" : "border-red-500", l = n ? "bg-green-900/90" : "bg-red-900/90", a = n ? "text-green-400" : "text-red-400"; o.className = `glass-panel pl-4 pr-6 py-4 rounded-xl border-l-4 ${r} text-white shadow-2xl flex items-center gap-4 transform translate-y-10 opacity-0 transition-all duration-300 min-w-[280px]`, o.innerHTML = `\n                <div class="w-10 h-10 rounded-full ${l} flex items-center justify-center flex-shrink-0">\n                   <i class="fa-solid ${n ? "fa-bolt" : "fa-triangle-exclamation"} text-white"></i>\n                </div>\n                <div>\n                     <div class="text-xs text-gray-300 font-bold mb-0.5">DETECTOR ALERT (DEMO)</div>\n                     <div class="text-lg font-black font-mono leading-none">\n                        ${e.replace("USDT", "")} \n                        <span class="${a} ml-2">${n ? "+" : ""}${t.toFixed(2)}%</span>\n                     </div>\n                </div>\n            `, _0x1u.toastContainer.appendChild(o), requestAnimationFrame(() => { o.classList.remove("translate-y-10", "opacity-0") }), setTimeout(() => { o.classList.add("translate-x-full", "opacity-0"), setTimeout(() => o.remove(), 300) }, 3e3) }
+        function _0x7q(e) {
+            const t = _0x1u.statusBadge.querySelector("span");
+
+            if (e === "connected") {
+                _0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400 flex items-center gap-2";
+                t.className = "w-2 h-2 rounded-full bg-blue-500 animate-pulse";
+                _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> Demo Mode';
+            } else if (e === "connecting") {
+                _0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-xs font-mono text-yellow-400 flex items-center gap-2";
+                t.className = "w-2 h-2 rounded-full bg-yellow-500 animate-pulse";
+                _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span> Initializing...';
+            } else if (e === "reconnecting") {
+                _0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-mono text-red-400 flex items-center gap-2";
+                _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Reconnecting...';
+            } else {
+                _0x1u.statusBadge.className = "px-3 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-xs font-mono text-gray-400 flex items-center gap-2";
+                _0x1u.statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-500"></span> Stopped';
+            }
+        }
+
+        function _0x8r(e) { }
+
+        function _0x9s(e, t, n) {
+            const o = (new Date).toLocaleTimeString("en-US", {
+                hour12: false,
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            });
+            const r = t > 0;
+            const l = r ? "text-green-500" : "text-red-500";
+
+            if (_0x3c) {
+                const a = r ? _0x2v.up : _0x2v.down;
+                a.currentTime = 0;
+                a.play().catch(() => { });
+            }
+
+            const s = document.createElement("div");
+            s.className = "grid grid-cols-4 px-4 py-2 hover:bg-white/5 border-b border-gray-800/50 transition-colors animate-pulse";
+            s.innerHTML = `
+                <div class="text-gray-400">${o}</div>
+                <div class="text-white font-bold">${e.replace("USDT", "")}</div>
+                <div class="text-right ${l} font-bold">${r ? "+" : ""}${t.toFixed(2)}%</div>
+                <div class="text-right text-gray-400">${(n / 1e6).toFixed(1)}M</div>
+            `;
+
+            _0x1u.logContainer.insertBefore(s, _0x1u.logContainer.firstChild);
+            if (_0x1u.logContainer.children.length > _0x1a.maxLogEntries) {
+                _0x1u.logContainer.lastChild.remove();
+            }
+            setTimeout(() => s.classList.remove("animate-pulse"), 1000);
+            _0x0t(e, t, r);
+        }
+
+        function _0x0t(e, t, n) {
+            const o = document.createElement("div");
+            const r = n ? "border-green-500" : "border-red-500";
+            const l = n ? "bg-green-900/90" : "bg-red-900/90";
+            const a = n ? "text-green-400" : "text-red-400";
+
+            o.className = `glass-panel pl-4 pr-6 py-4 rounded-xl border-l-4 ${r} text-white shadow-2xl flex items-center gap-4 transform translate-y-10 opacity-0 transition-all duration-300 min-w-[280px]`;
+            o.innerHTML = `
+                <div class="w-10 h-10 rounded-full ${l} flex items-center justify-center flex-shrink-0">
+                   <i class="fa-solid ${n ? "fa-bolt" : "fa-triangle-exclamation"} text-white"></i>
+                </div>
+                <div>
+                     <div class="text-xs text-gray-300 font-bold mb-0.5">DETECTOR ALERT (DEMO)</div>
+                     <div class="text-lg font-black font-mono leading-none">
+                        ${e.replace("USDT", "")} 
+                        <span class="${a} ml-2">${n ? "+" : ""}${t.toFixed(2)}%</span>
+                     </div>
+                </div>
+            `;
+
+            _0x1u.toastContainer.appendChild(o);
+
+            requestAnimationFrame(() => {
+                o.classList.remove("translate-y-10", "opacity-0");
+            });
+
+            setTimeout(() => {
+                o.classList.add("translate-x-full", "opacity-0");
+                setTimeout(() => o.remove(), 300);
+            }, 3000);
+        }
     </script>
 </body>
 
