@@ -4709,12 +4709,81 @@
         };
         let isAudioUnlocked = false;
         let isUnlockingAudio = false;
+        let previewAudioContext = null;
+        let previewAudioLoadPromise = null;
+        const previewAudioBuffers = { up: null, down: null };
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext || null;
 
         // Preload
         audio.up.load();
         audio.down.load();
         audio.up.preload = 'auto';
         audio.down.preload = 'auto';
+
+        async function ensureAudioContextReady() {
+            if (!AudioContextClass) return false;
+            if (!previewAudioContext) previewAudioContext = new AudioContextClass();
+            if (previewAudioContext.state === 'suspended') {
+                await previewAudioContext.resume();
+            }
+            return previewAudioContext.state !== 'closed';
+        }
+
+        async function loadAudioBuffer(type) {
+            const res = await fetch(PREVIEW_CONFIG.soundPath[type], { cache: 'force-cache' });
+            if (!res.ok) throw new Error(`Failed to fetch ${type} audio`);
+            const arr = await res.arrayBuffer();
+            return previewAudioContext.decodeAudioData(arr.slice(0));
+        }
+
+        async function loadPreviewAudioBuffers() {
+            if (!AudioContextClass) return false;
+            if (previewAudioBuffers.up && previewAudioBuffers.down) return true;
+            if (previewAudioLoadPromise) return previewAudioLoadPromise;
+
+            previewAudioLoadPromise = (async () => {
+                const ready = await ensureAudioContextReady();
+                if (!ready) return false;
+
+                const [upBuffer, downBuffer] = await Promise.all([
+                    loadAudioBuffer('up'),
+                    loadAudioBuffer('down')
+                ]);
+                previewAudioBuffers.up = upBuffer;
+                previewAudioBuffers.down = downBuffer;
+                return true;
+            })().catch(() => false).finally(() => {
+                previewAudioLoadPromise = null;
+            });
+
+            return previewAudioLoadPromise;
+        }
+
+        function playBufferedSound(type) {
+            if (!previewAudioContext || !previewAudioBuffers[type]) return false;
+
+            if (previewAudioContext.state === 'suspended') {
+                previewAudioContext.resume().catch(() => { });
+            }
+
+            const source = previewAudioContext.createBufferSource();
+            const gain = previewAudioContext.createGain();
+            gain.gain.value = 1;
+            source.buffer = previewAudioBuffers[type];
+            source.connect(gain);
+            gain.connect(previewAudioContext.destination);
+            source.start(0);
+            return true;
+        }
+
+        function playHtmlAudioFallback(type) {
+            const base = audio[type];
+            if (!base) return;
+
+            const clip = base.cloneNode(true);
+            clip.currentTime = 0;
+            clip.play().catch(() => { });
+        }
 
         async function primeAudioElement(element) {
             element.muted = true;
@@ -4735,7 +4804,22 @@
             isUnlockingAudio = true;
 
             try {
-                await Promise.all([primeAudioElement(audio.up), primeAudioElement(audio.down)]);
+                const unlockTasks = [
+                    primeAudioElement(audio.up),
+                    primeAudioElement(audio.down)
+                ];
+
+                if (AudioContextClass) {
+                    unlockTasks.push(
+                        (async () => {
+                            const ready = await ensureAudioContextReady();
+                            if (!ready) return;
+                            await loadPreviewAudioBuffers();
+                        })()
+                    );
+                }
+
+                await Promise.all(unlockTasks);
                 isAudioUnlocked = true;
             } catch (err) {
                 audio.up.muted = false;
@@ -4764,6 +4848,13 @@
         }
 
         bindAudioUnlockOnFirstGesture();
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState !== 'visible') return;
+            if (previewAudioContext && previewAudioContext.state === 'suspended' && isSoundEnabled) {
+                void previewAudioContext.resume();
+            }
+        });
 
         // --- CONTROLS ---
         function togglePreview() {
@@ -4955,9 +5046,11 @@
 
             // 1. Play Sound
             if (isSoundEnabled) {
-                const alertSound = isUp ? audio.up : audio.down;
-                alertSound.currentTime = 0;
-                alertSound.play().catch(() => { });
+                const soundType = isUp ? 'up' : 'down';
+                const played = playBufferedSound(soundType);
+                if (!played) {
+                    playHtmlAudioFallback(soundType);
+                }
             }
 
             // 2. Add to Log
