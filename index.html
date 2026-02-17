@@ -4822,77 +4822,11 @@
         };
         let _0xau = false;
         let _0xbv = false;
-        let _0xcw = null;
-        let _0xdx = null;
-        const _0xey = { up: null, down: null };
-        const _0xfz = window.AudioContext || window.webkitAudioContext || null;
 
         _0x2v.up.load();
         _0x2v.down.load();
         _0x2v.up.preload = "auto";
         _0x2v.down.preload = "auto";
-
-        async function _0xCtxReady() {
-            if (!_0xfz) return false;
-            if (!_0xcw) _0xcw = new _0xfz();
-            if (_0xcw.state === "suspended") {
-                await _0xcw.resume();
-            }
-            return _0xcw.state !== "closed";
-        }
-
-        async function _0xLoadBuffer(e) {
-            const t = await fetch(_0x1a.soundPath[e], { cache: "force-cache" });
-            if (!t.ok) throw new Error(`Failed to fetch ${e} audio`);
-            const n = await t.arrayBuffer();
-            return _0xcw.decodeAudioData(n.slice(0));
-        }
-
-        async function _0xLoadBuffers() {
-            if (!_0xfz) return false;
-            if (_0xey.up && _0xey.down) return true;
-            if (_0xdx) return _0xdx;
-
-            _0xdx = (async () => {
-                const e = await _0xCtxReady();
-                if (!e) return false;
-
-                const [t, n] = await Promise.all([_0xLoadBuffer("up"), _0xLoadBuffer("down")]);
-                _0xey.up = t;
-                _0xey.down = n;
-                return true;
-            })().catch(() => false).finally(() => {
-                _0xdx = null;
-            });
-
-            return _0xdx;
-        }
-
-        function _0xPlayBuffered(e) {
-            if (!_0xcw || !_0xey[e]) return false;
-
-            if (_0xcw.state === "suspended") {
-                _0xcw.resume().catch(() => { });
-            }
-
-            const t = _0xcw.createBufferSource();
-            const n = _0xcw.createGain();
-            n.gain.value = 1;
-            t.buffer = _0xey[e];
-            t.connect(n);
-            n.connect(_0xcw.destination);
-            t.start(0);
-            return true;
-        }
-
-        function _0xPlayFallback(e) {
-            const t = _0x2v[e];
-            if (!t) return;
-
-            const n = t.cloneNode(true);
-            n.currentTime = 0;
-            n.play().catch(() => { });
-        }
 
         async function _0xPrime(e) {
             e.muted = true;
@@ -4913,17 +4847,7 @@
             _0xbv = true;
 
             try {
-                const e = [_0xPrime(_0x2v.up), _0xPrime(_0x2v.down)];
-
-                if (_0xfz) {
-                    e.push((async () => {
-                        const t = await _0xCtxReady();
-                        if (!t) return;
-                        await _0xLoadBuffers();
-                    })());
-                }
-
-                await Promise.all(e);
+                await Promise.all([_0xPrime(_0x2v.up), _0xPrime(_0x2v.down)]);
                 _0xau = true;
             } catch (e) {
                 _0x2v.up.muted = false;
@@ -4948,12 +4872,6 @@
         }
 
         _0xBindUnlock();
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState !== "visible") return;
-            if (_0xcw && _0xcw.state === "suspended" && _0x3c) {
-                void _0xcw.resume();
-            }
-        });
 
         function _0x4a() {
             _0x2b ? _0x5o() : _0x3m();
@@ -5063,11 +4981,9 @@
             const l = r ? "text-green-500" : "text-red-500";
 
             if (_0x3c) {
-                const a = r ? "up" : "down";
-                const i = _0xPlayBuffered(a);
-                if (!i) {
-                    _0xPlayFallback(a);
-                }
+                const a = r ? _0x2v.up : _0x2v.down;
+                a.currentTime = 0;
+                a.play().catch(() => { });
             }
 
             const s = document.createElement("div");
