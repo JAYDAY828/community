@@ -90,20 +90,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 🌌 Dynamic Mesh Gradient Background */
-        .mesh-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            background: radial-gradient(at 0% 0%, rgba(252, 213, 53, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(14, 203, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(246, 70, 93, 0.08) 0px, transparent 50%);
-            background-color: #07090b;
-        }
+
 
         /* 3D Canvas Background (Reduced Opacity & Filter for depth) */
         #bg3d {
@@ -431,7 +418,7 @@
 
 
     <!-- 🌌 Dynamic Background Design C -->
-    <div class="mesh-bg"></div>
+
     <!-- 3D Background (Subtle layer) -->
     <canvas id="bg3d"></canvas>
 
@@ -447,7 +434,7 @@
                 <!-- shadow-md는 유지하여 배경과 분리감만 줌 -->
                 <!-- Refined Logo Design C -->
                 <div
-                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-brand via-brand/90 to-yellow-600 flex-shrink-0 flex items-center justify-center shadow-[0_0_15px_rgba(252,213,53,0.3)] relative z-10 transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(252,213,53,0.5)] border border-brand/50">
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-brand via-brand/90 to-yellow-600 flex-shrink-0 flex items-center justify-center relative z-10 transition-transform duration-300 hover:scale-105 border border-brand/50">
                     <div class="flex flex-col items-center justify-center leading-none select-none py-0.5">
                         <span
                             class="font-black text-black text-[10px] md:text-[11px] tracking-tight mb-[1px]">부평구</span>
@@ -640,7 +627,7 @@
                 </div>
 
                 <!-- Auto TOC -->
-                <div id="toc-container" class="mt-8 hidden xl:block pl-2">
+                <div id="toc-container" class="mt-8 hidden pl-2">
                     <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2"
                         data-i18n="nav.toc">On This Page</p>
                     <!-- [Fix] border-l, border-gray-800 클래스 제거하여 선 삭제 -->
@@ -660,10 +647,6 @@
             <section id="links" class="guide-section fade-in">
                 <!-- Hero Section -->
                 <div class="text-center mb-16 py-14 relative">
-                    <!-- Subtle glow behind the hero section -->
-                    <div
-                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-brand/4 blur-[120px] rounded-[100%] z-[-1] pointer-events-none">
-                    </div>
 
                     <div
                         class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-bold mb-6 shadow-[0_0_10px_rgba(14,203,129,0.2)]">
@@ -4799,8 +4782,9 @@
             const tocList = document.getElementById('toc');
 
             if (tocContainer && tocList) {
-                tocContainer.classList.add('hidden'); // 일단 숨김
-                tocList.innerHTML = '';               // 내용 비움
+                tocContainer.classList.add('hidden');
+                tocContainer.classList.remove('xl:block');
+                tocList.innerHTML = '';
             }
 
             // 2. Sidebar Active State
@@ -4854,6 +4838,7 @@
 
             // 헤딩이 있으면 컨테이너 표시
             container.classList.remove('hidden');
+            container.classList.add('xl:block');
 
             headings.forEach(h => {
                 // ID가 없으면 텍스트로 생성
