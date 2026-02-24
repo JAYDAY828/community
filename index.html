@@ -80,27 +80,32 @@
             /* 항상 스크롤바 트랙을 유지하여 너비 고정 */
         }
 
+        /* Premium Base Layer */
         body {
-            background-color: #0b0e11;
+            background-color: #07090b;
+            /* Even darker, richer black */
             color: #EAECEF;
             overflow-x: hidden;
+            font-family: 'Inter', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(23, 25, 36, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: background 0.2s ease, transform 0.2s ease;
+        /* 🌌 Dynamic Mesh Gradient Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: radial-gradient(at 0% 0%, rgba(252, 213, 53, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(14, 203, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(246, 70, 93, 0.08) 0px, transparent 50%);
+            background-color: #07090b;
         }
 
-        .glass-panel:hover {
-            background: rgba(23, 25, 36, 0.8);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        /* 3D Canvas Background */
+        /* 3D Canvas Background (Reduced Opacity & Filter for depth) */
         #bg3d {
             position: fixed;
             top: 0;
@@ -109,23 +114,169 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
+            opacity: 0.6;
+            mix-blend-mode: screen;
         }
 
-        /* Animations */
+
+        /* 💧 Liquid Card (Inner Glassmorphism) */
+        .liquid-card {
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.0) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .liquid-card:hover {
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            border-top-color: rgba(255, 255, 255, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* 🎇 Yellow Liquid Button */
+        .liquid-btn-yellow {
+            background-image: linear-gradient(135deg, rgba(252, 213, 53, 0.8) 0%, rgba(252, 213, 53, 0.95) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(252, 213, 53, 0.3) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+            box-shadow: 0 8px 24px rgba(252, 213, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            color: #000 !important;
+        }
+
+        .liquid-btn-yellow:hover {
+            background-image: linear-gradient(135deg, rgba(252, 213, 53, 0.9) 0%, rgba(252, 213, 53, 1) 100%);
+            box-shadow: 0 12px 32px rgba(252, 213, 53, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-1px);
+        }
+
+        /* 🎇 White Liquid Button */
+        .liquid-btn-white {
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.9) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            color: #000 !important;
+        }
+
+        .liquid-btn-white:hover {
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 1) 100%);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        /* ✨ Premium Glassmorphism (Web3/Fintech Style) */
+        .glass-panel {
+            background: linear-gradient(180deg, rgba(23, 25, 36, 0.6) 0%, rgba(18, 20, 28, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            /* Subtle top light */
+            box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header specific glass (no scale on hover) */
+        .glass-header {
+            background: linear-gradient(180deg, rgba(23, 25, 36, 0.8) 0%, rgba(18, 20, 28, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-panel:hover {
+            background: linear-gradient(180deg, rgba(35, 38, 50, 0.65) 0%, rgba(20, 23, 31, 0.85) 100%);
+            transform: translateY(-1px);
+            /* Much softer lift, no scale */
+            box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            border-top-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 🚀 High-end Animations */
         .fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
+            opacity: 0;
+            animation: floatUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes fadeIn {
+        /* Staggered loading for sections */
+        .fade-in:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .fade-in:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .fade-in:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes floatUpFade {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(24px) scale(0.98);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
+        }
+
+        /* Button & Icon Micro-interactions */
+        .nav-btn {
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(252, 213, 53, 0.15) 0%, rgba(252, 213, 53, 0.02) 100%);
+            border: 1px solid rgba(252, 213, 53, 0.2);
+            border-left: 3px solid #FCD535;
+            color: white;
+            box-shadow: inset 0 0 10px rgba(252, 213, 53, 0.05);
+        }
+
+        .nav-btn span {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+
+        .nav-btn i {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-btn:hover span {
+            transform: translateX(3px);
+            color: white;
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.15) rotate(5deg);
         }
 
         /* Content Typography */
@@ -279,11 +430,13 @@
 <body class="antialiased selection:bg-brand selection:text-black">
 
 
-    <!-- 3D Background -->
+    <!-- 🌌 Dynamic Background Design C -->
+    <div class="mesh-bg"></div>
+    <!-- 3D Background (Subtle layer) -->
     <canvas id="bg3d"></canvas>
 
     <!-- === Header === -->
-    <header class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5 h-16 transition-all duration-300">
+    <header class="fixed top-0 w-full z-50 glass-header border-b-0 border-white/5 h-16 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between gap-2">
 
             <!-- Brand Area -->
@@ -292,8 +445,9 @@
 
                 <!-- 수정사항: 'border border-white/10' 제거 (테두리 띠 삭제) -->
                 <!-- shadow-md는 유지하여 배경과 분리감만 줌 -->
+                <!-- Refined Logo Design C -->
                 <div
-                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-brand to-yellow-600 flex-shrink-0 flex items-center justify-center shadow-md relative z-10">
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-brand via-brand/90 to-yellow-600 flex-shrink-0 flex items-center justify-center shadow-[0_0_15px_rgba(252,213,53,0.3)] relative z-10 transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(252,213,53,0.5)] border border-brand/50">
                     <div class="flex flex-col items-center justify-center leading-none select-none py-0.5">
                         <span
                             class="font-black text-black text-[10px] md:text-[11px] tracking-tight mb-[1px]">부평구</span>
@@ -321,10 +475,11 @@
                     <i class="fa-solid fa-search"></i>
                 </div>
                 <input id="q" type="text"
-                    class="w-full bg-[#1E2329]/80 border border-gray-700 text-sm rounded-lg focus:ring-1 focus:ring-brand focus:border-brand block pl-10 p-2.5 transition-all placeholder-gray-500 text-white"
+                    class="w-full bg-[#1E2329]/60 backdrop-blur-md border border-gray-700/80 text-sm rounded-xl focus:ring-2 focus:ring-brand/50 focus:border-brand/80 focus:bg-[#1E2329] block pl-10 p-2.5 transition-all duration-300 placeholder-gray-500 text-white shadow-inner"
                     placeholder="가이드 검색 (단축키 /)">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <kbd class="px-2 py-0.5 text-xs text-gray-500 bg-gray-800 rounded border border-gray-700">/</kbd>
+                    <kbd
+                        class="px-2 py-0.5 text-xs text-gray-400 bg-gray-800/80 rounded-md border border-gray-700 backdrop-blur-sm">/</kbd>
                 </div>
                 <!-- Search Results -->
                 <div id="searchResults"
@@ -336,7 +491,7 @@
             <div class="flex items-center gap-2 md:gap-3 flex-shrink-0">
                 <!-- [NEW] Language Toggle -->
                 <button onclick="toggleLanguage()"
-                    class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 hover:border-gray-500 transition-all text-xs font-bold text-gray-300">
+                    class="liquid-card flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-800/20 border border-gray-700 hover:border-gray-500 transition-all text-xs font-bold text-gray-300">
                     <i class="fa-solid fa-globe"></i>
                     <span id="lang-text">KR</span>
                 </button>
@@ -348,12 +503,13 @@
                         data-i18n="header.community">Community</span>
                 </a>
 
-                <!-- Join Button: Mobile Optimized -->
+                <!-- Join Button Design C -->
                 <button id="join"
-                    class="bg-brand hover:bg-yellow-400 text-black font-bold py-1.5 px-3 md:py-2 md:px-4 rounded-lg text-xs md:text-sm transition-all shadow-lg shadow-brand/10 hover:shadow-brand/30 flex items-center justify-center gap-1 md:gap-2 whitespace-nowrap shrink-0 min-w-[5.5rem] md:min-w-[7.5rem]"
+                    class="liquid-btn-yellow font-extrabold py-1.5 px-3 md:py-2 md:px-5 rounded-xl text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-1 md:gap-2 whitespace-nowrap shrink-0 min-w-[5.5rem] md:min-w-[7.5rem]"
                     onclick="window.open('https://forms.gle/r7pxYEqeCE77mmJW6')">
                     <span data-i18n="header.join">가입<span class="hidden md:inline"> 신청</span></span>
-                    <i class="fa-solid fa-arrow-right text-[10px] md:text-xs"></i>
+                    <i
+                        class="fa-solid fa-arrow-right text-[10px] md:text-xs group-hover:translate-x-1 transition-transform"></i>
                 </button>
 
                 <!-- Mobile Menu Toggle -->
@@ -503,34 +659,41 @@
             <!-- SECTION 1: HOME (Dashboard) -->
             <section id="links" class="guide-section fade-in">
                 <!-- Hero Section -->
-                <div class="text-center mb-12 py-10">
+                <div class="text-center mb-16 py-14 relative">
+                    <!-- Subtle glow behind the hero section -->
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-bold mb-4">
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-brand/4 blur-[120px] rounded-[100%] z-[-1] pointer-events-none">
+                    </div>
+
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-xs font-bold mb-6 shadow-[0_0_10px_rgba(14,203,129,0.2)]">
                         <span class="relative flex h-2 w-2">
                             <span
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-green"></span>
                         </span>
-                        <span data-i18n="hero.status">SYSTEM OPERATIONAL</span>
+                        <span data-i18n="hero.status" class="tracking-wide">SYSTEM OPERATIONAL</span>
                     </div>
 
-                    <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4 leading-tight"
+                    <h2 class="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 tracking-tight mb-6 leading-tight"
                         data-i18n="hero.title">
-                        BUILT FOR <span class="text-brand">TRADERS</span>.
+                        BUILT FOR <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-yellow-600 drop-shadow-[0_0_15px_rgba(252,213,53,0.3)]">TRADERS</span>.
                     </h2>
-                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed" data-i18n="hero.desc">
+                    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light"
+                        data-i18n="hero.desc">
                         전문 트레이더 기준으로 설계된 실전 툴킷.<br>
-                        실시간 데이터, 시세감지, 고성능 MM 봇 환경에 대응하는 최적의 솔루션을 제공합니다.
+                        실시간 데이터, 시세감지, 고빈도 MM 봇에 대응하는 최적 솔루션을 제공합니다.
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
                         <button onclick="activate('crypto-detector')"
-                            class="px-6 py-3 bg-gray-100 text-black font-bold rounded-lg hover:bg-white transition-colors"
+                            class="liquid-btn-white px-8 py-3.5 font-extrabold rounded-xl transition-all"
                             data-i18n="btn.explore">
-                            살펴보기
+                            알아보기
                         </button>
                         <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                            class="px-6 py-3 glass-panel text-white font-bold rounded-lg hover:bg-white/10 transition-colors border border-white/20">
-                            <i class="fa-brands fa-telegram"></i> <span data-i18n="btn.telegram">텔레그램</span>
+                            class="px-8 py-3.5 glass-panel text-white font-bold rounded-xl transition-colors border border-white/10 flex items-center gap-2">
+                            <i class="fa-brands fa-telegram text-xl"></i> <span data-i18n="btn.telegram">텔레그램</span>
                         </a>
                     </div>
                 </div>
@@ -626,7 +789,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Telegram -->
                         <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"
                                 class="w-10 h-10" alt="Telegram">
                             <div>
@@ -638,7 +801,7 @@
 
                         <!-- Google Form -->
                         <a href="https://forms.gle/r7pxYEqeCE77mmJW6" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
                                 class="w-10 h-10 p-1 bg-white rounded-lg" alt="Google">
                             <div>
@@ -650,7 +813,7 @@
 
                         <!-- Kakao (Inquiry) -->
                         <a href="https://open.kakao.com/o/s73fjkPd" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/600px-KakaoTalk_logo.svg.png"
                                 class="w-10 h-10 rounded-lg" alt="Kakao">
                             <div>
@@ -663,7 +826,7 @@
 
                         <!-- Kakao (Community) -->
                         <a href="https://open.kakao.com/o/g7Gqr03c" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/600px-KakaoTalk_logo.svg.png"
                                 class="w-10 h-10 rounded-lg" alt="Kakao">
                             <div>
@@ -676,7 +839,7 @@
 
                         <!-- SOOP (Main) -->
                         <a href="https://play.sooplive.co.kr/njhg0828/286849894" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://play-lh.googleusercontent.com/p9zXgkP4pkCDVR-dQ2HfcHyD5vg9MTjDLFVpckObdHI9dGiiMO9TldFJ7kc5bgEGwYjo=w240-h480-rw"
                                 class="w-10 h-10 rounded-lg" alt="SOOP">
                             <div>
@@ -689,7 +852,7 @@
 
                         <!-- YouTube -->
                         <a href="https://www.youtube.com/@trader_jayday" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"
                                 class="w-10 h-10" alt="YouTube">
                             <div>
@@ -701,7 +864,7 @@
 
                         <!-- SOOP (Sub) -->
                         <a href="https://play.sooplive.co.kr/scalper7/286894716" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://play-lh.googleusercontent.com/p9zXgkP4pkCDVR-dQ2HfcHyD5vg9MTjDLFVpckObdHI9dGiiMO9TldFJ7kc5bgEGwYjo=w240-h480-rw"
                                 class="w-10 h-10 rounded-lg" alt="SOOP">
                             <div>
@@ -714,7 +877,7 @@
 
                         <!-- YouTube -->
                         <a href="https://www.youtube.com/@make_USD1000_a_day" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/YouTube_icon_%282013-2017%29.png/512px-YouTube_icon_%282013-2017%29.png"
                                 class="w-10 h-10" alt="YouTube">
                             <div>
@@ -726,7 +889,7 @@
 
                         <!-- Telegram Market Channel -->
                         <a href="https://t.me/+74DfBCDlCmJlMGQ1" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg"
                                 class="w-10 h-10" alt="Telegram">
                             <div>
@@ -739,7 +902,7 @@
 
                         <!-- Instagram -->
                         <a href="https://www.instagram.com/trader_jayday/" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
                                 class="w-10 h-10" alt="Instagram">
                             <div>
@@ -752,7 +915,7 @@
 
                         <!-- Binance -->
                         <a href="https://accounts.binance.com/register?ref=JAYDAY" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg"
                                 class="w-10 h-10" alt="Binance">
                             <div>
@@ -765,7 +928,7 @@
 
                         <!-- TradingView -->
                         <a href="https://kr.tradingview.com/script/2f5pifia/" target="_blank"
-                            class="flex items-center gap-4 p-4 rounded-xl bg-gray-800/40 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://static.tradingview.com/static/images/favicon.ico"
                                 class="w-10 h-10 rounded-lg bg-gray-900 p-1" alt="TradingView">
                             <div>
@@ -808,7 +971,7 @@
                     <!-- Setup Controls -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <!-- Control 1: Threshold (LOCKED) -->
-                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
+                        <div class="liquid-card bg-gray-900/20 p-4 rounded-xl border border-gray-800 relative group">
                             <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
                                 title="Full Version Only"></i>
                             <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Threshold (%)</label>
@@ -817,7 +980,7 @@
                                 placeholder="1.0">
                         </div>
                         <!-- Control 2: Volume (LOCKED) -->
-                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative group">
+                        <div class="liquid-card bg-gray-900/20 p-4 rounded-xl border border-gray-800 relative group">
                             <i class="fa-solid fa-lock absolute top-4 right-4 text-gray-600 group-hover:text-brand transition-colors"
                                 title="Full Version Only"></i>
                             <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Min Vol
@@ -827,7 +990,7 @@
                                 placeholder="50">
                         </div>
                         <!-- Control 3: Sound Toggle -->
-                        <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center justify-between cursor-pointer"
+                        <div class="liquid-card bg-gray-900/20 p-4 rounded-xl border border-gray-800 flex items-center justify-between cursor-pointer"
                             onclick="_0x4b()">
                             <label class="block text-xs font-bold text-gray-500 uppercase cursor-pointer">Sound
                                 Alert</label>
@@ -839,7 +1002,7 @@
                         </div>
                         <!-- Control 4: Start/Stop -->
                         <button id="preview-toggle-btn" onclick="_0x4a()"
-                            class="bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl border border-gray-600 transition-all active:scale-95 flex flex-col items-center justify-center gap-1 group">
+                            class="liquid-card bg-gray-800/20 hover:bg-gray-700/40 text-white font-bold rounded-xl border border-gray-600 transition-all active:scale-95 flex flex-col items-center justify-center gap-1 group">
                             <i class="fa-solid fa-play text-xl group-hover:text-brand transition-colors"></i>
                             <span class="text-xs">START</span>
                         </button>
@@ -847,7 +1010,7 @@
 
                     <!-- Detection Log List -->
                     <div
-                        class="bg-[#111] rounded-xl border border-gray-800 overflow-hidden min-h-[400px] flex flex-col">
+                        class="liquid-card bg-[#111]/40 rounded-xl border border-gray-800 overflow-hidden min-h-[400px] flex flex-col">
                         <div
                             class="bg-gray-900/80 px-4 py-2 border-b border-gray-800 flex justify-between items-center">
                             <span class="text-xs font-bold text-gray-400 font-mono"><i
@@ -915,7 +1078,7 @@
                         <!-- Trial & Full Version -->
                         <div class="space-y-6">
                             <!-- Trial Info -->
-                            <div class="bg-yellow-500/5 border border-yellow-500/20 p-5 rounded-2xl">
+                            <div class="liquid-card bg-yellow-500/5 border border-yellow-500/20 p-5 rounded-2xl">
                                 <h3 class="flex items-center gap-2 text-yellow-500 font-bold mb-2 text-sm">
                                     <i class="fa-solid fa-triangle-exclamation"></i> <span
                                         data-i18n="preview.info.trial.title">체험판 특징 (1일 30분 무료)</span>
@@ -929,7 +1092,7 @@
 
                             <!-- Full Version Promo -->
                             <div
-                                class="bg-blue-500/5 border border-blue-500/20 p-5 rounded-2xl group hover:border-blue-500/40 transition-colors">
+                                class="liquid-card bg-blue-500/5 border border-blue-500/20 p-5 rounded-2xl group hover:border-blue-500/40 transition-colors">
                                 <h3 class="flex items-center gap-2 text-blue-400 font-bold mb-2 text-sm">
                                     <i class="fa-solid fa-rocket"></i> <span data-i18n="preview.info.full.title">PC 정식
                                         버전 (Full Version)</span>
@@ -1002,7 +1165,7 @@
 
                             <!-- Box: Flex 정렬 적용 -->
                             <div
-                                class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 mb-5 flex flex-col justify-center">
+                                class="liquid-card bg-gray-800/20 p-6 rounded-lg border border-gray-700 mb-5 flex flex-col justify-center">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-300">
                                     <li class="flex items-center gap-3">
                                         <i class="fa-solid fa-check text-brand w-4 text-center"></i>
@@ -1039,7 +1202,7 @@
                                 data-i18n="terms.article4.title">제4조 (책임 제한)</h2>
 
                             <!-- Box: 다른 박스들과 동일하게 p-6 (1.5rem) 적용 -->
-                            <div class="bg-red-900/10 border border-red-900/40 rounded-xl p-6">
+                            <div class="liquid-card bg-red-900/10 border border-red-900/40 rounded-xl p-6">
                                 <!-- Title: !mt-0 클래스로 h3 태그의 기본 상단 여백 제거 (핵심) -->
                                 <h3 class="text-accent-red font-bold text-sm mb-5 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-triangle-exclamation"></i> <span
@@ -1107,7 +1270,8 @@
                                 </p>
 
                                 <!-- Box: Flex 정렬 및 여백 제거 -->
-                                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                                <div
+                                    class="liquid-card bg-gray-800/20 p-6 rounded-lg border border-gray-700 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                     <p class="text-sm text-gray-300 mb-3 font-semibold"
                                         data-i18n="terms.article6.box.lead">이용자는 운영자의 사전 서면 동의 없이 다음 각 호의 행위를 하여서는 아니
                                         됩니다.</p>
@@ -1186,7 +1350,7 @@
                                     2. <strong>[스마트 앱 컨트롤]</strong> 항목의 설정 상태를 확인해 주시기 바랍니다.<br>
                                     (해당 기능이 활성화된 경우 미인증 앱 실행이 제한될 수 있습니다.)
                                 </p>
-                                <div class="mt-3 p-3 bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400"
+                                <div class="mt-3 p-3 liquid-card bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400"
                                     data-i18n="faq.a1.note">
                                     * 본 프로그램은 개인 개발 툴로서 디지털 인증서가 포함되지 않아 윈도우가 차단하는 경우가 있습니다.
                                 </div>
@@ -1333,7 +1497,8 @@
                         <div id="api-quick">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step1.title">1) 발급 절차</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step1.item1">바이낸스 로그인 후 우측 상단 <strong>[Account]</strong> →
@@ -1359,7 +1524,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <!-- Allowed -->
                                 <div
-                                    class="bg-[#161b22] border border-green-900/50 rounded-xl p-6 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-green-900/50 rounded-xl p-6 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-accent-green font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-check-circle"></i> <span
                                             data-i18n="api.step2.allow.title">반드시 체크 (허용)</span>
@@ -1377,8 +1542,8 @@
                                 </div>
                                 <!-- Prohibited -->
                                 <div
-                                    class="bg-[#161b22] border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
-                                    <h4 class="text-gray-400 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
+                                    class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h4 class="text-accent-red font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-ban text-gray-500"></i> <span
                                             data-i18n="api.step2.deny.title">체크 해제 (금지)</span>
                                     </h4>
@@ -1396,7 +1561,8 @@
                             </div>
 
                             <!-- Note Box (정렬 수정됨) -->
-                            <div class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <div class="flex items-start gap-3">
                                     <i class="fa-solid fa-circle-info text-blue-400 mt-0.5 flex-shrink-0"></i>
                                     <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.step2.note">
@@ -1411,7 +1577,8 @@
                         <div id="ip-restrict">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step3.title">3) IP 제한 설정 (보안 필수)</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step3.item1">API 설정 화면 하단의 <strong>IP Access
@@ -1426,7 +1593,8 @@
                                 </ol>
                             </div>
                             <!-- Note Box (정렬 수정됨) -->
-                            <div class="bg-gray-700/30 border border-gray-600/30 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-gray-700/30 border border-gray-600/30 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <div class="flex items-center gap-3">
                                     <i class="fa-solid fa-shield-halved text-gray-400 flex-shrink-0"></i>
                                     <span class="text-sm text-gray-400" data-i18n="api.step3.note">허용된 IP 이외의 환경(다른 PC,
@@ -1439,7 +1607,8 @@
                         <div id="apply-toolkit">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step4.title">4) Order Toolkit에 입력</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-4">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step4.item1">발급 완료 화면에 표시된 <strong>API Key</strong>와
@@ -1452,7 +1621,8 @@
                             </div>
 
                             <!-- Warning Box (정렬 수정됨) -->
-                            <div class="bg-red-900/10 border border-red-900/30 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <h4 class="text-accent-red font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-triangle-exclamation"></i> <span
                                         data-i18n="api.step4.warn.title">주의사항</span>
@@ -1499,7 +1669,7 @@
                                 즉시 모니터링할 수 있는 툴킷입니다.
                                 트레이딩뷰 지표 및 알림(Alerts) 기능과 연동하여 모바일 환경에서도 신호를 받아볼 수 있습니다.
                             </p>
-                            <div class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-6">
+                            <div class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-6">
                                 <h4 class="text-blue-400 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-bell"></i> <span data-i18n="cd.mobile.title">모바일 알림 지원
                                         (TradingView 연동)</span>
@@ -1526,7 +1696,7 @@
                                 </div>
                             </div>
                             <!-- Security Box -->
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
                                 <h4 class="text-gray-200 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-lock text-accent-green"></i> <span
                                         data-i18n="cd.security.title">보안 및 로그인 정책</span>
@@ -1557,7 +1727,7 @@
                                 <!-- [LEFT] Main Filter -->
                                 <!-- 수정됨: hover:border-gray-500 transition-all duration-300 클래스 추가 -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 lg:col-span-1 flex flex-col h-full shadow-lg shadow-black/20 hover:border-gray-500 transition-all duration-300 group">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 lg:col-span-1 flex flex-col h-full shadow-lg shadow-black/20 hover:border-gray-500 transition-all duration-300 group">
                                     <div class="mb-6 border-b border-gray-700 pb-4">
                                         <span
                                             class="text-brand font-bold text-[10px] tracking-widest uppercase mb-1 block">PRIMARY
@@ -1627,7 +1797,7 @@
 
                                     <!-- 1. New Pair -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-rocket text-brand group-hover:animate-bounce"></i>
                                             <span data-i18n="cd.logic.new.title">신규 상장 (New Pair)</span>
@@ -1640,7 +1810,8 @@
                                         </div>
 
                                         <!-- mt-auto로 박스를 최하단으로 밀어냄 -->
-                                        <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
+                                        <div
+                                            class="mt-auto liquid-card bg-gray-800/20 rounded p-3 border border-gray-700/50">
                                             <div class="flex items-center gap-2 text-xs text-gray-300">
                                                 <i class="fa-solid fa-check text-green-500 text-[10px]"></i>
                                                 <span data-i18n="cd.logic.new.check"><strong>거래대금 무시</strong>, 등락률만
@@ -1651,7 +1822,7 @@
 
                                     <!-- 2. TradFi -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-scale-balanced text-yellow-500"></i>
                                             <span data-i18n="cd.logic.tradfi.title">트레이드파이 (TradFi)</span>
@@ -1662,7 +1833,8 @@
                                             유동성 구조가 다른 TradFi(전통금융) 기반 자산을 거래대금 조건 없이 변동률 기준으로 감지합니다.
                                         </div>
 
-                                        <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
+                                        <div
+                                            class="mt-auto liquid-card bg-gray-800/20 rounded p-3 border border-gray-700/50">
                                             <div class="flex flex-col gap-1.5 text-xs text-gray-300">
                                                 <div class="flex items-center gap-2">
                                                     <i class="fa-solid fa-crosshairs text-gray-500 text-[10px]"></i>
@@ -1680,7 +1852,7 @@
 
                                     <!-- 3. Major -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-brands fa-bitcoin text-orange-500"></i>
                                             <span data-i18n="cd.logic.major.title">대형 코인 감지 (BTC/ETH/MAJ)</span>
@@ -1691,7 +1863,8 @@
                                             알트코인 기준 설정 시, 움직임이 둔한 대형 코인 감지가 누락되는 것을 방지합니다.
                                         </div>
 
-                                        <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
+                                        <div
+                                            class="mt-auto liquid-card bg-gray-800/20 rounded p-3 border border-gray-700/50">
                                             <div class="flex items-center gap-2 text-xs text-gray-300">
                                                 <i class="fa-solid fa-sliders text-gray-500 text-[10px]"></i>
                                                 <span data-i18n="cd.logic.major.cond">Condition: <strong>Low %</strong>
@@ -1702,7 +1875,7 @@
 
                                     <!-- 4. Big Candle -->
                                     <div
-                                        class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1 group shadow-md">
                                         <h3 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i
                                                 class="fa-solid fa-fire text-red-500 group-hover:text-red-400 transition-colors"></i>
@@ -1714,7 +1887,8 @@
                                             거래량이 없는 잡코인의 상장빔, 스캠 무빙 등 이상 급등락을 감시합니다.
                                         </div>
 
-                                        <div class="mt-auto bg-gray-800/40 rounded p-3 border border-gray-700/50">
+                                        <div
+                                            class="mt-auto liquid-card bg-gray-800/20 rounded p-3 border border-gray-700/50">
                                             <div class="flex items-center gap-2 text-xs text-gray-300">
                                                 <i
                                                     class="fa-solid fa-triangle-exclamation text-red-500 text-[10px]"></i>
@@ -1728,8 +1902,9 @@
                             <!-- [GRID END] 그리드가 여기서 끝남 -->
 
                             <!-- [BOTTOM] Circuit Breaker (그리드 바깥에 위치해야 전체 너비를 차지함) -->
-                            <div class="bg-red-900/10 border border-red-900/30 rounded-xl p-6 mt-6">
-                                <h3 class="text-accent-red font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
+                            <div
+                                class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6 mt-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                <h3 class="!text-accent-red font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     <span data-i18n="cd.logic.circuit.title">서킷 브레이커 (Circuit Breaker)</span>
                                 </h3>
@@ -1755,7 +1930,8 @@
                             <div class="mb-6">
                                 <h3 class="text-white font-bold text-lg mb-3" data-i18n="cd.ui.indicators.title">상단 지표
                                     (환율/프리미엄)</h3>
-                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                     <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
                                         <li class="flex items-start gap-3">
                                             <strong class="text-white w-24 flex-shrink-0">USDT</strong>
@@ -1774,7 +1950,7 @@
                             <div class="mb-6">
                                 <h3 class="text-white font-bold text-lg mb-3" data-i18n="cd.ui.clipboard.title">클립보드 연동
                                     (Clipboard Sync)</h3>
-                                <div class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6">
+                                <div class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6">
                                     <p class="text-sm text-gray-300 mb-4 !mt-0" data-i18n="cd.ui.clipboard.body">
                                         감지된 종목을 클릭하면 설정된 포맷으로 클립보드에 자동 복사하여, 웹 브라우저나 타 툴킷으로 즉시 이동할 수 있습니다.
                                     </p>
@@ -1832,7 +2008,8 @@
                         <div id="cd-troubleshoot">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
                                 data-i18n="cd.trouble.title">4) 문제 해결 및 팁</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
@@ -1894,7 +2071,7 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-blue/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-blue/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-layer-group text-accent-blue"></i> <span
                                             data-i18n="ot.feature.grid.title">그리드 자동호가</span>
@@ -1905,7 +2082,7 @@
                                     </p>
                                 </div>
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-red/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-red/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-shield-halved text-accent-red"></i> <span
                                             data-i18n="ot.feature.stop.title">Auto Stop Market</span>
@@ -1939,7 +2116,7 @@
 
                             <!-- Easy Method -->
                             <div
-                                class="bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <h4 class="text-blue-400 font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-check-circle"></i> <span data-i18n="ot.chrome.easy.title">간편
                                         실행 방법 (권장)</span>
@@ -1952,7 +2129,7 @@
 
                             <!-- Manual Method -->
                             <div
-                                class="bg-gray-900 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card bg-gray-900 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <div class="text-xs text-gray-500 mb-2" data-i18n="ot.chrome.manual.label">수동 바로가기 생성 시
                                     대상(Target) 경로 예시:</div>
                                 <code class="text-xs md:text-sm text-gray-400 font-mono break-all block mb-3">
@@ -1971,7 +2148,8 @@
                         <div id="ot-topbar">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
                                 data-i18n="ot.topbar.title">4) 상단 메뉴 설정</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-300">
                                     <li class="flex items-center gap-3">
                                         <span class="badge !m-0 w-24 text-center flex-shrink-0">LEVERAGE</span>
@@ -2006,7 +2184,7 @@
 
                             <!-- Inputs & Modes -->
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="ot.order.inputs.title">주문 옵션 (Inputs)</h3>
                                     <ul class="list-none space-y-4 !m-0 !p-0 text-sm text-gray-400">
@@ -2039,7 +2217,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="bg-[#161b22] border border-gray-700 rounded-xl p-6">
+                                <div class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="ot.order.toggles.title">기능 토글 (Toggles)</h3>
                                     <ul class="list-none space-y-4 !m-0 !p-0 text-sm text-gray-400">
@@ -2106,7 +2284,7 @@
 
                             <!-- Amount & Cost Control (Interactive) -->
                             <!-- [수정 1] p-6 -> p-8 : 카드 전체 여백을 늘려 하단이 눌려 보이는 현상 해결 -->
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-8">
+                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-8">
                                 <h3 class="text-white font-bold text-sm mb-6 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-calculator text-gray-500"></i> <span
                                         data-i18n="ot.amount.title">수량 및 금액 제어 (마우스 조작)</span>
@@ -2185,7 +2363,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                     <!-- Auto Stop Setting -->
-                                    <div class="bg-[#161b22] p-5 rounded-xl border border-gray-700">
+                                    <div class="liquid-card bg-[#161b22]/40 p-5 rounded-xl border border-gray-700">
                                         <h4 class="text-white font-bold text-sm mb-2 !mt-0"
                                             data-i18n="ot.actions.auto.title">Auto Stop Market (%)</h4>
                                         <p class="text-xs text-gray-400 !m-0 mb-2" data-i18n="ot.actions.auto.desc">AT
@@ -2195,7 +2373,7 @@
                                     </div>
 
                                     <!-- Price Protection -->
-                                    <div class="bg-[#161b22] p-5 rounded-xl border border-gray-700">
+                                    <div class="liquid-card bg-[#161b22]/40 p-5 rounded-xl border border-gray-700">
                                         <h4 class="text-white font-bold text-sm mb-2 !mt-0"
                                             data-i18n="ot.actions.protect.title">Price Protection</h4>
                                         <ul class="list-none space-y-1 !m-0 !p-0 text-xs text-gray-400">
@@ -2218,7 +2396,8 @@
                                 </div>
 
                                 <!-- Buttons -->
-                                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-6 text-center">
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-6 text-center transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <!-- 1. 제목 가운데 정렬: 상위 div에 text-center 추가됨 -->
                                     <h4 class="text-white font-bold text-sm mb-4 !mt-0"
                                         data-i18n="ot.actions.buttons.title">주문 실행 및 포지션 관리</h4>
@@ -2328,7 +2507,7 @@
                                             API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.
                                         </li>
                                     </ul>
-                                    <div class="mt-4 p-4 bg-red-900/10 border border-red-900/30 rounded-lg text-xs text-gray-400"
+                                    <div class="mt-4 p-4 liquid-card bg-red-900/10 border border-red-900/30 rounded-lg text-xs text-gray-400"
                                         data-i18n="ot.trouble.note">
                                         <strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는
                                         타인에게 노출되지 않도록 각별히 주의하세요.
@@ -2337,6 +2516,8 @@
 
                             </div>
                         </div>
+                    </div>
+                </div>
             </section>
 
             <!-- SECTION: AUTOMATED TRADING BOT -->
@@ -2361,7 +2542,7 @@
 
                             <!-- Flow Diagram -->
                             <div
-                                class="relative w-full max-w-4xl mx-auto mb-8 p-6 bg-[#0d1117] rounded-xl border border-gray-800 overflow-hidden">
+                                class="liquid-card relative w-full max-w-4xl mx-auto mb-8 p-6 bg-[#0d1117]/80 rounded-xl border border-gray-800 overflow-hidden">
                                 <div
                                     class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10">
                                 </div>
@@ -2371,7 +2552,7 @@
 
                                     <!-- Detector -->
                                     <div
-                                        class="flex-1 w-full p-4 bg-gray-800/50 rounded-lg border border-gray-700 text-center group hover:border-accent-green transition-colors">
+                                        class="flex-1 w-full p-4 liquid-card bg-gray-800/20 rounded-lg border border-gray-700 text-center group hover:border-accent-green hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                                         <div class="text-accent-green font-bold mb-2 text-lg"><i
                                                 class="fa-solid fa-satellite-dish"></i> DETECTOR</div>
                                         <div class="text-gray-400">Signal Detection</div>
@@ -2388,7 +2569,7 @@
 
                                     <!-- Toolkit -->
                                     <div
-                                        class="flex-1 w-full p-4 bg-gray-800/50 rounded-lg border border-gray-700 text-center group hover:border-accent-blue transition-colors relative">
+                                        class="flex-1 w-full p-4 liquid-card bg-gray-800/20 rounded-lg border border-gray-700 text-center group hover:border-accent-blue hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative">
                                         <div
                                             class="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-900/50">
                                             3s Timeout</div>
@@ -2408,7 +2589,7 @@
 
                                     <!-- Binance -->
                                     <div
-                                        class="flex-1 w-full p-4 bg-[#FCD535]/10 rounded-lg border border-[#FCD535]/30 text-center group hover:bg-[#FCD535]/20 transition-colors">
+                                        class="liquid-card flex-1 w-full p-4 bg-[#FCD535]/10 rounded-lg border border-[#FCD535]/30 text-center group hover:bg-[#FCD535]/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#FCD535]/50 hover:shadow-[#FCD535]/20">
                                         <div class="text-[#FCD535] font-bold mb-2 text-lg"><i
                                                 class="fa-solid fa-server"></i> BINANCE</div>
                                         <div class="text-gray-400">Exchange Server</div>
@@ -2437,7 +2618,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Step 1 -->
                                 <div
-                                    class="bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-base mb-3 flex items-center gap-2">
                                         <span class="bg-gray-700 text-xs px-2 py-1 rounded">STEP 1</span>
                                         <span data-i18n="atb.setup.ot.title">Order Toolkit 설정</span>
@@ -2478,7 +2659,7 @@
 
                                 <!-- Step 2 -->
                                 <div
-                                    class="bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-accent-green/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-gray-800/30 border border-gray-700/50 rounded-xl p-5 transition-all duration-300 hover:border-accent-green/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-base mb-3 flex items-center gap-2">
                                         <span class="bg-gray-700 text-xs px-2 py-1 rounded">STEP 2</span>
                                         <span data-i18n="atb.setup.cd.title">Crypto Detector 설정</span>
@@ -2506,7 +2687,7 @@
                             <div class="space-y-4">
                                 <!-- Logic Card 1: Unique Client ID -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <div
                                         class="flex-shrink-0 w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20">
                                         <i class="fa-solid fa-fingerprint text-xl"></i>
@@ -2523,7 +2704,7 @@
 
                                 <!-- Logic Card 2: 3s Timeout -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <div
                                         class="flex-shrink-0 w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-400 border border-red-500/20">
                                         <i class="fa-solid fa-stopwatch text-xl"></i>
@@ -2541,7 +2722,7 @@
 
                                 <!-- Logic Card 3: Detector Retry -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 flex items-center gap-5 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <div
                                         class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 border border-green-500/20">
                                         <i class="fa-solid fa-rotate-right text-xl"></i>
@@ -2623,7 +2804,7 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-coins text-brand"></i> <span
                                             data-i18n="ob.feature.usdt.title">실시간 USDT 환산</span>
@@ -2635,7 +2816,7 @@
                                     </p>
                                 </div>
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-stopwatch text-accent-purple"></i> <span
                                             data-i18n="ob.feature.volume.title">3초 누적 체결량</span>
@@ -2645,7 +2826,7 @@
                                     </p>
                                 </div>
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-layer-group text-blue-400"></i> <span
                                             data-i18n="ob.feature.agg.title">강력한 모아보기</span>
@@ -2657,7 +2838,7 @@
                                     </p>
                                 </div>
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-link text-accent-green"></i> <span
                                             data-i18n="ob.feature.link.title">툴킷 연동</span>
@@ -2677,7 +2858,7 @@
 
                             <!-- Top Controls -->
                             <div
-                                class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-6 transition-all duration-300 hover:border-gray-500/50 hover:shadow-lg hover:-translate-y-1">
                                 <h3 class="text-white font-bold text-base mb-4 !mt-0 border-b border-gray-700 pb-2"
                                     data-i18n="ob.ui.top.title">상단 컨트롤 패널</h3>
                                 <ul class="list-none space-y-4 !m-0 !p-0 text-sm text-gray-300">
@@ -2705,7 +2886,7 @@
 
                             <!-- Table Details -->
                             <div
-                                class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-accent-purple/50 hover:shadow-lg hover:-translate-y-1">
                                 <h3 class="text-white font-bold text-base mb-4 !mt-0 border-b border-gray-700 pb-2"
                                     data-i18n="ob.ui.table.title">호가창 테이블 상세</h3>
 
@@ -2735,7 +2916,7 @@
                                     </div>
 
                                     <!-- Central Info -->
-                                    <div class="bg-gray-800/50 p-4 rounded-lg">
+                                    <div class="liquid-card bg-gray-800/20 p-4 rounded-lg">
                                         <strong class="text-accent-purple block mb-2" data-i18n="ob.ui.center.title">중앙
                                             체결가 영역</strong>
                                         <ul class="text-xs text-gray-300 space-y-1">
@@ -2823,7 +3004,7 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-filter text-yellow-400"></i> <span
                                             data-i18n="tr.feature.filter.title">거래대금 필터링</span>
@@ -2833,7 +3014,7 @@
                                     </p>
                                 </div>
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-skull-crossbones text-accent-red"></i> <span
                                             data-i18n="tr.feature.liq.title">청산(Liquidation) 감지</span>
@@ -2853,7 +3034,7 @@
                             <!-- Table & Top Bar -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="tr.ui.table.title">체결 테이블 (Main Table)</h3>
                                     <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
@@ -2880,7 +3061,7 @@
                                 </div>
 
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
                                         data-i18n="tr.ui.top.title">상단 정보바 (Top Bar)</h3>
                                     <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
@@ -2900,7 +3081,7 @@
                             </div>
 
                             <!-- Buttons -->
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
                                 <h3 class="text-white font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-gamepad"></i> <span data-i18n="tr.ui.buttons.title">컨트롤
                                         버튼</span>
@@ -2942,7 +3123,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <!-- Display Info -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.data.title">표시
                                         데이터</h4>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
@@ -2962,7 +3143,7 @@
 
                                 <!-- Alert Options -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.alert.title">
                                         알림 옵션 (Alerts)</h4>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
@@ -2998,7 +3179,8 @@
                             </div>
 
                             <!-- Badge Tip -->
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 flex items-start gap-3">
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 flex items-start gap-3">
                                 <i class="fa-solid fa-lightbulb text-yellow-400 mt-0.5"></i>
                                 <div class="text-sm text-gray-300" data-i18n="tr.liq.tip">
                                     <strong>Tip:</strong> 오토 팝업을 끈 상태에서 창이 닫혀있더라도, 조건에 맞는 청산이 발생하면 메인 UI의
@@ -3018,7 +3200,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Settings -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="tr.settings.set.title">설정 (SET)</h4>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
@@ -3035,7 +3217,7 @@
 
                                 <!-- Market Type -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="tr.settings.market.title">마켓 전환 (PERP/Spot)</h4>
                                     <p class="text-sm text-gray-400 !m-0 mb-3" data-i18n="tr.settings.market.body">
@@ -3053,7 +3235,7 @@
                         <div id="tr-troubleshoot">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
                                 data-i18n="tr.trouble.title">5) 문제 해결</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
@@ -3124,7 +3306,7 @@
 
                             <!-- 타겟 사용자 정의 (data-i18n 추가됨) -->
                             <div
-                                class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-8 flex items-start gap-3">
+                                class="liquid-card bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-8 flex items-start gap-3 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                 <i class="fa-solid fa-bullseye text-blue-400 mt-1"></i>
                                 <div class="text-sm text-gray-300">
                                     <strong class="text-white block mb-1" data-i18n="mb.target.title">누구를 위한
@@ -3141,7 +3323,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                                 <!-- Card 1: Collect -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-solid fa-file-pdf text-red-400"></i>
                                         <span data-i18n="mb.feature.collect.title">리포트 자동 수집</span>
@@ -3154,7 +3336,7 @@
 
                                 <!-- Card 2: NotebookLM -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-brands fa-google text-blue-400"></i>
                                         <span data-i18n="mb.feature.notebook.title">NotebookLM 연동</span>
@@ -3167,7 +3349,7 @@
 
                                 <!-- Card 3: Interactive Q&A -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-regular fa-comments text-yellow-300"></i>
                                         <span data-i18n="mb.feature.qa.title">인터랙티브 Q&amp;A</span>
@@ -3180,7 +3362,7 @@
 
                                 <!-- Card 4: Management -->
                                 <div
-                                    class="bg-[#161b22] border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
                                         <i class="fa-solid fa-folder-plus text-green-400"></i>
                                         <span data-i18n="mb.feature.manage.title">노트북 관리</span>
@@ -3236,7 +3418,7 @@
                             <div class="space-y-6">
                                 <!-- Step 1 -->
                                 <div
-                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step1.title">Step 1. 초기 설정 (최초 1회)</h4>
                                     <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
@@ -3252,7 +3434,7 @@
 
                                 <!-- Step 2 (수정됨) -->
                                 <div
-                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step2.title">Step 2. 계정 설정 및 로그인</h4>
 
@@ -3267,7 +3449,7 @@
                                             <span data-i18n="mb.setup.step2.type.desc">팝업창에서 본인의 <strong>NotebookLM
                                                     요금제(무료/유료)</strong>를 선택합니다.</span>
                                             <div
-                                                class="mt-2 mb-2 bg-[#161b22] border border-gray-600/50 rounded-lg p-3">
+                                                class="mt-2 mb-2 liquid-card bg-[#161b22]/40 border border-gray-600/50 rounded-lg p-3">
                                                 <div class="flex items-center gap-2 mb-2">
                                                     <i class="fa-solid fa-check-circle text-brand text-xs"></i>
                                                     <span class="text-xs text-gray-300 font-bold"
@@ -3306,7 +3488,7 @@
                                     </ul>
 
                                     <div
-                                        class="mt-3 p-3 bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400 flex items-start gap-2">
+                                        class="mt-3 p-3 liquid-card bg-blue-900/10 border border-blue-900/30 rounded text-xs text-gray-400 flex items-start gap-2">
                                         <i class="fa-solid fa-circle-info text-blue-400 mt-0.5"></i>
                                         <span data-i18n="mb.setup.note">브라우저 로그인 후, 프로그램의 확인 버튼을 눌러야 로그인이 완료됩니다. 이후
                                             브라우저는 자동으로 종료됩니다.</span>
@@ -3315,7 +3497,7 @@
 
                                 <!-- Step 3 -->
                                 <div
-                                    class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                         data-i18n="mb.setup.step3.title">Step 3. 브리핑 생성</h4>
                                     <ul class="list-decimal pl-5 space-y-2 text-sm text-gray-400 marker:text-blue-500">
@@ -3336,7 +3518,7 @@
                         <div id="mb-trouble">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
                                 data-i18n="mb.trouble.title">3) 문제 해결</h2>
-                            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                     <!-- [NEW] 자동 실행 오해 방지 문구 -->
                                     <li class="flex items-start gap-3">
@@ -3392,7 +3574,7 @@
                     </div>
 
                     <!-- 0. Sponsorship Disclaimer (Box 1: 여백 및 정렬 수정) -->
-                    <div class="bg-[#1e2329]/60 border border-gray-600/30 rounded-lg p-6 mb-8">
+                    <div class="liquid-card bg-[#1e2329]/60 border border-gray-600/30 rounded-lg p-6 mb-8">
                         <h2 class="text-white font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
                             <i class="fa-solid fa-circle-info text-blue-400"></i> <span data-i18n="sponsor.box.title">후원
                                 운영 안내</span>
@@ -3420,7 +3602,7 @@
 
                         <!-- Left Card: Crypto Detector -->
                         <div
-                            class="bg-[#161b22] rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                            class="liquid-card bg-[#161b22]/40 rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                             <div class="mb-6">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1"
                                     data-i18n="sponsor.card.crypto.title">Crypto Detector</h3>
@@ -3463,7 +3645,7 @@
 
                         <!-- Right Card: All-in-One Toolkit -->
                         <div
-                            class="bg-[#161b22] rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(252,213,53,0.3)] hover:-translate-y-1">
+                            class="liquid-card bg-[#161b22]/40 rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(252,213,53,0.3)] hover:-translate-y-1">
                             <!-- Badge -->
                             <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wide shadow-lg shadow-brand/20"
                                 data-i18n="sponsor.card.popular">
@@ -3517,7 +3699,7 @@
 
                         <!-- 설명 박스 (Box 2: 여백 및 정렬 수정) -->
                         <div
-                            class="bg-gray-800/30 p-6 rounded-lg border border-gray-700 mb-6 flex flex-col justify-center">
+                            class="liquid-card bg-blue-900/10 border border-blue-900/30 p-6 rounded-lg mb-6 flex flex-col justify-center transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
                             <p class="text-sm text-gray-300 leading-relaxed mb-3 !mt-0"
                                 data-i18n="sponsor.referral.body1">
                                 본 프로젝트의 커미션 배분은 운영자가 직접 걷어 환급하는 페이백 방식이 아닙니다.
@@ -3624,7 +3806,7 @@
                     </div>
 
                     <!-- 3. USDT Notice (Box 3: Flex 리스트로 정렬 완벽 수정) -->
-                    <div class="bg-red-900/10 border border-red-900/30 rounded-xl p-6">
+                    <div class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6">
                         <h3 class="text-accent-red font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
                             <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="sponsor.usdt.title">USDT
                                 후원
@@ -3877,10 +4059,10 @@
             "hero.status": { ko: "SYSTEM OPERATIONAL", en: "SYSTEM OPERATIONAL" },
             "hero.title": { ko: "BUILT FOR <span class='text-brand'>TRADERS</span>.", en: "BUILT FOR <span class='text-brand'>TRADERS</span>." },
             "hero.desc": {
-                ko: "전문 트레이더 기준으로 설계된 실전 툴킷.<br>실시간 데이터, 시세감지, 고성능 MM 봇 환경에 대응하는 최적의 솔루션을 제공합니다.",
+                ko: "전문 트레이더 기준으로 설계된 실전 툴킷.<br>실시간 데이터, 시세감지, 고빈도 MM 봇에 대응하는 최적 솔루션을 제공합니다.",
                 en: "Practical toolkit designed for professional traders.<br>Optimized for real-time data, signal detection, and HFT environments."
             },
-            "btn.explore": { ko: "살펴보기", en: "Explore" },
+            "btn.explore": { ko: "알아보기", en: "Explore" },
             "btn.telegram": { ko: "텔레그램", en: "Telegram" },
 
             // Grid Items
