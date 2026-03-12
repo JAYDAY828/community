@@ -816,7 +816,8 @@
                             <div>
                                 <h3 class="font-bold text-white !m-0 !text-base"
                                     data-i18n="quick.kakao.community.title">KakaoTalk : 커뮤니티</h3>
-                                <p class="text-xs text-gray-400 !m-0" data-i18n="quick.kakao.community.desc">난민들의 대피소</p>
+                                <p class="text-xs text-gray-400 !m-0" data-i18n="quick.kakao.community.desc">난민들의 대피소
+                                </p>
                             </div>
                         </a>
 
@@ -1327,7 +1328,8 @@
                                     class="fa-solid fa-chevron-down text-gray-500 text-xs transition-transform duration-300"></i>
                             </div>
                             <div class="faq-answer text-sm text-gray-400 leading-relaxed pl-2 md:pl-14">
-                                <p class="mb-2" data-i18n="faq.a1.p1">Windows 보안 정책(Smart App Control)에 따라 일부 앱은 실행 전에 추가
+                                <p class="mb-2" data-i18n="faq.a1.p1">Windows 보안 정책(Smart App Control)에 따라 일부 앱은 실행 전에
+                                    추가
                                     확인이 필요할 수 있습니다.</p>
                                 <p class="text-gray-300" data-i18n="faq.a1.p2">
                                     실행이 되지 않는 경우, 차단 화면을 캡처해 운영자에게 문의해 주세요.
@@ -3063,197 +3065,476 @@
                             </div>
 
                             <!-- Buttons -->
-                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
+                            <div
+                                class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg">
                                 <h3 class="text-white font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
-                                    <i class="fa-solid fa-gamepad"></i> <span data-i18n="tr.ui.buttons.title">컨트롤
+                                    <i class="fa-solid fa-gamepad text-yellow-400"></i> <span
+                                        data-i18n="tr.ui.buttons.title">컨트롤
                                         버튼</span>
                                 </h3>
                                 <div class="flex flex-wrap gap-3">
                                     <div
-                                        class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
+                                        class="bg-[#0b0e11] px-4 py-2 rounded-lg border border-gray-600 text-sm text-white transition-colors hover:border-yellow-400/30">
                                         <span data-i18n="tr.ui.buttons.liq"><strong>LIQ</strong> : 청산 다이얼로그
                                             열기/닫기</span>
                                     </div>
                                     <div
-                                        class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
+                                        class="bg-[#0b0e11] px-4 py-2 rounded-lg border border-gray-600 text-sm text-white transition-colors hover:border-yellow-400/30">
                                         <span data-i18n="tr.ui.buttons.perp"><strong>PERP</strong> : 선물(Futures) /
                                             현물(Spot) 전환</span>
                                     </div>
                                     <div
-                                        class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
+                                        class="bg-[#0b0e11] px-4 py-2 rounded-lg border border-gray-600 text-sm text-white transition-colors hover:border-yellow-400/30">
                                         <span data-i18n="tr.ui.buttons.set"><strong>SET</strong> : 설정 메뉴 (필터링 금액
                                             등)</span>
                                     </div>
                                     <div
-                                        class="bg-[#0b0e11] px-4 py-2 rounded border border-gray-600 text-sm text-white">
+                                        class="bg-[#0b0e11] px-4 py-2 rounded-lg border border-gray-600 text-sm text-white transition-colors hover:border-yellow-400/30">
                                         <span data-i18n="tr.ui.buttons.pin"><strong>PIN</strong> : 항상 위 고정</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 3. Liquidation Dialog -->
-                        <div id="tr-liq">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-yellow-400"
-                                data-i18n="tr.liq.title">3) 청산(Liquidation) 감지</h2>
-                            <p class="text-gray-400 mb-4" data-i18n="tr.liq.body">
-                                <strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고
-                                이전
-                                기록은 자동 삭제됩니다.
-                            </p>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <!-- Display Info -->
-                                <div
-                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.data.title">표시
-                                        데이터</h4>
-                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li data-i18n="tr.liq.data.item1"><strong>TIME</strong> : 발생 시각</li>
-                                        <li data-i18n="tr.liq.data.item2"><strong>SIDE</strong> : 청산 방향 (Long /
-                                            Short)
-                                        </li>
-                                        <li data-i18n="tr.liq.data.item3"><strong>PRICE</strong> : 청산 가격</li>
-                                        <li data-i18n="tr.liq.data.item4"><strong>QTY / VALUE</strong> : 청산 물량 및 금액
-                                            (K/M/B 단위 축약)</li>
-                                        <li class="pt-2 border-t border-gray-800 mt-2 text-xs"
-                                            data-i18n="tr.liq.data.note">
-                                            * <strong>1M / 3S</strong> 통계를 통해 1분/3초간 누적된 청산 규모를 보여줍니다.
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Alert Options -->
-                                <div
-                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0" data-i18n="tr.liq.alert.title">
-                                        알림 옵션 (Alerts)</h4>
-                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li>
-                                            <div class="flex items-start gap-3">
-                                                <span class="shrink-0 min-w-[100px]"
-                                                    data-i18n="tr.liq.alert.item1.title"><strong>AUTO POPUP
-                                                        (3s)</strong></span>
-                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                    data-i18n="tr.liq.alert.item1.desc">청산 발생 시 자동 팝업 후 3초 뒤 숨김</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="flex items-start gap-3">
-                                                <span class="shrink-0 min-w-[100px]"
-                                                    data-i18n="tr.liq.alert.item2.title"><strong>ALERT
-                                                        SOUND</strong></span>
-                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                    data-i18n="tr.liq.alert.item2.desc">청산 발생 시 경고음 재생</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="flex items-start gap-3">
-                                                <span class="shrink-0 min-w-[100px]"
-                                                    data-i18n="tr.liq.alert.item3.title"><strong>MIN
-                                                        SIZE</strong></span>
-                                                <span class="text-xs text-gray-500 flex-1 min-w-0"
-                                                    data-i18n="tr.liq.alert.item3.desc">설정된 금액 이상의 청산만 알림</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Badge Tip -->
                             <div
-                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 flex items-start gap-3">
-                                <i class="fa-solid fa-lightbulb text-yellow-400 mt-0.5"></i>
-                                <div class="text-sm text-gray-300" data-i18n="tr.liq.tip">
-                                    <strong>Tip:</strong> 오토 팝업을 끈 상태에서 창이 닫혀있더라도, 조건에 맞는 청산이 발생하면 메인 UI의
-                                    <strong>LIQ
-                                        버튼</strong>에 <span class="text-brand font-bold animate-pulse">NEW</span> 배지가
-                                    깜빡여
-                                    알려줍니다.
+                                class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 mt-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg">
+                                <h3 class="text-white font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
+                                    <i class="fa-solid fa-gauge-high text-yellow-400"></i>
+                                    <span data-i18n="tr.ui.metrics.title">보조지표 안내</span>
+                                </h3>
+                                <p class="text-sm text-gray-400 mb-5 leading-relaxed" data-i18n="tr.ui.metrics.body">
+                                    체결 테이블 상단에는 <strong>SPD / D1 / D3 / BIG / FLOW</strong>가 왼쪽부터 순서대로 표시됩니다.
+                                    각 칸은 체결 속도, 델타 우세, 큰 체결 비중, 델타 대비 가격 반응을 분리해서 보여줍니다.
+                                </p>
+
+                                <div class="bg-[#0b0e11] rounded-xl border border-gray-700 p-4 mb-6">
+                                    <div class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-3"
+                                        data-i18n="tr.ui.metrics.layout.title">패널 레이아웃</div>
+                                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                        <div
+                                            class="rounded-lg bg-black/30 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm">SPD</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.spd">체결 속도</div>
+                                        </div>
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm">D1</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.d1">1초 델타</div>
+                                        </div>
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm">D3</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.d3">3초 델타</div>
+                                        </div>
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm">BIG</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.big">큰 체결 비중</div>
+                                        </div>
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm">FLOW</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.flow">가격 반응</div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- 4. Settings & Market Type -->
-                        <div id="tr-settings">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-yellow-400"
-                                data-i18n="tr.settings.title">4) 설정 및 마켓 전환</h2>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Settings -->
-                                <div
-                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0"
-                                        data-i18n="tr.settings.set.title">설정 (SET)</h4>
-                                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li data-i18n="tr.settings.set.item1">
-                                            <strong class="text-white block mb-1">Highlight Large Trades</strong>
-                                            <span>설정한 금액(USD) 이상의 체결 건을 굵은 폰트로 강조하여 보여줍니다. (필터링 핵심)</span>
-                                        </li>
-                                        <li data-i18n="tr.settings.set.item2">
-                                            <strong class="text-white block mb-1">Rows</strong>
-                                            <span>테이블에 표시할 최대 행 개수를 조절합니다. (10 ~ 100)</span>
-                                        </li>
-                                    </ul>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i>
+                                            <span class="text-white font-bold text-sm">SPD</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Speed</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5 mb-3">
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-400 font-mono">SLOW</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-400 font-mono">NORMAL</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-yellow-400 font-mono">FAST</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-accent-red font-mono">EXTREME</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.spd">
+                                            최근 1초 구간의 체결 버스트 강도를 보여줍니다. 가격 추세 자체보다 체결이 얼마나 빠르고 공격적으로 몰리는지를 읽는 지표입니다.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-scale-balanced text-accent-green text-xs"></i>
+                                            <span class="text-white font-bold text-sm">D1 / D3</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Delta</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5 mb-3">
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#2EBD74] font-mono">+
+                                                BUY</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#F6465D] font-mono">-
+                                                SELL</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.delta">
+                                            순델타를 <strong class="text-gray-300">1초(D1)</strong>와 <strong
+                                                class="text-gray-300">3초(D3)</strong> 기준으로 분리합니다. 양수는 매수 우세, 음수는 매도
+                                            우세이며, D1은 순간 반응, D3는 좀 더 안정적인 흐름을 읽는 데 유용합니다.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-chart-pie text-accent-purple text-xs"></i>
+                                            <span class="text-white font-bold text-sm">BIG</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Large-Trade
+                                                %</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="flex-1 h-1.5 rounded-full bg-gray-800 overflow-hidden">
+                                                <div
+                                                    class="h-full w-3/5 rounded-full bg-gradient-to-r from-gray-600 to-accent-purple">
+                                                </div>
+                                            </div>
+                                            <span class="text-[10px] text-gray-500 font-mono shrink-0">0% – 100%</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.big">
+                                            최근 3초 구간에서 큰 체결이 차지하는 비중입니다. 값이 높을수록 <strong class="text-gray-300">굵은
+                                                프린트</strong>가 평소보다 강하게 들어오고 있다는 뜻입니다.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-arrow-trend-up text-accent-blue text-xs"></i>
+                                            <span class="text-white font-bold text-sm">FLOW</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Price
+                                                Reaction</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5 mb-3">
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#2EBD74] font-mono">FOLLOW</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-400 font-mono">NEUTRAL</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#F6465D] font-mono">ABSORB</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.flow">
+                                            강한 델타 우세가 있을 때 가격이 그 방향으로 <strong class="text-[#2EBD74]">순행</strong>하는지,
+                                            애매하게 <strong class="text-gray-300">정체</strong>하는지, 반대로 <strong
+                                                class="text-[#F6465D]">흡수</strong>되는지를 보여줍니다.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <!-- Market Type -->
-                                <div
-                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0"
-                                        data-i18n="tr.settings.market.title">마켓 전환 (PERP/Spot)</h4>
-                                    <p class="text-sm text-gray-400 !m-0 mb-3" data-i18n="tr.settings.market.body">
-                                        선물(Futures) 데이터뿐만 아니라 현물(Spot) 체결내역으로 전환하여 볼 수 있습니다.
+                                <!-- FLOW 상태 해석 -->
+                                <div class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 mb-4">
+                                    <h4 class="text-yellow-400 font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-trend-up"></i>
+                                        <span data-i18n="tr.ui.metrics.flow_states.title">FLOW 상태 해석</span>
+                                    </h4>
+                                    <p class="text-xs text-gray-400 mb-4 leading-relaxed"
+                                        data-i18n="tr.ui.metrics.flow_states.intro">
+                                        강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.
                                     </p>
-                                    <div class="text-xs text-gray-500 p-2 bg-black/20 rounded border border-gray-800"
-                                        data-i18n="tr.settings.market.note">
-                                        * 단, 해당 심볼이 현물 마켓에 상장되어 있지 않은 경우 버튼이 비활성화됩니다.
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+                                        <!-- FOLLOW -->
+                                        <div class="bg-black/20 rounded-lg border border-[#2EBD74]/20 p-4 transition-all duration-300 hover:bg-black/40 hover:border-[#2EBD74]/40 hover:-translate-y-0.5">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2EBD74]/10 border border-[#2EBD74]/30 text-[10px] text-[#2EBD74] font-mono font-bold">
+                                                    <i class="fa-solid fa-arrow-trend-up text-[8px]"></i> FOLLOW
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-300 font-semibold mb-1"
+                                                data-i18n="tr.ui.metrics.flow_states.follow.summary">
+                                                때리는 쪽이 이기고 있음
+                                            </p>
+                                            <p class="text-[11px] text-gray-500 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.flow_states.follow.detail">
+                                                델타와 가격이 같은 방향으로 움직이는 상태입니다. 시장가 공격이 유동성을 뚫고 가격을 밀어내고 있습니다.
+                                            </p>
+                                        </div>
+                                        <!-- NEUTRAL -->
+                                        <div class="bg-black/20 rounded-lg border border-gray-700 p-4 transition-all duration-300 hover:bg-black/40 hover:border-gray-500 hover:-translate-y-0.5">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-700/50 border border-gray-600/30 text-[10px] text-gray-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-minus text-[8px]"></i> NEUTRAL
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-300 font-semibold mb-1"
+                                                data-i18n="tr.ui.metrics.flow_states.neutral.summary">
+                                                아직 둘 다 애매함
+                                            </p>
+                                            <p class="text-[11px] text-gray-500 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.flow_states.neutral.detail">
+                                                델타 방향성은 있지만 가격 반응이 뚜렷하지 않은 상태입니다. 아직 방향이 확정되지 않았습니다.
+                                            </p>
+                                        </div>
+                                        <!-- ABSORB -->
+                                        <div class="bg-black/20 rounded-lg border border-[#F6465D]/20 p-4 transition-all duration-300 hover:bg-black/40 hover:border-[#F6465D]/40 hover:-translate-y-0.5">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F6465D]/10 border border-[#F6465D]/30 text-[10px] text-[#F6465D] font-mono font-bold">
+                                                    <i class="fa-solid fa-shield-halved text-[8px]"></i> ABSORB
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-300 font-semibold mb-1"
+                                                data-i18n="tr.ui.metrics.flow_states.absorb.summary">
+                                                받아내는 쪽이 버티거나 이기고 있음
+                                            </p>
+                                            <p class="text-[11px] text-gray-500 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.flow_states.absorb.detail">
+                                                한쪽 델타가 강한데 가격이 그 방향으로 못 가고 반대로 밀립니다. 대기 물량이 두껍거나 반대편이 계속 받아주고 있다는 뜻입니다.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-black/20 rounded-lg border border-gray-800 p-4">
+                                        <p class="text-[11px] text-gray-500 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.flow_states.note">
+                                            ABSORB가 나타나면 체결량은 강한데 가격 반응이 약하다는 뜻이므로, 추세 지속보다 <strong
+                                                class="text-gray-300">정체·흡수·반전 가능성</strong>을 함께 의심해야 합니다.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 함께 읽는 법 -->
+                                <div class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5">
+                                    <h4 class="text-white font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-book-open text-yellow-400"></i>
+                                        <span data-i18n="tr.ui.metrics.read.title">함께 읽는 법</span>
+                                    </h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                        <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
+                                            <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
+                                                </span>
+                                                <span class="text-[10px] text-gray-600">+</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-[10px] text-accent-purple font-mono font-bold">
+                                                    <i class="fa-solid fa-chart-pie text-[8px]"></i> BIG↑
+                                                </span>
+                                                <span class="text-[10px] text-gray-600">+</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2EBD74]/10 border border-[#2EBD74]/20 text-[10px] text-[#2EBD74] font-mono font-bold">
+                                                    <i class="fa-solid fa-arrow-trend-up text-[8px]"></i> FOLLOW
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.read.item1">공격적 체결과 큰 프린트가 붙으면서 가격도 순행 중</p>
+                                        </div>
+                                        <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
+                                            <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
+                                                </span>
+                                                <span class="text-[10px] text-gray-600">+</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-700/50 border border-gray-600/30 text-[10px] text-gray-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-minus text-[8px]"></i> NEUTRAL
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.read.item2">체결은 빨라졌지만 아직 방향 확정은 약한 상태</p>
+                                        </div>
+                                        <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
+                                            <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
+                                                </span>
+                                                <span class="text-[10px] text-gray-600">+</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F6465D]/10 border border-[#F6465D]/20 text-[10px] text-[#F6465D] font-mono font-bold">
+                                                    <i class="fa-solid fa-shield-halved text-[8px]"></i> ABSORB
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.read.item3">강한 델타가 가격으로 이어지지 못하고 흡수되는 상태</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 5. Troubleshooting -->
-                        <div id="tr-troubleshoot">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
-                                data-i18n="tr.trouble.title">5) 문제 해결</h2>
-                            <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
-                                <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
-                                    <li class="flex items-start gap-3">
-                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
-                                        <div>
-                                            <strong class="text-gray-300 block mb-1"
-                                                data-i18n="tr.trouble.item1.title">데이터가 멈추거나 지연됩니다.</strong>
-                                            <span data-i18n="tr.trouble.item1.body">네트워크 상태를 확인하세요. 바이낸스 소켓 연결이 끊긴
-                                                경우
-                                                <strong>SET → Apply</strong>를 눌러 재연결을 시도하세요.</span>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start gap-3">
-                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
-                                        <div>
-                                            <strong class="text-gray-300 block mb-1"
-                                                data-i18n="tr.trouble.item2.title">현물(Spot) 전환이 안 됩니다.</strong>
-                                            <span data-i18n="tr.trouble.item2.body">해당 코인이 바이낸스 현물 마켓(USDT)에 상장되어
-                                                있는지
-                                                확인해주세요. 미지원 시 PERP 모드로 고정됩니다.</span>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start gap-3">
-                                        <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
-                                        <div>
-                                            <strong class="text-gray-300 block mb-1"
-                                                data-i18n="tr.trouble.item3.title">청산 알림음이 안 들립니다.</strong>
-                                            <span data-i18n="tr.trouble.item3.body">프로그램 폴더 내 <code>SFX</code> 폴더에
-                                                <code>liq.wav</code> 파일이 존재하는지, 윈도우 볼륨 믹서 설정을 확인하세요.</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <!-- 3. Liquidation Dialog -->
+                            <div id="tr-liq">
+                                <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-yellow-400"
+                                    data-i18n="tr.liq.title">3) 청산(Liquidation) 감지</h2>
+                                <p class="text-gray-400 mb-4" data-i18n="tr.liq.body">
+                                    <strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고
+                                    이전
+                                    기록은 자동 삭제됩니다.
+                                </p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <!-- Display Info -->
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <h4 class="text-white font-bold text-sm mb-3 !mt-0"
+                                            data-i18n="tr.liq.data.title">표시
+                                            데이터</h4>
+                                        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                                            <li data-i18n="tr.liq.data.item1"><strong>TIME</strong> : 발생 시각</li>
+                                            <li data-i18n="tr.liq.data.item2"><strong>SIDE</strong> : 청산 방향 (Long /
+                                                Short)
+                                            </li>
+                                            <li data-i18n="tr.liq.data.item3"><strong>PRICE</strong> : 청산 가격</li>
+                                            <li data-i18n="tr.liq.data.item4"><strong>QTY / VALUE</strong> : 청산 물량 및 금액
+                                                (K/M/B 단위 축약)</li>
+                                            <li class="pt-2 border-t border-gray-800 mt-2 text-xs"
+                                                data-i18n="tr.liq.data.note">
+                                                * <strong>1M / 3S</strong> 통계를 통해 1분/3초간 누적된 청산 규모를 보여줍니다.
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Alert Options -->
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <h4 class="text-white font-bold text-sm mb-3 !mt-0"
+                                            data-i18n="tr.liq.alert.title">
+                                            알림 옵션 (Alerts)</h4>
+                                        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                                            <li>
+                                                <div class="flex items-start gap-3">
+                                                    <span class="shrink-0 min-w-[100px]"
+                                                        data-i18n="tr.liq.alert.item1.title"><strong>AUTO POPUP
+                                                            (3s)</strong></span>
+                                                    <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                        data-i18n="tr.liq.alert.item1.desc">청산 발생 시 자동 팝업 후 3초 뒤
+                                                        숨김</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="flex items-start gap-3">
+                                                    <span class="shrink-0 min-w-[100px]"
+                                                        data-i18n="tr.liq.alert.item2.title"><strong>ALERT
+                                                            SOUND</strong></span>
+                                                    <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                        data-i18n="tr.liq.alert.item2.desc">청산 발생 시 경고음 재생</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="flex items-start gap-3">
+                                                    <span class="shrink-0 min-w-[100px]"
+                                                        data-i18n="tr.liq.alert.item3.title"><strong>MIN
+                                                            SIZE</strong></span>
+                                                    <span class="text-xs text-gray-500 flex-1 min-w-0"
+                                                        data-i18n="tr.liq.alert.item3.desc">설정된 금액 이상의 청산만 알림</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Badge Tip -->
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 flex items-start gap-3">
+                                    <i class="fa-solid fa-lightbulb text-yellow-400 mt-0.5"></i>
+                                    <div class="text-sm text-gray-300" data-i18n="tr.liq.tip">
+                                        <strong>Tip:</strong> 오토 팝업을 끈 상태에서 창이 닫혀있더라도, 조건에 맞는 청산이 발생하면 메인 UI의
+                                        <strong>LIQ
+                                            버튼</strong>에 <span class="text-brand font-bold animate-pulse">NEW</span> 배지가
+                                        깜빡여
+                                        알려줍니다.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
+                            <!-- 4. Settings & Market Type -->
+                            <div id="tr-settings">
+                                <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-yellow-400"
+                                    data-i18n="tr.settings.title">4) 설정 및 마켓 전환</h2>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- Settings -->
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <h4 class="text-white font-bold text-sm mb-3 !mt-0"
+                                            data-i18n="tr.settings.set.title">설정 (SET)</h4>
+                                        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                                            <li data-i18n="tr.settings.set.item1">
+                                                <strong class="text-white block mb-1">Highlight Large Trades</strong>
+                                                <span>설정한 금액(USD) 이상의 체결 건을 굵은 폰트로 강조하여 보여줍니다. (필터링 핵심)</span>
+                                            </li>
+                                            <li data-i18n="tr.settings.set.item2">
+                                                <strong class="text-white block mb-1">Rows</strong>
+                                                <span>테이블에 표시할 최대 행 개수를 조절합니다. (10 ~ 100)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Market Type -->
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <h4 class="text-white font-bold text-sm mb-3 !mt-0"
+                                            data-i18n="tr.settings.market.title">마켓 전환 (PERP/Spot)</h4>
+                                        <p class="text-sm text-gray-400 !m-0 mb-3" data-i18n="tr.settings.market.body">
+                                            선물(Futures) 데이터뿐만 아니라 현물(Spot) 체결내역으로 전환하여 볼 수 있습니다.
+                                        </p>
+                                        <div class="text-xs text-gray-500 p-2 bg-black/20 rounded border border-gray-800"
+                                            data-i18n="tr.settings.market.note">
+                                            * 단, 해당 심볼이 현물 마켓에 상장되어 있지 않은 경우 버튼이 비활성화됩니다.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Troubleshooting -->
+                            <div id="tr-troubleshoot">
+                                <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
+                                    data-i18n="tr.trouble.title">5) 문제 해결</h2>
+                                <div class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6">
+                                    <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
+                                        <li class="flex items-start gap-3">
+                                            <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                            <div>
+                                                <strong class="text-gray-300 block mb-1"
+                                                    data-i18n="tr.trouble.item1.title">데이터가 멈추거나 지연됩니다.</strong>
+                                                <span data-i18n="tr.trouble.item1.body">네트워크 상태를 확인하세요. 바이낸스 소켓 연결이 끊긴
+                                                    경우
+                                                    <strong>SET → Apply</strong>를 눌러 재연결을 시도하세요.</span>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                            <div>
+                                                <strong class="text-gray-300 block mb-1"
+                                                    data-i18n="tr.trouble.item2.title">현물(Spot) 전환이 안 됩니다.</strong>
+                                                <span data-i18n="tr.trouble.item2.body">해당 코인이 바이낸스 현물 마켓(USDT)에 상장되어
+                                                    있는지
+                                                    확인해주세요. 미지원 시 PERP 모드로 고정됩니다.</span>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <i class="fa-solid fa-circle-question text-gray-500 mt-0.5"></i>
+                                            <div>
+                                                <strong class="text-gray-300 block mb-1"
+                                                    data-i18n="tr.trouble.item3.title">청산 알림음이 안 들립니다.</strong>
+                                                <span data-i18n="tr.trouble.item3.body">프로그램 폴더 내 <code>SFX</code> 폴더에
+                                                    <code>liq.wav</code> 파일이 존재하는지, 윈도우 볼륨 믹서 설정을 확인하세요.</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
             </section>
 
             <!-- SECTION: MARKET BRIEFING AI -->
@@ -4555,6 +4836,33 @@
             "tr.ui.buttons.perp": { ko: "<strong>PERP</strong> : 선물(Futures) / 현물(Spot) 전환", en: "<strong>PERP</strong>: toggle Futures/Spot" },
             "tr.ui.buttons.liq": { ko: "<strong>LIQ</strong> : 청산 다이얼로그 열기/닫기", en: "<strong>LIQ</strong>: open/close liquidation dialog" },
             "tr.ui.buttons.pin": { ko: "<strong>PIN</strong> : 항상 위 고정", en: "<strong>PIN</strong>: always on top" },
+            "tr.ui.metrics.title": { ko: "보조지표 안내", en: "Auxiliary Indicator Guide" },
+            "tr.ui.metrics.body": { ko: "체결 테이블 상단에는 <strong>SPD / D1 / D3 / BIG / FLOW</strong>가 왼쪽부터 순서대로 표시됩니다. 각 칸은 체결 속도, 델타 우세, 큰 체결 비중, 델타 대비 가격 반응을 분리해서 보여줍니다.", en: "At the top of the trades table, <strong>SPD / D1 / D3 / BIG / FLOW</strong> are shown from left to right. Each cell separates execution speed, delta bias, large-trade share, and price reaction versus delta." },
+            "tr.ui.metrics.layout.title": { ko: "패널 레이아웃", en: "Panel Layout" },
+            "tr.ui.metrics.layout.spd": { ko: "체결 속도", en: "Execution Speed" },
+            "tr.ui.metrics.layout.d1": { ko: "1초 델타", en: "1s Delta" },
+            "tr.ui.metrics.layout.d3": { ko: "3초 델타", en: "3s Delta" },
+            "tr.ui.metrics.layout.big": { ko: "큰 체결 비중", en: "Large-Trade Share" },
+            "tr.ui.metrics.layout.flow": { ko: "가격 반응", en: "Price Reaction" },
+            "tr.ui.metrics.spd": { ko: "최근 1초 구간의 체결 버스트 강도를 보여줍니다. 가격 추세 자체보다 체결이 얼마나 빠르고 공격적으로 몰리는지를 읽는 지표입니다.", en: "Shows the strength of the execution burst in the last 1 second. It is a metric for how fast and aggressively trades are clustering, rather than a direct trend label." },
+            "tr.ui.metrics.delta": { ko: "순델타를 1초와 3초 기준으로 나눠 보여줍니다. 양수는 매수 우세, 음수는 매도 우세이며, D1은 순간 반응, D3는 조금 더 안정적인 흐름을 읽는 데 유용합니다.", en: "Shows net delta on 1-second and 3-second windows. Positive means buy-side dominance, negative means sell-side dominance; D1 is more reactive while D3 is a steadier short-term read." },
+            "tr.ui.metrics.big": { ko: "최근 3초 구간에서 큰 체결이 차지하는 비중을 보여줍니다. 값이 높을수록 굵은 프린트가 평소보다 더 강하게 들어오고 있다는 뜻입니다.", en: "Shows how much of the last 3 seconds is being driven by large trades. Higher values mean thick prints are coming in more aggressively than usual." },
+            "tr.ui.metrics.flow": { ko: "강한 델타 우세가 있을 때 가격이 그 방향으로 따라가는지, 애매하게 머무는지, 반대로 밀리는지를 보여줍니다.", en: "When delta becomes one-sided, FLOW shows whether price follows that direction, stalls in the middle, or gets pushed back against it." },
+            "tr.ui.metrics.absorb.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
+            "tr.ui.metrics.absorb.body": { ko: "강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.", en: "When delta becomes one-sided, FLOW classifies the price reaction into three states." },
+            "tr.ui.metrics.flow_states.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
+            "tr.ui.metrics.flow_states.intro": { ko: "강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.", en: "When delta becomes one-sided, FLOW classifies the price reaction into three states." },
+            "tr.ui.metrics.flow_states.follow.summary": { ko: "때리는 쪽이 이기고 있음", en: "Aggressor side is winning" },
+            "tr.ui.metrics.flow_states.follow.detail": { ko: "델타와 가격이 같은 방향으로 움직이는 상태입니다. 시장가 공격이 유동성을 뚫고 가격을 밀어내고 있습니다.", en: "Delta and price are moving in the same direction. Market orders are breaking through liquidity and pushing price." },
+            "tr.ui.metrics.flow_states.neutral.summary": { ko: "아직 둘 다 애매함", en: "Both sides inconclusive" },
+            "tr.ui.metrics.flow_states.neutral.detail": { ko: "델타 방향성은 있지만 가격 반응이 뚣렷하지 않은 상태입니다. 아직 방향이 확정되지 않았습니다.", en: "Delta shows a direction but price reaction is unclear. Direction is not yet confirmed." },
+            "tr.ui.metrics.flow_states.absorb.summary": { ko: "받아내는 쪽이 버티거나 이기고 있음", en: "Resting side is absorbing" },
+            "tr.ui.metrics.flow_states.absorb.detail": { ko: "한쪽 델타가 강한데 가격이 그 방향으로 못 가고 반대로 밀립니다. 대기 물량이 두껏거나 반대편이 계속 받아주고 있다는 뜻입니다.", en: "One-sided delta is showing but price gets pushed back. Resting orders are thick or the opposite side keeps absorbing." },
+            "tr.ui.metrics.flow_states.note": { ko: "ABSORB가 나타나면 체결량은 강한데 가격 반응이 약하다는 뜻이므로, 추세 지속보다 정체·흡수·반전 가능성을 함께 의심해야 합니다.", en: "When ABSORB appears, volume is strong but price reaction is weak, so consider stall/absorption/reversal alongside trend continuation." },
+            "tr.ui.metrics.read.title": { ko: "함께 읽는 법", en: "How to Read Together" },
+            "tr.ui.metrics.read.item1": { ko: "공격적 체결과 큰 프린트가 붙으면서 가격도 순행 중", en: "Aggressive executions and large prints are coming in, and price is following through." },
+            "tr.ui.metrics.read.item2": { ko: "체결은 빨라졌지만 아직 방향 확정은 약한 상태", en: "Executions sped up, but direction is still not clearly confirmed." },
+            "tr.ui.metrics.read.item3": { ko: "강한 델타가 가격으로 이어지지 못하고 흡수되는 상태", en: "Strong delta is showing up, but price is failing to follow — being absorbed." },
             "tr.liq.title": { ko: "3) 청산(Liquidation) 감지", en: "3) Liquidation Detection" },
             "tr.liq.body": { ko: "<strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고 이전 기록은 자동 삭제됩니다.", en: "Records <strong>Force Order</strong> events in a separate popup. When you change the symbol via other toolkits, only that symbol's liquidation history remains; previous logs are cleared." },
             "tr.liq.alert.title": { ko: "알림 옵션 (Alerts)", en: "Alert Options" },
