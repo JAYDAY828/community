@@ -3048,18 +3048,24 @@
 
                                 <div class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-6 mb-4">
                                     <h3 class="text-white font-bold text-sm mb-4 !mt-0 border-b border-gray-700 pb-2"
-                                        data-i18n="tr.ui.top.title">상단 정보바 (Top Bar)</h3>
+                                        data-i18n="tr.ui.top.title">가격 / 보조지표 영역 (Price &amp; Indicators)</h3>
                                     <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-tag text-gray-500 mt-1"></i>
                                             <span data-i18n="tr.ui.top.item1"><strong>Symbol Info</strong>: 현재 연결된
-                                                종목명 및
-                                                시가총액(Cap)</span>
+                                                종목명, 시가총액(Cap), 상단 시간 정보를 표시합니다.</span>
                                         </li>
                                         <li class="flex items-start gap-2">
-                                            <i class="fa-solid fa-stopwatch text-yellow-400 mt-1"></i>
-                                            <span data-i18n="tr.ui.top.item2"><strong>3초 순간 대금</strong>: 최근 3초간 발생한
-                                                매수/매도 시장가 체결 총액을 표시하여 순간 매매 강도를 보여줍니다.</span>
+                                            <i class="fa-solid fa-arrow-trend-up text-pink-400 mt-1"></i>
+                                            <span data-i18n="tr.ui.top.item2"><strong>Last Price</strong>: 중앙에 현재 체결가와 등락 방향을 크게 표시합니다.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-gauge-high text-yellow-400 mt-1"></i>
+                                            <span data-i18n="tr.ui.top.item3"><strong>Indicators</strong>: <strong>SPD / D1 / D3 / BIG / FLOW</strong> 및 <strong>LIQ 1M</strong> 보조지표를 표시합니다.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-stopwatch text-emerald-400 mt-1"></i>
+                                            <span data-i18n="tr.ui.top.item4"><strong>3초 누적 대금</strong>: 하단에 최근 3초 매수/매도 체결대금을 표시합니다.</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -4863,9 +4869,11 @@
             "tr.feature.liq.title": { ko: "청산(Liquidation) 감지", en: "Liquidation Detection" },
             "tr.feature.liq.body": { ko: "단기 추세의 변곡점이 될 수 있는 강제 청산(Force Order) 발생 시, 알림음과 팝업으로 즉시 알려줍니다.", en: "When forced liquidations that can mark turning points occur, it alerts with sound and popup." },
             "tr.ui.title": { ko: "2) 메인 UI 구성", en: "2) Main UI Layout" },
-            "tr.ui.top.title": { ko: "상단 정보바 (Top Bar)", en: "Top Bar" },
-            "tr.ui.top.item1": { ko: "<strong>Symbol Info</strong>: 현재 연결된 종목명 및 시가총액(Cap)", en: "<strong>Symbol Info</strong>: current symbol and market cap." },
-            "tr.ui.top.item2": { ko: "<strong>3초 순간 대금</strong>: 최근 3초간 발생한 매수/매도 시장가 체결 총액을 표시하여 순간 매매 강도를 보여줍니다.", en: "<strong>3s Notional</strong>: total market-buy/sell value over the last 3 seconds to show immediate pressure." },
+            "tr.ui.top.title": { ko: "가격 / 보조지표 영역 (Price & Indicators)", en: "Price & Indicators" },
+            "tr.ui.top.item1": { ko: "<strong>Symbol Info</strong>: 현재 연결된 종목명, 시가총액(Cap), 상단 시간 정보를 표시합니다.", en: "<strong>Symbol Info</strong>: shows the current symbol, market cap, and top time display." },
+            "tr.ui.top.item2": { ko: "<strong>Last Price</strong>: 중앙에 현재 체결가와 등락 방향을 크게 표시합니다.", en: "<strong>Last Price</strong>: shows the current traded price and direction prominently in the center." },
+            "tr.ui.top.item3": { ko: "<strong>Indicators</strong>: <strong>SPD / D1 / D3 / BIG / FLOW</strong> 및 <strong>LIQ 1M</strong> 보조지표를 표시합니다.", en: "<strong>Indicators</strong>: displays the <strong>SPD / D1 / D3 / BIG / FLOW</strong> and <strong>LIQ 1M</strong> indicator set." },
+            "tr.ui.top.item4": { ko: "<strong>3초 누적 대금</strong>: 하단에 최근 3초 매수/매도 체결대금을 표시합니다.", en: "<strong>3s Notional</strong>: displays the recent 3-second buy/sell traded value at the bottom." },
             "tr.ui.table.title": { ko: "체결 테이블 (Main Table)", en: "Trades Table (Main Table)" },
             "tr.ui.table.price": { ko: "체결 가격", en: "Trade Price" },
             "tr.ui.table.value": { ko: "체결 규모 (USD 환산 금액)", en: "Trade Size (USD notional)" },
