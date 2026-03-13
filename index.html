@@ -3131,6 +3131,20 @@
                                                 data-i18n="tr.ui.metrics.layout.flow">가격 반응</div>
                                         </div>
                                     </div>
+                                    <div class="grid grid-cols-2 gap-3 mt-3">
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-green-500/30">
+                                            <div class="text-[#2EBD74] font-bold text-sm">000.00 K</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.liq_long">롱 청산</div>
+                                        </div>
+                                        <div
+                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-red-500/30">
+                                            <div class="text-[#F6465D] font-bold text-sm">000.00 K</div>
+                                            <div class="text-[11px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.liq_short">숏 청산</div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -3223,6 +3237,24 @@
                                                 class="text-[#F6465D]">흡수</strong>되는지를 보여줍니다.
                                         </p>
                                     </div>
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 md:col-span-2 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-water text-cyan-400 text-xs"></i>
+                                            <span class="text-white font-bold text-sm" data-i18n="tr.ui.metrics.liq1m.title">1분 청산 대금 (1M LIQ)</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">1m Liquidation</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5 mb-3">
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#2EBD74] font-mono">LONG LIQ</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#F6465D] font-mono">SHORT LIQ</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.liq1m.desc">
+                                            최근 1분간 발생한 누적 청산 금액입니다. <strong class="text-[#2EBD74]">녹색(롱 청산)</strong>은 매도 포지션 강제 진입을, <strong class="text-[#F6465D]">붉은색(숏 청산)</strong>은 매수 포지션 강제 진입을 의미하며 단기 유동성 분출을 포착할 때 사용합니다.
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <!-- FLOW 상태 해석 -->
@@ -3305,7 +3337,7 @@
                                         <i class="fa-solid fa-book-open text-yellow-400"></i>
                                         <span data-i18n="tr.ui.metrics.read.title">함께 읽는 법</span>
                                     </h4>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
                                                 <span
@@ -3355,6 +3387,21 @@
                                             </div>
                                             <p class="text-xs text-gray-400 !m-0 leading-relaxed"
                                                 data-i18n="tr.ui.metrics.read.item3">강한 델타가 가격으로 이어지지 못하고 흡수되는 상태</p>
+                                        </div>
+                                        <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
+                                            <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-[10px] text-cyan-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-water text-[8px]"></i> 1M LIQ
+                                                </span>
+                                                <span class="text-[10px] text-gray-600">+</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
+                                                    <i class="fa-solid fa-bolt text-[8px]"></i> KEY LEVEL
+                                                </span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="tr.ui.metrics.read.item4">의미있는 캔들에서 굵직한 청산 금액이 발생한 경우, 해당 위치가 단기 변곡점이 될 가능성이 매우 높음</p>
                                         </div>
                                     </div>
                                 </div>
@@ -4834,10 +4881,14 @@
             "tr.ui.metrics.layout.d3": { ko: "3초 델타", en: "3s Delta" },
             "tr.ui.metrics.layout.big": { ko: "큰 체결 비중", en: "Large-Trade Share" },
             "tr.ui.metrics.layout.flow": { ko: "가격 반응", en: "Price Reaction" },
+            "tr.ui.metrics.layout.liq_short": { ko: "숏 청산", en: "Short Liq" },
+            "tr.ui.metrics.layout.liq_long": { ko: "롱 청산", en: "Long Liq" },
             "tr.ui.metrics.spd": { ko: "최근 1초 구간의 체결 버스트 강도를 보여줍니다. 가격 추세 자체보다 체결이 얼마나 빠르고 공격적으로 몰리는지를 읽는 지표입니다.", en: "Shows the strength of the execution burst in the last 1 second. It is a metric for how fast and aggressively trades are clustering, rather than a direct trend label." },
             "tr.ui.metrics.delta": { ko: "순델타를 1초와 3초 기준으로 나눠 보여줍니다. 양수는 매수 우세, 음수는 매도 우세이며, D1은 순간 반응, D3는 조금 더 안정적인 흐름을 읽는 데 유용합니다.", en: "Shows net delta on 1-second and 3-second windows. Positive means buy-side dominance, negative means sell-side dominance; D1 is more reactive while D3 is a steadier short-term read." },
             "tr.ui.metrics.big": { ko: "최근 3초 구간에서 큰 체결이 차지하는 비중을 보여줍니다. 값이 높을수록 굵은 프린트가 평소보다 더 강하게 들어오고 있다는 뜻입니다.", en: "Shows how much of the last 3 seconds is being driven by large trades. Higher values mean thick prints are coming in more aggressively than usual." },
             "tr.ui.metrics.flow": { ko: "강한 델타 우세가 있을 때 가격이 그 방향으로 따라가는지, 애매하게 머무는지, 반대로 밀리는지를 보여줍니다.", en: "When delta becomes one-sided, FLOW shows whether price follows that direction, stalls in the middle, or gets pushed back against it." },
+            "tr.ui.metrics.liq1m.title": { ko: "1분 청산 대금 (1M LIQ)", en: "1m Liquidation" },
+            "tr.ui.metrics.liq1m.desc": { ko: "최근 1분간 발생한 누적 청산 금액입니다. <strong class=\"text-[#2EBD74]\">녹색(롱 청산)</strong>은 매도 포지션 강제 진입을, <strong class=\"text-[#F6465D]\">붉은색(숏 청산)</strong>은 매수 포지션 강제 진입을 의미하며 단기 유동성 분출을 포착할 때 사용합니다.", en: "Cumulative liquidation amount over the last 1 minute. <strong class=\"text-[#2EBD74]\">Green (Long Liq)</strong> indicates forced sells, and <strong class=\"text-[#F6465D]\">Red (Short Liq)</strong> indicates forced buys, useful for catching short-term liquidity bursts." },
             "tr.ui.metrics.absorb.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
             "tr.ui.metrics.absorb.body": { ko: "강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.", en: "When delta becomes one-sided, FLOW classifies the price reaction into three states." },
             "tr.ui.metrics.flow_states.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
@@ -4853,6 +4904,7 @@
             "tr.ui.metrics.read.item1": { ko: "공격적 체결과 큰 프린트가 붙으면서 가격도 순행 중", en: "Aggressive executions and large prints are coming in, and price is following through." },
             "tr.ui.metrics.read.item2": { ko: "체결은 빨라졌지만 아직 방향 확정은 약한 상태", en: "Executions sped up, but direction is still not clearly confirmed." },
             "tr.ui.metrics.read.item3": { ko: "강한 델타가 가격으로 이어지지 못하고 흡수되는 상태", en: "Strong delta is showing up, but price is failing to follow — being absorbed." },
+            "tr.ui.metrics.read.item4": { ko: "의미있는 캔들에서 굵직한 청산 금액이 발생한 경우, 해당 위치가 단기 변곡점이 될 가능성이 매우 높음", en: "If significant liquidations occur at a key candle level, it is highly likely to be a turning point." },
             "tr.liq.title": { ko: "3) 청산(Liquidation) 감지", en: "3) Liquidation Detection" },
             "tr.liq.body": { ko: "<strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고 이전 기록은 자동 삭제됩니다.", en: "Records <strong>Force Order</strong> events in a separate popup. When you change the symbol via other toolkits, only that symbol's liquidation history remains; previous logs are cleared." },
             "tr.liq.alert.title": { ko: "알림 옵션 (Alerts)", en: "Alert Options" },
