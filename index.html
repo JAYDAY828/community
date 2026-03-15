@@ -2836,8 +2836,8 @@
                                             data-i18n="ob.feature.volume.title">보조지표</span>
                                     </h4>
                                     <p class="text-xs text-gray-400 !m-0" data-i18n="ob.feature.volume.body">
-                                        최근 3초 누적 체결대금과 <strong>OPEN / BLOCK</strong> 신호를 함께 표시하여, 단기
-                                        방향성과 바로 위·아래 구간의 진행 가능성 또는 저항감을 빠르게 읽을 수 있습니다.
+                                        최근 3초 누적 체결대금과 <strong>FOLLOW / ABSORB</strong> 신호를 함께 표시하여,
+                                        체결대금이 실제로 가격을 밀어 진행시키는지, 바로 흡수되어 막히는지를 빠르게 읽을 수 있습니다.
                                     </p>
                                 </div>
                                 <div
@@ -2942,7 +2942,7 @@
                                             <li data-i18n="ob.ui.center.item3">• <strong>우측</strong>: 최근 3초간 누적된
                                                 <span class="text-[#F6465D]">매도 체결대금</span>
                                             </li>
-                                            <li data-i18n="ob.ui.center.item4">• <strong>1호가 인접칸</strong>: <strong>OPEN / BLOCK</strong> 신호로 상·하방 진행 가능성 또는 저항감을 참고</li>
+                                            <li data-i18n="ob.ui.center.item4">• <strong>상단/하단 보조지표</strong>: <strong>FOLLOW / ABSORB</strong> 신호로 최근 3초 체결대금이 실제로 가격을 밀고 있는지, 흡수되고 있는지 참고</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -4863,7 +4863,7 @@
             "ob.feature.usdt.title": { ko: "실시간 USDT 환산", en: "Real-time USDT Conversion" },
             "ob.feature.usdt.body": { ko: "모든 호가 물량을 코인 개수가 아닌 <strong>USDT(금액) 가치</strong>로 자동 환산하여 표시합니다. 허수 주문과 실제 매물대를 직관적으로 파악할 수 있습니다.", en: "Automatically converts all order sizes into <strong>USDT value</strong> instead of coin quantity, making fake vs real liquidity easier to read." },
             "ob.feature.volume.title": { ko: "보조지표", en: "Indicator Signals" },
-            "ob.feature.volume.body": { ko: "최근 3초 누적 체결대금과 <strong>OPEN / BLOCK</strong> 신호를 함께 표시하여, 단기 방향성과 바로 위·아래 구간의 진행 가능성 또는 저항감을 빠르게 읽을 수 있습니다.", en: "Shows the recent 3-second cumulative traded value together with <strong>OPEN / BLOCK</strong> signals so you can quickly read short-term direction and whether the area just above or below price looks open or resistant." },
+            "ob.feature.volume.body": { ko: "최근 3초 누적 체결대금과 <strong>FOLLOW / ABSORB</strong> 신호를 함께 표시하여, 체결대금이 실제로 가격을 밀어 진행시키는지, 바로 흡수되어 막히는지를 빠르게 읽을 수 있습니다.", en: "Shows the recent 3-second cumulative traded value together with <strong>FOLLOW / ABSORB</strong> signals so you can quickly see whether traded value is actually pushing price through or getting absorbed and stalled." },
             "ob.feature.link.title": { ko: "툴킷 연동", en: "Toolkit Link" },
             "ob.feature.link.body": { ko: "호가창의 특정 가격을 클릭하면 <strong>Order Toolkit</strong>의 가격 입력창에 즉시 반영되어 빠른 지정가 주문이 가능합니다.", en: "Click a price in the order book to instantly fill it into the <strong>Order Toolkit</strong> price input for quick limit orders." },
             "ob.ui.title": { ko: "2) 메인 UI 및 컨트롤", en: "2) Main UI & Controls" },
@@ -4879,7 +4879,7 @@
             "ob.ui.center.item1": { ko: "• 마지막 체결 가격 및 등락 방향(↑/↓)", en: "• Last traded price and direction (↑/↓)" },
             "ob.ui.center.item2": { ko: "• <strong>좌측</strong>: 최근 3초간 누적된 <span class='text-[#2EBD74]'>매수 체결대금</span>", en: "• <strong>Left</strong>: cumulative <span class='text-[#2EBD74]'>buy traded value</span> over the last 3 seconds" },
             "ob.ui.center.item3": { ko: "• <strong>우측</strong>: 최근 3초간 누적된 <span class='text-[#F6465D]'>매도 체결대금</span>", en: "• <strong>Right</strong>: cumulative <span class='text-[#F6465D]'>sell traded value</span> over the last 3 seconds" },
-            "ob.ui.center.item4": { ko: "• <strong>1호가 인접칸</strong>: <strong>OPEN / BLOCK</strong> 신호로 상·하방 진행 가능성 또는 저항감을 참고", en: "• <strong>Adjacent best-quote slots</strong>: use <strong>OPEN / BLOCK</strong> signals to gauge upside/downside continuation or nearby resistance/support" },
+            "ob.ui.center.item4": { ko: "• <strong>상단/하단 보조지표</strong>: <strong>FOLLOW / ABSORB</strong> 신호로 최근 3초 체결대금이 실제로 가격을 밀고 있는지, 흡수되고 있는지 참고", en: "• <strong>Upper/lower indicator lanes</strong>: use <strong>FOLLOW / ABSORB</strong> signals to judge whether recent 3-second traded value is truly pushing price or being absorbed." },
             "ob.sync.title": { ko: "3) 크롬 연동 (심볼 동기화)", en: "3) Chrome Integration (Symbol Sync)" },
             "ob.sync.body": { ko: "Order Toolkit과 동일한 방식을 사용하여, 웹 브라우저의 종목 변경을 감지하고 호가창을 자동으로 전환합니다.", en: "Uses the same method as Order Toolkit to detect symbol changes in the browser and auto-switch the order book." },
             "ob.sync.note": { ko: "필수: 크롬 디버깅 모드 실행 (바로가기 활용)", en: "Required: run Chrome in debugging mode (use the shortcut)." },
