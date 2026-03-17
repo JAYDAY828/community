@@ -3094,7 +3094,7 @@
                                         </li>
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-gauge-high text-yellow-400 mt-1"></i>
-                                            <span data-i18n="tr.ui.top.item3"><strong>Indicators</strong>: <strong>SPD / D1 / D3 / BIG / FLOW</strong> 및 <strong>LIQ 1M</strong> 보조지표를 표시합니다.</span>
+                                            <span data-i18n="tr.ui.top.item3"><strong>Indicators</strong>: <strong>3초 매수/매도 총 체결</strong>, <strong>D1 / D3 / BIG / FLOW</strong>, <strong>1M LIQ</strong>와 <strong>속도 배지</strong>를 표시합니다.</span>
                                         </li>
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-stopwatch text-emerald-400 mt-1"></i>
@@ -3133,8 +3133,9 @@
                                     <span data-i18n="tr.ui.metrics.title">보조지표 안내</span>
                                 </h3>
                                 <p class="text-sm text-gray-400 mb-5 leading-relaxed" data-i18n="tr.ui.metrics.body">
-                                    체결 테이블 상단에는 <strong>SPD / D1 / D3 / BIG / FLOW</strong>가 왼쪽부터 순서대로 표시됩니다.
-                                    각 칸은 체결 속도, 델타 우세, 큰 체결 비중, 델타 대비 가격 반응을 분리해서 보여주며, 패널을
+                                    상단 첫 칸은 최근 3초 매수/매도 총 체결 대금을 동시에 보여주고, 하단 중앙 배지는
+                                    최근 1초 체결 버스트 강도를 I / II / III / IIII로 표시합니다. 나머지 칸은 델타 우세, 큰 체결
+                                    비중, 델타 대비 가격 반응을 분리해서 보여주며, 패널을
                                     <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.
                                 </p>
 
@@ -3144,47 +3145,58 @@
                                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                                         <div
                                             class="rounded-lg bg-black/30 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
-                                            <div class="text-white font-bold text-sm">SPD</div>
-                                            <div class="text-[11px] text-gray-500 mt-1"
-                                                data-i18n="tr.ui.metrics.layout.spd">체결 속도</div>
+                                            <div class="text-[#2EBD74] font-bold text-sm">27.4 K</div>
+                                            <div class="text-[#F6465D] font-bold text-sm mt-1">30.1 K</div>
+                                            <div class="text-[11px] text-gray-500 mt-1.5"
+                                                data-i18n="tr.ui.metrics.layout.spd">3초 매수 / 매도</div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-white font-bold text-sm">D1</div>
+                                            <div class="text-[#2EBD74] font-bold text-sm mt-1">+2.8 K</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
                                                 data-i18n="tr.ui.metrics.layout.d1">1초 델타</div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-white font-bold text-sm">D3</div>
+                                            <div class="text-[#F6465D] font-bold text-sm mt-1">-2.7 K</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
                                                 data-i18n="tr.ui.metrics.layout.d3">3초 델타</div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-white font-bold text-sm">BIG</div>
+                                            <div class="text-white font-bold text-sm mt-1">0%</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
                                                 data-i18n="tr.ui.metrics.layout.big">큰 체결 비중</div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-white font-bold text-sm">FLOW</div>
+                                            <div class="text-white font-bold text-sm mt-1">- NEUTRAL</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
                                                 data-i18n="tr.ui.metrics.layout.flow">가격 반응</div>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-2 gap-3 mt-3">
+                                    <div class="grid grid-cols-12 gap-3 mt-3">
                                         <div
-                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-green-500/30">
+                                            class="col-span-5 rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-green-500/30">
                                             <div class="text-[#2EBD74] font-bold text-sm">000.00 K</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
-                                                data-i18n="tr.ui.metrics.layout.liq_long">롱 청산</div>
+                                                data-i18n="tr.ui.metrics.layout.liq_long">롱 청산 1M</div>
                                         </div>
                                         <div
-                                            class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-red-500/30">
+                                            class="col-span-2 rounded-lg bg-black/20 border border-gray-800 px-2 py-3 text-center transition-colors hover:border-yellow-400/30">
+                                            <div class="text-white font-bold text-sm font-mono tracking-tight">II</div>
+                                            <div class="text-[10px] text-gray-500 mt-1"
+                                                data-i18n="tr.ui.metrics.layout.speed_badge">속도 배지</div>
+                                        </div>
+                                        <div
+                                            class="col-span-5 rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-red-500/30">
                                             <div class="text-[#F6465D] font-bold text-sm">000.00 K</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
-                                                data-i18n="tr.ui.metrics.layout.liq_short">숏 청산</div>
+                                                data-i18n="tr.ui.metrics.layout.liq_short">숏 청산 1M</div>
                                         </div>
                                     </div>
                                 </div>
@@ -3194,22 +3206,19 @@
                                         class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                         <div class="flex items-center gap-2 mb-2">
                                             <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i>
-                                            <span class="text-white font-bold text-sm">SPD</span>
-                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Speed</span>
+                                            <span class="text-white font-bold text-sm" data-i18n="tr.ui.metrics.gross.title">3초 누적 거래대금</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">3s Gross</span>
                                         </div>
                                         <div class="flex flex-wrap gap-1.5 mb-3">
                                             <span
-                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-400 font-mono">SLOW</span>
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#2EBD74] font-mono">3S BUY</span>
                                             <span
-                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-400 font-mono">NORMAL</span>
-                                            <span
-                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-yellow-400 font-mono">FAST</span>
-                                            <span
-                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-accent-red font-mono">EXTREME</span>
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-[#F6465D] font-mono">3S SELL</span>
                                         </div>
                                         <p class="text-xs text-gray-400 !m-0 leading-relaxed"
-                                            data-i18n="tr.ui.metrics.spd">
-                                            최근 1초 구간의 체결 버스트 강도를 보여줍니다. 가격 추세 자체보다 체결이 얼마나 빠르고 공격적으로 몰리는지를 읽는 지표입니다.
+                                            data-i18n="tr.ui.metrics.gross.desc">
+                                            최근 3초 동안 매수/매도 체결대금이 각각 얼마나 부딪히는지 보여줍니다.
+                                            순델타만으로는 가려지는 실제 충돌 규모를 빠르게 확인하기 위한 칸입니다.
                                         </p>
                                     </div>
                                     <div
@@ -3280,7 +3289,7 @@
                                         </p>
                                     </div>
                                     <div
-                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 md:col-span-2 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
                                         <div class="flex items-center gap-2 mb-2">
                                             <i class="fa-solid fa-water text-cyan-400 text-xs"></i>
                                             <span class="text-white font-bold text-sm" data-i18n="tr.ui.metrics.liq1m.title">1분 청산 대금 (1M LIQ)</span>
@@ -3294,7 +3303,32 @@
                                         </div>
                                         <p class="text-xs text-gray-400 !m-0 leading-relaxed"
                                             data-i18n="tr.ui.metrics.liq1m.desc">
-                                            최근 1분간 발생한 누적 청산 금액입니다. <strong class="text-[#2EBD74]">녹색(롱 청산)</strong>은 매도 포지션 강제 진입을, <strong class="text-[#F6465D]">붉은색(숏 청산)</strong>은 매수 포지션 강제 진입을 의미하며 단기 유동성 분출을 포착할 때 사용합니다.
+                                            최근 1분 동안 누적된 청산 금액입니다. <strong class="text-[#2EBD74]">녹색(롱 청산)</strong>은
+                                            매도 포지션 강제 청산, <strong class="text-[#F6465D]">붉은색(숏 청산)</strong>은 매수 포지션 강제 청산을 뜻하며
+                                            단기 유동성 분출과 변곡 가능성을 볼 때 사용합니다.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-gauge-high text-yellow-400 text-xs"></i>
+                                            <span class="text-white font-bold text-sm" data-i18n="tr.ui.metrics.speed.title">속도 배지</span>
+                                            <span class="text-[10px] text-gray-500 font-mono ml-auto">Burst Strength</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5 mb-3">
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-300 font-mono">I</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-gray-300 font-mono">II</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-yellow-400 font-mono">III</span>
+                                            <span
+                                                class="px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-[10px] text-accent-red font-mono">IIII</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="tr.ui.metrics.speed.desc">
+                                            하단 중앙의 I / II / III / IIII는 최근 1초 체결 버스트 강도입니다.
+                                            단계가 올라갈수록 더 짧은 시간에 빠르고 공격적인 체결이 몰리고 있다는 뜻입니다.
                                         </p>
                                     </div>
                                 </div>
@@ -3383,52 +3417,47 @@
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
                                                 <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
-                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
-                                                </span>
-                                                <span class="text-[10px] text-gray-600">+</span>
-                                                <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-[10px] text-accent-purple font-mono font-bold">
-                                                    <i class="fa-solid fa-chart-pie text-[8px]"></i> BIG↑
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-[10px] text-emerald-300 font-mono font-bold">
+                                                    <i class="fa-solid fa-scale-balanced text-[8px]"></i> D3
                                                 </span>
                                                 <span class="text-[10px] text-gray-600">+</span>
                                                 <span
                                                     class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2EBD74]/10 border border-[#2EBD74]/20 text-[10px] text-[#2EBD74] font-mono font-bold">
-                                                    <i class="fa-solid fa-arrow-trend-up text-[8px]"></i> FOLLOW
+                                                    <i class="fa-solid fa-arrow-trend-up text-[8px]"></i> FLOW
                                                 </span>
                                             </div>
                                             <p class="text-xs text-gray-400 !m-0 leading-relaxed"
-                                                data-i18n="tr.ui.metrics.read.item1">공격적 체결과 큰 프린트가 붙으면서 가격도 순행 중</p>
+                                                data-i18n="tr.ui.metrics.read.item1">먼저 델타로 어느 쪽이 우세한지 보고, FLOW로 그 우세가 실제 가격 진행인지 흡수인지 구분합니다.</p>
                                         </div>
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
                                                 <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
-                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-[10px] text-cyan-300 font-mono font-bold">
+                                                    <i class="fa-solid fa-coins text-[8px]"></i> 3S GROSS
                                                 </span>
                                                 <span class="text-[10px] text-gray-600">+</span>
                                                 <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-700/50 border border-gray-600/30 text-[10px] text-gray-400 font-mono font-bold">
-                                                    <i class="fa-solid fa-minus text-[8px]"></i> NEUTRAL
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-[10px] text-emerald-300 font-mono font-bold">
+                                                    <i class="fa-solid fa-scale-balanced text-[8px]"></i> D1 / D3
                                                 </span>
                                             </div>
                                             <p class="text-xs text-gray-400 !m-0 leading-relaxed"
-                                                data-i18n="tr.ui.metrics.read.item2">체결은 빨라졌지만 아직 방향 확정은 약한 상태</p>
+                                                data-i18n="tr.ui.metrics.read.item2">총 충돌 규모가 큰데 델타 차이가 작으면 양방향 공방이 큰 상태이고, 총량과 델타가 함께 커지면 방향 에너지가 응축된 구간입니다.</p>
                                         </div>
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
                                                 <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-400 font-mono font-bold">
-                                                    <i class="fa-solid fa-bolt text-[8px]"></i> FAST
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-[10px] text-emerald-300 font-mono font-bold">
+                                                    <i class="fa-solid fa-scale-balanced text-[8px]"></i> D1 / D3
                                                 </span>
                                                 <span class="text-[10px] text-gray-600">+</span>
                                                 <span
-                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F6465D]/10 border border-[#F6465D]/20 text-[10px] text-[#F6465D] font-mono font-bold">
-                                                    <i class="fa-solid fa-shield-halved text-[8px]"></i> ABSORB
+                                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-[10px] text-yellow-300 font-mono font-bold">
+                                                    <i class="fa-solid fa-gauge-high text-[8px]"></i> I ~ IIII
                                                 </span>
                                             </div>
                                             <p class="text-xs text-gray-400 !m-0 leading-relaxed"
-                                                data-i18n="tr.ui.metrics.read.item3">강한 델타가 가격으로 이어지지 못하고 흡수되는 상태</p>
+                                                data-i18n="tr.ui.metrics.read.item3">델타 우세가 뚜렷한데 속도 배지까지 올라가면 순간 가속 구간이고, 델타 대비 속도 배지가 낮으면 공격성은 아직 약한 상태입니다.</p>
                                         </div>
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
@@ -4907,7 +4936,7 @@
             "tr.ui.top.title": { ko: "가격 / 보조지표 영역 (Price & Indicators)", en: "Price & Indicators" },
             "tr.ui.top.item1": { ko: "<strong>Symbol Info</strong>: 현재 연결된 종목명, 시가총액(Cap), 상단 시간 정보를 표시합니다.", en: "<strong>Symbol Info</strong>: shows the current symbol, market cap, and top time display." },
             "tr.ui.top.item2": { ko: "<strong>Last Price</strong>: 중앙에 현재 체결가와 등락 방향을 크게 표시합니다.", en: "<strong>Last Price</strong>: shows the current traded price and direction prominently in the center." },
-            "tr.ui.top.item3": { ko: "<strong>Indicators</strong>: <strong>SPD / D1 / D3 / BIG / FLOW</strong> 및 <strong>LIQ 1M</strong> 보조지표를 표시합니다.", en: "<strong>Indicators</strong>: displays the <strong>SPD / D1 / D3 / BIG / FLOW</strong> and <strong>LIQ 1M</strong> indicator set." },
+            "tr.ui.top.item3": { ko: "<strong>Indicators</strong>: <strong>3초 매수/매도 총 체결</strong>, <strong>D1 / D3 / BIG / FLOW</strong>, <strong>1M LIQ</strong>와 <strong>속도 배지</strong>를 표시합니다.", en: "<strong>Indicators</strong>: shows <strong>3s buy/sell gross totals</strong>, <strong>D1 / D3 / BIG / FLOW</strong>, plus the <strong>1M LIQ</strong> and <strong>speed badge</strong> row." },
             "tr.ui.top.item4": { ko: "<strong>3초 누적 대금</strong>: 하단에 최근 3초 매수/매도 체결대금을 표시합니다.", en: "<strong>3s Notional</strong>: displays the recent 3-second buy/sell traded value at the bottom." },
             "tr.ui.table.title": { ko: "체결 테이블 (Main Table)", en: "Trades Table (Main Table)" },
             "tr.ui.table.price": { ko: "체결 가격", en: "Trade Price" },
@@ -4920,21 +4949,25 @@
             "tr.ui.buttons.liq": { ko: "<strong>LIQ</strong> : 청산 다이얼로그 열기/닫기", en: "<strong>LIQ</strong>: open/close liquidation dialog" },
             "tr.ui.buttons.pin": { ko: "<strong>PIN</strong> : 항상 위 고정", en: "<strong>PIN</strong>: always on top" },
             "tr.ui.metrics.title": { ko: "보조지표 안내", en: "Auxiliary Indicator Guide" },
-            "tr.ui.metrics.body": { ko: "체결 테이블 상단에는 <strong>SPD / D1 / D3 / BIG / FLOW</strong>가 왼쪽부터 순서대로 표시됩니다. 각 칸은 체결 속도, 델타 우세, 큰 체결 비중, 델타 대비 가격 반응을 분리해서 보여주며, 패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.", en: "At the top of the trades table, <strong>SPD / D1 / D3 / BIG / FLOW</strong> are shown from left to right. Each cell separates execution speed, delta bias, large-trade share, and price reaction versus delta, and you can <strong>double-click</strong> the panel to open the same indicators in a floating widget." },
+            "tr.ui.metrics.body": { ko: "상단 첫 칸은 최근 3초 매수/매도 총 체결 대금을 동시에 보여주고, 하단 중앙 배지는 최근 1초 체결 버스트 강도를 <strong>I / II / III / IIII</strong>로 표시합니다. 나머지 칸은 델타 우세, 큰 체결 비중, 델타 대비 가격 반응을 분리해서 보여주며, 패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.", en: "The first top slot now shows the recent 3-second buy/sell gross totals, while the center badge on the lower row shows the last 1-second burst strength as <strong>I / II / III / IIII</strong>. The remaining cells separate delta bias, large-trade share, and price reaction versus delta, and you can <strong>double-click</strong> the panel to open the same indicators in a floating widget." },
             "tr.ui.metrics.layout.title": { ko: "패널 레이아웃", en: "Panel Layout" },
-            "tr.ui.metrics.layout.spd": { ko: "체결 속도", en: "Execution Speed" },
+            "tr.ui.metrics.layout.spd": { ko: "3초 매수 / 매도", en: "3s Buy / Sell" },
             "tr.ui.metrics.layout.d1": { ko: "1초 델타", en: "1s Delta" },
             "tr.ui.metrics.layout.d3": { ko: "3초 델타", en: "3s Delta" },
             "tr.ui.metrics.layout.big": { ko: "큰 체결 비중", en: "Large-Trade Share" },
             "tr.ui.metrics.layout.flow": { ko: "가격 반응", en: "Price Reaction" },
-            "tr.ui.metrics.layout.liq_short": { ko: "숏 청산", en: "Short Liq" },
-            "tr.ui.metrics.layout.liq_long": { ko: "롱 청산", en: "Long Liq" },
-            "tr.ui.metrics.spd": { ko: "최근 1초 구간의 체결 버스트 강도를 보여줍니다. 가격 추세 자체보다 체결이 얼마나 빠르고 공격적으로 몰리는지를 읽는 지표입니다.", en: "Shows the strength of the execution burst in the last 1 second. It is a metric for how fast and aggressively trades are clustering, rather than a direct trend label." },
+            "tr.ui.metrics.layout.speed_badge": { ko: "속도 배지", en: "Speed Badge" },
+            "tr.ui.metrics.layout.liq_short": { ko: "숏 청산 1M", en: "Short Liq 1m" },
+            "tr.ui.metrics.layout.liq_long": { ko: "롱 청산 1M", en: "Long Liq 1m" },
+            "tr.ui.metrics.gross.title": { ko: "3초 누적 거래대금", en: "3s Gross Notional" },
+            "tr.ui.metrics.gross.desc": { ko: "최근 3초 동안 매수/매도 체결대금이 각각 얼마나 부딪히는지 보여줍니다. 순델타만으로는 가려지는 실제 충돌 규모를 빠르게 확인하기 위한 칸입니다.", en: "Shows how much buy and sell notional are colliding over the last 3 seconds. It is meant to reveal the real collision size that a pure delta number can hide." },
             "tr.ui.metrics.delta": { ko: "순델타를 1초와 3초 기준으로 나눠 보여줍니다. 양수는 매수 우세, 음수는 매도 우세이며, D1은 순간 반응, D3는 조금 더 안정적인 흐름을 읽는 데 유용합니다.", en: "Shows net delta on 1-second and 3-second windows. Positive means buy-side dominance, negative means sell-side dominance; D1 is more reactive while D3 is a steadier short-term read." },
             "tr.ui.metrics.big": { ko: "최근 3초 구간에서 큰 체결이 차지하는 비중을 보여줍니다. 값이 높을수록 굵은 프린트가 평소보다 더 강하게 들어오고 있다는 뜻입니다.", en: "Shows how much of the last 3 seconds is being driven by large trades. Higher values mean thick prints are coming in more aggressively than usual." },
             "tr.ui.metrics.flow": { ko: "강한 델타 우세가 있을 때 가격이 그 방향으로 따라가는지, 애매하게 머무는지, 반대로 밀리는지를 보여줍니다.", en: "When delta becomes one-sided, FLOW shows whether price follows that direction, stalls in the middle, or gets pushed back against it." },
             "tr.ui.metrics.liq1m.title": { ko: "1분 청산 대금 (1M LIQ)", en: "1m Liquidation" },
-            "tr.ui.metrics.liq1m.desc": { ko: "최근 1분간 발생한 누적 청산 금액입니다. <strong class=\"text-[#2EBD74]\">녹색(롱 청산)</strong>은 매도 포지션 강제 진입을, <strong class=\"text-[#F6465D]\">붉은색(숏 청산)</strong>은 매수 포지션 강제 진입을 의미하며 단기 유동성 분출을 포착할 때 사용합니다.", en: "Cumulative liquidation amount over the last 1 minute. <strong class=\"text-[#2EBD74]\">Green (Long Liq)</strong> indicates forced sells, and <strong class=\"text-[#F6465D]\">Red (Short Liq)</strong> indicates forced buys, useful for catching short-term liquidity bursts." },
+            "tr.ui.metrics.liq1m.desc": { ko: "최근 1분 동안 누적된 청산 금액입니다. <strong class=\"text-[#2EBD74]\">녹색(롱 청산)</strong>은 매도 포지션 강제 청산, <strong class=\"text-[#F6465D]\">붉은색(숏 청산)</strong>은 매수 포지션 강제 청산을 뜻하며 단기 유동성 분출과 변곡 가능성을 볼 때 사용합니다.", en: "Shows the cumulative liquidation amount over the last 1 minute. <strong class=\"text-[#2EBD74]\">Green (Long Liq)</strong> indicates forced sell-side liquidation, <strong class=\"text-[#F6465D]\">Red (Short Liq)</strong> indicates forced buy-side liquidation, and it is useful for spotting short-term liquidity bursts and turning points." },
+            "tr.ui.metrics.speed.title": { ko: "속도 배지", en: "Speed Badge" },
+            "tr.ui.metrics.speed.desc": { ko: "하단 중앙의 I / II / III / IIII는 최근 1초 체결 버스트 강도입니다. 단계가 올라갈수록 더 짧은 시간에 빠르고 공격적인 체결이 몰리고 있다는 뜻입니다.", en: "The I / II / III / IIII badge on the lower row shows the recent 1-second execution burst strength. Higher levels mean faster and more aggressive executions are clustering in a shorter span of time." },
             "tr.ui.metrics.absorb.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
             "tr.ui.metrics.absorb.body": { ko: "강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.", en: "When delta becomes one-sided, FLOW classifies the price reaction into three states." },
             "tr.ui.metrics.flow_states.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
@@ -4947,9 +4980,9 @@
             "tr.ui.metrics.flow_states.absorb.detail": { ko: "한쪽 델타가 강한데 가격이 그 방향으로 못 가고 반대로 밀립니다. 대기 물량이 두껏거나 반대편이 계속 받아주고 있다는 뜻입니다.", en: "One-sided delta is showing but price gets pushed back. Resting orders are thick or the opposite side keeps absorbing." },
             "tr.ui.metrics.flow_states.note": { ko: "ABSORB가 나타나면 체결량은 강한데 가격 반응이 약하다는 뜻이므로, 추세 지속보다 정체·흡수·반전 가능성을 함께 의심해야 합니다.", en: "When ABSORB appears, volume is strong but price reaction is weak, so consider stall/absorption/reversal alongside trend continuation." },
             "tr.ui.metrics.read.title": { ko: "함께 읽는 법", en: "How to Read Together" },
-            "tr.ui.metrics.read.item1": { ko: "공격적 체결과 큰 프린트가 붙으면서 가격도 순행 중", en: "Aggressive executions and large prints are coming in, and price is following through." },
-            "tr.ui.metrics.read.item2": { ko: "체결은 빨라졌지만 아직 방향 확정은 약한 상태", en: "Executions sped up, but direction is still not clearly confirmed." },
-            "tr.ui.metrics.read.item3": { ko: "강한 델타가 가격으로 이어지지 못하고 흡수되는 상태", en: "Strong delta is showing up, but price is failing to follow — being absorbed." },
+            "tr.ui.metrics.read.item1": { ko: "먼저 델타로 어느 쪽이 우세한지 보고, FLOW로 그 우세가 실제 가격 진행인지 흡수인지 구분합니다.", en: "Start with delta to see which side is dominant, then use FLOW to judge whether that dominance is truly pushing price or getting absorbed." },
+            "tr.ui.metrics.read.item2": { ko: "총 충돌 규모가 큰데 델타 차이가 작으면 양방향 공방이 큰 상태이고, 총량과 델타가 함께 커지면 방향 에너지가 응축된 구간입니다.", en: "If gross collision size is large while delta spread is small, both sides are fighting hard. If gross size and delta expand together, directional energy is building." },
+            "tr.ui.metrics.read.item3": { ko: "델타 우세가 뚜렷한데 속도 배지까지 올라가면 순간 가속 구간이고, 델타 대비 속도 배지가 낮으면 공격성은 아직 약한 상태입니다.", en: "When delta dominance is clear and the speed badge also rises, the market is accelerating. If the badge stays low versus delta, aggression is still limited." },
             "tr.ui.metrics.read.item4": { ko: "의미있는 캔들에서 굵직한 청산 금액이 발생한 경우, 해당 위치가 단기 변곡점이 될 가능성이 매우 높음", en: "If significant liquidations occur at a key candle level, it is highly likely to be a turning point." },
             "tr.liq.title": { ko: "3) 청산(Liquidation) 감지", en: "3) Liquidation Detection" },
             "tr.liq.body": { ko: "<strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고 이전 기록은 자동 삭제됩니다.", en: "Records <strong>Force Order</strong> events in a separate popup. When you change the symbol via other toolkits, only that symbol's liquidation history remains; previous logs are cleared." },
