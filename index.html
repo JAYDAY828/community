@@ -460,6 +460,14 @@
             text-overflow: ellipsis;
         }
 
+        .trades-metrics-demo__primary-mobile-label {
+            display: none;
+        }
+
+        .trades-metrics-demo__primary-mobile-label>span {
+            display: block;
+        }
+
         @media (max-width: 767px) {
             .trades-metrics-demo {
                 padding: 0.75rem;
@@ -493,27 +501,46 @@
                 letter-spacing: -0.02em;
             }
 
-            .trades-metrics-demo__top>div>div:last-child,
+            .trades-metrics-demo__top>div>div:nth-child(3),
             .trades-metrics-demo__bottom>div>div:last-child {
                 display: none;
             }
 
-            .trades-metrics-demo__top>div:first-child>div:first-child,
-            .trades-metrics-demo__top>div:first-child>div:nth-child(2) {
-                font-size: 0.8rem;
+            .trades-metrics-demo__top>div:first-child>div:nth-child(1),
+            .trades-metrics-demo__top>div:first-child>div:nth-child(2),
+            .trades-metrics-demo__top>div:not(:first-child)>div:nth-child(2) {
+                display: none;
+            }
+
+            .trades-metrics-demo__primary-mobile-label {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                font-size: 0.66rem;
+                line-height: 1;
+                font-weight: 700;
+                letter-spacing: -0.03em;
+            }
+
+            .trades-metrics-demo__primary-mobile-label .buy {
+                color: #2EBD74;
+            }
+
+            .trades-metrics-demo__primary-mobile-label .sell {
+                color: #F6465D;
             }
 
             .trades-metrics-demo__top>div:not(:first-child)>div:first-child {
-                font-size: 0.72rem;
-            }
-
-            .trades-metrics-demo__top>div:not(:first-child)>div:nth-child(2) {
                 font-size: 0.82rem;
-                margin-top: 0.25rem;
             }
 
-            .trades-metrics-demo__top>div:nth-child(5)>div:nth-child(2) {
-                font-size: 0.62rem;
+            .trades-metrics-demo__top>div:first-child {
+                padding-left: 0.2rem;
+                padding-right: 0.2rem;
             }
 
             .trades-metrics-demo__bottom>div>div:first-child {
@@ -531,26 +558,16 @@
                 min-height: 3.2rem;
             }
 
-            .trades-metrics-demo__top>div:first-child>div:first-child,
-            .trades-metrics-demo__top>div:first-child>div:nth-child(2) {
-                font-size: 0.74rem;
-            }
-
             .trades-metrics-demo__top>div:not(:first-child)>div:first-child {
-                font-size: 0.67rem;
-            }
-
-            .trades-metrics-demo__top>div:not(:first-child)>div:nth-child(2),
-            .trades-metrics-demo__bottom>div>div:first-child {
                 font-size: 0.74rem;
-            }
-
-            .trades-metrics-demo__top>div:nth-child(5)>div:nth-child(2) {
-                font-size: 0.56rem;
             }
 
             .trades-metrics-demo__bottom>div:nth-child(2)>div:first-child {
                 font-size: 0.88rem;
+            }
+
+            .trades-metrics-demo__primary-mobile-label {
+                font-size: 0.6rem;
             }
         }
     </style>
@@ -3262,6 +3279,10 @@
                                             <div class="text-[#F6465D] font-bold text-sm mt-1">30.1 K</div>
                                             <div class="text-[11px] text-gray-500 mt-1.5"
                                                 data-i18n="tr.ui.metrics.layout.spd">3초 매수 / 매도</div>
+                                            <div class="trades-metrics-demo__primary-mobile-label">
+                                                <span class="buy" data-i18n="tr.ui.metrics.layout.buy_short">매수</span>
+                                                <span class="sell" data-i18n="tr.ui.metrics.layout.sell_short">매도</span>
+                                            </div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
@@ -5067,6 +5088,9 @@
             "tr.ui.metrics.body": { ko: "상단 첫 칸은 최근 3초 매수/매도 총 체결 대금을 동시에 보여주고, 하단 중앙 배지는 <strong>I / II / III / IIII / IIIII</strong> 단계의 <strong>체결 강도 이퀄라이저</strong>를 표시합니다. 이 값은 순수 속도가 아니라 <strong>D3 중심의 지속 추진력</strong>, <strong>D1 순간 가속</strong>, <strong>합산 거래대금</strong>을 함께 반영해 현재 캔들의 힘이 얼마나 실려 있는지 보여줍니다. 패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.", en: "The first top slot shows recent 3-second buy/sell gross totals, while the center badge on the lower row displays the <strong>trade-strength equalizer</strong> as <strong>I / II / III / IIII / IIIII</strong>. It is not a pure speed read; instead it combines <strong>D3-led sustained drive</strong>, <strong>D1 acceleration</strong>, and <strong>gross traded notional</strong> to show how much force the current candle is carrying. You can <strong>double-click</strong> the panel to open the same indicators in a floating widget." },
             "tr.ui.metrics.layout.title": { ko: "패널 레이아웃", en: "Panel Layout" },
             "tr.ui.metrics.layout.spd": { ko: "3초 매수 / 매도", en: "3s Buy / Sell" },
+            "tr.ui.metrics.layout.spd_short": { ko: "매수/매도", en: "Buy/Sell" },
+            "tr.ui.metrics.layout.buy_short": { ko: "매수", en: "Buy" },
+            "tr.ui.metrics.layout.sell_short": { ko: "매도", en: "Sell" },
             "tr.ui.metrics.layout.d1": { ko: "1초 델타", en: "1s Delta" },
             "tr.ui.metrics.layout.d3": { ko: "3초 델타", en: "3s Delta" },
             "tr.ui.metrics.layout.big": { ko: "큰 체결 비중", en: "Large-Trade Share" },
