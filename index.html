@@ -441,6 +441,118 @@
         .faq-item:hover {
             background: rgba(255, 255, 255, 0.03);
         }
+
+        /* Trades metrics preview keeps the toolkit-style panel shape on mobile. */
+        .trades-metrics-demo {
+            overflow: hidden;
+        }
+
+        .trades-metrics-demo__top>div,
+        .trades-metrics-demo__bottom>div {
+            min-width: 0;
+        }
+
+        .trades-metrics-demo__top>div>div,
+        .trades-metrics-demo__bottom>div>div {
+            width: 100%;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 767px) {
+            .trades-metrics-demo {
+                padding: 0.75rem;
+                border-radius: 1rem;
+            }
+
+            .trades-metrics-demo__top,
+            .trades-metrics-demo__bottom {
+                gap: 0.45rem;
+            }
+
+            .trades-metrics-demo__bottom {
+                margin-top: 0.45rem;
+            }
+
+            .trades-metrics-demo__top>div,
+            .trades-metrics-demo__bottom>div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 3.5rem;
+                padding: 0.55rem 0.3rem;
+                border-radius: 0.75rem;
+            }
+
+            .trades-metrics-demo__top>div>div,
+            .trades-metrics-demo__bottom>div>div {
+                white-space: nowrap;
+                line-height: 1.05;
+                letter-spacing: -0.02em;
+            }
+
+            .trades-metrics-demo__top>div>div:last-child,
+            .trades-metrics-demo__bottom>div>div:last-child {
+                display: none;
+            }
+
+            .trades-metrics-demo__top>div:first-child>div:first-child,
+            .trades-metrics-demo__top>div:first-child>div:nth-child(2) {
+                font-size: 0.8rem;
+            }
+
+            .trades-metrics-demo__top>div:not(:first-child)>div:first-child {
+                font-size: 0.72rem;
+            }
+
+            .trades-metrics-demo__top>div:not(:first-child)>div:nth-child(2) {
+                font-size: 0.82rem;
+                margin-top: 0.25rem;
+            }
+
+            .trades-metrics-demo__top>div:nth-child(5)>div:nth-child(2) {
+                font-size: 0.62rem;
+            }
+
+            .trades-metrics-demo__bottom>div>div:first-child {
+                font-size: 0.82rem;
+            }
+
+            .trades-metrics-demo__bottom>div:nth-child(2)>div:first-child {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .trades-metrics-demo__top>div,
+            .trades-metrics-demo__bottom>div {
+                min-height: 3.2rem;
+            }
+
+            .trades-metrics-demo__top>div:first-child>div:first-child,
+            .trades-metrics-demo__top>div:first-child>div:nth-child(2) {
+                font-size: 0.74rem;
+            }
+
+            .trades-metrics-demo__top>div:not(:first-child)>div:first-child {
+                font-size: 0.67rem;
+            }
+
+            .trades-metrics-demo__top>div:not(:first-child)>div:nth-child(2),
+            .trades-metrics-demo__bottom>div>div:first-child {
+                font-size: 0.74rem;
+            }
+
+            .trades-metrics-demo__top>div:nth-child(5)>div:nth-child(2) {
+                font-size: 0.56rem;
+            }
+
+            .trades-metrics-demo__bottom>div:nth-child(2)>div:first-child {
+                font-size: 0.88rem;
+            }
+        }
     </style>
 </head>
 
@@ -3140,10 +3252,10 @@
                                     패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.
                                 </p>
 
-                                <div class="bg-[#0b0e11] rounded-xl border border-gray-700 p-4 mb-6">
+                                <div class="trades-metrics-demo bg-[#0b0e11] rounded-xl border border-gray-700 p-4 mb-6">
                                     <div class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-3"
                                         data-i18n="tr.ui.metrics.layout.title">패널 레이아웃</div>
-                                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                    <div class="trades-metrics-demo__top grid grid-cols-5 gap-3">
                                         <div
                                             class="rounded-lg bg-black/30 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-[#2EBD74] font-bold text-sm">27.4 K</div>
@@ -3180,7 +3292,7 @@
                                                 data-i18n="tr.ui.metrics.layout.flow">가격 반응</div>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-12 gap-3 mt-3">
+                                    <div class="trades-metrics-demo__bottom grid grid-cols-12 gap-3 mt-3">
                                         <div
                                             class="col-span-5 rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-green-500/30">
                                             <div class="text-[#2EBD74] font-bold text-sm">000.00 K</div>
