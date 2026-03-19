@@ -3262,10 +3262,9 @@
                                     <span data-i18n="tr.ui.metrics.title">보조지표 안내</span>
                                 </h3>
                                 <p class="text-sm text-gray-400 mb-5 leading-relaxed" data-i18n="tr.ui.metrics.body">
-                                    상단 첫 칸은 최근 3초 매수/매도 총 체결 대금을 동시에 보여주고, 하단 중앙 배지는
-                                    <strong>I / II / III / IIII / IIIII</strong> 단계의 <strong>체결 강도 이퀄라이저</strong>를 표시합니다.
-                                    이 값은 순수 속도가 아니라 <strong>D3 중심의 지속 추진력</strong>, <strong>D1 순간 가속</strong>,
-                                    <strong>합산 거래대금</strong>을 함께 반영해 현재 캔들의 힘이 얼마나 실려 있는지 보여줍니다.
+                                    하단 중앙 EQ는 <strong>체결 강도 이퀄라이저</strong>입니다.
+                                    화면에서는 미터처럼 부드럽게 움직이지만, 해석은 <strong>I / II / III / IIII / IIIII</strong>의 5단계로 보면 됩니다.
+                                    <strong>D1의 즉시 강도</strong>, <strong>D3의 유지감</strong>, <strong>3초 합산 거래대금</strong>을 함께 반영합니다.
                                     패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.
                                 </p>
 
@@ -3322,7 +3321,7 @@
                                         </div>
                                         <div
                                             class="col-span-2 rounded-lg bg-black/20 border border-gray-800 px-2 py-3 text-center transition-colors hover:border-yellow-400/30">
-                                            <div class="text-white font-bold text-sm font-mono tracking-tight">II</div>
+                                            <div class="text-white font-bold text-sm font-mono tracking-tight">III</div>
                                             <div class="text-[10px] text-gray-500 mt-1"
                                                 data-i18n="tr.ui.metrics.layout.speed_badge">체결 강도 EQ</div>
                                         </div>
@@ -3463,8 +3462,7 @@
                                         </div>
                                         <p class="text-xs text-gray-400 !m-0 leading-relaxed"
                                             data-i18n="tr.ui.metrics.speed.desc">
-                                            하단 중앙의 I / II / III / IIII / IIIII는 체결 강도 이퀄라이저입니다.
-                                            D3 중심의 지속 추진력, D1 순간 가속, 3초 합산 거래대금을 함께 반영해 현재 캔들의 힘을 단계형으로 보여줍니다.
+                                            <strong>I</strong> 아이들링, 노이즈.<br><strong>II</strong> 움직이기 시작한 단계.<br><strong>III</strong> 힘이 붙기 시작한 단계.<br><strong>IIII</strong> 강한 피크와 열기가 보이는 단계.<br><strong>IIIII</strong> 방향성까지 동반한 폭발 구간.
                                         </p>
                                     </div>
                                 </div>
@@ -3593,7 +3591,7 @@
                                                 </span>
                                             </div>
                                             <p class="text-xs text-gray-400 !m-0 leading-relaxed"
-                                                data-i18n="tr.ui.metrics.read.item3">D3 우세가 뚜렷한데 체결 강도 이퀄라이저까지 올라가면 지속 추진에 순간 가속까지 붙은 구간입니다. 반대로 델타 대비 EQ가 낮으면 아직 대금과 힘이 충분히 실리지 않은 상태입니다.</p>
+                                            data-i18n="tr.ui.metrics.read.item3">EQ는 총 5단계 지표입니다. <strong>III</strong>는 따라붙는 진입 근거가 생긴 구간, <strong>IIII</strong>는 힘이 유지되거나 더 붙는 구간, <strong>IIIII</strong>는 가장 강한 폭발 구간으로 읽으면 됩니다.</p>
                                         </div>
                                         <div class="bg-black/20 rounded-lg border border-gray-800 p-3 transition-all duration-300 hover:bg-black/40 hover:border-gray-600 hover:-translate-y-0.5">
                                             <div class="flex flex-wrap items-center gap-1.5 mb-2">
@@ -5085,7 +5083,7 @@
             "tr.ui.buttons.liq": { ko: "<strong>LIQ</strong> : 청산 다이얼로그 열기/닫기", en: "<strong>LIQ</strong>: open/close liquidation dialog" },
             "tr.ui.buttons.pin": { ko: "<strong>PIN</strong> : 항상 위 고정", en: "<strong>PIN</strong>: always on top" },
             "tr.ui.metrics.title": { ko: "보조지표 안내", en: "Auxiliary Indicator Guide" },
-            "tr.ui.metrics.body": { ko: "상단 첫 칸은 최근 3초 매수/매도 총 체결 대금을 동시에 보여주고, 하단 중앙 배지는 <strong>I / II / III / IIII / IIIII</strong> 단계의 <strong>체결 강도 이퀄라이저</strong>를 표시합니다. 이 값은 순수 속도가 아니라 <strong>D3 중심의 지속 추진력</strong>, <strong>D1 순간 가속</strong>, <strong>합산 거래대금</strong>을 함께 반영해 현재 캔들의 힘이 얼마나 실려 있는지 보여줍니다. 패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.", en: "The first top slot shows recent 3-second buy/sell gross totals, while the center badge on the lower row displays the <strong>trade-strength equalizer</strong> as <strong>I / II / III / IIII / IIIII</strong>. It is not a pure speed read; instead it combines <strong>D3-led sustained drive</strong>, <strong>D1 acceleration</strong>, and <strong>gross traded notional</strong> to show how much force the current candle is carrying. You can <strong>double-click</strong> the panel to open the same indicators in a floating widget." },
+            "tr.ui.metrics.body": { ko: "하단 중앙 EQ는 <strong>체결 강도 이퀄라이저</strong>입니다. 화면에서는 미터처럼 부드럽게 움직이지만, 해석은 <strong>I / II / III / IIII / IIIII</strong>의 총 5단계로 보면 됩니다. <strong>D1의 즉시 강도</strong>, <strong>D3의 유지감</strong>, <strong>3초 합산 거래대금</strong>을 함께 반영합니다. 패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.", en: "The lower-center EQ is the <strong>trade-strength equalizer</strong>. It moves like a meter on screen, but should still be read as five stages: <strong>I / II / III / IIII / IIIII</strong>. It combines <strong>D1 immediacy</strong>, <strong>D3 persistence</strong>, and <strong>3-second gross notional</strong>. You can <strong>double-click</strong> the panel to open the same indicators in a floating widget." },
             "tr.ui.metrics.layout.title": { ko: "패널 레이아웃", en: "Panel Layout" },
             "tr.ui.metrics.layout.spd": { ko: "3초 매수 / 매도", en: "3s Buy / Sell" },
             "tr.ui.metrics.layout.spd_short": { ko: "매수/매도", en: "Buy/Sell" },
@@ -5106,7 +5104,7 @@
             "tr.ui.metrics.liq1m.title": { ko: "1분 청산 대금 (1M LIQ)", en: "1m Liquidation" },
             "tr.ui.metrics.liq1m.desc": { ko: "최근 1분 동안 누적된 청산 금액입니다. <strong class=\"text-[#2EBD74]\">녹색(롱 청산)</strong>은 매도 포지션 강제 청산, <strong class=\"text-[#F6465D]\">붉은색(숏 청산)</strong>은 매수 포지션 강제 청산을 뜻하며 단기 유동성 분출과 변곡 가능성을 볼 때 사용합니다.", en: "Shows the cumulative liquidation amount over the last 1 minute. <strong class=\"text-[#2EBD74]\">Green (Long Liq)</strong> indicates forced sell-side liquidation, <strong class=\"text-[#F6465D]\">Red (Short Liq)</strong> indicates forced buy-side liquidation, and it is useful for spotting short-term liquidity bursts and turning points." },
             "tr.ui.metrics.speed.title": { ko: "체결 강도 이퀄라이저", en: "Trade-Strength Equalizer" },
-            "tr.ui.metrics.speed.desc": { ko: "하단 중앙의 I / II / III / IIII / IIIII는 체결 강도 이퀄라이저입니다. D3 중심의 지속 추진력, D1 순간 가속, 3초 합산 거래대금을 함께 반영해 현재 캔들의 힘을 단계형으로 보여줍니다.", en: "The I / II / III / IIII / IIIII badge on the lower row is the trade-strength equalizer. It combines D3-led sustained drive, D1 acceleration, and 3-second gross traded notional to show the current candle's force as a stepped meter." },
+            "tr.ui.metrics.speed.desc": { ko: "총 5단계로 해석합니다.<br><strong>1단계</strong> 아이들링, 노이즈.<br><strong>2단계</strong> 움직이기 시작한 단계.<br><strong>3단계</strong> 힘이 붙기 시작한 단계.<br><strong>4단계</strong> 힘이 유지되거나 더 붙는 단계.<br><strong>5단계</strong> 방향성까지 동반한 가장 강한 폭발 구간.", en: "Read it as five stages.<br><strong>Stage 1</strong> idling noise.<br><strong>Stage 2</strong> starting to move.<br><strong>Stage 3</strong> force beginning to build.<br><strong>Stage 4</strong> force holding or adding.<br><strong>Stage 5</strong> the strongest explosive move with direction attached." },
             "tr.ui.metrics.absorb.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
             "tr.ui.metrics.absorb.body": { ko: "강한 델타 우세가 있을 때, 가격이 어떻게 반응하는지를 세 가지 상태로 구분합니다.", en: "When delta becomes one-sided, FLOW classifies the price reaction into three states." },
             "tr.ui.metrics.flow_states.title": { ko: "FLOW 상태 해석", en: "FLOW State Guide" },
@@ -5121,7 +5119,7 @@
             "tr.ui.metrics.read.title": { ko: "함께 읽는 법", en: "How to Read Together" },
             "tr.ui.metrics.read.item1": { ko: "먼저 델타로 어느 쪽이 우세한지 보고, FLOW로 그 우세가 실제 가격 진행인지 흡수인지 구분합니다.", en: "Start with delta to see which side is dominant, then use FLOW to judge whether that dominance is truly pushing price or getting absorbed." },
             "tr.ui.metrics.read.item2": { ko: "3초 매수·매도 합산 규모가 큰데 델타 차이가 작으면 양방향 공방이 큰 상태이고, 합산 규모와 델타가 함께 커지면 방향 에너지가 응축된 구간입니다.", en: "If 3-second combined buy/sell notional is large while the delta spread is small, both sides are still fighting hard. If gross size and delta expand together, directional energy is building." },
-            "tr.ui.metrics.read.item3": { ko: "D3 우세가 뚜렷한데 체결 강도 이퀄라이저까지 올라가면 지속 추진에 순간 가속까지 붙은 구간입니다. 반대로 델타 대비 EQ가 낮으면 아직 대금과 힘이 충분히 실리지 않은 상태입니다.", en: "When D3 dominance is clear and the trade-strength equalizer also rises, the move has both sustained drive and short-term acceleration. If EQ stays low versus delta, size and force still are not fully committed." },
+            "tr.ui.metrics.read.item3": { ko: "EQ는 총 5단계 지표입니다. <strong>3단계</strong>는 따라붙는 진입 근거가 생긴 구간, <strong>4단계</strong>는 힘이 유지되거나 더 붙는 구간, <strong>5단계</strong>는 가장 강한 폭발 구간으로 읽으면 됩니다. 반대로 델타 대비 EQ가 낮으면 아직 실제 대금과 압력이 충분히 붙지 않은 상태입니다.", en: "EQ is a five-stage indicator. Read <strong>Stage 3</strong> as a valid point to join, <strong>Stage 4</strong> as force holding or adding, and <strong>Stage 5</strong> as the strongest explosive phase. If EQ stays low versus delta, real notional and pressure still are not fully committed." },
             "tr.ui.metrics.read.item4": { ko: "의미있는 캔들에서 굵직한 청산 금액이 발생한 경우, 해당 위치가 단기 변곡점이 될 가능성이 매우 높음", en: "If significant liquidations occur at a key candle level, it is highly likely to be a turning point." },
             "tr.liq.title": { ko: "3) 청산(Liquidation) 감지", en: "3) Liquidation Detection" },
             "tr.liq.body": { ko: "<strong>Force Order</strong> 이벤트를 별도의 팝업창에 기록합니다. 다른 툴킷으로 종목 변경 시, 해당 종목의 청산 내역만 남기고 이전 기록은 자동 삭제됩니다.", en: "Records <strong>Force Order</strong> events in a separate popup. When you change the symbol via other toolkits, only that symbol's liquidation history remains; previous logs are cleared." },
