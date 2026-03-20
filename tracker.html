@@ -208,9 +208,10 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .session-stat label{display:block;font-size:.68rem;color:var(--text-muted);margin-bottom:4px}
 .session-stat strong{font-size:.95rem;font-family:var(--mono)}
 .session-flow-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-.session-flow-item{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-xs);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04)}
-.session-flow-route{font-size:.8rem;line-height:1.4}
+.session-flow-item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-xs);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04)}
+.session-flow-route{font-size:.8rem;line-height:1.4;min-width:0;overflow-wrap:anywhere}
 .session-flow-meta{font-size:.72rem;color:var(--text-dim);margin-top:4px}
+.session-flow-amount{font-size:.95rem;font-family:var(--mono);text-align:right;white-space:nowrap}
 .session-empty{text-align:center;padding:28px;color:var(--text-dim)}
 .alert-toggle{position:fixed;right:18px;bottom:72px;z-index:140;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(99,102,241,0.35);background:rgba(15,23,42,0.92);color:#fff;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,0.28);backdrop-filter:blur(16px)}
 .alert-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--danger);color:#fff;font-size:.72rem;font-weight:800}
@@ -318,7 +319,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.2</small>
+        <small class="version-line">Tracker v1.0.3</small>
       </div>
     </div>
     <div class="header-actions">
@@ -496,12 +497,13 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.2';
+const APP_VERSION = 'Tracker v1.0.3';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
   ETHERSCAN_V2: 'https://api.etherscan.io/v2/api',
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
+  MORALIS_SOLANA_API: 'https://solana-gateway.moralis.io',
   EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
@@ -511,6 +513,7 @@ const CONFIG = {
     'polygon-pos':        { name:'PolygonScan',  chainId:137,   moralisChain:'polygon', url:'https://polygonscan.com',            v2Free:true },
     'avalanche':          { name:'Snowtrace',    chainId:43114, moralisChain:'avalanche',url:'https://snowtrace.io',              v2Free:false },
     'optimistic-ethereum':{ name:'Optimism',     chainId:10,    moralisChain:'optimism',url:'https://optimistic.etherscan.io',    v2Free:false },
+    'solana':             { name:'Solscan',      solanaNetwork:'mainnet',                url:'https://solscan.io',                isSolana:true, v2Free:false },
   },
   KNOWN_EXCHANGES: {
     '0x28c6c06298d514db089934071355e5743bf21d60':'Binance Hot',
@@ -558,6 +561,7 @@ const state = {
   transferFilter: 'all',
   lastTransferKeyNote: '',
   selectedWalletDetail: null,
+  walletDetailRequestKey: null,
   walletMap: {},
   walletInsights: null,
   addressLabels: {},
@@ -611,6 +615,32 @@ function percentile(nums,p){
 function escapeHtml(text){
   return String(text ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
+function formatChainName(chain){
+  const map={
+    'ethereum':'Ethereum',
+    'binance-smart-chain':'BNB Smart Chain',
+    'arbitrum-one':'Arbitrum',
+    'base':'Base',
+    'polygon-pos':'Polygon',
+    'avalanche':'Avalanche',
+    'optimistic-ethereum':'Optimism',
+    'solana':'Solana'
+  };
+  return map[chain] || String(chain||'N/A').replace(/-/g,' ');
+}
+function normalizeAddress(addr, chain=state.currentChain){
+  const value=String(addr||'').trim();
+  if(!value) return '';
+  return chain==='solana' ? value : value.toLowerCase();
+}
+function isSolanaChain(chain=state.currentChain){
+  return chain==='solana';
+}
+function getSyntheticSolanaPoolAddress(exchange, tokenAddress){
+  const safeExchange=String(exchange||'solana-dex').toLowerCase().replace(/[^a-z0-9]+/g,'-') || 'solana-dex';
+  const safeToken=String(tokenAddress||'token').replace(/[^A-Za-z0-9]+/g,'').slice(0,12) || 'token';
+  return `sol-pool:${safeExchange}:${safeToken}`;
+}
 function normalizeAddressLabel(label){
   const cleaned=String(label||'').replace(/\s+/g,' ').trim();
   if(!cleaned || cleaned==='-' || /^null$/i.test(cleaned) || /^unknown$/i.test(cleaned)) return null;
@@ -626,8 +656,8 @@ function pickAddressLabel(...values){
 function normalizeTransferList(list){
   return (list||[]).map(tx=>({
     ...tx,
-    from:(tx.from||'').toLowerCase(),
-    to:(tx.to||'').toLowerCase(),
+    from:normalizeAddress(tx.from),
+    to:normalizeAddress(tx.to),
     fromLabel:pickAddressLabel(tx.fromLabel, tx.from_label, tx.from_address_label),
     toLabel:pickAddressLabel(tx.toLabel, tx.to_label, tx.to_address_label),
     fromEntity:pickAddressLabel(tx.fromEntity, tx.from_entity, tx.from_address_entity),
@@ -642,8 +672,8 @@ function normalizeTransferList(list){
 function mapMoralisTransfer(tx){
   return {
     timeStamp: Math.floor(new Date(tx.block_timestamp).getTime()/1000).toString(),
-    from: tx.from_address.toLowerCase(),
-    to: tx.to_address.toLowerCase(),
+    from: normalizeAddress(tx.from_address),
+    to: normalizeAddress(tx.to_address),
     fromLabel: tx.from_address_label,
     toLabel: tx.to_address_label,
     fromEntity: tx.from_address_entity,
@@ -655,11 +685,60 @@ function mapMoralisTransfer(tx){
     hash: tx.transaction_hash
   };
 }
+function mapMoralisSolanaSwap(swap, metadata={}){
+  const currentMint=normalizeAddress(state.currentContract,'solana');
+  const wallet=normalizeAddress(swap.walletAddress,'solana');
+  const exchangeName=normalizeAddressLabel(swap.exchangeName || swap.exchange) || 'Solana DEX';
+  const pairLabel=normalizeAddressLabel(swap.pairLabel) || `${exchangeName} Pool`;
+  const pairAddress=normalizeAddress(swap.pairAddress,'solana') || getSyntheticSolanaPoolAddress(exchangeName, currentMint);
+  const bought=swap.bought || swap.tokenOut || {};
+  const sold=swap.sold || swap.tokenIn || {};
+  const boughtAddress=normalizeAddress(bought.address,'solana');
+  const soldAddress=normalizeAddress(sold.address,'solana');
+  const transactionType=String(swap.transactionType || swap.swapType || '').toLowerCase();
+  const walletLabel=normalizeAddressLabel(swap.walletAddressLabel);
+  const walletEntity=normalizeAddressLabel(swap.entity);
+  const walletEntityLogo=swap.entityLogo || '';
+  const buySide = transactionType === 'buy'
+    ? true
+    : transactionType === 'sell'
+      ? false
+      : boughtAddress === currentMint
+        ? true
+        : soldAddress === currentMint
+          ? false
+          : true;
+  const trackedAmountRaw=buySide ? bought.amount : sold.amount;
+  const trackedAmount=Number.parseFloat(String(trackedAmountRaw ?? '0'));
+  return {
+    timeStamp: Math.floor(new Date(swap.blockTimestamp||swap.blockTime||Date.now()).getTime()/1000).toString(),
+    from: buySide ? pairAddress : wallet,
+    to: buySide ? wallet : pairAddress,
+    fromLabel: buySide ? pairLabel : walletLabel,
+    toLabel: buySide ? walletLabel : pairLabel,
+    fromEntity: buySide ? exchangeName : walletEntity,
+    toEntity: buySide ? walletEntity : exchangeName,
+    fromEntityLogo: buySide ? (swap.exchangeLogo || '') : walletEntityLogo,
+    toEntityLogo: buySide ? walletEntityLogo : (swap.exchangeLogo || ''),
+    value: String(Number.isFinite(trackedAmount) && trackedAmount > 0 ? trackedAmount : 0),
+    tokenDecimal: '0',
+    hash: swap.transactionHash || '',
+    solanaSwapType: buySide ? 'buy' : 'sell',
+    exchangeName,
+    pairAddress,
+    walletAddress: wallet,
+    tokenInSymbol: sold.symbol || '',
+    tokenOutSymbol: bought.symbol || '',
+    tokenInAmountUsd: sold.usdAmount ?? sold.amountUsd ?? null,
+    tokenOutAmountUsd: bought.usdAmount ?? bought.amountUsd ?? null,
+    totalValueUsd: swap.totalValueUsd ?? null
+  };
+}
 function getTransferMergeKey(tx){
   return [
     String(tx.hash||tx.transaction_hash||'').toLowerCase(),
-    String(tx.from||tx.from_address||'').toLowerCase(),
-    String(tx.to||tx.to_address||'').toLowerCase(),
+    normalizeAddress(tx.from||tx.from_address),
+    normalizeAddress(tx.to||tx.to_address),
     String(tx.value||'0')
   ].join('|');
 }
@@ -726,7 +805,7 @@ function chooseAddressIntel(current,next){
   return current;
 }
 function rememberAddressLabel(addr,label,source='apiLabel',entity='',logo=''){
-  const lower=(addr||'').toLowerCase();
+  const lower=normalizeAddress(addr);
   const normalizedLabel=normalizeAddressLabel(label);
   const normalizedEntity=normalizeAddressLabel(entity);
   const finalLabel=normalizedLabel || normalizedEntity;
@@ -748,7 +827,7 @@ function refreshAddressLabels(){
     if(tx.toLabel || tx.toEntity) rememberAddressLabel(tx.to, tx.toLabel, tx.toLabel?'apiLabel':'apiEntity', tx.toEntity, tx.toEntityLogo);
   });
   (state.dexPairs||[]).forEach(pair=>{
-    const pairAddr=(pair.pairAddress||'').toLowerCase();
+    const pairAddr=normalizeAddress(pair.pairAddress);
     if(pairAddr) rememberAddressLabel(pairAddr, `${pair.dexId||'DEX'} Pool`, 'pair', `${pair.dexId||'DEX'} Pool`);
   });
 }
@@ -759,10 +838,11 @@ function formatClock(ts){
 }
 
 function inferInfrastructureInfo(addr){
-  const lower=(addr||'').toLowerCase();
+  const lower=normalizeAddress(addr);
   if(!lower) return null;
-  if(state.currentContract && lower===state.currentContract.toLowerCase()) return { kind:'token', label:'Token', exclude:true };
-  const dexPair=(state.dexPairs||[]).find(pair=>(pair.pairAddress||'').toLowerCase()===lower);
+  if(isSolanaChain() && /^sol-pool:/.test(lower)) return { kind:'pool', label:getAddrTag(lower)||'Solana Pool', exclude:true };
+  if(state.currentContract && lower===normalizeAddress(state.currentContract)) return { kind:'token', label:'Token', exclude:true };
+  const dexPair=(state.dexPairs||[]).find(pair=>normalizeAddress(pair.pairAddress)===lower);
   if(dexPair) return { kind:'pool', label:`${dexPair.dexId||'DEX'} Pool`, exclude:true };
   const intel=getAddressIntel(lower);
   if(!intel?.label || intel?.isExchange) return null;
@@ -779,8 +859,8 @@ function inferInfrastructureInfo(addr){
 }
 
 function classifyTransfer(tx){
-  const from=(tx.from||'').toLowerCase();
-  const to=(tx.to||'').toLowerCase();
+  const from=normalizeAddress(tx.from);
+  const to=normalizeAddress(tx.to);
   const fromSystem=getSystemAddrTag(from);
   const toSystem=getSystemAddrTag(to);
   const fromExchange=getExchangeTag(from);
@@ -805,6 +885,128 @@ function classifyTransfer(tx){
 
 function renderFlowBadge(flow){
   return `<span class="flow-badge flow-${flow?.tone||'neutral'}">${escapeHtml(flow?.label||'일반 송금')}</span>`;
+}
+function renderTransferParty(addr, tagHtml){
+  const normalized=normalizeAddress(addr);
+  if(isSolanaChain() && /^sol-pool:/.test(normalized)){
+    const label=getAddrTag(normalized) || 'Solana Pool';
+    return `<div class="transfer-party"><span style="font-size:.8rem;color:var(--text-dim)">${escapeHtml(label)}</span></div>`;
+  }
+  return `<div class="transfer-party"><span class="addr" onclick="viewWalletDetail('${addr}')" title="지갑 분석: ${addr}">${shortAddr(addr)}</span>${tagHtml || ''}</div>`;
+}
+function renderAddressLink(addr, options={}){
+  const normalized=normalizeAddress(addr);
+  const label=getAddrTag(normalized);
+  if(isSolanaChain() && /^sol-pool:/.test(normalized)){
+    return `<span style="font-size:.8rem;color:var(--text-dim)">${escapeHtml(label || 'Solana Pool')}</span>`;
+  }
+  const text=options.short===false ? escapeHtml(addr) : escapeHtml(shortAddr(addr));
+  const title=escapeHtml(options.title || `지갑 분석: ${addr}`);
+  return `<span class="addr" onclick="viewWalletDetail('${addr}')" title="${title}">${text}</span>`;
+}
+function extractMoralisResult(payload){
+  if(Array.isArray(payload)) return payload;
+  if(Array.isArray(payload?.result)) return payload.result;
+  if(Array.isArray(payload?.swaps)) return payload.swaps;
+  return [];
+}
+function dedupeTransfers(list){
+  const seen=new Set();
+  return normalizeTransferList(list).filter(tx=>{
+    const key=getTransferMergeKey(tx);
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+async function fetchDexPairsForContract(contractAddress){
+  const r=await fetch(`${CONFIG.DEXSCREENER}/tokens/${contractAddress}`);
+  if(!r.ok) throw new Error('DexScreener error');
+  const d=await r.json();
+  return d.pairs||[];
+}
+function mapMoralisSolanaPairSwap(item, pairMeta={}){
+  const currentMint=normalizeAddress(state.currentContract,'solana');
+  const wallet=normalizeAddress(item.walletAddress,'solana');
+  const exchangeName=normalizeAddressLabel(pairMeta.exchangeName || item.exchangeName) || 'Solana DEX';
+  const pairLabel=normalizeAddressLabel(pairMeta.pairLabel || item.pairLabel) || `${exchangeName} Pool`;
+  const pairAddress=normalizeAddress(pairMeta.pairAddress || item.pairAddress,'solana') || getSyntheticSolanaPoolAddress(exchangeName, currentMint);
+  const baseTokenAddress=normalizeAddress(pairMeta.baseToken?.address,'solana');
+  const quoteTokenAddress=normalizeAddress(pairMeta.quoteToken?.address,'solana');
+  const transactionType=String(item.transactionType||'').toLowerCase();
+  const trackedAmount = baseTokenAddress===currentMint
+    ? Number.parseFloat(String(item.baseTokenAmount ?? '0'))
+    : quoteTokenAddress===currentMint
+      ? Number.parseFloat(String(item.quoteTokenAmount ?? '0'))
+      : Number.parseFloat(String(item.baseTokenAmount ?? item.quoteTokenAmount ?? '0'));
+  const buySide = transactionType==='buy'
+    ? true
+    : transactionType==='sell'
+      ? false
+      : transactionType==='removeliquidity'
+        ? true
+        : transactionType==='addliquidity'
+          ? false
+          : true;
+  return {
+    timeStamp: Math.floor(new Date(item.blockTimestamp||Date.now()).getTime()/1000).toString(),
+    from: buySide ? pairAddress : wallet,
+    to: buySide ? wallet : pairAddress,
+    fromLabel: buySide ? pairLabel : null,
+    toLabel: buySide ? null : pairLabel,
+    fromEntity: buySide ? exchangeName : null,
+    toEntity: buySide ? null : exchangeName,
+    fromEntityLogo: buySide ? (pairMeta.exchangeLogo || '') : '',
+    toEntityLogo: buySide ? '' : (pairMeta.exchangeLogo || ''),
+    value: String(Number.isFinite(trackedAmount) && trackedAmount > 0 ? trackedAmount : 0),
+    tokenDecimal:'0',
+    hash:item.transactionHash || '',
+    solanaSwapType: transactionType || (buySide ? 'buy' : 'sell'),
+    exchangeName,
+    pairAddress,
+    walletAddress: wallet,
+    tokenInAmountUsd: item.totalValueUsd ?? null,
+    tokenOutAmountUsd: item.totalValueUsd ?? null,
+    totalValueUsd: item.totalValueUsd ?? null
+  };
+}
+async function fetchSolanaPairFallbackSwaps(headers){
+  let pairs=state.dexPairs||[];
+  if(!pairs.length){
+    try{
+      pairs=await fetchDexPairsForContract(state.currentContract);
+      state.dexPairs=pairs;
+      refreshAddressLabels();
+      renderDex(pairs);
+    }catch(err){
+      console.warn('Dex pair fallback failed', err);
+      return [];
+    }
+  }
+  const pairCandidates=pairs
+    .map(pair=>normalizeAddress(pair.pairAddress,'solana'))
+    .filter(Boolean)
+    .slice(0,3);
+  if(!pairCandidates.length) return [];
+  const responses=await Promise.allSettled(pairCandidates.map(async pairAddress=>{
+    const url=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/pairs/${pairAddress}/swaps?limit=50&order=DESC`;
+    const resp=await fetch(url,{ headers });
+    if(!resp.ok) throw new Error(`Moralis pair swaps error: ${resp.status}`);
+    const payload=await resp.json();
+    return extractMoralisResult(payload).map(item=>mapMoralisSolanaPairSwap(item,payload));
+  }));
+  return dedupeTransfers(responses.flatMap(result=>result.status==='fulfilled' ? result.value : []));
+}
+async function fetchSolanaWalletSwaps(addr){
+  if(!state.moralisKey || !state.currentContract) return [];
+  const url=`${CONFIG.MORALIS_SOLANA_API}/account/mainnet/${addr}/swaps?tokenAddress=${state.currentContract}&limit=100&order=DESC`;
+  const resp=await fetch(url,{ headers:{ 'X-API-Key': state.moralisKey } });
+  if(!resp.ok){
+    if(resp.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
+    throw new Error(`Moralis Solana wallet swaps error: ${resp.status}`);
+  }
+  const payload=await resp.json();
+  return dedupeTransfers(extractMoralisResult(payload).map(swap=>mapMoralisSolanaSwap(swap)));
 }
 
 function buildSessionBuckets(){
@@ -899,7 +1101,7 @@ function renderSessions(){
       <div class="session-stat-row">
         <div class="session-stat"><label>총 전송</label><strong>${session.txCount}</strong></div>
         <div class="session-stat"><label>고유 주소</label><strong>${session.uniqueWallets}</strong></div>
-        <div class="session-stat"><label>거래량</label><strong>${formatNum(session.totalAmount)}</strong></div>
+        <div class="session-stat"><label>거래량</label><strong title="${formatNum(session.totalAmount)}">${compactNum(session.totalAmount)}</strong></div>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
         ${session.topTypes.map(type=>renderFlowBadge(type)).join(' ')}
@@ -908,11 +1110,11 @@ function renderSessions(){
         ${session.topFlows.map(flow=>`
           <div class="session-flow-item">
             <div>
-              <div class="session-flow-route"><span class="addr" onclick="event.stopPropagation(); viewWalletDetail('${flow.from}')">${shortAddr(flow.from)}</span> → <span class="addr" onclick="event.stopPropagation(); viewWalletDetail('${flow.to}')">${shortAddr(flow.to)}</span></div>
+              <div class="session-flow-route">${renderAddressLink(flow.from)} → ${renderAddressLink(flow.to)}</div>
               <div class="session-flow-meta">${flow.count}건 · ${renderFlowBadge(flow.flow)}</div>
             </div>
-            <div style="text-align:right">
-              <strong style="font-family:var(--mono)">${formatNum(flow.amount)}</strong>
+            <div class="session-flow-amount">
+              <strong title="${formatNum(flow.amount)}">${compactNum(flow.amount)}</strong>
             </div>
           </div>`).join('')}
       </div>
@@ -1098,10 +1300,9 @@ async function selectCoin(coinId){
     state.allPlatforms=coin.platforms||{};
     // pick primary chain
     const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]);
-    if(chains.length>0){
-      // prefer the one we have an explorer for
-      const preferred=chains.find(c=>CONFIG.EXPLORERS[c]);
-      state.currentChain=preferred||chains[0];
+    const supportedChains=chains.filter(c=>CONFIG.EXPLORERS[c]);
+    if(supportedChains.length>0){
+      state.currentChain=supportedChains[0];
       state.currentContract=state.allPlatforms[state.currentChain];
     }else{
       state.currentChain=null;
@@ -1127,7 +1328,7 @@ function renderCoinPanel(coin){
   document.getElementById('coinLogo').src=coin.image?.large||coin.image?.small||'';
   document.getElementById('coinName').textContent=coin.name||'-';
   document.getElementById('coinSymbol').textContent=(coin.symbol||'').toUpperCase();
-  document.getElementById('coinChain').textContent=state.currentChain?state.currentChain.replace(/-/g,' '):'N/A';
+  document.getElementById('coinChain').textContent=state.currentChain?formatChainName(state.currentChain):'N/A';
   document.getElementById('searchInput').value=coin.name+' ('+((coin.symbol||'').toUpperCase())+')';
 
   // metrics
@@ -1150,10 +1351,11 @@ function renderCoinPanel(coin){
   const cr=document.getElementById('contractRow');
   if(state.currentContract){
     const explorer=CONFIG.EXPLORERS[state.currentChain];
-    cr.innerHTML=`<span style="color:var(--text-muted);font-size:.8rem">컨트랙트:</span>
+    const addressLabel=isSolanaChain() ? '민트:' : '컨트랙트:';
+    cr.innerHTML=`<span style="color:var(--text-muted);font-size:.8rem">${addressLabel}</span>
       <span class="contract-addr" onclick="copyText('${state.currentContract}')" title="클릭하여 복사">${shortAddr(state.currentContract)} 📋</span>
       ${explorer?`<a href="${explorer.url}/token/${state.currentContract}" target="_blank" style="color:var(--accent);font-size:.8rem;text-decoration:none" title="${explorer.name}에서 보기">🔗 ${explorer.name}</a>`:''}`
-      + (Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]).length>1 ? renderChainSelector() : '');
+      + (Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]&&CONFIG.EXPLORERS[k]).length>1 ? renderChainSelector() : '');
   }else{ cr.innerHTML='<span style="color:var(--text-dim);font-size:.8rem">컨트랙트 주소 없음 (네이티브 코인이거나 정보 미제공)</span>'; }
 
   // exchange check
@@ -1162,22 +1364,17 @@ function renderCoinPanel(coin){
 }
 
 function renderChainSelector(){
-  const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]);
+  const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]&&CONFIG.EXPLORERS[k]);
   return `<select onchange="switchChain(this.value)" style="padding:4px 8px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.8rem;margin-left:8px">
-    ${chains.map(c=>`<option value="${c}" ${c===state.currentChain?'selected':''}>${c.replace(/-/g,' ')}</option>`).join('')}
+    ${chains.map(c=>`<option value="${c}" ${c===state.currentChain?'selected':''}>${formatChainName(c)}</option>`).join('')}
   </select>`;
 }
 
 async function switchChain(chain){
+  if(!CONFIG.EXPLORERS[chain]) return;
   state.currentChain=chain;
   state.currentContract=state.allPlatforms[chain];
-  const explorer=CONFIG.EXPLORERS[chain];
-  document.getElementById('coinChain').textContent=chain.replace(/-/g,' ');
-  const cr=document.getElementById('contractRow');
-  cr.querySelector('.contract-addr').textContent=shortAddr(state.currentContract)+' 📋';
-  cr.querySelector('.contract-addr').setAttribute('onclick',`copyText('${state.currentContract}')`);
-  const link=cr.querySelector('a');
-  if(link&&explorer){link.href=`${explorer.url}/token/${state.currentContract}`;link.textContent='🔗 '+explorer.name;}
+  if(state.currentCoin) renderCoinPanel(state.currentCoin);
   await Promise.allSettled([loadDexData(), loadTransfers()]);
 }
 
@@ -1489,6 +1686,82 @@ async function enrichTransfersWithMoralisLabels(baseTxs, explorer){
     return { transfers:baseTxs, enriched:false, enrichedCount:0, error:e.message };
   }
 }
+async function loadSolanaTransfers(isSilent=false){
+  const el=document.getElementById('transfersContent');
+  const moralisKey=state.moralisKey;
+  if(!moralisKey){
+    el.innerHTML=`<div style="padding:20px">
+      <div style="margin-bottom:12px;padding:12px 16px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);font-size:.85rem;color:var(--text)">
+        <div style="font-weight:600;margin-bottom:8px;color:var(--warning)">⚠ Moralis API 키 필요 (Solana)</div>
+        <p style="color:var(--text-muted);margin-bottom:8px">Solana 체인은 현재 <strong>Moralis Solana API</strong>의 토큰 스왑 데이터를 기준으로 추적합니다. 사이트 내에서 조회하려면 <strong>⚙ 설정</strong>에서 <strong>Moralis API Key</strong>를 입력해주세요.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,var(--primary),#818cf8);color:#fff;border:none;cursor:pointer;font-size:.85rem;font-weight:600">⚙ 설정 열기</button>
+          <a href="https://admin.moralis.io/register" target="_blank" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem">Moralis 무료가입</a>
+        </div>
+      </div>
+    </div>`;
+    state.transfers=[];
+    state.analyzedWallets=[];
+    state.walletMap={};
+    state.walletInsights=null;
+    state.addressLabels={};
+    state.sessions=[];
+    state.alerts=[];
+    renderWalletAnalysis([]);
+    renderSessions();
+    renderAlertPanel();
+    return;
+  }
+  if(!isSilent) el.innerHTML='<div class="loading"><div class="spinner"></div><p>Moralis Solana 스왑 흐름을 불러오는 중...</p></div>';
+  try{
+    const metadataUrl=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/${state.currentContract}/metadata`;
+    const swapsUrl=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/${state.currentContract}/swaps`;
+    const headers={ 'X-API-Key': moralisKey };
+    const [metadataResp, swapsResp]=await Promise.all([
+      fetch(metadataUrl, { headers }),
+      fetch(swapsUrl, { headers })
+    ]);
+    if(!swapsResp.ok){
+      if(swapsResp.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
+      throw new Error(`Moralis Solana API error: ${swapsResp.status}`);
+    }
+    const metadata=metadataResp.ok ? await metadataResp.json().catch(()=>({})) : {};
+    const swapsData=await swapsResp.json();
+    const rawSwaps=extractMoralisResult(swapsData);
+    let mappedTxs=rawSwaps
+      .map(swap=>mapMoralisSolanaSwap(swap, metadata))
+      .filter(tx=>tx.from && tx.to && Number(tx.value||0)>0);
+    let note='✅ Solana는 Moralis 토큰 스왑 흐름 기준으로 분석합니다';
+    if(!mappedTxs.length){
+      const pairFallback=await fetchSolanaPairFallbackSwaps(headers);
+      if(pairFallback.length){
+        mappedTxs=pairFallback;
+        note='✅ Solana는 pair swaps fallback 기준으로 분석합니다';
+      }
+    }
+    if(!mappedTxs.length){
+      el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">최근 Solana 스왑 흐름을 찾지 못했습니다</p></div>`;
+      state.transfers=[];
+      state.analyzedWallets=[];
+      state.walletMap={};
+      state.walletInsights=null;
+      state.addressLabels={};
+      state.sessions=[];
+      state.alerts=[];
+      renderWalletAnalysis([]);
+      renderSessions();
+      renderAlertPanel();
+      return;
+    }
+    state.transfers=dedupeTransfers(mappedTxs);
+    refreshAddressLabels();
+    state.lastTransferKeyNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">${note}</div>`;
+    refreshTrackingViews();
+  }catch(e){
+    console.error(e);
+    el.innerHTML=`<div class="loading"><p style="color:var(--danger)">Solana 스왑 흐름을 불러오지 못했습니다<br><small>${e.message}</small></p></div>`;
+  }
+}
 
 async function loadTransfers(isSilent=false){
   const el=document.getElementById('transfersContent');
@@ -1521,6 +1794,10 @@ async function loadTransfers(isSilent=false){
     renderWalletAnalysis([]);
     renderSessions();
     renderAlertPanel();
+    return;
+  }
+  if(explorer.isSolana){
+    await loadSolanaTransfers(isSilent);
     return;
   }
   const apiKey=state.etherscanKey;
@@ -1683,8 +1960,8 @@ function renderTransfers(txs, keyNote=''){
       if((fromWallet?.washScore||0)>=60 || (toWallet?.washScore||0)>=60) signalBadges.push('<span class="tag tag-suspicious">핑퐁 후보</span>');
       return `<tr>
         <td>${timeAgo(tx.timeStamp)}</td>
-        <td><div class="transfer-party"><span class="addr" onclick="viewWalletDetail('${tx.from}')" title="지갑 분석: ${tx.from}">${shortAddr(tx.from)}</span>${fromTag || ''}</div></td>
-        <td><div class="transfer-party"><span class="addr" onclick="viewWalletDetail('${tx.to}')" title="지갑 분석: ${tx.to}">${shortAddr(tx.to)}</span>${toTag || ''}</div></td>
+        <td>${renderTransferParty(tx.from, fromTag)}</td>
+        <td>${renderTransferParty(tx.to, toTag)}</td>
         <td class="${isLarge?'amount-large':''}">${formatNum(amt)}</td>
         <td>${renderFlowBadge(flow)}</td>
         <td><div class="transfer-signal-group">${signalBadges.join(' ') || '<span class="signal-empty">-</span>'}</div></td>
@@ -1708,16 +1985,17 @@ function updateTransferFilterButtons(){
 }
 
 function getSystemAddrTag(addr){
-  const lower=(addr||'').toLowerCase();
+  const lower=normalizeAddress(addr);
   if(!lower) return null;
+  if(isSolanaChain()) return null;
   if(lower==='0x0000000000000000000000000000000000000000') return 'Null';
   if(lower==='0x000000000000000000000000000000000000dead') return 'Burn';
-  if(state.currentContract && lower===state.currentContract.toLowerCase()) return 'Token';
+  if(state.currentContract && lower===normalizeAddress(state.currentContract)) return 'Token';
   return null;
 }
 
 function getAddressIntel(addr){
-  const lower=(addr||'').toLowerCase();
+  const lower=normalizeAddress(addr);
   if(!lower) return null;
   const systemLabel=getSystemAddrTag(lower);
   if(systemLabel) return { label:systemLabel, entity:systemLabel, source:'system', isExchange:false };
@@ -1730,7 +2008,7 @@ function getAddressIntel(addr){
 function getExchangeTag(addr){
   const intel=getAddressIntel(addr);
   if(intel?.isExchange) return intel.label;
-  return CONFIG.KNOWN_EXCHANGES[(addr||'').toLowerCase()] || null;
+  return CONFIG.KNOWN_EXCHANGES[normalizeAddress(addr)] || null;
 }
 
 function getAddrTag(addr){
@@ -1807,8 +2085,10 @@ function getWalletBorderStyle(wallet){
 }
 
 // ==================== WALLET ANALYSIS DETAIL ====================
-function viewWalletDetail(addr, preventScroll=false) {
+async function viewWalletDetail(addr, preventScroll=false) {
   state.selectedWalletDetail = addr;
+  const detailRequestKey = `${addr}:${Date.now()}`;
+  state.walletDetailRequestKey = detailRequestKey;
   document.getElementById('walletTabTitle').innerHTML = `🔍 지갑 심층 분석: <span style="font-family:var(--mono);color:var(--primary)">${shortAddr(addr)}</span>`;
   document.getElementById('btnWalletBack').style.display = 'inline-block';
   document.getElementById('walletSort').style.display = 'none';
@@ -1821,9 +2101,26 @@ function viewWalletDetail(addr, preventScroll=false) {
     return;
   }
 
+  el.innerHTML='<div class="loading"><div class="spinner"></div><p>지갑 상세 흐름을 정리하는 중...</p></div>';
   const decimals=state.transfers[0]?parseInt(state.transfers[0].tokenDecimal||'18'):18;
   const price=getCoinPrice();
-  const txs = state.transfers.filter(t => t.from === addr || t.to === addr);
+  const localTxs = state.transfers.filter(t => t.from === addr || t.to === addr);
+  let txs = localTxs;
+  let detailNote = '';
+  if(isSolanaChain() && state.moralisKey){
+    try{
+      const walletSwaps = await fetchSolanaWalletSwaps(addr);
+      if(state.walletDetailRequestKey !== detailRequestKey || state.selectedWalletDetail !== addr) return;
+      if(walletSwaps.length){
+        txs = dedupeTransfers([...localTxs, ...walletSwaps]).sort((a,b)=>(b.timeStamp||0)-(a.timeStamp||0));
+        detailNote = '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18);font-size:.75rem;color:#7dd3fc">ℹ Solana 지갑 상세는 token swaps + wallet swaps 보강 기준입니다</div>';
+      }
+    }catch(err){
+      console.warn('Solana wallet detail fallback failed', err);
+      detailNote = '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18);font-size:.75rem;color:#fbbf24">⚠ Solana wallet swaps 보강 조회에 실패해 현재 로드된 흐름만 표시합니다</div>';
+    }
+  }
+  if(state.walletDetailRequestKey !== detailRequestKey || state.selectedWalletDetail !== addr) return;
   const w = state.walletMap?.[addr] || state.analyzedWallets.find(x => x.addr === addr);
 
   let inVol=0, outVol=0;
@@ -1861,6 +2158,7 @@ function viewWalletDetail(addr, preventScroll=false) {
     <div class="reason-list">${renderReasonChips(w.primaryReasons,5)}</div>` : '';
 
   let analysisHtml = `
+    ${detailNote}
     <div style="background:var(--bg-card);${borderStyle}border-radius:8px;padding:20px;margin-bottom:20px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
         <div>
@@ -1907,7 +2205,7 @@ function viewWalletDetail(addr, preventScroll=false) {
           const cpTag = renderAddressTag(cp.addr, [cpWallet?.roleLabel, cpWallet?.primaryLabel, ...(cpWallet?.tags||[]).map(t=>t.label)]);
           const cpSignal = cpWallet?.primaryScore ? renderRiskPill(cpWallet) : '';
           return `<tr>
-            <td><span class="addr" onclick="viewWalletDetail('${cp.addr}')">${shortAddr(cp.addr)}</span></td>
+            <td>${renderAddressLink(cp.addr)}</td>
             <td>${cpTag || cpSignal ? `${cpTag}${cpSignal ? ` ${cpSignal}` : ''}` : '<span style="color:var(--text-dim)">일반 지갑</span>'}</td>
             <td>${formatNum(cp.vol)}</td>
             <td>${(safeDiv(cp.vol, Math.max(inVol+outVol,1))*100).toFixed(1)}%</td>
@@ -1930,7 +2228,7 @@ function viewWalletDetail(addr, preventScroll=false) {
             return `<tr>
               <td>${timeAgo(t.timeStamp)}</td>
               <td>${isOut ? '<span style="color:var(--danger)">출금 (OUT)</span>' : '<span style="color:var(--success)">입금 (IN)</span>'}</td>
-              <td><span class="addr" onclick="viewWalletDetail('${target}')">${shortAddr(target)}</span>${targetTag ? ` ${targetTag}` : ''}</td>
+              <td>${renderAddressLink(target)}${targetTag ? ` ${targetTag}` : ''}</td>
               <td>${formatNum(amt)}</td>
               <td>${targetWallet ? renderRiskPill(targetWallet) : '<span style="color:var(--text-dim)">-</span>'}</td>
             </tr>`;
@@ -1944,6 +2242,7 @@ function viewWalletDetail(addr, preventScroll=false) {
 
 function clearWalletDetail() {
   state.selectedWalletDetail = null;
+  state.walletDetailRequestKey = null;
   document.getElementById('walletTabTitle').innerHTML = '🔍 주요 지갑 분석';
   document.getElementById('btnWalletBack').style.display = 'none';
   if(state.analyzedWallets && state.analyzedWallets.length) {
@@ -1979,8 +2278,8 @@ function analyzeAndRenderWallets(txs){
   txs.forEach(tx=>{
     const amt=parseFloat(tx.value)/(10**decimals);
     const usd=amt*price;
-    const from=(tx.from||'').toLowerCase();
-    const to=(tx.to||'').toLowerCase();
+    const from=normalizeAddress(tx.from);
+    const to=normalizeAddress(tx.to);
     const ts=Number(tx.timeStamp||0);
     if(!from || !to) return;
     const fromWallet=ensureWallet(from, ts);
@@ -2200,7 +2499,7 @@ function analyzeAndRenderWallets(txs){
     const meaningfulInbound=inboundSorted.find(item=>{
       if(getSystemAddrTag(item.from) || getExchangeTag(item.from)) return false;
       return !inferInfrastructureInfo(item.from)?.exclude;
-    }) || inboundSorted[0] || null;
+    }) || (isSolanaChain() ? null : inboundSorted[0] || null);
     w.seedSource=meaningfulInbound?.from || null;
     w.seedSourceTime=meaningfulInbound?.timeStamp || 0;
     if(w.roleType==='wallet' && w.seedSource){
