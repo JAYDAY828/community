@@ -1230,9 +1230,11 @@ async function fetchExchangeOi(exchangeKey, ex){
   const price=Math.max(0, getCoinPrice());
   switch(exchangeKey){
     case 'binance': {
-      const r=await fetch(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
-      const d=await r.json();
-      const raw=parseFloat(d.openInterest||'0');
+      // Use AllOrigins proxy for Binance to bypass CORS in hosted environment
+      const url = `https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`;
+      const r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+      const d = await r.json();
+      const raw = parseFloat(d.openInterest||'0');
       return {
         oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
         rawOiText: `${compactNum(raw)} ${ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
@@ -1320,10 +1322,16 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!symbolUpper) return;
 
   const checks = [];
-  if(!intel.binance.futures) checks.push(fetch(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`).then(r=>r.json()).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
+  if(!intel.binance.futures) {
+    const url = `https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`;
+    checks.push(fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`).then(r=>r.json()).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
+  }
   if(!intel.okx.futures) checks.push(fetch(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`).then(r=>r.json()).then(d=>{ if(d.data?.length) intel.okx.futures=true; }).catch(()=>null));
   if(!intel.bybit.futures) checks.push(fetch(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(r=>r.json()).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
-  if(!intel.upbit.spot) checks.push(fetch(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(r=>r.json()).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
+  if(!intel.upbit.spot) {
+    const url = `https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`;
+    checks.push(fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`).then(r=>r.json()).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
+  }
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
 
