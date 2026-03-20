@@ -1226,35 +1226,43 @@ function renderExchangeIntel(intelMap){
   warn.classList.toggle('active', !hasTier1Spot);
 }
 
-// Robust proxy fetcher to handle hosting CORS issues
+// Robust & FAST proxy fetcher using parallel racing
 async function fetchWithProxy(url) {
   const tsUrl = url.includes('?') ? `${url}&_ts=${Date.now()}` : `${url}?_ts=${Date.now()}`;
+  const encoded = encodeURIComponent(tsUrl);
   
-  // Strategy 1: corsproxy.io (Very fast and reliable for most)
-  try {
-    const r1 = await fetch(`https://corsproxy.io/?${encodeURIComponent(tsUrl)}`);
-    if (r1.ok) {
-      const d1 = await r1.json();
-      if(d1) return d1;
-    }
-  } catch (e) { console.warn('Proxy 1 (corsproxy.io) failed:', e); }
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s overall timeout
 
-  // Strategy 2: AllOrigins JSON mode (Slow but highly compatible)
-  try {
-    const r2 = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(tsUrl)}`);
-    if (r2.ok) {
-      const d2 = await r2.json();
-      if(d2?.contents) return JSON.parse(d2.contents);
-    }
-  } catch (e) { console.warn('Proxy 2 (allorigins) failed:', e); }
+  const providers = [
+    { name:'corsproxy', url: `https://corsproxy.io/?${encoded}` },
+    { name:'allorigins', url: `https://api.allorigins.win/raw?url=${encoded}` },
+    { name:'codetabs', url: `https://api.codetabs.com/v1/proxy?quest=${encoded}` }
+  ];
 
-  // Strategy 3: codetabs (Fallback)
   try {
-    const r3 = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(tsUrl)}`);
-    if (r3.ok) return await r3.json();
-  } catch (e) { console.warn('Proxy 3 (codetabs) failed:', e); }
-
-  throw new Error('All CORS proxies failed for: ' + url);
+    // Launch all proxy requests in parallel and take the First success
+    const result = await Promise.any(providers.map(async (p) => {
+      try {
+        const resp = await fetch(p.url, { signal: controller.signal });
+        if (!resp.ok) throw new Error(`${p.name} status ${resp.status}`);
+        const data = await resp.json();
+        if (data) {
+          controller.abort(); // Cancel other requests on success
+          return data;
+        }
+        throw new Error(`${p.name} empty data`);
+      } catch (err) {
+        throw err;
+      }
+    }));
+    clearTimeout(timeoutId);
+    return result;
+  } catch (e) {
+    clearTimeout(timeoutId);
+    console.error('All proxies failed for:', url, e);
+    throw e;
+  }
 }
 
 async function fetchExchangeOi(exchangeKey, ex){
