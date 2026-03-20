@@ -121,7 +121,7 @@ td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03)}
 tr:hover td{background:rgba(99,102,241,0.04)}
 .addr{font-family:var(--mono);font-size:.8rem;color:var(--accent);cursor:pointer;transition:color .15s}
 .addr:hover{color:#fff}
-.tag{padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;text-transform:uppercase}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;text-transform:uppercase;white-space:nowrap;line-height:1.2;vertical-align:middle}
 .tag-whale{background:rgba(139,92,246,0.15);color:var(--whale)}
 .tag-exchange{background:rgba(59,130,246,0.15);color:var(--exchange);text-transform:none}
 .tag-labeled{background:rgba(34,211,238,0.14);color:#67e8f9;border:1px solid rgba(34,211,238,0.24);display:inline-flex;align-items:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none}
@@ -130,26 +130,34 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .tag-suspicious{background:rgba(239,68,68,0.2);color:var(--danger);border:1px solid rgba(239,68,68,0.3)}
 .tag-active{background:rgba(245,158,11,0.15);color:var(--warning)}
 .amount-large{color:var(--warning);font-weight:600}
+.transfer-table{table-layout:fixed;min-width:1120px}
+.transfer-table th:nth-child(1),.transfer-table td:nth-child(1){width:90px}
+.transfer-table th:nth-child(4),.transfer-table td:nth-child(4){width:110px}
+.transfer-table th:nth-child(5),.transfer-table td:nth-child(5){width:140px}
+.transfer-table th:nth-child(6),.transfer-table td:nth-child(6){width:190px}
+.transfer-party{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.transfer-party .tag-labeled,.transfer-party .tag-exchange,.transfer-party .tag-active{max-width:220px}
+.transfer-signal-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.signal-empty{color:var(--text-dim)}
 .risk-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid transparent}
 .risk-pill-danger{background:rgba(239,68,68,0.14);border-color:rgba(239,68,68,0.24);color:#ff8a97}
 .risk-pill-warning{background:rgba(245,158,11,0.14);border-color:rgba(245,158,11,0.22);color:#fbbf24}
 .risk-pill-info{background:rgba(59,130,246,0.14);border-color:rgba(59,130,246,0.22);color:#7dd3fc}
 .risk-pill-success{background:rgba(16,185,129,0.14);border-color:rgba(16,185,129,0.22);color:#34d399}
 .risk-pill-neutral{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--text-muted)}
-.reason-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.reason-chip{padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);font-size:.7rem;color:var(--text-muted)}
+.reason-list{display:flex;flex-wrap:wrap;gap:6px;height:68px;overflow:hidden;align-content:flex-start;padding-top:10px}
+.reason-chip{padding:5px 10px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);font-size:.72rem;color:var(--text-muted)}
 .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:16px}
 .summary-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-sm);padding:14px}
 .summary-label{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
 .summary-value{font-size:1.25rem;font-weight:800;margin-top:6px}
 .summary-help{font-size:.72rem;color:var(--text-dim);margin-top:4px;line-height:1.4}
-.wallet-meta{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:10px}
-.wallet-signal{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%}
-.wallet-label-row,.wallet-funder-row,.wallet-keyword-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;width:100%}
-.wallet-signal .meta-group-label,.wallet-label-row .meta-group-label,.wallet-funder-row .meta-group-label,.wallet-keyword-row .meta-group-label{min-width:58px;padding-top:4px}
-.meta-value-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1}
+.wallet-meta{display:grid;gap:8px;margin-top:12px;min-height:96px;align-content:start}
+.wallet-signal,.wallet-label-row,.wallet-funder-row,.wallet-keyword-row{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:start;column-gap:8px;row-gap:6px;width:100%}
+.wallet-signal .meta-group-label,.wallet-label-row .meta-group-label,.wallet-funder-row .meta-group-label,.wallet-keyword-row .meta-group-label{min-width:0;padding-top:2px}
+.meta-value-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1;min-height:24px;align-content:flex-start}
 .meta-inline-chip{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.18);color:var(--warning);font-size:.7rem;font-weight:700;white-space:nowrap}
-.wallet-meta-note{font-size:.72rem;color:var(--text-dim);line-height:1.4}
+.wallet-meta-note{font-size:.72rem;color:var(--text-dim);line-height:1.4;padding-left:66px;min-height:20px}
 .meta-group-label{font-size:.68rem;color:var(--text-dim);letter-spacing:.2px;white-space:nowrap}
 .score-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid transparent}
 .score-chip-danger{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.2);color:#ff8a97}
@@ -170,12 +178,13 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 /* Wallet cards */
 .wallet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
-.wallet-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-sm);padding:16px;transition:all .2s}
+.wallet-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-sm);padding:16px;transition:all .2s;display:flex;flex-direction:column}
 .wallet-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.wallet-card-footer{border-top:1px solid rgba(255,255,255,0.05);padding-top:14px;margin-top:12px}
 .wallet-card-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:12px;margin-bottom:10px}
 .wallet-card-main{min-width:0}
 .wallet-card-actions{display:flex;align-items:flex-start;justify-content:flex-end;flex-shrink:0}
-.wallet-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wallet-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(255,255,255,0.02);padding:12px;border-radius:var(--radius-xs)}
 .wallet-stat{font-size:.8rem}
 .wallet-stat label{color:var(--text-muted);display:block;font-size:.7rem;margin-bottom:2px}
 .btn-watch{padding:8px 12px;border-radius:var(--radius-xs);border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:78px;white-space:nowrap;line-height:1.2;flex-shrink:0}
@@ -309,7 +318,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.1</small>
+        <small class="version-line">Tracker v1.0.2</small>
       </div>
     </div>
     <div class="header-actions">
@@ -359,7 +368,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
   <div class="tab-content active" id="tab-transfers">
     <div class="card">
       <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
-        <span>📋 최근 대량 전송 내역 <span id="transferCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
+        <span>📋 최근 전송 내역 <span id="transferCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
         <div style="display:flex;gap:4px">
           <button id="btnFilterAll" class="btn-sm active" onclick="setTransferFilter('all')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--primary);color:#fff;cursor:pointer;font-size:.75rem">전체 내역</button>
           <button id="btnFilterWhale" class="btn-sm" onclick="setTransferFilter('whale')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">대량 전송만(고래)</button>
@@ -380,7 +389,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
             <option value="riskDesc">🚨 의심도순 (Signal)</option>
             <option value="washGroup">🔄 핑퐁 그룹순</option>
             <option value="sharedFunder">🪙 공통 자금원순</option>
-            <option value="totalVol">🔄 총 액수순 (Total Vol)</option>
+            <option value="totalVol">🔄 총 볼륨순 (Total Vol)</option>
             <option value="netDesc">📥 매집량순 (Net 축적)</option>
             <option value="recent">⏱ 최근 활동순 (Last Seen)</option>
             <option value="txCount">⚡ 거래 빈도순 (Tx Count)</option>
@@ -487,7 +496,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.1';
+const APP_VERSION = 'Tracker v1.0.2';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -1657,8 +1666,8 @@ function renderTransfers(txs, keyNote=''){
     return;
   }
 
-  el.innerHTML=keyNote+`<div class="table-wrap"><table>
-    <thead><tr><th>시간</th><th>From</th><th>To</th><th>수량</th><th>분류</th><th>신호</th><th>Tx</th></tr></thead>
+  el.innerHTML=keyNote+`<div class="table-wrap"><table class="transfer-table">
+    <thead><tr><th>시간</th><th>From</th><th>To</th><th>수량</th><th>분류</th><th>신호</th></tr></thead>
     <tbody>${displayedTxs.slice(0,100).map(tx=>{
       const amt=parseFloat(tx.value)/(Math.pow(10, decimals));
       const fromTag=renderAddressTag(tx.from);
@@ -1674,12 +1683,11 @@ function renderTransfers(txs, keyNote=''){
       if((fromWallet?.washScore||0)>=60 || (toWallet?.washScore||0)>=60) signalBadges.push('<span class="tag tag-suspicious">핑퐁 후보</span>');
       return `<tr>
         <td>${timeAgo(tx.timeStamp)}</td>
-        <td><span class="addr" onclick="viewWalletDetail('${tx.from}')" title="지갑 분석: ${tx.from}">${shortAddr(tx.from)}</span>${fromTag ? ` ${fromTag}` : ''}</td>
-        <td><span class="addr" onclick="viewWalletDetail('${tx.to}')" title="지갑 분석: ${tx.to}">${shortAddr(tx.to)}</span>${toTag ? ` ${toTag}` : ''}</td>
+        <td><div class="transfer-party"><span class="addr" onclick="viewWalletDetail('${tx.from}')" title="지갑 분석: ${tx.from}">${shortAddr(tx.from)}</span>${fromTag || ''}</div></td>
+        <td><div class="transfer-party"><span class="addr" onclick="viewWalletDetail('${tx.to}')" title="지갑 분석: ${tx.to}">${shortAddr(tx.to)}</span>${toTag || ''}</div></td>
         <td class="${isLarge?'amount-large':''}">${formatNum(amt)}</td>
         <td>${renderFlowBadge(flow)}</td>
-        <td>${signalBadges.join(' ') || '<span style="color:var(--text-dim)">-</span>'}</td>
-        <td><a href="${CONFIG.EXPLORERS[state.currentChain].url}/tx/${tx.hash}" target="_blank" style="color:var(--accent);text-decoration:none;font-size:.75rem">🔗</a></td>
+        <td><div class="transfer-signal-group">${signalBadges.join(' ') || '<span class="signal-empty">-</span>'}</div></td>
       </tr>`;
     }).join('')}</tbody></table></div>`;
 }
@@ -2261,6 +2269,7 @@ function analyzeAndRenderWallets(txs){
   state.walletMap=wallets;
   state.analyzedWallets=all.filter(w=>!['exchange','system','infra'].includes(w.roleType));
   state.maxNetVol = Math.max(1, ...state.analyzedWallets.map(w => w.net > 0 ? w.net : 0));
+  state.maxAbsNetVol = Math.max(1, ...state.analyzedWallets.map(w => Math.abs(w.net || 0)));
   state.maxActivity = Math.max(1, ...state.analyzedWallets.map(w => w.activityRatio));
   state.walletInsights={
     highRiskCount: state.analyzedWallets.filter(w=>w.isHighRisk).length,
@@ -2345,7 +2354,8 @@ function renderWalletAnalysis(wallets){
     const isWatched=state.watchWallets.some(x=>x.addr===w.addr);
     const supply = state.currentCoin?.market_data?.total_supply || state.currentCoin?.market_data?.circulating_supply || 0;
     const supplyRatio = supply && w.net > 0 ? ((w.net / supply) * 100).toFixed(4) : 0;
-    const gaugePct = w.net > 0 && state.maxNetVol ? Math.min(100, (w.net / state.maxNetVol) * 100) : 0;
+    const gaugePct = state.maxAbsNetVol ? Math.min(100, (Math.abs(w.net || 0) / state.maxAbsNetVol) * 100) : 0;
+    const netGaugeColor = w.net > 0 ? 'var(--primary)' : w.net < 0 ? 'var(--danger)' : 'rgba(255,255,255,0.18)';
     const signalGaugePct = clamp(w.primaryScore || 0, 0, 100);
     const borderStyle = getWalletBorderStyle(w);
     const walletLabelTag = renderAddressTag(w.addr, [w.roleLabel, w.primaryLabel, ...(w.tags||[]).map(t=>t.label)]);
@@ -2355,32 +2365,40 @@ function renderWalletAnalysis(wallets){
     return `<div class="wallet-card" onclick="viewWalletDetail('${w.addr}')" style="cursor:pointer; ${borderStyle}" title="클릭하여 지갑 심층 분석">
       <div class="wallet-card-header">
         <div class="wallet-card-main">
-          <span class="addr" style="font-size:.85rem">${shortAddr(w.addr)}</span>
+          <span class="addr" style="font-size:.95rem;font-weight:700;letter-spacing:0.5px">💼 ${shortAddr(w.addr)}</span>
           <div class="wallet-meta">
-            <div class="wallet-signal"><span class="meta-group-label">상태</span>${renderRiskPill(w)}</div>
-            ${walletLabelTag ? `<div class="wallet-label-row"><span class="meta-group-label">라벨</span>${walletLabelTag}</div>` : ''}
+            <div class="wallet-signal"><span class="meta-group-label">상태</span><div class="meta-value-group">${renderRiskPill(w)}</div></div>
+            ${walletLabelTag ? `<div class="wallet-label-row"><span class="meta-group-label">라벨</span><div class="meta-value-group">${walletLabelTag}</div></div>` : ''}
             ${walletFunderMeta ? `<div class="wallet-funder-row"><span class="meta-group-label">공통 자금원</span>${walletFunderMeta}</div>` : ''}
-            ${walletKeywordTags ? `<div class="wallet-keyword-row"><span class="meta-group-label">키워드</span>${walletKeywordTags}</div>` : ''}
+            ${walletKeywordTags ? `<div class="wallet-keyword-row"><span class="meta-group-label">키워드</span><div class="meta-value-group">${walletKeywordTags}</div></div>` : ''}
             <div class="wallet-meta-note">상대 ${w.counterpartyCount}곳 · 거래 ${w.txCount}건</div>
           </div>
         </div>
         <div class="wallet-card-actions"><button class="btn-watch ${isWatched?'active':''}" onclick="event.stopPropagation(); toggleWatchWallet('${w.addr}')">👁 ${isWatched?'추적중':'추적'}</button></div>
       </div>
-      <div class="reason-list">${renderReasonChips(w.primaryReasons,3)}</div>
-      <div class="wallet-stats">
-        <div class="wallet-stat"><label>총 수령</label><span class="buys">${formatNum(w.received)} ${symbol}</span></div>
-        <div class="wallet-stat"><label>총 전송</label><span class="sells">${formatNum(w.sent)} ${symbol}</span></div>
-        <div class="wallet-stat" style="grid-column:span 2"><label>순 보유량</label><span class="${w.net>=0?'buys':'sells'}">${w.net>=0?'+':''}${formatNum(w.net)} ${w.net>0&&supplyRatio>0?`<span style="font-size:0.7rem;color:var(--text-dim)">(총 공급량의 ${supplyRatio}%)</span>`:''}</span></div>
+      <div style="margin-top:auto">
+        <div class="reason-list">${renderReasonChips(w.primaryReasons,3)}</div>
+        <div class="wallet-card-footer">
+        <div class="wallet-stats">
+          <div class="wallet-stat"><label>총 수령</label><span class="buys">${formatNum(w.received)} ${symbol}</span></div>
+          <div class="wallet-stat"><label>총 전송</label><span class="sells">${formatNum(w.sent)} ${symbol}</span></div>
+          <div class="wallet-stat" style="grid-column:span 2"><label>순 보유량</label><span class="${w.net>=0?'buys':'sells'}">${w.net>=0?'+':''}${formatNum(w.net)} ${w.net>0&&supplyRatio>0?`<span style="font-size:0.7rem;color:var(--text-dim)">(총 공급량의 ${supplyRatio}%)</span>`:''}</span></div>
+        </div>
+        <div style="margin-top:10px;width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden" title="최대 순보유량 변동 대비 비율"><div style="width:${gaugePct}%;height:100%;background:${netGaugeColor};transition:width 0.5s"></div></div>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:0.7rem;color:var(--text-dim)">패턴 신뢰도</span>
+          <span style="font-size:0.75rem;color:${w.signalClass==='danger'?'var(--danger)':w.signalClass==='warning'?'var(--warning)':w.signalClass==='success'?'var(--success)':'var(--accent)'};font-weight:700">${w.primaryScore || 0}</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden">
+          <div style="width:${signalGaugePct}%;height:100%;background:${getSignalGradient(w.signalClass)};transition:width 0.5s"></div>
+        </div>
+        <div style="margin-top:12px;font-size:.7rem;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span>🎯 집중 <strong style="color:var(--text-muted);font-weight:600">${((w.topCounterpartyRatio||0)*100).toFixed(0)}%</strong></span><span style="color:rgba(255,255,255,0.08)">|</span>
+          <span>🔄 왕복 <strong style="color:var(--text-muted);font-weight:600">${((w.reciprocalRatio||0)*100).toFixed(0)}%</strong></span><span style="color:rgba(255,255,255,0.08)">|</span>
+          <span>⏱ 마지막: <strong style="color:var(--text-muted);font-weight:500">${timeAgo(w.lastSeen)}</strong></span>
+        </div>
       </div>
-      ${w.net > 0 ? `<div style="margin-top:8px;width:100%;height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden" title="최대 축적 지갑 대비 비율"><div style="width:${gaugePct}%;height:100%;background:var(--primary);transition:width 0.5s"></div></div>` : ''}
-      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:0.7rem;color:var(--text-dim)">패턴 신뢰도</span>
-        <span style="font-size:0.7rem;color:${w.signalClass==='danger'?'var(--danger)':w.signalClass==='warning'?'var(--warning)':w.signalClass==='success'?'var(--success)':'var(--accent)'};font-weight:600">${w.primaryScore || 0}</span>
       </div>
-      <div style="width:100%;height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden">
-        <div style="width:${signalGaugePct}%;height:100%;background:${getSignalGradient(w.signalClass)};transition:width 0.5s"></div>
-      </div>
-      <div style="margin-top:8px;font-size:.7rem;color:var(--text-dim)">상대 집중 ${((w.topCounterpartyRatio||0)*100).toFixed(0)}% · 왕복 ${((w.reciprocalRatio||0)*100).toFixed(0)}% · 마지막: ${timeAgo(w.lastSeen)}</div>
     </div>`;
   }).join('')}</div>`;
 }
