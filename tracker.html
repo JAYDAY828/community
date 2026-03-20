@@ -493,6 +493,7 @@ const CONFIG = {
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
   ETHERSCAN_V2: 'https://api.etherscan.io/v2/api',
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
+  EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
     'binance-smart-chain':{ name:'BscScan',      chainId:56,    moralisChain:'bsc',     url:'https://bscscan.com',                v2Free:false },
@@ -1226,61 +1227,46 @@ function renderExchangeIntel(intelMap){
   warn.classList.toggle('active', !hasTier1Spot);
 }
 
-// Robust & FAST proxy fetcher using parallel racing
-async function fetchWithProxy(url) {
-  const tsUrl = url.includes('?') ? `${url}&_ts=${Date.now()}` : `${url}?_ts=${Date.now()}`;
-  const encoded = encodeURIComponent(tsUrl);
-  
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s overall timeout
+function getExchangeProxyUrl(targetUrl){
+  const base=(CONFIG.EXCHANGE_PROXY||'').replace(/\/+$/,'');
+  return base ? `${base}/proxy?url=${encodeURIComponent(targetUrl)}` : targetUrl;
+}
 
-  const providers = [
-    { name:'corsproxy', url: `https://corsproxy.io/?${encoded}` },
-    { name:'allorigins', url: `https://api.allorigins.win/raw?url=${encoded}` },
-    { name:'codetabs', url: `https://api.codetabs.com/v1/proxy?quest=${encoded}` }
-  ];
+async function fetchExchangeJson(targetUrl){
+  const candidates=[];
+  if(CONFIG.EXCHANGE_PROXY) candidates.push(getExchangeProxyUrl(targetUrl));
+  candidates.push(targetUrl);
+  let lastError=null;
 
-  try {
-    // Launch all proxy requests in parallel and take the First success
-    const result = await Promise.any(providers.map(async (p) => {
-      try {
-        const resp = await fetch(p.url, { signal: controller.signal });
-        if (!resp.ok) throw new Error(`${p.name} status ${resp.status}`);
-        const data = await resp.json();
-        if (data) {
-          controller.abort(); // Cancel other requests on success
-          return data;
-        }
-        throw new Error(`${p.name} empty data`);
-      } catch (err) {
-        throw err;
+  for(const candidate of candidates){
+    try{
+      const r=await fetch(candidate, { cache:'no-store' });
+      if(!r.ok){
+        const text=await r.text().catch(()=>'');
+        throw new Error(`${candidate} status ${r.status}${text ? ` :: ${text.slice(0, 120)}` : ''}`);
       }
-    }));
-    clearTimeout(timeoutId);
-    return result;
-  } catch (e) {
-    clearTimeout(timeoutId);
-    console.error('All proxies failed for:', url, e);
-    throw e;
+      return await r.json();
+    }catch(err){
+      lastError=err;
+      console.warn('Exchange fetch failed:', candidate, err);
+    }
   }
+  throw lastError || new Error('Exchange fetch failed');
 }
 
 async function fetchExchangeOi(exchangeKey, ex){
   const price=Math.max(0, getCoinPrice());
   switch(exchangeKey){
     case 'binance': {
-      try {
-        const d = await fetchWithProxy(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
-        const raw = parseFloat(d.openInterest||'0');
-        return {
-          oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
-          rawOiText: `${compactNum(raw)} ${ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
-        };
-      } catch(e) { throw e; }
+      const d=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
+      const raw=parseFloat(d.openInterest||'0');
+      return {
+        oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
+        rawOiText: `${compactNum(raw)} ${ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
+      };
     }
     case 'bybit': {
-      const r=await fetch(`https://api.bybit.com/v5/market/open-interest?category=linear&symbol=${ex.futuresSymbol}&intervalTime=5min`);
-      const d=await r.json();
+      const d=await fetchExchangeJson(`https://api.bybit.com/v5/market/open-interest?category=linear&symbol=${ex.futuresSymbol}&intervalTime=5min`);
       const raw=parseFloat(d.result?.list?.[0]?.openInterest||'0');
       return {
         oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
@@ -1288,8 +1274,7 @@ async function fetchExchangeOi(exchangeKey, ex){
       };
     }
     case 'okx': {
-      const r=await fetch(`https://www.okx.com/api/v5/public/open-interest?instId=${ex.futuresSymbol}`);
-      const d=await r.json();
+      const d=await fetchExchangeJson(`https://www.okx.com/api/v5/public/open-interest?instId=${ex.futuresSymbol}`);
       const item=d.data?.[0]||{};
       return {
         oiUsd: parseFloat(item.oiUsd||'0'),
@@ -1298,11 +1283,11 @@ async function fetchExchangeOi(exchangeKey, ex){
     }
     case 'bitget': {
       const [oiResp, contractResp]=await Promise.all([
-        fetch(`https://api.bitget.com/api/v2/mix/market/open-interest?symbol=${ex.futuresSymbol}&productType=USDT-FUTURES`),
-        fetch(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${ex.futuresSymbol}`)
+        fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/open-interest?symbol=${ex.futuresSymbol}&productType=USDT-FUTURES`),
+        fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${ex.futuresSymbol}`)
       ]);
-      const oiData=await oiResp.json();
-      const contractData=await contractResp.json();
+      const oiData=oiResp;
+      const contractData=contractResp;
       const raw=parseFloat(oiData.data?.openInterestList?.[0]?.size||'0');
       const multiplier=parseFloat(contractData.data?.[0]?.sizeMultiplier||'1');
       return {
@@ -1311,8 +1296,7 @@ async function fetchExchangeOi(exchangeKey, ex){
       };
     }
     case 'gate': {
-      const r=await fetch(`https://api.gateio.ws/api/v4/futures/usdt/tickers?contract=${ex.futuresSymbol}`);
-      const d=await r.json();
+      const d=await fetchExchangeJson(`https://api.gateio.ws/api/v4/futures/usdt/tickers?contract=${ex.futuresSymbol}`);
       const item=d?.[0]||{};
       const raw=parseFloat(item.total_size||'0');
       const multiplier=parseFloat(item.quanto_multiplier||'1');
@@ -1324,11 +1308,11 @@ async function fetchExchangeOi(exchangeKey, ex){
     }
     case 'mexc': {
       const [tickerResp, detailResp]=await Promise.all([
-        fetch(`https://contract.mexc.com/api/v1/contract/ticker?symbol=${ex.futuresSymbol}`),
-        fetch(`https://contract.mexc.com/api/v1/contract/detail?symbol=${ex.futuresSymbol}`)
+        fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/ticker?symbol=${ex.futuresSymbol}`),
+        fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${ex.futuresSymbol}`)
       ]);
-      const tickerData=await tickerResp.json();
-      const detailData=await detailResp.json();
+      const tickerData=tickerResp;
+      const detailData=detailResp;
       const raw=parseFloat(tickerData.data?.holdVol||'0');
       const multiplier=parseFloat(detailData.data?.contractSize||'1');
       const markPrice=parseFloat(tickerData.data?.lastPrice||price||'0');
@@ -1360,14 +1344,10 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!symbolUpper) return;
 
   const checks = [];
-  if(!intel.binance.futures) {
-    checks.push(fetchWithProxy(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
-  }
-  if(!intel.okx.futures) checks.push(fetch(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`).then(r=>r.json()).then(d=>{ if(d.data?.length) intel.okx.futures=true; }).catch(()=>null));
-  if(!intel.bybit.futures) checks.push(fetch(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(r=>r.json()).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
-  if(!intel.upbit.spot) {
-    checks.push(fetchWithProxy(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
-  }
+  if(!intel.binance.futures) checks.push(fetchExchangeJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
+  if(!intel.okx.futures) checks.push(fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`).then(d=>{ if(d.data?.length) intel.okx.futures=true; }).catch(()=>null));
+  if(!intel.bybit.futures) checks.push(fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
+  if(!intel.upbit.spot) checks.push(fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
 
