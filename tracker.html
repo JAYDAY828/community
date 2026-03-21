@@ -343,10 +343,11 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.6</small>
+        <small class="version-line">Tracker v1.0.7</small>
       </div>
     </div>
     <div class="header-actions">
+      <button class="btn-icon" onclick="location.href='/'" title="메인으로">🏠</button>
       <button class="btn-icon" onclick="refreshData()" title="새로고침">🔄</button>
       <button class="btn-icon" onclick="openSettings()" title="설정">⚙️</button>
     </div>
@@ -534,7 +535,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.6';
+const APP_VERSION = 'Tracker v1.0.7';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
