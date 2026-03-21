@@ -343,7 +343,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.5</small>
+        <small class="version-line">Tracker v1.0.6</small>
       </div>
     </div>
     <div class="header-actions">
@@ -534,7 +534,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.5';
+const APP_VERSION = 'Tracker v1.0.6';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -616,6 +616,7 @@ const state = {
   historyType: 'all',
   historySort: 'latest',
   lastTransferKeyNote: '',
+  transferStats: { source:'', rawCount:0, validCount:0, filteredCount:0 },
   selectedWalletDetail: null,
   walletDetailRequestKey: null,
   walletMap: {},
@@ -659,6 +660,35 @@ function readStorageJson(key, fallback){
   }catch{
     return fallback;
   }
+}
+function resetTransferStats(source=''){
+  state.transferStats = { source, rawCount:0, validCount:0, filteredCount:0 };
+}
+function setTransferStats(source, rawCount, validCount){
+  const safeRaw=Math.max(0, Number(rawCount)||0);
+  const safeValid=Math.max(0, Number(validCount)||0);
+  state.transferStats = {
+    source: source || '',
+    rawCount: safeRaw,
+    validCount: safeValid,
+    filteredCount: Math.max(0, safeRaw - safeValid)
+  };
+}
+function formatTransferStats(){
+  const stats=state.transferStats||{};
+  const rawCount=Math.max(0, Number(stats.rawCount)||0);
+  const validCount=Math.max(0, Number(stats.validCount)||0);
+  const filteredCount=Math.max(0, Number(stats.filteredCount)||0);
+  if(!rawCount && !validCount) return '';
+  return `원본 ${rawCount}건 · 유효 ${validCount}건${filteredCount ? ` · 제외 ${filteredCount}건` : ''}`;
+}
+function buildTransferNote(message, tone='info'){
+  const palette=tone==='success'
+    ? { bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.2)', color:'#10b981' }
+    : { bg:'rgba(59,130,246,0.08)', border:'rgba(59,130,246,0.18)', color:'#7dd3fc' };
+  const statsText=formatTransferStats();
+  const noteText=statsText ? `${message} · ${statsText}` : message;
+  return `<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:${palette.bg};border:1px solid ${palette.border};font-size:.75rem;color:${palette.color}">${noteText}</div>`;
 }
 function median(nums){
   const arr=(nums||[]).filter(n=>Number.isFinite(n)).sort((a,b)=>a-b);
@@ -1840,6 +1870,7 @@ async function loadSolanaTransfers(isSilent=false){
       </div>
     </div>`;
     state.transfers=[];
+    resetTransferStats('Solana');
     state.analyzedWallets=[];
     state.walletMap={};
     state.walletInsights=null;
@@ -1879,6 +1910,7 @@ async function loadSolanaTransfers(isSilent=false){
     if(!mappedTxs.length){
       el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">최근 Solana 스왑 흐름을 찾지 못했습니다</p></div>`;
       state.transfers=[];
+      resetTransferStats('Solana');
       state.analyzedWallets=[];
       state.walletMap={};
       state.walletInsights=null;
@@ -1891,9 +1923,10 @@ async function loadSolanaTransfers(isSilent=false){
       return;
     }
     state.transfers=dedupeTransfers(mappedTxs);
+    setTransferStats('Solana', mappedTxs.length, state.transfers.length);
     state.transferPage=1;
     refreshAddressLabels();
-    state.lastTransferKeyNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">${note}</div>`;
+    state.lastTransferKeyNote=buildTransferNote(note, 'success');
     refreshTrackingViews();
   }catch(e){
     console.error(e);
@@ -1906,6 +1939,7 @@ async function loadTransfers(isSilent=false){
   if(!state.currentContract||!state.currentChain){
     el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">컨트랙트 주소가 없어 전송 내역을 조회할 수 없습니다</p></div>';
     state.transfers=[];
+    resetTransferStats();
     state.analyzedWallets=[];
     state.walletMap={};
     state.walletInsights=null;
@@ -1923,6 +1957,7 @@ async function loadTransfers(isSilent=false){
   if(!explorer){
     el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">${state.currentChain} 체인은 아직 지원되지 않습니다</p></div>`;
     state.transfers=[];
+    resetTransferStats();
     state.analyzedWallets=[];
     state.walletMap={};
     state.walletInsights=null;
@@ -1956,6 +1991,7 @@ async function loadTransfers(isSilent=false){
         </div>
       </div>`;
       state.transfers=[];
+      resetTransferStats('Moralis');
       state.analyzedWallets=[];
       state.walletMap={};
       state.walletInsights=null;
@@ -1977,6 +2013,7 @@ async function loadTransfers(isSilent=false){
       if(!items.length){
         el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">전송 내역이 없습니다</p></div>`;
         state.transfers=[];
+        resetTransferStats('Moralis');
         state.analyzedWallets=[];
         state.walletMap={};
         state.walletInsights=null;
@@ -1991,9 +2028,10 @@ async function loadTransfers(isSilent=false){
       // Convert Moralis format to our normalized transfer shape
       const mappedTxs = items.map(mapMoralisTransfer);
       state.transfers=normalizeTransferList(mappedTxs);
+      setTransferStats('Moralis', mappedTxs.length, state.transfers.length);
       state.transferPage=1;
       refreshAddressLabels();
-      state.lastTransferKeyNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Moralis API로 전송내역 수신 완료 · 최근 ${state.transfers.length}건</div>`;
+      state.lastTransferKeyNote=buildTransferNote('✅ Moralis API로 전송내역 수신 완료', 'success');
       refreshTrackingViews();
       return;
     }catch(e){
@@ -2006,6 +2044,7 @@ async function loadTransfers(isSilent=false){
   if(!hasKey){
     el.innerHTML='<div class="loading"><p style="color:var(--warning)">⚙️ 설정에서 Etherscan API 키를 입력해주세요<br><small style="color:var(--text-dim)">V2 API는 키가 필수입니다 (무료 발급: <a href="https://etherscan.io/myapikey" target="_blank" style="color:var(--accent)">etherscan.io</a>)</small></p></div>';
     state.transfers=[];
+    resetTransferStats();
     state.analyzedWallets=[];
     state.walletMap={};
     state.walletInsights=null;
@@ -2023,6 +2062,7 @@ async function loadTransfers(isSilent=false){
     if(!etherscanTxs.length){
       el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">전송 내역이 없습니다</p></div>`;
       state.transfers=[];
+      resetTransferStats('Etherscan');
       state.analyzedWallets=[];
       state.walletMap={};
       state.walletInsights=null;
@@ -2035,13 +2075,14 @@ async function loadTransfers(isSilent=false){
       return;
     }
     state.transfers=normalizeTransferList(etherscanTxs);
+    setTransferStats('Etherscan', etherscanTxs.length, state.transfers.length);
     state.transferPage=1;
-    let transferNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18);font-size:.75rem;color:#7dd3fc">ℹ Etherscan 기준 최근 ${state.transfers.length}건을 분석합니다</div>`;
+    let transferNote=buildTransferNote('ℹ Etherscan 기준 최근 전송을 분석합니다', 'info');
     if(moralisKey && explorer.moralisChain){
       const enrichment=await enrichTransfersWithMoralisLabels(state.transfers, explorer);
       state.transfers=enrichment.transfers;
       if(enrichment.enriched){
-        transferNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Etherscan 전송내역 + Moralis 라벨 보강 · 최근 ${state.transfers.length}건</div>`;
+        transferNote=buildTransferNote('✅ Etherscan 전송내역 + Moralis 라벨 보강', 'success');
       }
     }
     refreshAddressLabels();
@@ -2086,8 +2127,11 @@ function renderTransfers(txs, keyNote=''){
   const shownCount=pageTxs.length;
   const pageStart=displayedTxs.length ? startIndex + 1 : 0;
   const pageEnd=startIndex + shownCount;
+  const stats=state.transferStats||{};
+  const rawCount=Math.max(0, Number(stats.rawCount)||0);
+  const filteredOut=Math.max(0, Number(stats.filteredCount)||0);
   updateTransferFilterButtons();
-  document.getElementById('transferCount').textContent=`(페이지 ${state.transferPage}/${totalPages} · 표시 ${pageStart}-${pageEnd} / 필터 ${displayedTxs.length}건 / 전체 ${txs.length}건)`;
+  document.getElementById('transferCount').textContent=`(페이지 ${state.transferPage}/${totalPages} · 표시 ${pageStart}-${pageEnd} / 필터 ${displayedTxs.length}건 / 유효 ${txs.length}건${rawCount ? ` / 원본 ${rawCount}건` : ''}${filteredOut ? ` / 제외 ${filteredOut}건` : ''})`;
 
   if(!displayedTxs.length){
     el.innerHTML=keyNote+`<div class="loading"><p style="color:var(--text-dim)">선택된 조건의 전송 내역이 없습니다</p></div>`;
@@ -3147,9 +3191,11 @@ function renderWalletAnalysis(wallets){
   const symbol=(state.currentCoin?.symbol||'').toUpperCase();
   const summary=state.walletInsights||{};
   const topRisk=summary.topRiskWallet;
+  const transferStatsText=formatTransferStats();
   const bannerHtml=`
     <div class="intel-banner">
-      <strong>최근 ${state.transfers.length}건 기준 패턴 요약</strong><br>
+      <strong>최근 유효 ${state.transfers.length}건 기준 패턴 요약</strong><br>
+      ${transferStatsText ? `${transferStatsText}을 기준으로 패턴을 계산했습니다.<br>` : ''}
       고신뢰 의심 ${summary.highRiskCount||0}개, 주의 ${summary.mediumRiskCount||0}개, 축적 ${summary.accumulationCount||0}개, 분배 ${summary.distributionCount||0}개를 추렸습니다.
       ${topRisk ? `<br>현재 최상단 신호는 <strong>${shortAddr(topRisk.addr)}</strong>의 <strong>${topRisk.primaryLabel}</strong> (${topRisk.primaryScore})입니다.` : ''}
     </div>
