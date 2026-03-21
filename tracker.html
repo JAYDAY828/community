@@ -115,6 +115,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;backdrop-filter:blur(20px);margin-bottom:16px}
 .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .table-wrap{overflow-x:auto}
+.pagination-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.pagination-info{font-size:.75rem;color:var(--text-dim)}
+.pagination-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pagination-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:.75rem;cursor:pointer;transition:all .15s}
+.pagination-btn:hover{border-color:var(--primary);color:var(--text)}
+.pagination-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.pagination-btn:disabled{opacity:.45;cursor:not-allowed}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
 th{text-align:left;padding:10px 12px;color:var(--text-muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
 td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03)}
@@ -231,6 +238,23 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .alert-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .alert-actions button{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem}
 .alert-actions button:hover{border-color:var(--primary);color:var(--primary)}
+.history-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.history-toolbar-stack{display:flex;flex-direction:column;gap:12px;width:100%}
+.history-toolbar-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.history-summary{font-size:.78rem;color:var(--text-dim);line-height:1.45}
+.history-list{display:flex;flex-direction:column;gap:10px}
+.history-item{padding:14px 16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06)}
+.history-item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.history-item-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.history-item-title{font-size:.9rem;font-weight:700;line-height:1.35}
+.history-item-sub{display:flex;gap:8px;flex-wrap:wrap;font-size:.76rem;color:var(--text-dim)}
+.history-item-desc{margin-top:10px;font-size:.78rem;color:var(--text-muted);line-height:1.45}
+.history-item-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.history-item-time{font-size:.74rem;color:var(--text-dim);white-space:nowrap}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.history-actions button{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem}
+.history-actions button:hover{border-color:var(--primary);color:var(--primary)}
+.history-empty{text-align:center;padding:28px;color:var(--text-dim)}
 
 /* DEX section */
 .dex-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
@@ -319,7 +343,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.3</small>
+        <small class="version-line">Tracker v1.0.5</small>
       </div>
     </div>
     <div class="header-actions">
@@ -426,6 +450,19 @@ tr:hover td{background:rgba(99,102,241,0.04)}
     </div>
   </div>
 
+  <!-- Tab: History -->
+  <div class="tab-content" id="tab-history">
+    <div class="card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span>🗂 감지 히스토리 <span id="historyCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn-sm" onclick="clearHistoryEvents()" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">전체 삭제</button>
+        </div>
+      </div>
+      <div id="historyContent"><div class="history-empty">저장된 감지 이벤트가 없습니다.</div></div>
+    </div>
+  </div>
+
   <!-- Tab: Watchlist -->
   <div class="tab-content" id="tab-watchlist">
     <div class="card">
@@ -497,7 +534,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.3';
+const APP_VERSION = 'Tracker v1.0.5';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -539,7 +576,20 @@ const CONFIG = {
     '0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503':'Binance Old3',
   },
   REFRESH_DEFAULT: 5,
-  LARGE_TX_DEFAULT: 10000
+  LARGE_TX_DEFAULT: 10000,
+  FETCH_LIMITS: {
+    TRANSFER_PAGE_SIZE: 50,
+    ETHERSCAN_PAGE: 200,
+    ETHERSCAN_TOTAL: 400,
+    MORALIS_PAGE: 100,
+    MORALIS_TOTAL: 400,
+    SOLANA_PAGE: 100,
+    SOLANA_TOKEN_TOTAL: 300,
+    SOLANA_PAIR_TOTAL: 100,
+    SOLANA_WALLET_TOTAL: 200,
+    HISTORY_PAGE_SIZE: 25,
+    HISTORY_MAX: 500
+  }
 };
 
 // ==================== STATE ====================
@@ -559,6 +609,12 @@ const state = {
   refreshInterval: parseInt(localStorage.getItem('phantom_refresh') || CONFIG.REFRESH_DEFAULT),
   largeThreshold: parseInt(localStorage.getItem('phantom_threshold') || CONFIG.LARGE_TX_DEFAULT),
   transferFilter: 'all',
+  transferPage: 1,
+  historyEvents: readStorageJson('phantom_event_history', []).filter(item=>item && item.key),
+  historyPage: 1,
+  historyScope: 'coin',
+  historyType: 'all',
+  historySort: 'latest',
   lastTransferKeyNote: '',
   selectedWalletDetail: null,
   walletDetailRequestKey: null,
@@ -595,6 +651,14 @@ function compactNum(n){
   if(abs>=1e6) return (n/1e6).toFixed(2)+'M';
   if(abs>=1e3) return (n/1e3).toFixed(1)+'K';
   return Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
+}
+function readStorageJson(key, fallback){
+  try{
+    const raw=localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch{
+    return fallback;
+  }
 }
 function median(nums){
   const arr=(nums||[]).filter(n=>Number.isFinite(n)).sort((a,b)=>a-b);
@@ -635,6 +699,25 @@ function normalizeAddress(addr, chain=state.currentChain){
 }
 function isSolanaChain(chain=state.currentChain){
   return chain==='solana';
+}
+function toUtcIso(ts){
+  return ts ? new Date(Number(ts) * 1000).toISOString() : new Date().toISOString();
+}
+function formatHistoryTime(iso){
+  if(!iso) return '-';
+  const dt=new Date(iso);
+  if(Number.isNaN(dt.getTime())) return '-';
+  return `${dt.toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})} KST`;
+}
+function getHistoryContext(){
+  return {
+    chain: state.currentChain || 'unknown',
+    chainName: formatChainName(state.currentChain),
+    coinId: state.currentCoin?.id || '',
+    coinName: state.currentCoin?.name || '',
+    coinSymbol: String(state.currentCoin?.symbol || '').toUpperCase(),
+    contract: state.currentContract || ''
+  };
 }
 function getSyntheticSolanaPoolAddress(exchange, tokenAddress){
   const safeExchange=String(exchange||'solana-dex').toLowerCase().replace(/[^a-z0-9]+/g,'-') || 'solana-dex';
@@ -910,6 +993,54 @@ function extractMoralisResult(payload){
   if(Array.isArray(payload?.swaps)) return payload.swaps;
   return [];
 }
+async function fetchMoralisPaginated(baseUrl, headers, totalLimit, pageSize, errorPrefix){
+  const results=[];
+  let cursor='';
+  let requestCount=0;
+  while(results.length < totalLimit){
+    const url=new URL(baseUrl);
+    if(requestCount===0){
+      url.searchParams.set('limit', String(Math.min(pageSize, totalLimit)));
+    }else if(cursor){
+      url.searchParams.set('cursor', cursor);
+    }
+    const resp=await fetch(url.toString(), { headers });
+    if(!resp.ok){
+      if(resp.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
+      throw new Error(`${errorPrefix}: ${resp.status}`);
+    }
+    const payload=await resp.json();
+    const items=extractMoralisResult(payload);
+    if(!items.length) break;
+    results.push(...items);
+    cursor=payload?.cursor || '';
+    requestCount += 1;
+    if(!cursor || items.length < pageSize) break;
+  }
+  return results.slice(0,totalLimit);
+}
+async function fetchEtherscanTokenTransfersPaginated(explorer, apiKey, totalLimit, pageSize){
+  const results=[];
+  let page=1;
+  while(results.length < totalLimit){
+    const offset=Math.min(pageSize, totalLimit - results.length);
+    const url=`${CONFIG.ETHERSCAN_V2}?chainid=${explorer.chainId}&module=account&action=tokentx&contractaddress=${state.currentContract}&page=${page}&offset=${offset}&sort=desc&apikey=${apiKey}`;
+    const r=await fetch(url);
+    const d=await r.json();
+    if(d.status!=='1' || !Array.isArray(d.result)){
+      const errMsg=String(d.message || d.result || '');
+      if(results.length && /no transactions|not found/i.test(errMsg)){
+        break;
+      }
+      throw new Error(errMsg || '전송 내역이 없습니다');
+    }
+    if(!d.result.length) break;
+    results.push(...d.result);
+    if(d.result.length < offset) break;
+    page += 1;
+  }
+  return results.slice(0,totalLimit);
+}
 function dedupeTransfers(list){
   const seen=new Set();
   return normalizeTransferList(list).filter(tx=>{
@@ -989,24 +1120,29 @@ async function fetchSolanaPairFallbackSwaps(headers){
     .slice(0,3);
   if(!pairCandidates.length) return [];
   const responses=await Promise.allSettled(pairCandidates.map(async pairAddress=>{
-    const url=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/pairs/${pairAddress}/swaps?limit=50&order=DESC`;
-    const resp=await fetch(url,{ headers });
-    if(!resp.ok) throw new Error(`Moralis pair swaps error: ${resp.status}`);
-    const payload=await resp.json();
-    return extractMoralisResult(payload).map(item=>mapMoralisSolanaPairSwap(item,payload));
+    const url=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/pairs/${pairAddress}/swaps?order=DESC`;
+    const items=await fetchMoralisPaginated(
+      url,
+      headers,
+      CONFIG.FETCH_LIMITS.SOLANA_PAIR_TOTAL,
+      CONFIG.FETCH_LIMITS.SOLANA_PAGE,
+      'Moralis pair swaps error'
+    );
+    return items.map(item=>mapMoralisSolanaPairSwap(item, { ...item, pairAddress }));
   }));
   return dedupeTransfers(responses.flatMap(result=>result.status==='fulfilled' ? result.value : []));
 }
 async function fetchSolanaWalletSwaps(addr){
   if(!state.moralisKey || !state.currentContract) return [];
-  const url=`${CONFIG.MORALIS_SOLANA_API}/account/mainnet/${addr}/swaps?tokenAddress=${state.currentContract}&limit=100&order=DESC`;
-  const resp=await fetch(url,{ headers:{ 'X-API-Key': state.moralisKey } });
-  if(!resp.ok){
-    if(resp.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
-    throw new Error(`Moralis Solana wallet swaps error: ${resp.status}`);
-  }
-  const payload=await resp.json();
-  return dedupeTransfers(extractMoralisResult(payload).map(swap=>mapMoralisSolanaSwap(swap)));
+  const url=`${CONFIG.MORALIS_SOLANA_API}/account/mainnet/${addr}/swaps?tokenAddress=${state.currentContract}&order=DESC`;
+  const items=await fetchMoralisPaginated(
+    url,
+    { 'X-API-Key': state.moralisKey },
+    CONFIG.FETCH_LIMITS.SOLANA_WALLET_TOTAL,
+    CONFIG.FETCH_LIMITS.SOLANA_PAGE,
+    'Moralis Solana wallet swaps error'
+  );
+  return dedupeTransfers(items.map(swap=>mapMoralisSolanaSwap(swap)));
 }
 
 function buildSessionBuckets(){
@@ -1248,6 +1384,8 @@ function refreshTrackingViews(){
   }
   renderSessions();
   buildAndRenderAlerts();
+  captureHistoryEvents();
+  renderHistory();
 }
 
 // ==================== API: CoinGecko ====================
@@ -1666,15 +1804,16 @@ async function enrichTransfersWithMoralisLabels(baseTxs, explorer){
     return { transfers:baseTxs||[], enriched:false, enrichedCount:0 };
   }
   try{
-    const url=`${CONFIG.MORALIS_API}/erc20/${state.currentContract}/transfers?chain=${explorer.moralisChain}&order=DESC&limit=100`;
-    const r=await fetch(url, { headers:{ 'X-API-Key': state.moralisKey } });
-    if(!r.ok){
-      if(r.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
-      throw new Error(`Moralis API error: ${r.status}`);
-    }
-    const d=await r.json();
-    if(!d.result?.length) return { transfers:baseTxs, enriched:false, enrichedCount:0 };
-    const moralisTxs=normalizeTransferList(d.result.map(mapMoralisTransfer));
+    const url=`${CONFIG.MORALIS_API}/erc20/${state.currentContract}/transfers?chain=${explorer.moralisChain}&order=DESC`;
+    const items=await fetchMoralisPaginated(
+      url,
+      { 'X-API-Key': state.moralisKey },
+      CONFIG.FETCH_LIMITS.MORALIS_TOTAL,
+      CONFIG.FETCH_LIMITS.MORALIS_PAGE,
+      'Moralis API error'
+    );
+    if(!items.length) return { transfers:baseTxs, enriched:false, enrichedCount:0 };
+    const moralisTxs=normalizeTransferList(items.map(mapMoralisTransfer));
     const merged=mergeTransferLabels(baseTxs, moralisTxs);
     return {
       transfers: merged.merged,
@@ -1715,19 +1854,17 @@ async function loadSolanaTransfers(isSilent=false){
   if(!isSilent) el.innerHTML='<div class="loading"><div class="spinner"></div><p>Moralis Solana 스왑 흐름을 불러오는 중...</p></div>';
   try{
     const metadataUrl=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/${state.currentContract}/metadata`;
-    const swapsUrl=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/${state.currentContract}/swaps`;
+    const swapsUrl=`${CONFIG.MORALIS_SOLANA_API}/token/mainnet/${state.currentContract}/swaps?order=DESC`;
     const headers={ 'X-API-Key': moralisKey };
-    const [metadataResp, swapsResp]=await Promise.all([
-      fetch(metadataUrl, { headers }),
-      fetch(swapsUrl, { headers })
-    ]);
-    if(!swapsResp.ok){
-      if(swapsResp.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
-      throw new Error(`Moralis Solana API error: ${swapsResp.status}`);
-    }
+    const metadataResp=await fetch(metadataUrl, { headers });
     const metadata=metadataResp.ok ? await metadataResp.json().catch(()=>({})) : {};
-    const swapsData=await swapsResp.json();
-    const rawSwaps=extractMoralisResult(swapsData);
+    const rawSwaps=await fetchMoralisPaginated(
+      swapsUrl,
+      headers,
+      CONFIG.FETCH_LIMITS.SOLANA_TOKEN_TOTAL,
+      CONFIG.FETCH_LIMITS.SOLANA_PAGE,
+      'Moralis Solana API error'
+    );
     let mappedTxs=rawSwaps
       .map(swap=>mapMoralisSolanaSwap(swap, metadata))
       .filter(tx=>tx.from && tx.to && Number(tx.value||0)>0);
@@ -1754,6 +1891,7 @@ async function loadSolanaTransfers(isSilent=false){
       return;
     }
     state.transfers=dedupeTransfers(mappedTxs);
+    state.transferPage=1;
     refreshAddressLabels();
     state.lastTransferKeyNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">${note}</div>`;
     refreshTrackingViews();
@@ -1828,14 +1966,15 @@ async function loadTransfers(isSilent=false){
     // User has Moralis Key - use Moralis to fetch transfers
     if(!isSilent) el.innerHTML='<div class="loading"><div class="spinner"></div><p>Moralis API를 통해 전송 내역 로딩 중...</p></div>';
     try{
-      const url=`${CONFIG.MORALIS_API}/erc20/${state.currentContract}/transfers?chain=${explorer.moralisChain}&order=DESC&limit=100`;
-      const r=await fetch(url, { headers:{ 'X-API-Key': moralisKey } });
-      if(!r.ok){
-        if(r.status===401) throw new Error('유효하지 않은 Moralis API 키입니다.');
-        throw new Error(`Moralis API error: ${r.status}`);
-      }
-      const d=await r.json();
-      if(!d.result||d.result.length===0){
+      const url=`${CONFIG.MORALIS_API}/erc20/${state.currentContract}/transfers?chain=${explorer.moralisChain}&order=DESC`;
+      const items=await fetchMoralisPaginated(
+        url,
+        { 'X-API-Key': moralisKey },
+        CONFIG.FETCH_LIMITS.MORALIS_TOTAL,
+        CONFIG.FETCH_LIMITS.MORALIS_PAGE,
+        'Moralis API error'
+      );
+      if(!items.length){
         el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">전송 내역이 없습니다</p></div>`;
         state.transfers=[];
         state.analyzedWallets=[];
@@ -1850,10 +1989,11 @@ async function loadTransfers(isSilent=false){
         return;
       }
       // Convert Moralis format to our normalized transfer shape
-      const mappedTxs = d.result.map(mapMoralisTransfer);
+      const mappedTxs = items.map(mapMoralisTransfer);
       state.transfers=normalizeTransferList(mappedTxs);
+      state.transferPage=1;
       refreshAddressLabels();
-      state.lastTransferKeyNote='<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Moralis API로 전송내역 수신 완료</div>';
+      state.lastTransferKeyNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Moralis API로 전송내역 수신 완료 · 최근 ${state.transfers.length}건</div>`;
       refreshTrackingViews();
       return;
     }catch(e){
@@ -1874,17 +2014,14 @@ async function loadTransfers(isSilent=false){
   }
   if(!isSilent) el.innerHTML='<div class="loading"><div class="spinner"></div><p>전송 내역 로딩 중...</p></div>';
   try{
-    let url=`${CONFIG.ETHERSCAN_V2}?chainid=${explorer.chainId}&module=account&action=tokentx&contractaddress=${state.currentContract}&page=1&offset=200&sort=desc&apikey=${apiKey}`;
-    const r=await fetch(url);
-    const d=await r.json();
-    if(d.status!=='1'||!d.result){
-      const errMsg=d.message||d.result||'';
-      if(typeof errMsg==='string'&&errMsg.includes('rate limit')){
-        el.innerHTML='<div class="loading"><p style="color:var(--warning)">⏳ 속도 제한 — 10초 후 자동 재시도합니다</p></div>';
-        setTimeout(()=>loadTransfers(),10000);
-        return;
-      }
-      el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">${typeof errMsg==='string'?errMsg:'전송 내역이 없습니다'}</p></div>`;
+    const etherscanTxs=await fetchEtherscanTokenTransfersPaginated(
+      explorer,
+      apiKey,
+      CONFIG.FETCH_LIMITS.ETHERSCAN_TOTAL,
+      CONFIG.FETCH_LIMITS.ETHERSCAN_PAGE
+    );
+    if(!etherscanTxs.length){
+      el.innerHTML=`<div class="loading"><p style="color:var(--text-dim)">전송 내역이 없습니다</p></div>`;
       state.transfers=[];
       state.analyzedWallets=[];
       state.walletMap={};
@@ -1897,13 +2034,14 @@ async function loadTransfers(isSilent=false){
       renderAlertPanel();
       return;
     }
-    state.transfers=normalizeTransferList(d.result);
-    let transferNote='';
+    state.transfers=normalizeTransferList(etherscanTxs);
+    state.transferPage=1;
+    let transferNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18);font-size:.75rem;color:#7dd3fc">ℹ Etherscan 기준 최근 ${state.transfers.length}건을 분석합니다</div>`;
     if(moralisKey && explorer.moralisChain){
       const enrichment=await enrichTransfersWithMoralisLabels(state.transfers, explorer);
       state.transfers=enrichment.transfers;
       if(enrichment.enriched){
-        transferNote='<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Etherscan 전송내역 + Moralis 라벨 보강 적용</div>';
+        transferNote=`<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);font-size:.75rem;color:#10b981">✅ Etherscan 전송내역 + Moralis 라벨 보강 · 최근 ${state.transfers.length}건</div>`;
       }
     }
     refreshAddressLabels();
@@ -1911,7 +2049,12 @@ async function loadTransfers(isSilent=false){
     refreshTrackingViews();
   }catch(e){
     console.error(e);
-    el.innerHTML='<div class="loading"><p style="color:var(--danger)">전송 내역을 불러오지 못했습니다</p></div>';
+    const message=String(e?.message || '');
+    if(message.toLowerCase().includes('rate limit')){
+      el.innerHTML='<div class="loading"><p style="color:var(--warning)">조회 한도에 걸렸습니다. 잠시 후 다시 시도해주세요.</p></div>';
+      return;
+    }
+    el.innerHTML=`<div class="loading"><p style="color:var(--danger)">전송 내역을 불러오지 못했습니다<br><small>${escapeHtml(message || 'Unknown error')}</small></p></div>`;
   }
 }
 
@@ -1935,8 +2078,16 @@ function renderTransfers(txs, keyNote=''){
     });
   }
 
+  const pageSize=CONFIG.FETCH_LIMITS.TRANSFER_PAGE_SIZE;
+  const totalPages=Math.max(1, Math.ceil(displayedTxs.length / pageSize));
+  state.transferPage=clamp(state.transferPage||1, 1, totalPages);
+  const startIndex=(state.transferPage-1) * pageSize;
+  const pageTxs=displayedTxs.slice(startIndex, startIndex + pageSize);
+  const shownCount=pageTxs.length;
+  const pageStart=displayedTxs.length ? startIndex + 1 : 0;
+  const pageEnd=startIndex + shownCount;
   updateTransferFilterButtons();
-  document.getElementById('transferCount').textContent=`(최근 ${displayedTxs.length}건 / 전체 ${txs.length}건)`;
+  document.getElementById('transferCount').textContent=`(페이지 ${state.transferPage}/${totalPages} · 표시 ${pageStart}-${pageEnd} / 필터 ${displayedTxs.length}건 / 전체 ${txs.length}건)`;
 
   if(!displayedTxs.length){
     el.innerHTML=keyNote+`<div class="loading"><p style="color:var(--text-dim)">선택된 조건의 전송 내역이 없습니다</p></div>`;
@@ -1945,7 +2096,7 @@ function renderTransfers(txs, keyNote=''){
 
   el.innerHTML=keyNote+`<div class="table-wrap"><table class="transfer-table">
     <thead><tr><th>시간</th><th>From</th><th>To</th><th>수량</th><th>분류</th><th>신호</th></tr></thead>
-    <tbody>${displayedTxs.slice(0,100).map(tx=>{
+    <tbody>${pageTxs.map(tx=>{
       const amt=parseFloat(tx.value)/(Math.pow(10, decimals));
       const fromTag=renderAddressTag(tx.from);
       const toTag=renderAddressTag(tx.to);
@@ -1966,13 +2117,373 @@ function renderTransfers(txs, keyNote=''){
         <td>${renderFlowBadge(flow)}</td>
         <td><div class="transfer-signal-group">${signalBadges.join(' ') || '<span class="signal-empty">-</span>'}</div></td>
       </tr>`;
-    }).join('')}</tbody></table></div>`;
+    }).join('')}</tbody></table></div>${renderTransferPagination(totalPages, pageStart, pageEnd, displayedTxs.length)}`;
 }
 
 function setTransferFilter(mode) {
   state.transferFilter = mode;
+  state.transferPage = 1;
   updateTransferFilterButtons();
   if (state.transfers.length) renderTransfers(state.transfers, state.lastTransferKeyNote);
+}
+
+function setTransferPage(page) {
+  state.transferPage = Math.max(1, Number(page) || 1);
+  if (state.transfers.length) renderTransfers(state.transfers, state.lastTransferKeyNote);
+}
+
+function renderTransferPagination(totalPages, pageStart, pageEnd, filteredCount){
+  if(totalPages <= 1) return '';
+  const current=state.transferPage||1;
+  let start=Math.max(1, current - 2);
+  let end=Math.min(totalPages, start + 4);
+  start=Math.max(1, end - 4);
+  const pageButtons=[];
+  for(let p=start; p<=end; p++){
+    pageButtons.push(`<button class="pagination-btn ${p===current?'active':''}" onclick="setTransferPage(${p})">${p}</button>`);
+  }
+  return `<div class="pagination-bar">
+    <div class="pagination-info">${pageStart}-${pageEnd} / ${filteredCount}건</div>
+    <div class="pagination-controls">
+      <button class="pagination-btn" onclick="setTransferPage(${current-1})" ${current<=1?'disabled':''}>이전</button>
+      ${pageButtons.join('')}
+      <button class="pagination-btn" onclick="setTransferPage(${current+1})" ${current>=totalPages?'disabled':''}>다음</button>
+    </div>
+  </div>`;
+}
+
+function saveHistoryEvents(){
+  try{
+    localStorage.setItem('phantom_event_history', JSON.stringify(state.historyEvents.slice(0, CONFIG.FETCH_LIMITS.HISTORY_MAX)));
+  }catch(err){
+    console.warn('History save failed', err);
+  }
+}
+
+function mergeHistoryEvents(events){
+  if(!Array.isArray(events) || !events.length) return false;
+  const existing=new Set((state.historyEvents||[]).map(item=>item.key));
+  let added=false;
+  events.forEach(event=>{
+    if(!event?.key || existing.has(event.key)) return;
+    existing.add(event.key);
+    state.historyEvents.push(event);
+    added=true;
+  });
+  if(!added) return false;
+  state.historyEvents=state.historyEvents
+    .sort((a,b)=>new Date(b.savedAt||0).getTime()-new Date(a.savedAt||0).getTime())
+    .slice(0, CONFIG.FETCH_LIMITS.HISTORY_MAX);
+  saveHistoryEvents();
+  return true;
+}
+
+function captureHistoryEvents(){
+  if(!state.currentCoin || !state.currentContract || !state.transfers.length) return;
+  const context=getHistoryContext();
+  const price=getCoinPrice();
+  const decimals=state.transfers[0]?parseInt(state.transfers[0].tokenDecimal||'18'):18;
+  const walletMap=state.walletMap||{};
+  const pending=[];
+
+  state.transfers.forEach(tx=>{
+    const amt=parseFloat(tx.value||'0')/(10**decimals);
+    const usd=amt*price;
+    const flow=classifyTransfer(tx);
+    const fromWallet=walletMap[tx.from];
+    const toWallet=walletMap[tx.to];
+    const topScore=Math.max(fromWallet?.primaryScore||0, toWallet?.primaryScore||0);
+    const touchesRisk=topScore >= 60;
+    const isLarge=usd >= state.largeThreshold;
+    const isExchangeFlow=['exchange_deposit','exchange_withdrawal'].includes(flow.key);
+    if(!isLarge && !(isExchangeFlow && touchesRisk)) return;
+    pending.push({
+      ...context,
+      key:`transfer:${context.chain}:${context.contract}:${tx.hash}:${flow.key}:${isLarge?'large':'risk'}`,
+      category:'transfer',
+      badge:isExchangeFlow ? flow.label : '대량 이동',
+      tone:touchesRisk ? 'danger' : (flow.tone || 'warning'),
+      title:isExchangeFlow ? `${flow.label} 감지` : '대량 이동 감지',
+      description:`${shortAddr(tx.from)} → ${shortAddr(tx.to)} · ${formatNum(amt)} ${context.coinSymbol || 'TOKEN'}${usd ? ` (${formatUsd(usd)})` : ''}`,
+      savedAt:toUtcIso(tx.timeStamp),
+      amount:amt,
+      amountUsd:usd,
+      score:topScore || null,
+      targetWallet:(toWallet?.primaryScore||0) >= (fromWallet?.primaryScore||0) ? (toWallet?.addr || tx.to) : (fromWallet?.addr || tx.from),
+      targetTab:'transfers'
+    });
+  });
+
+  [...(state.analyzedWallets||[])]
+    .filter(wallet=>(wallet.primaryScore||0) >= 60)
+    .sort((a,b)=>(b.primaryScore||0)-(a.primaryScore||0) || (b.totalVol||0)-(a.totalVol||0))
+    .slice(0,12)
+    .forEach(wallet=>{
+    const tier=wallet.primaryScore >= 75 ? 'high' : 'watch';
+    pending.push({
+      ...context,
+      key:`wallet:${context.chain}:${context.contract}:${wallet.addr}:${wallet.primaryKind}:${tier}`,
+      category:'wallet',
+      badge:tier==='high' ? '고신뢰 지갑' : '주의 지갑',
+      tone:wallet.signalClass==='danger' ? 'danger' : wallet.signalClass==='warning' ? 'warning' : 'info',
+      title:`${wallet.primaryLabel} 감지`,
+      description:`${shortAddr(wallet.addr)} · 상대 ${wallet.counterpartyCount}곳 · 거래 ${wallet.txCount}건${wallet.primaryReasons?.length ? ` · ${wallet.primaryReasons.slice(0,2).join(' · ')}` : ''}`,
+      savedAt:toUtcIso(wallet.lastSeen),
+      amount:wallet.totalVol,
+      amountUsd:(wallet.sentUsd||0)+(wallet.receivedUsd||0),
+      score:wallet.primaryScore,
+      targetWallet:wallet.addr,
+      targetTab:'wallets'
+    });
+    });
+
+  Object.entries(state.funderGroups||{}).forEach(([source, members])=>{
+    const wallets=(members||[]).map(addr=>walletMap[addr]).filter(Boolean);
+    const suspicious=wallets.filter(wallet=>(wallet.primaryScore||0) >= 60);
+    if(suspicious.length < 2) return;
+    pending.push({
+      ...context,
+      key:`funder:${context.chain}:${context.contract}:${source}:${members.length}`,
+      category:'funder',
+      badge:'공통 자금원',
+      tone:suspicious.some(wallet=>(wallet.primaryScore||0) >= 75) ? 'danger' : 'warning',
+      title:'공통 자금원 지갑군 감지',
+      description:`${shortAddr(source)} 에서 출발한 지갑 ${members.length}개 중 ${suspicious.length}개가 의심 신호를 보였습니다.`,
+      savedAt:toUtcIso(Math.max(...suspicious.map(wallet=>wallet.lastSeen||0))),
+      score:Math.max(...suspicious.map(wallet=>wallet.primaryScore||0)),
+      targetWallet:suspicious[0]?.addr || null,
+      targetTab:'wallets'
+    });
+  });
+
+  (state.sessions||[]).slice(0,12).forEach(session=>{
+    if(session.clusterTouches >= 2 && session.txCount >= 4){
+      pending.push({
+        ...context,
+        key:`session:cluster:${context.chain}:${context.contract}:${session.start}:${state.sessionWindow}`,
+        category:'session',
+        badge:'군집 세션',
+        tone:'warning',
+        title:'군집 이동 세션 감지',
+        description:`${formatClock(session.start)} ~ ${formatClock(session.end)} · 거래 ${session.txCount}건 · 고유 주소 ${session.uniqueWallets}곳 · 군집 관여 ${session.clusterTouches}건`,
+        savedAt:toUtcIso(session.start),
+        amount:session.totalAmount,
+        amountUsd:session.totalUsd,
+        score:session.clusterTouches,
+        targetTab:'sessions'
+      });
+    }
+    if(session.exchangeDeposits >= 2 && session.suspiciousTouches >= 2){
+      pending.push({
+        ...context,
+        key:`session:exchange:${context.chain}:${context.contract}:${session.start}:${state.sessionWindow}`,
+        category:'session',
+        badge:'거래소 유입',
+        tone:'danger',
+        title:'의심 지갑 거래소 유입 세션',
+        description:`${formatClock(session.start)} ~ ${formatClock(session.end)} · 거래소 입금 ${session.exchangeDeposits}건 · 의심 관여 ${session.suspiciousTouches}건`,
+        savedAt:toUtcIso(session.start),
+        amount:session.totalAmount,
+        amountUsd:session.totalUsd,
+        score:session.suspiciousTouches,
+        targetTab:'sessions'
+      });
+    }
+  });
+
+  if(mergeHistoryEvents(pending)){
+    state.historyPage=1;
+  }
+}
+
+function setHistoryPage(page){
+  state.historyPage=Math.max(1, Number(page) || 1);
+  renderHistory();
+}
+
+function renderHistoryPagination(totalPages, pageStart, pageEnd, totalCount){
+  if(totalPages <= 1) return '';
+  const current=state.historyPage||1;
+  let start=Math.max(1, current - 2);
+  let end=Math.min(totalPages, start + 4);
+  start=Math.max(1, end - 4);
+  const buttons=[];
+  for(let p=start; p<=end; p++){
+    buttons.push(`<button class="pagination-btn ${p===current?'active':''}" onclick="setHistoryPage(${p})">${p}</button>`);
+  }
+  return `<div class="pagination-bar">
+    <div class="pagination-info">${pageStart}-${pageEnd} / ${totalCount}건</div>
+    <div class="pagination-controls">
+      <button class="pagination-btn" onclick="setHistoryPage(${current-1})" ${current<=1?'disabled':''}>이전</button>
+      ${buttons.join('')}
+      <button class="pagination-btn" onclick="setHistoryPage(${current+1})" ${current>=totalPages?'disabled':''}>다음</button>
+    </div>
+  </div>`;
+}
+
+function clearHistoryEvents(){
+  if(!confirm('저장된 감지 히스토리를 모두 삭제할까요?')) return;
+  state.historyEvents=[];
+  state.historyPage=1;
+  localStorage.removeItem('phantom_event_history');
+  renderHistory();
+  toast('감지 히스토리를 삭제했습니다','info');
+}
+
+function setHistoryScope(scope){
+  state.historyScope=scope || 'coin';
+  state.historyPage=1;
+  renderHistory();
+}
+
+function setHistoryType(type){
+  state.historyType=type || 'all';
+  state.historyPage=1;
+  renderHistory();
+}
+
+function setHistorySort(sort){
+  state.historySort=sort || 'latest';
+  state.historyPage=1;
+  renderHistory();
+}
+
+function getFilteredHistoryEvents(){
+  const events=[...(state.historyEvents||[])];
+  const effectiveScope=
+    state.historyScope==='coin' && state.currentContract ? 'coin' :
+    state.historyScope==='chain' && state.currentChain ? 'chain' :
+    'all';
+
+  let filtered=events.filter(event=>{
+    if(effectiveScope==='coin'){
+      return event.chain===state.currentChain && event.contract===state.currentContract;
+    }
+    if(effectiveScope==='chain'){
+      return event.chain===state.currentChain;
+    }
+    return true;
+  });
+
+  if(state.historyType !== 'all'){
+    filtered=filtered.filter(event=>event.category===state.historyType);
+  }
+
+  const amountValue=event=>Number(event.amountUsd || event.amount || 0);
+  const scoreValue=event=>Number(event.score || 0);
+  const timeValue=event=>new Date(event.savedAt||0).getTime();
+
+  if(state.historySort==='score'){
+    filtered.sort((a,b)=>scoreValue(b)-scoreValue(a) || timeValue(b)-timeValue(a));
+  }else if(state.historySort==='amount'){
+    filtered.sort((a,b)=>amountValue(b)-amountValue(a) || timeValue(b)-timeValue(a));
+  }else{
+    filtered.sort((a,b)=>timeValue(b)-timeValue(a));
+  }
+
+  return { filtered, effectiveScope };
+}
+
+function renderHistory(){
+  const el=document.getElementById('historyContent');
+  const countEl=document.getElementById('historyCount');
+  if(!el || !countEl) return;
+  const events=state.historyEvents||[];
+  const { filtered, effectiveScope }=getFilteredHistoryEvents();
+  const pageSize=CONFIG.FETCH_LIMITS.HISTORY_PAGE_SIZE;
+  const totalPages=Math.max(1, Math.ceil(filtered.length / pageSize));
+  state.historyPage=clamp(state.historyPage||1, 1, totalPages);
+  const startIndex=(state.historyPage-1) * pageSize;
+  const pageEvents=filtered.slice(startIndex, startIndex + pageSize);
+  const pageStart=filtered.length ? startIndex + 1 : 0;
+  const pageEnd=startIndex + pageEvents.length;
+  countEl.textContent=events.length
+    ? `(페이지 ${state.historyPage}/${totalPages} · ${pageStart}-${pageEnd} / 필터 ${filtered.length}건 / 저장 ${events.length}건)`
+    : '(저장 0건)';
+
+  if(!events.length){
+    el.innerHTML='<div class="history-empty">저장된 감지 이벤트가 없습니다.</div>';
+    return;
+  }
+
+  if(!filtered.length){
+    el.innerHTML=`<div class="history-toolbar">
+        <div class="history-toolbar-stack">
+          <div class="history-summary">현재 필터 조건에 맞는 저장 이벤트가 없습니다.</div>
+          <div class="history-toolbar-controls">
+          <button class="btn-sm" onclick="setHistoryScope('coin')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='coin'?'var(--primary)':'transparent'};color:${state.historyScope==='coin'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">현재 종목</button>
+          <button class="btn-sm" onclick="setHistoryScope('chain')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='chain'?'var(--primary)':'transparent'};color:${state.historyScope==='chain'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">현재 체인</button>
+          <button class="btn-sm" onclick="setHistoryScope('all')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='all'?'var(--primary)':'transparent'};color:${state.historyScope==='all'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">전체</button>
+          <select onchange="setHistoryType(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
+            <option value="all" ${state.historyType==='all'?'selected':''}>전체 이벤트</option>
+            <option value="transfer" ${state.historyType==='transfer'?'selected':''}>대량/거래소 흐름</option>
+            <option value="wallet" ${state.historyType==='wallet'?'selected':''}>의심 지갑</option>
+            <option value="funder" ${state.historyType==='funder'?'selected':''}>공통 자금원</option>
+            <option value="session" ${state.historyType==='session'?'selected':''}>세션</option>
+          </select>
+          <select onchange="setHistorySort(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
+            <option value="latest" ${state.historySort==='latest'?'selected':''}>최신순</option>
+            <option value="score" ${state.historySort==='score'?'selected':''}>점수순</option>
+            <option value="amount" ${state.historySort==='amount'?'selected':''}>금액순</option>
+          </select>
+        </div>
+        </div>
+      </div><div class="history-empty">현재 필터 조건과 일치하는 기록이 없습니다.</div>`;
+    return;
+  }
+
+  el.innerHTML=`<div class="history-toolbar">
+      <div class="history-summary">한 번 감지된 이벤트를 브라우저 로컬에 저장합니다. 현재 토큰 화면에서 밀려난 대량 이동/의심 신호도 여기서는 유지됩니다. 현재 범위: ${effectiveScope==='coin'?'현재 종목':effectiveScope==='chain'?'현재 체인':'전체'}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn-sm" onclick="setHistoryScope('coin')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='coin'?'var(--primary)':'transparent'};color:${state.historyScope==='coin'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">현재 종목</button>
+        <button class="btn-sm" onclick="setHistoryScope('chain')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='chain'?'var(--primary)':'transparent'};color:${state.historyScope==='chain'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">현재 체인</button>
+        <button class="btn-sm" onclick="setHistoryScope('all')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${state.historyScope==='all'?'var(--primary)':'transparent'};color:${state.historyScope==='all'?'#fff':'var(--text-muted)'};cursor:pointer;font-size:.75rem">전체</button>
+        <select onchange="setHistoryType(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
+          <option value="all" ${state.historyType==='all'?'selected':''}>전체 이벤트</option>
+          <option value="transfer" ${state.historyType==='transfer'?'selected':''}>대량/거래소 흐름</option>
+          <option value="wallet" ${state.historyType==='wallet'?'selected':''}>의심 지갑</option>
+          <option value="funder" ${state.historyType==='funder'?'selected':''}>공통 자금원</option>
+          <option value="session" ${state.historyType==='session'?'selected':''}>세션</option>
+        </select>
+        <select onchange="setHistorySort(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
+          <option value="latest" ${state.historySort==='latest'?'selected':''}>최신순</option>
+          <option value="score" ${state.historySort==='score'?'selected':''}>점수순</option>
+          <option value="amount" ${state.historySort==='amount'?'selected':''}>금액순</option>
+        </select>
+      </div>
+    </div>
+    <div class="history-list">${pageEvents.map(event=>{
+      const sameContext=event.chain===state.currentChain && event.contract===state.currentContract;
+      return `<div class="history-item">
+        <div class="history-item-top">
+          <div class="history-item-main">
+            <div class="history-item-title">${escapeHtml(event.title||'감지 이벤트')}</div>
+            <div class="history-item-sub">
+              <span>${escapeHtml(event.chainName||'-')}</span>
+              <span>${escapeHtml(event.coinSymbol || event.coinName || '-')}</span>
+              <span>${escapeHtml(shortAddr(event.contract || ''))}</span>
+            </div>
+          </div>
+          <div class="history-item-time">${escapeHtml(formatHistoryTime(event.savedAt))}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          ${renderFlowBadge({ label:event.badge || '감지', tone:event.tone || 'neutral' })}
+          ${event.score ? `<span class="meta-inline-chip">점수 ${escapeHtml(String(event.score))}</span>` : ''}
+          ${!sameContext ? '<span class="meta-inline-chip">현재 화면 외 토큰</span>' : ''}
+        </div>
+        <div class="history-item-meta">
+          ${Number.isFinite(event.amount) ? `<span class="meta-inline-chip">수량 ${escapeHtml(formatNum(event.amount))}</span>` : ''}
+          ${Number.isFinite(event.amountUsd) && event.amountUsd > 0 ? `<span class="meta-inline-chip">USD ${escapeHtml(formatUsd(event.amountUsd))}</span>` : ''}
+          ${event.targetWallet ? `<span class="meta-inline-chip">${escapeHtml(shortAddr(event.targetWallet))}</span>` : ''}
+        </div>
+        <div class="history-item-desc">${escapeHtml(event.description||'')}</div>
+        <div class="history-actions">
+          ${sameContext && event.targetWallet ? `<button onclick="viewWalletDetail('${event.targetWallet}')">지갑 보기</button>` : ''}
+          ${sameContext && event.targetTab ? `<button onclick="switchTab('${event.targetTab}')">관련 탭</button>` : ''}
+        </div>
+      </div>`;
+    }).join('')}</div>
+    ${renderHistoryPagination(totalPages, pageStart, pageEnd, filtered.length)}`;
 }
 
 function updateTransferFilterButtons(){
@@ -2771,10 +3282,24 @@ function removeWatchCoin(id){ state.watchCoins=state.watchCoins.filter(c=>c.id!=
 function removeWatchWallet(addr){ state.watchWallets=state.watchWallets.filter(w=>w.addr!==addr); localStorage.setItem('phantom_watch_wallets',JSON.stringify(state.watchWallets)); renderWatchlist(); toast('지갑 추적 해제','info'); }
 
 // ==================== TABS ====================
+function ensureHistoryTabButton(){
+  const tabsBar=document.getElementById('tabsBar');
+  if(!tabsBar || tabsBar.querySelector('[data-tab="history"]')) return;
+  const btn=document.createElement('button');
+  btn.className='tab-btn';
+  btn.dataset.tab='history';
+  btn.textContent='🗂 히스토리';
+  btn.setAttribute('onclick', "switchTab('history')");
+  const watchBtn=tabsBar.querySelector('[data-tab="watchlist"]');
+  if(watchBtn) tabsBar.insertBefore(btn, watchBtn);
+  else tabsBar.appendChild(btn);
+}
+
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active',t.id==='tab-'+name));
   if(name==='sessions') renderSessions();
+  if(name==='history') renderHistory();
 }
 
 // ==================== REFRESH ====================
@@ -2849,10 +3374,12 @@ function showLoading(){
 
 // ==================== INIT ====================
 (function init(){
+  ensureHistoryTabButton();
   renderWatchlist();
-  if(state.watchCoins.length > 0 || state.watchWallets.length > 0) {
+  renderHistory();
+  if(state.watchCoins.length > 0 || state.watchWallets.length > 0 || state.historyEvents.length > 0) {
     document.getElementById('tabsBar').style.display='flex';
-    switchTab('watchlist');
+    switchTab(state.historyEvents.length > 0 ? 'history' : 'watchlist');
   }
   // add bottom padding for refresh bar
   document.body.style.paddingBottom='50px';
