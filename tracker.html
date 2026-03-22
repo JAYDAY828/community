@@ -256,6 +256,31 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .history-actions button:hover{border-color:var(--primary);color:var(--primary)}
 .history-empty{text-align:center;padding:28px;color:var(--text-dim)}
 
+/* News feed */
+.news-toolbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.news-summary{font-size:.78rem;color:var(--text-dim);line-height:1.45}
+.news-links{display:flex;gap:8px;flex-wrap:wrap}
+.news-link-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);text-decoration:none;font-size:.75rem}
+.news-link-chip:hover{border-color:var(--primary);color:var(--primary)}
+.news-list{display:flex;flex-direction:column;gap:10px}
+.news-item{padding:14px 16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06)}
+.news-item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.news-item-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.news-item-title{font-size:.9rem;font-weight:700;line-height:1.4}
+.news-item-meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--text-dim);font-size:.76rem}
+.news-item-desc{margin-top:10px;font-size:.8rem;color:var(--text-muted);line-height:1.45}
+.news-item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.news-item-actions a{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem;text-decoration:none}
+.news-item-actions a:hover{border-color:var(--primary);color:var(--primary)}
+.news-item-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;border:1px solid rgba(99,102,241,0.25);background:rgba(99,102,241,0.1);color:var(--accent);font-size:.68rem;font-weight:600}
+.news-subsection{margin-top:14px}
+.news-subsection details{border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-sm);background:rgba(255,255,255,0.02);padding:0 14px}
+.news-subsection summary{cursor:pointer;list-style:none;padding:12px 0;font-size:.8rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.news-subsection summary::-webkit-details-marker{display:none}
+.news-subsection-body{padding:0 0 14px 0}
+.news-stats{font-size:.75rem;color:var(--text-dim)}
+.news-list-secondary .news-item{background:rgba(255,255,255,0.018)}
+
 /* DEX section */
 .dex-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .dex-pair-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-sm);padding:16px;transition:all .2s}
@@ -343,7 +368,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.7</small>
+        <small class="version-line">Tracker v1.0.8</small>
       </div>
     </div>
     <div class="header-actions">
@@ -387,6 +412,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
     <button class="tab-btn" data-tab="wallets" onclick="clearWalletDetail(); switchTab('wallets')">🔍 지갑분석</button>
     <button class="tab-btn" data-tab="sessions" onclick="switchTab('sessions')">🕒 세션</button>
     <button class="tab-btn" data-tab="dex" onclick="switchTab('dex')">📊 DEX</button>
+    <button class="tab-btn" data-tab="news" onclick="switchTab('news')">📰 뉴스피드</button>
     <button class="tab-btn" data-tab="watchlist" onclick="switchTab('watchlist')">⭐ 워치리스트</button>
   </div>
 
@@ -451,6 +477,19 @@ tr:hover td{background:rgba(99,102,241,0.04)}
     </div>
   </div>
 
+  <!-- Tab: News -->
+  <div class="tab-content" id="tab-news">
+    <div class="card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span>📰 뉴스피드 <span id="newsCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn-sm" onclick="loadNewsFeed(true)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">새로고침</button>
+        </div>
+      </div>
+      <div id="newsContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 관련 뉴스와 공식 링크가 표시됩니다</p></div></div>
+    </div>
+  </div>
+
   <!-- Tab: History -->
   <div class="tab-content" id="tab-history">
     <div class="card">
@@ -496,6 +535,11 @@ tr:hover td{background:rgba(99,102,241,0.04)}
               <small>🆓 BSC 등 전송 조회와 Etherscan 체인 라벨 보강에 사용됩니다 (<a href="https://admin.moralis.io/register" target="_blank" style="color:var(--accent)">moralis.io</a> 무료 발급)</small>
     </div>
     <div class="form-group">
+      <label>📰 GNews API Key <span style="color:var(--text-dim);font-weight:400">(뉴스피드 조회용)</span></label>
+      <input type="text" id="keyGnews" placeholder="선택 코인 관련 뉴스피드를 보려면 입력하세요">
+      <small>🆓 최근 이슈 기사 검색에 사용됩니다 (<a href="https://gnews.io/" target="_blank" style="color:var(--accent)">gnews.io</a>)</small>
+    </div>
+    <div class="form-group">
       <label>자동 새로고침 간격 (분)</label>
       <select id="refreshInterval">
         <option value="3">3분</option>
@@ -535,13 +579,14 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.7';
+const APP_VERSION = 'Tracker v1.0.8';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
   ETHERSCAN_V2: 'https://api.etherscan.io/v2/api',
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
   MORALIS_SOLANA_API: 'https://solana-gateway.moralis.io',
+  GNEWS_API: 'https://gnews.io/api/v4',
   EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
@@ -588,6 +633,7 @@ const CONFIG = {
     SOLANA_TOKEN_TOTAL: 300,
     SOLANA_PAIR_TOTAL: 100,
     SOLANA_WALLET_TOTAL: 200,
+    NEWS_MAX: 10,
     HISTORY_PAGE_SIZE: 25,
     HISTORY_MAX: 500
   }
@@ -607,10 +653,17 @@ const state = {
   watchWallets: JSON.parse(localStorage.getItem('phantom_watch_wallets') || '[]'),
   etherscanKey: localStorage.getItem('phantom_etherscan_key') || '',
   moralisKey: localStorage.getItem('phantom_moralis_key') || '',
+  gnewsKey: localStorage.getItem('phantom_gnews_key') || '',
   refreshInterval: parseInt(localStorage.getItem('phantom_refresh') || CONFIG.REFRESH_DEFAULT),
   largeThreshold: parseInt(localStorage.getItem('phantom_threshold') || CONFIG.LARGE_TX_DEFAULT),
   transferFilter: 'all',
   transferPage: 1,
+  newsItems: [],
+  newsCandidateItems: [],
+  newsQuery: '',
+  newsWindowLabel: '',
+  newsStatusMessage: '',
+  newsRejectedCount: 0,
   historyEvents: readStorageJson('phantom_event_history', []).filter(item=>item && item.key),
   historyPage: 1,
   historyScope: 'coin',
@@ -690,6 +743,212 @@ function buildTransferNote(message, tone='info'){
   const statsText=formatTransferStats();
   const noteText=statsText ? `${message} · ${statsText}` : message;
   return `<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:${palette.bg};border:1px solid ${palette.border};font-size:.75rem;color:${palette.color}">${noteText}</div>`;
+}
+function sanitizeNewsTerm(value){
+  return String(value||'').replace(/"/g,'').trim();
+}
+function escapeRegExp(value){
+  return String(value||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+}
+function hasExactPhrase(text, phrase){
+  const source=String(text||'').toLowerCase();
+  const target=String(phrase||'').toLowerCase().trim();
+  if(!source || !target) return false;
+  const spaced=escapeRegExp(target).replace(/\s+/g,'\\s+');
+  return new RegExp(`\\b${spaced}\\b`,'i').test(source);
+}
+function extractHostname(value){
+  try{
+    return new URL(String(value||'').trim()).hostname.replace(/^www\./,'').toLowerCase();
+  }catch{
+    return '';
+  }
+}
+function buildNewsContextTerms(coin){
+  const terms=['crypto','token','blockchain','exchange','listing','defi','protocol','network'];
+  const chainMap={
+    'ethereum':'ethereum',
+    'binance-smart-chain':'bnb chain',
+    'arbitrum-one':'arbitrum',
+    'base':'base',
+    'polygon-pos':'polygon',
+    'avalanche':'avalanche',
+    'optimistic-ethereum':'optimism',
+    'solana':'solana'
+  };
+  if(state.currentChain && chainMap[state.currentChain]) terms.push(chainMap[state.currentChain]);
+  const genericCategoryTerms=new Set([
+    'cryptocurrency','cryptocurrencies','smart contract platform','smart contract platforms',
+    'layer 1','layer 2','ecosystem','ecosystems','tokens','coin','coins','blockchain infrastructure'
+  ]);
+  const categoryTerms=(coin?.categories||[])
+    .map(item=>sanitizeNewsTerm(item).toLowerCase().replace(/\s+/g,' ').trim())
+    .filter(item=>item && item.length>=4 && item.length<=28 && !genericCategoryTerms.has(item))
+    .slice(0,2);
+  return [...new Set([...terms, ...categoryTerms])];
+}
+function buildNewsIdentity(coin){
+  const links=coin?.links||{};
+  const name=sanitizeNewsTerm(coin?.name||'');
+  const symbol=sanitizeNewsTerm(String(coin?.symbol||'').toUpperCase());
+  const twitter=sanitizeNewsTerm(String(links.twitter_screen_name||'').replace(/^@+/,''));
+  const officialDomains=[...(links.homepage||[]), ...(links.announcement_url||[]), ...(links.official_forum_url||[])]
+    .map(extractHostname)
+    .filter(Boolean);
+  const nameTokens=name
+    .toLowerCase()
+    .split(/[^a-z0-9]+/i)
+    .map(token=>token.trim())
+    .filter(token=>token.length>=3);
+  return {
+    name,
+    nameLower:name.toLowerCase(),
+    symbol,
+    symbolLower:symbol.toLowerCase(),
+    twitter,
+    twitterLower:twitter.toLowerCase(),
+    officialDomains:[...new Set(officialDomains)],
+    nameTokens,
+    hasMultiWordName:nameTokens.length>=2,
+    genericNameRisk:nameTokens.length<=1 && name.toLowerCase().length>0 && name.toLowerCase().length<=6,
+    genericSymbolRisk:symbol.toLowerCase().length>0 && symbol.toLowerCase().length<=4
+  };
+}
+function getOfficialIssueLinks(){
+  const links=state.currentCoin?.links||{};
+  const homepage=(links.homepage||[]).find(Boolean);
+  const announcement=(links.announcement_url||[]).find(Boolean) || (links.official_forum_url||[]).find(Boolean);
+  const twitterHandle=String(links.twitter_screen_name||'').replace(/^@+/,'').trim();
+  const result=[];
+  if(homepage) result.push({ label:'공식 사이트', url:homepage });
+  if(twitterHandle) result.push({ label:'공식 X', url:`https://x.com/${twitterHandle}` });
+  if(announcement) result.push({ label:'공지', url:announcement });
+  return result;
+}
+function buildNewsQuery(coin){
+  if(!coin) return '';
+  const identity=buildNewsIdentity(coin);
+  const contextTerms=buildNewsContextTerms(coin);
+  const identityTerms=[];
+  if(identity.name) identityTerms.push(`"${identity.name}"`);
+  if(identity.twitter && identity.twitterLower!==identity.nameLower) identityTerms.push(`"${identity.twitter}"`);
+  const symbolAlreadyInName=identity.nameTokens.includes(identity.symbolLower);
+  const canUseSymbol=identity.symbol && identity.symbol.length>=3 && identity.symbol.length<=8 && !/^\d+$/.test(identity.symbol) && !(identity.hasMultiWordName && symbolAlreadyInName);
+  if(canUseSymbol) identityTerms.push(`"${identity.symbol}"`);
+  if(!identityTerms.length) return '';
+  return `(${identityTerms.join(' OR ')}) AND (${contextTerms.map(term=>`"${term}"`).join(' OR ')})`;
+}
+function getNewsRelevance(article, coin){
+  const identity=buildNewsIdentity(coin);
+  const contextTerms=buildNewsContextTerms(coin);
+  const title=String(article?.title||'');
+  const description=String(article?.description||'');
+  const sourceName=String(article?.source?.name||'');
+  const articleUrl=String(article?.url||'');
+  const titleLower=title.toLowerCase();
+  const haystack=`${title} ${description}`.toLowerCase();
+  const sourceText=`${sourceName} ${articleUrl}`.toLowerCase();
+  const articleHost=extractHostname(articleUrl);
+  const hasOfficialDomain=!!(articleHost && identity.officialDomains.some(domain=>articleHost===domain || articleHost.endsWith(`.${domain}`)));
+  const positiveContext=/\b(crypto|token|blockchain|exchange|listing|defi|protocol|network|mainnet|staking|validator|wallet|trading|futures|spot|etf|airdrop|partnership|unlock|launch)\b/i.test(haystack);
+  const negativeContext=/\b(football|soccer|premier league|transfer window|young talents|river plate|chelsea|sports illustrated|yardbarker|nba|nfl|mlb)\b/i.test(haystack + ' ' + sourceText);
+  const promotionalContext=/\b(presale|pre-sale|next crypto to explode|early stage pricing|claims the top spot|top spot|100x|1000x|moonshot|moon shot|best crypto to buy|price prediction|bitcoin price news)\b/i.test(haystack);
+  const genericMarketContext=/\b(how to buy crypto|crypto news march|crypto market|market outlook|altcoin season|top cryptos|bull run|bear market|stall and|gains|bigger upside)\b/i.test(haystack);
+  const pressReleaseContext=/\b(globe newswire|press release|sponsored)\b/i.test(haystack + ' ' + sourceText);
+  const lowQualitySource=/\b(techbullion|yardbarker)\b/i.test(sourceText);
+  const titlePositiveContext=/\b(crypto|token|blockchain|exchange|listing|defi|protocol|network|mainnet|staking|validator|wallet|trading|futures|spot|etf|airdrop|partnership|unlock|launch|hack|exploit|approval|sec|cftc|upgrade|whale|burn rate|commodity|reserve)\b/i.test(titleLower);
+  const contextHits=contextTerms.filter(term=>hasExactPhrase(haystack, term)).length;
+  let score=0;
+  let identityHits=0;
+  let titleIdentityHits=0;
+
+  if(identity.nameLower && hasExactPhrase(haystack, identity.nameLower)){
+    score+=6;
+    identityHits++;
+    if(hasExactPhrase(titleLower, identity.nameLower)) titleIdentityHits++;
+  }else if(identity.nameTokens.length>=2 && identity.nameTokens.every(token=>hasExactPhrase(haystack, token))){
+    score+=4;
+    identityHits++;
+    if(identity.nameTokens.every(token=>hasExactPhrase(titleLower, token))) titleIdentityHits++;
+  }
+
+  if(identity.symbolLower && identity.symbolLower.length>=3){
+    const symbolRegex=new RegExp(`\\b${escapeRegExp(identity.symbolLower)}\\b`,'i');
+    if(symbolRegex.test(haystack)){
+      score+=2;
+      identityHits++;
+      if(symbolRegex.test(titleLower)) titleIdentityHits++;
+    }
+  }
+
+  if(identity.twitterLower && hasExactPhrase(haystack, identity.twitterLower)){
+    score+=4;
+    identityHits++;
+    if(hasExactPhrase(titleLower, identity.twitterLower)) titleIdentityHits++;
+  }
+
+  if(hasOfficialDomain){
+    score+=6;
+    identityHits++;
+    titleIdentityHits++;
+  }
+
+  if(positiveContext) score+=3;
+  if(titlePositiveContext) score+=2;
+  if(contextHits>=2) score+=2;
+  if(promotionalContext) score-=6;
+  if(negativeContext) score-=8;
+  if(genericMarketContext) score-=3;
+  if(pressReleaseContext) score-=3;
+  if(lowQualitySource) score-=4;
+  if(titleIdentityHits===0 && identityHits>0) score-=3;
+
+  const needsStrongDisambiguation=identity.genericNameRisk || identity.genericSymbolRisk || identity.hasMultiWordName;
+  const hasNamedIdentity=(identity.twitterLower && hasExactPhrase(haystack, identity.twitterLower)) || (identity.nameLower && hasExactPhrase(haystack, identity.nameLower)) || (identity.nameTokens.length>=2 && identity.nameTokens.every(token=>hasExactPhrase(haystack, token)));
+  const hasStrongIdentity=hasOfficialDomain || hasNamedIdentity;
+  const titleHasStrongIdentity=titleIdentityHits>0 || hasOfficialDomain;
+
+  let hardReject=false;
+  if(identityHits===0) hardReject=true;
+  if(negativeContext && !hasOfficialDomain) hardReject=true;
+  if(promotionalContext && !hasOfficialDomain) hardReject=true;
+  if(lowQualitySource && !hasOfficialDomain) hardReject=true;
+  if(pressReleaseContext && !hasOfficialDomain) hardReject=true;
+  if(titleIdentityHits===0 && !hasOfficialDomain && (genericMarketContext || lowQualitySource || contextHits<2)) hardReject=true;
+  if(!hasOfficialDomain && identityHits>0 && titleIdentityHits===0 && (!titlePositiveContext || contextHits<2)) hardReject=true;
+  if(needsStrongDisambiguation && (!positiveContext || !hasStrongIdentity) && !hasOfficialDomain) hardReject=true;
+  if(needsStrongDisambiguation && !titleHasStrongIdentity) hardReject=true;
+  if(identity.genericSymbolRisk && titleIdentityHits>0 && !titlePositiveContext && !hasOfficialDomain) hardReject=true;
+  if(!positiveContext && !hasOfficialDomain) score-=3;
+
+  return {
+    score:Math.max(0, score),
+    hardReject,
+    positiveContext,
+    hasOfficialDomain,
+    hasStrongIdentity,
+    titleIdentityHits,
+    contextHits
+  };
+}
+function mergeNewsArticles(primary, fallback){
+  const byUrl=new Map();
+  [...primary, ...fallback].forEach(article=>{
+    const key=String(article?.url||'').trim();
+    if(key && !byUrl.has(key)) byUrl.set(key, article);
+  });
+  return [...byUrl.values()];
+}
+async function fetchGNewsSearch(query, options={}){
+  const url=new URL(`${CONFIG.GNEWS_API}/search`);
+  url.searchParams.set('q', query);
+  url.searchParams.set('max', String(options.max || CONFIG.FETCH_LIMITS.NEWS_MAX));
+  url.searchParams.set('in', 'title,description');
+  url.searchParams.set('sortby', options.sortby || 'publishedAt');
+  url.searchParams.set('apikey', state.gnewsKey);
+  if(options.from) url.searchParams.set('from', options.from);
+  const data=await fetchExternalJson(url.toString(), 'GNews');
+  return Array.isArray(data?.articles) ? data.articles : [];
 }
 function median(nums){
   const arr=(nums||[]).filter(n=>Number.isFinite(n)).sort((a,b)=>a-b);
@@ -1481,7 +1740,7 @@ async function selectCoin(coinId){
     document.getElementById('coinPanel').classList.add('active');
     document.getElementById('tabsBar').style.display='flex';
     // load extras
-    await Promise.allSettled([loadDexData(), loadTransfers()]);
+    await Promise.allSettled([loadDexData(), loadTransfers(), loadNewsFeed()]);
     startRefreshTimer();
   }catch(e){
     console.error(e);
@@ -1544,7 +1803,7 @@ async function switchChain(chain){
   state.currentChain=chain;
   state.currentContract=state.allPlatforms[chain];
   if(state.currentCoin) renderCoinPanel(state.currentCoin);
-  await Promise.allSettled([loadDexData(), loadTransfers()]);
+  await Promise.allSettled([loadDexData(), loadTransfers(), loadNewsFeed(true)]);
 }
 
 function isFut(t){
@@ -1556,6 +1815,22 @@ function isFut(t){
 function getTickerBaseFromCoinGecko(tickers, predicate, fallback){
   const match=(tickers||[]).find(t=>t.market&&predicate(t.market.identifier)&&isFut(t)&&t.base);
   return (match?.base||fallback||'').toUpperCase();
+}
+
+function getKuCoinBaseSymbol(symbolUpper){
+  const map={
+    BTC:'XBT'
+  };
+  return map[symbolUpper] || symbolUpper;
+}
+
+function getKuCoinSpotSymbol(symbolUpper){
+  return symbolUpper ? `${symbolUpper}-USDT` : '';
+}
+
+function getKuCoinFuturesSymbol(symbolUpper){
+  const base=getKuCoinBaseSymbol(symbolUpper);
+  return base ? `${base}USDTM` : '';
 }
 
 function getExchangeOiSourceNote(intel){
@@ -1607,11 +1882,12 @@ function getExchangeProxyUrl(targetUrl){
   return base ? `${base}/proxy?url=${encodeURIComponent(targetUrl)}` : targetUrl;
 }
 
-async function fetchExchangeJson(targetUrl){
+async function fetchExternalJson(targetUrl, label='External'){
   const candidates=[];
   if(CONFIG.EXCHANGE_PROXY) candidates.push(getExchangeProxyUrl(targetUrl));
   candidates.push(targetUrl);
   let lastError=null;
+  let proxyHostError=null;
 
   for(const candidate of candidates){
     try{
@@ -1623,10 +1899,16 @@ async function fetchExchangeJson(targetUrl){
       return await r.json();
     }catch(err){
       lastError=err;
-      console.warn('Exchange fetch failed:', candidate, err);
+      if(String(err?.message || '').includes('Host not allowed')) proxyHostError=err;
+      console.warn(`${label} fetch failed:`, candidate, err);
     }
   }
-  throw lastError || new Error('Exchange fetch failed');
+  if(lastError && String(lastError.message||'').includes(' status ')) throw lastError;
+  throw proxyHostError || lastError || new Error(`${label} fetch failed`);
+}
+
+async function fetchExchangeJson(targetUrl){
+  return fetchExternalJson(targetUrl, 'Exchange');
 }
 
 async function fetchExchangeOi(exchangeKey, ex){
@@ -1696,6 +1978,18 @@ async function fetchExchangeOi(exchangeKey, ex){
         rawOiText: `${compactNum(raw)} contracts`
       };
     }
+    case 'kucoin': {
+      const d=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${ex.futuresSymbol}`);
+      const item=d.data||{};
+      const rawContracts=parseFloat(item.openInterest||'0');
+      const multiplier=parseFloat(item.multiplier||'1');
+      const markPrice=parseFloat(item.markPrice||price||'0');
+      const baseAmount=rawContracts * multiplier;
+      return {
+        oiUsd: baseAmount * markPrice,
+        rawOiText: `${compactNum(baseAmount)} ${ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
+      };
+    }
     default:
       return { oiUsd: null, rawOiText: '지원 준비 중' };
   }
@@ -1704,12 +1998,16 @@ async function fetchExchangeOi(exchangeKey, ex){
 async function checkExchangeListings(tickers, sysSymbol){
   const requestId=++state.exchangeRequestId;
   const symbolUpper=(sysSymbol||'').toUpperCase();
+  const kucoinSpotSymbol=getKuCoinSpotSymbol(symbolUpper);
+  const kucoinBaseSymbol=getKuCoinBaseSymbol(symbolUpper);
+  const kucoinFuturesSymbol=getKuCoinFuturesSymbol(symbolUpper);
   const intel={
     binance:{ key:'binance', name:'Binance', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='binance'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('binance_future')||t.market.identifier.includes('binance_perpetual')||(t.market.identifier==='binance'&&isFut(t)))), futuresSymbol:`${symbolUpper}USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('binance'),symbolUpper), oiStatus:'idle' },
     bybit:{ key:'bybit', name:'Bybit', spot:(tickers||[]).some(t=>t.market&&(t.market.identifier==='bybit_spot'||(t.market.identifier==='bybit'&&!isFut(t)))), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('bybit_perpetual')||t.market.identifier.includes('bybit_future')||(t.market.identifier==='bybit'&&isFut(t)))), futuresSymbol:`${symbolUpper}USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('bybit'),symbolUpper), oiStatus:'idle' },
     okx:{ key:'okx', name:'OKX', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='okex'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('okex_swap')||t.market.identifier.includes('okex_perpetual')||(t.market.identifier==='okex'&&isFut(t)))), futuresSymbol:`${symbolUpper}-USDT-SWAP`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('okex'),symbolUpper), oiStatus:'idle' },
     bitget:{ key:'bitget', name:'Bitget', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='bitget'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('bitget_future')||t.market.identifier.includes('bitget_perpetual')||(t.market.identifier==='bitget'&&isFut(t)))), futuresSymbol:`${symbolUpper}USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('bitget'),symbolUpper), oiStatus:'idle' },
     gate:{ key:'gate', name:'Gate.io', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='gate'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('gate_future')||t.market.identifier.includes('gate_perpetual')||(t.market.identifier==='gate'&&isFut(t)))), futuresSymbol:`${symbolUpper}_USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('gate'),symbolUpper), oiStatus:'idle' },
+    kucoin:{ key:'kucoin', name:'KuCoin', spot:(tickers||[]).some(t=>t.market&&String(t.market.identifier||'').includes('kucoin')&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&String(t.market.identifier||'').includes('kucoin')&&isFut(t)), spotSymbol:kucoinSpotSymbol, futuresSymbol:kucoinFuturesSymbol, baseSymbol:kucoinBaseSymbol, displaySymbol:symbolUpper, oiStatus:'idle' },
     mexc:{ key:'mexc', name:'MEXC', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='mxc'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('mxc_future')||t.market.identifier.includes('mxc_perpetual')||(t.market.identifier==='mxc'&&isFut(t)))), futuresSymbol:`${symbolUpper}_USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('mxc'),symbolUpper), oiStatus:'idle' },
     upbit:{ key:'upbit', name:'Upbit', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='upbit'), futures:false, showFutures:false, oiStatus:'idle' },
     coinbase:{ key:'coinbase', name:'Coinbase', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='gdax'), futures:false, showFutures:false, oiStatus:'idle' }
@@ -1722,6 +2020,8 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.binance.futures) checks.push(fetchExchangeJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
   if(!intel.okx.futures) checks.push(fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`).then(d=>{ if(d.data?.length) intel.okx.futures=true; }).catch(()=>null));
   if(!intel.bybit.futures) checks.push(fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
+  if(!intel.kucoin.spot) checks.push(fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.spot=true; }).catch(()=>null));
+  if(!intel.kucoin.futures) checks.push(fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.futures=true; }).catch(()=>null));
   if(!intel.upbit.spot) checks.push(fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
@@ -1816,6 +2116,173 @@ function renderDex(pairs){
       ${p.url?`<a href="${p.url}" target="_blank" style="display:inline-block;margin-top:10px;font-size:.75rem;color:var(--accent);text-decoration:none">🔗 차트 보기 →</a>`:''}
     </div>`;
   }).join('')+'</div>';
+}
+
+// ==================== NEWS FEED ====================
+function renderNewsItems(items, options={}){
+  const showCandidateBadge=!!options.candidate;
+  return (items||[]).map(item=>`
+      <div class="news-item">
+        <div class="news-item-top">
+          <div class="news-item-main">
+            <div class="news-item-title">${escapeHtml(item.title || '관련 기사')}</div>
+            <div class="news-item-meta">
+              <span>${escapeHtml(item.source?.name || 'Unknown Source')}</span>
+              <span>${escapeHtml(formatHistoryTime(item.publishedAt))}</span>
+            </div>
+          </div>
+          ${showCandidateBadge ? '<span class="news-item-badge">후보 기사</span>' : ''}
+        </div>
+        ${item.description ? `<div class="news-item-desc">${escapeHtml(item.description)}</div>` : ''}
+        <div class="news-item-actions">
+          <a href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer">원문 보기</a>
+          ${item.source?.url ? `<a href="${escapeHtml(item.source.url)}" target="_blank" rel="noopener noreferrer">출처</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+}
+function renderNewsFeed(){
+  const el=document.getElementById('newsContent');
+  const countEl=document.getElementById('newsCount');
+  if(!el || !countEl) return;
+  if(!state.currentCoin){
+    countEl.textContent='';
+    el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 관련 뉴스와 공식 링크가 표시됩니다</p></div>';
+    return;
+  }
+  const officialLinks=getOfficialIssueLinks();
+  const linksHtml=officialLinks.length
+    ? `<div class="news-links">${officialLinks.map(link=>`<a class="news-link-chip" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`).join('')}</div>`
+    : '';
+  const summaryText=state.newsStatusMessage || '최근 움직임 원인 파악용 기사만 간단히 표시합니다.';
+  const primaryCount=state.newsItems.length;
+  const candidateCount=(state.newsCandidateItems||[]).length;
+  const rejectedCount=state.newsRejectedCount||0;
+  countEl.textContent=(primaryCount || candidateCount || rejectedCount)
+    ? `(${primaryCount}건 핵심${candidateCount ? ` · 후보 ${candidateCount}건` : ''}${rejectedCount ? ` · 제외 ${rejectedCount}건` : ''}${state.newsWindowLabel ? ` · ${state.newsWindowLabel}` : ''})`
+    : '';
+
+  if(!state.gnewsKey){
+    el.innerHTML=`<div class="news-toolbar">
+      <div class="news-summary">GNews API 키를 입력하면 선택한 코인의 최근 뉴스와 이슈를 표시합니다. 키가 없어도 아래 공식 링크는 바로 확인할 수 있습니다.</div>
+      ${linksHtml}
+    </div>
+    <div class="history-empty">설정에서 GNews API Key를 입력하면 뉴스피드가 활성화됩니다.</div>`;
+    return;
+  }
+
+  const candidateSection=candidateCount ? `
+    <div class="news-subsection">
+      <details>
+        <summary>
+          <span>후보 기사 ${candidateCount}건</span>
+          <span class="news-stats">${rejectedCount ? `제외 ${rejectedCount}건` : '엄격 필터에서 제외된 기사'}</span>
+        </summary>
+        <div class="news-subsection-body">
+          <div class="news-list news-list-secondary">${renderNewsItems(state.newsCandidateItems, { candidate:true })}</div>
+        </div>
+      </details>
+    </div>` : '';
+
+  if(!primaryCount){
+    el.innerHTML=`<div class="news-toolbar">
+      <div class="news-summary">${escapeHtml(summaryText)}</div>
+      ${linksHtml}
+    </div>
+    <div class="history-empty">현재 조건에서 바로 연결되는 뉴스가 없습니다.</div>
+    ${candidateSection}`;
+    return;
+  }
+
+  el.innerHTML=`<div class="news-toolbar">
+      <div class="news-summary">${escapeHtml(summaryText)}</div>
+      ${linksHtml}
+    </div>
+    <div class="news-list">${renderNewsItems(state.newsItems)}</div>
+    ${candidateSection}`;
+}
+
+async function loadNewsFeed(isSilent=false){
+  const el=document.getElementById('newsContent');
+  state.newsItems=[];
+  state.newsCandidateItems=[];
+  state.newsQuery='';
+  state.newsWindowLabel='';
+  state.newsStatusMessage='';
+  state.newsRejectedCount=0;
+  if(!state.currentCoin){
+    renderNewsFeed();
+    return;
+  }
+  if(!state.gnewsKey){
+    state.newsStatusMessage='GNews API 키를 입력하면 선택 코인의 최근 이슈를 불러옵니다.';
+    renderNewsFeed();
+    return;
+  }
+  const query=buildNewsQuery(state.currentCoin);
+  state.newsQuery=query;
+  if(!query){
+    state.newsStatusMessage='이 코인은 뉴스 검색어를 만들기 어려워 공식 링크만 표시합니다.';
+    renderNewsFeed();
+    return;
+  }
+  if(!isSilent && el){
+    el.innerHTML='<div class="loading"><div class="spinner"></div><p>관련 뉴스와 이슈를 불러오는 중...</p></div>';
+  }
+  try{
+    const now=Date.now();
+    const from24h=new Date(now - 24*60*60*1000).toISOString();
+    const from7d=new Date(now - 7*24*60*60*1000).toISOString();
+    const primary=await fetchGNewsSearch(query, { from: from24h, max: CONFIG.FETCH_LIMITS.NEWS_MAX, sortby:'publishedAt' });
+    let windowLabel='최근 24시간';
+    let merged=primary;
+    if(primary.length < 4){
+      const fallback=await fetchGNewsSearch(query, { from: from7d, max: CONFIG.FETCH_LIMITS.NEWS_MAX, sortby:'publishedAt' });
+      merged=mergeNewsArticles(primary, fallback);
+      windowLabel='최근 24시간 + 7일 보강';
+    }
+    const ranked=merged
+      .map(item=>{
+        const newsMeta=getNewsRelevance(item, state.currentCoin);
+        return { ...item, newsMeta, relevance:newsMeta.score };
+      })
+      .sort((a,b)=>(b.relevance-a.relevance) || (new Date(b.publishedAt||0) - new Date(a.publishedAt||0)));
+    let filtered=ranked.filter(item=>!item.newsMeta.hardReject && item.relevance >= 8);
+    if(filtered.length < 4) filtered=ranked.filter(item=>!item.newsMeta.hardReject && item.relevance >= 6);
+    if(filtered.length < 3) filtered=ranked.filter(item=>!item.newsMeta.hardReject && item.relevance >= 5 && (item.newsMeta.positiveContext || item.newsMeta.hasOfficialDomain));
+    state.newsItems=filtered.slice(0, CONFIG.FETCH_LIMITS.NEWS_MAX);
+    const primaryKeys=new Set(state.newsItems.map(item=>String(item?.url||'').trim()).filter(Boolean));
+    const candidatePool=ranked.filter(item=>{
+      const key=String(item?.url||'').trim();
+      if(!key || primaryKeys.has(key)) return false;
+      if(item.newsMeta.hardReject) return false;
+      if(item.relevance < 3) return false;
+      return item.newsMeta.titleIdentityHits>0 || item.newsMeta.contextHits>=2 || item.newsMeta.positiveContext || item.newsMeta.hasOfficialDomain;
+    });
+    state.newsCandidateItems=candidatePool.slice(0, 5);
+    state.newsRejectedCount=Math.max(0, ranked.length - state.newsItems.length - state.newsCandidateItems.length);
+    state.newsWindowLabel=windowLabel;
+    state.newsStatusMessage=state.newsItems.length
+      ? `최근 움직임 원인 파악용 기사입니다. 24시간을 우선 조회하고, 부족하면 7일 범위로 보강합니다.`
+      : state.newsCandidateItems.length
+        ? '직접 연결되는 핵심 기사는 없지만, 후보 기사와 제외 건수를 함께 확인할 수 있습니다.'
+        : '동명이인·저품질 기사·비암호화 문맥을 제외한 뒤 직접 연결되는 뉴스가 없었습니다. 공식 링크만 확인할 수 있습니다.';
+  }catch(err){
+    console.error(err);
+    state.newsItems=[];
+    state.newsCandidateItems=[];
+    state.newsWindowLabel='';
+    state.newsRejectedCount=0;
+    const message=String(err?.message || 'Unknown error');
+    if(message.includes('Host not allowed: gnews.io')){
+      state.newsStatusMessage='뉴스를 불러오지 못했습니다. Cloudflare Worker 허용 호스트에 gnews.io 추가가 필요합니다.';
+    }else if(message.includes('Failed to fetch')){
+      state.newsStatusMessage='뉴스를 불러오지 못했습니다. 현재 호스팅 환경에서 GNews 직접 호출이 차단될 수 있어 Worker 경유가 필요합니다.';
+    }else{
+      state.newsStatusMessage=`뉴스를 불러오지 못했습니다: ${message}`;
+    }
+  }
+  renderNewsFeed();
 }
 
 // ==================== API: Block Explorer ====================
@@ -3346,6 +3813,7 @@ function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active',t.id==='tab-'+name));
   if(name==='sessions') renderSessions();
+  if(name==='news') renderNewsFeed();
   if(name==='history') renderHistory();
 }
 
@@ -3375,7 +3843,7 @@ function togglePause(){
 async function refreshData(){
   if(!state.currentCoin) return;
   toast('🔄 데이터 새로고침 중...','info');
-  await Promise.allSettled([loadDexData(true), loadTransfers(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')]);
+  await Promise.allSettled([loadDexData(true), loadTransfers(true), loadNewsFeed(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')]);
   toast('✅ 새로고침 완료!','success');
 }
 
@@ -3384,6 +3852,7 @@ function openSettings(){
   document.getElementById('settingsModal').classList.add('active');
   document.getElementById('keyEtherscan').value=state.etherscanKey||'';
   document.getElementById('keyMoralis').value=state.moralisKey||'';
+  document.getElementById('keyGnews').value=state.gnewsKey||'';
   document.getElementById('refreshInterval').value=state.refreshInterval;
   document.getElementById('largeThreshold').value=state.largeThreshold;
 }
@@ -3393,10 +3862,12 @@ function closeSettings(){ document.getElementById('settingsModal').classList.rem
 function saveSettings(){
   state.etherscanKey=(document.getElementById('keyEtherscan').value||'').trim();
   state.moralisKey=(document.getElementById('keyMoralis').value||'').trim();
+  state.gnewsKey=(document.getElementById('keyGnews').value||'').trim();
   state.refreshInterval=parseInt(document.getElementById('refreshInterval').value)||0;
   state.largeThreshold=parseInt(document.getElementById('largeThreshold').value)||CONFIG.LARGE_TX_DEFAULT;
   localStorage.setItem('phantom_etherscan_key',state.etherscanKey);
   localStorage.setItem('phantom_moralis_key',state.moralisKey);
+  localStorage.setItem('phantom_gnews_key',state.gnewsKey);
   localStorage.setItem('phantom_refresh',state.refreshInterval);
   localStorage.setItem('phantom_threshold',state.largeThreshold);
   closeSettings();
@@ -3423,6 +3894,7 @@ function showLoading(){
 (function init(){
   ensureHistoryTabButton();
   renderWatchlist();
+  renderNewsFeed();
   renderHistory();
   if(state.watchCoins.length > 0 || state.watchWallets.length > 0 || state.historyEvents.length > 0) {
     document.getElementById('tabsBar').style.display='flex';
