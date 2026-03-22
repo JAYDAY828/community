@@ -2022,6 +2022,7 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.bybit.futures) checks.push(fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
   if(!intel.kucoin.spot) checks.push(fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.spot=true; }).catch(()=>null));
   if(!intel.kucoin.futures) checks.push(fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.futures=true; }).catch(()=>null));
+  if(!intel.mexc.futures) checks.push(fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`).then(d=>{ if(d.success && d.data?.symbol) intel.mexc.futures=true; }).catch(()=>null));
   if(!intel.upbit.spot) checks.push(fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
