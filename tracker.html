@@ -368,7 +368,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.0.8</small>
+        <small class="version-line">Tracker v1.1.0</small>
       </div>
     </div>
     <div class="header-actions">
@@ -579,7 +579,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.0.8';
+const APP_VERSION = 'Tracker v1.1.0';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -1972,9 +1972,10 @@ async function fetchExchangeOi(exchangeKey, ex){
       const raw=parseFloat(tickerData.data?.holdVol||'0');
       const multiplier=parseFloat(detailData.data?.contractSize||'1');
       const markPrice=parseFloat(tickerData.data?.lastPrice||price||'0');
+      const baseAmount=raw * multiplier;
       return {
-        oiUsd: raw * multiplier * markPrice,
-        rawOiText: `${compactNum(raw)} contracts`
+        oiUsd: baseAmount * markPrice,
+        rawOiText: `${compactNum(baseAmount)} ${detailData.data?.baseCoin || ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
       };
     }
     case 'kucoin': {
