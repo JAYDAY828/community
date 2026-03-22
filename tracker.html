@@ -1946,10 +1946,9 @@ async function fetchExchangeOi(exchangeKey, ex){
       const oiData=oiResp;
       const contractData=contractResp;
       const raw=parseFloat(oiData.data?.openInterestList?.[0]?.size||'0');
-      const multiplier=parseFloat(contractData.data?.[0]?.sizeMultiplier||'1');
       return {
-        oiUsd: raw * multiplier * price * symbolUnitMultiplier(ex.baseSymbol),
-        rawOiText: `${compactNum(raw)} contracts`
+        oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
+        rawOiText: `${compactNum(raw)} ${contractData.data?.[0]?.baseCoin || ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
       };
     }
     case 'gate': {
