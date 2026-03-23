@@ -368,7 +368,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.0</small>
+        <small class="version-line">Tracker v1.1.1</small>
       </div>
     </div>
     <div class="header-actions">
@@ -579,7 +579,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.0';
+const APP_VERSION = 'Tracker v1.1.1';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -2010,6 +2010,7 @@ async function checkExchangeListings(tickers, sysSymbol){
     kucoin:{ key:'kucoin', name:'KuCoin', spot:(tickers||[]).some(t=>t.market&&String(t.market.identifier||'').includes('kucoin')&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&String(t.market.identifier||'').includes('kucoin')&&isFut(t)), spotSymbol:kucoinSpotSymbol, futuresSymbol:kucoinFuturesSymbol, baseSymbol:kucoinBaseSymbol, displaySymbol:symbolUpper, oiStatus:'idle' },
     mexc:{ key:'mexc', name:'MEXC', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='mxc'&&!isFut(t)), futures:(tickers||[]).some(t=>t.market&&(t.market.identifier.includes('mxc_future')||t.market.identifier.includes('mxc_perpetual')||(t.market.identifier==='mxc'&&isFut(t)))), futuresSymbol:`${symbolUpper}_USDT`, baseSymbol:getTickerBaseFromCoinGecko(tickers,id=>id.includes('mxc'),symbolUpper), oiStatus:'idle' },
     upbit:{ key:'upbit', name:'Upbit', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='upbit'), futures:false, showFutures:false, oiStatus:'idle' },
+    bithumb:{ key:'bithumb', name:'Bithumb', spot:(tickers||[]).some(t=>t.market&&String(t.market.identifier||'').includes('bithumb')), futures:false, showFutures:false, oiStatus:'idle' },
     coinbase:{ key:'coinbase', name:'Coinbase', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='gdax'), futures:false, showFutures:false, oiStatus:'idle' }
   };
 
@@ -2025,6 +2026,7 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.kucoin.futures) checks.push(fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.futures=true; }).catch(()=>null));
   if(!intel.mexc.futures) checks.push(fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`).then(d=>{ if(d.success && d.data?.symbol) intel.mexc.futures=true; }).catch(()=>null));
   if(!intel.upbit.spot) checks.push(fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
+  if(!intel.bithumb.spot) checks.push(fetchExchangeJson(`https://api.bithumb.com/v1/market/all?isDetails=false`).then(d=>{ if((d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`))) intel.bithumb.spot=true; }).catch(()=>null));
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
 
