@@ -368,7 +368,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.1</small>
+        <small class="version-line">Tracker v1.1.2</small>
       </div>
     </div>
     <div class="header-actions">
@@ -402,7 +402,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="coin-metrics" id="coinMetrics"></div>
       <div class="contract-row" id="contractRow"></div>
       <div class="exchange-status" id="exchangeStatus" style="flex-direction:column;"></div>
-      <div class="warning-banner" id="warningBanner">⚠️ 바이낸스·업비트 현물 미상장 — 유동성 제한 및 운전 위험에 주의하세요</div>
+      <div class="warning-banner" id="warningBanner">⚠️ 바이낸스·업비트·빗썸 현물 미상장 — 유동성 제한 및 운전 위험에 주의하세요</div>
     </div>
   </div>
 
@@ -579,7 +579,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.1';
+const APP_VERSION = 'Tracker v1.1.2';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -1873,7 +1873,7 @@ function renderExchangeIntel(intelMap){
     <div class="market-note">* 거래소 공개 API 기준으로 선물 OI를 표시합니다. 거래소마다 계약 단위가 달라 가능한 경우 USDT 환산치로 정규화했고, 하단에는 계약 단위만 남겼습니다.</div>`;
 
   const warn=document.getElementById('warningBanner');
-  const hasTier1Spot = intelMap.binance?.spot || intelMap.upbit?.spot || intelMap.coinbase?.spot || intelMap.bybit?.spot || intelMap.okx?.spot;
+  const hasTier1Spot = intelMap.binance?.spot || intelMap.upbit?.spot || intelMap.bithumb?.spot;
   warn.classList.toggle('active', !hasTier1Spot);
 }
 
