@@ -2121,15 +2121,69 @@
                                         data-i18n="cd.ui.buttons.list">LIST (Exclude Symbol Lists)</span>
                                     <span
                                         class="px-3 py-1.5 bg-gray-800 border border-gray-600 rounded text-xs text-white"
+                                        data-i18n="cd.ui.buttons.data">DATA (Screener)</span>
+                                    <span
+                                        class="px-3 py-1.5 bg-gray-800 border border-gray-600 rounded text-xs text-white"
                                         data-i18n="cd.ui.buttons.log">LOG (Top Alert Lists)</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 4. Troubleshooting -->
+                        <!-- 4. DATA Screener -->
+                        <div id="cd-screener">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-green"
+                                data-i18n="cd.screener.title">4) DATA 스크리너</h2>
+                            <p class="text-gray-400 leading-relaxed mb-4" data-i18n="cd.screener.body">
+                                DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 상장 여부를 한 화면에서 비교하기 위한 보조 데이터 패널입니다.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-chart-pie text-accent-green"></i>
+                                        <span data-i18n="cd.screener.card1.title">MC / FDV / 24H</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0" data-i18n="cd.screener.card1.body">
+                                        시총 구간, FDV 대비 희석률, 24시간 등락률을 함께 확인하여 종목의 현재 위치를 빠르게 판단합니다.
+                                    </p>
+                                </div>
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-store text-accent-blue"></i>
+                                        <span data-i18n="cd.screener.card2.title">상장 거래소 확인</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0" data-i18n="cd.screener.card2.body">
+                                        Binance Spot, Upbit, Bithumb 상장 여부를 확인하여 어떤 거래소가 가격을 주도하는지 추적할 수 있습니다.
+                                    </p>
+                                </div>
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-magnifying-glass-chart text-yellow-400"></i>
+                                        <span data-i18n="cd.screener.card3.title">OI / OI-MC</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0" data-i18n="cd.screener.card3.body">
+                                        개별 종목의 미체결약정과 시총 대비 OI 비율을 확인하여 선물 포지션 쏠림을 참고할 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:shadow-lg hover:-translate-y-1">
+                                <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-route text-accent-blue"></i>
+                                    <span data-i18n="cd.screener.tracker.title">TRACKER 연동</span>
+                                </h3>
+                                <p class="text-sm text-gray-300 !m-0" data-i18n="cd.screener.tracker.body">
+                                    스크리너에서 관심 종목을 추린 뒤 TRACKER 버튼으로 이동하면, 개별 종목의 상장 현황과 트랜잭션 흐름을 추가로 확인할 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 5. Troubleshooting -->
                         <div id="cd-troubleshoot">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
-                                data-i18n="cd.trouble.title">4) 문제 해결 및 팁</h2>
+                                data-i18n="cd.trouble.title">5) 문제 해결 및 팁</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
@@ -4736,6 +4790,7 @@
             "cd.ui.buttons.stop": { ko: "■ Stop", en: "■ Stop" },
             "cd.ui.buttons.clear": { ko: "CLR (Clear)", en: "CLR (Clear)" },
             "cd.ui.buttons.list": { ko: "LIST (Exclude Symbol Lists)", en: "LIST (Exclude Symbol Lists)" },
+            "cd.ui.buttons.data": { ko: "DATA (Screener)", en: "DATA (Screener)" },
             "cd.ui.buttons.log": { ko: "LOG (Top Alert Lists)", en: "LOG (Top Alert Lists)" },
             "cd.ui.buttons.pin": { ko: "PIN (Always Top)", en: "PIN (Always Top)" },
             "cd.ui.clipboard.title": { ko: "클립보드 연동 (Clipboard Sync)", en: "Clipboard Sync" },
@@ -4748,7 +4803,17 @@
             "cd.mobile.item1": { ko: "PC를 켜두지 않아도 <strong>24시간 서버 알림</strong>이 작동합니다.", en: "<strong>24/7 server alerts</strong> work even if your PC is off." },
             "cd.mobile.item2": { ko: "트레이딩뷰 앱의 '얼러트(Alert)' 기능을 통해 <strong>스마트폰 푸시 알림</strong>을 받을 수 있습니다.", en: "Use TradingView Alerts to receive <strong>smartphone push notifications</strong>." },
             "cd.mobile.cta": { ko: "TradingView : 지표 소개", en: "TradingView : Indicator" },
-            "cd.trouble.title": { ko: "4) 문제 해결 및 팁", en: "4) Troubleshooting & Tips" },
+            "cd.screener.title": { ko: "4) DATA 스크리너", en: "4) DATA Screener" },
+            "cd.screener.body": { ko: "DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 상장 여부를 한 화면에서 비교하기 위한 보조 데이터 패널입니다.", en: "DATA Screener is a companion data panel for comparing market cap, FDV, OI, and listing status across detected coins in one view." },
+            "cd.screener.card1.title": { ko: "MC / FDV / 24H", en: "MC / FDV / 24H" },
+            "cd.screener.card1.body": { ko: "시총 구간, FDV 대비 희석률, 24시간 등락률을 함께 확인하여 종목의 현재 위치를 빠르게 판단합니다.", en: "Check market-cap range, FDV dilution, and 24h change together to quickly understand where a coin currently sits." },
+            "cd.screener.card2.title": { ko: "상장 거래소 확인", en: "Exchange Listings" },
+            "cd.screener.card2.body": { ko: "Binance Spot, Upbit, Bithumb 상장 여부를 확인하여 어떤 거래소가 가격을 주도하는지 추적할 수 있습니다.", en: "Check Binance Spot, Upbit, and Bithumb listings to track which venue may be driving price action." },
+            "cd.screener.card3.title": { ko: "OI / OI-MC", en: "OI / OI-MC" },
+            "cd.screener.card3.body": { ko: "개별 종목의 미체결약정과 시총 대비 OI 비율을 확인하여 선물 포지션 쏠림을 참고할 수 있습니다.", en: "Review each coin's open interest and OI-to-market-cap ratio to gauge futures-position concentration." },
+            "cd.screener.tracker.title": { ko: "TRACKER 연동", en: "TRACKER Integration" },
+            "cd.screener.tracker.body": { ko: "스크리너에서 관심 종목을 추린 뒤 TRACKER 버튼으로 이동하면, 개별 종목의 상장 현황과 트랜잭션 흐름을 추가로 확인할 수 있습니다.", en: "After narrowing down candidates in the screener, use the TRACKER button to review each coin's listings and transaction flow in more detail." },
+            "cd.trouble.title": { ko: "5) 문제 해결 및 팁", en: "5) Troubleshooting & Tips" },
             "cd.trouble.item1.title": { ko: "리스트가 비어 있습니다.", en: "The list is empty." },
             "cd.trouble.item1.body": { ko: "필터 설정값(Change %, Volume)이 현재 장세에 비해 너무 높을 수 있습니다. 설정값을 조금 낮춰보세요.", en: "Your filter settings (Change %, Volume) may be too high for current market conditions. Try lowering them." },
             "cd.trouble.item2.title": { ko: "클립보드 복사가 안 됩니다.", en: "Clipboard copy doesn't work." },
