@@ -730,7 +730,7 @@
                         data-id="apikey">
                         <i
                             class="fa-solid fa-key w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
-                        <span data-i18n="nav.apikey">API Key</span>
+                        <span data-i18n="nav.apikey">API / Setup</span>
                     </button>
                     <button onclick="activate('detector')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
@@ -1637,8 +1637,9 @@
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-brand border-brand/50" data-i18n="api.badge">Guide</span>
                         <div>
-                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="api.title">API Key</h1>
-                            <p class="text-sm text-gray-400" data-i18n="api.desc">안전한 툴킷 사용을 위한 API 키 발급 및 설정 가이드입니다.
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="api.title">API / Setup</h1>
+                            <p class="text-sm text-gray-400" data-i18n="api.desc">API 키 발급, 등록, Futures/TradFi 초기 설정
+                                가이드입니다.
                             </p>
                         </div>
                     </div>
@@ -1722,6 +1723,32 @@
                                     </p>
                                 </div>
                             </div>
+
+                            <div
+                                class="liquid-card bg-yellow-900/10 border border-yellow-700/30 rounded-xl p-6 mt-4 transition-all duration-300 hover:border-yellow-500/50 hover:shadow-lg hover:-translate-y-1">
+                                <h4 class="text-brand font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span data-i18n="api.step2.consent.title">권한이 안 보이거나 주문이 실패할 때</span>
+                                </h4>
+                                <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-300">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="text-brand mt-1 text-[0.6rem] flex-shrink-0">●</span>
+                                        <span data-i18n="api.step2.consent.item1">신규 계정은 Futures 거래 동의를 먼저 완료해야 API 설정
+                                            화면에 <strong>Enable Futures</strong> 항목이 표시됩니다.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="text-brand mt-1 text-[0.6rem] flex-shrink-0">●</span>
+                                        <span data-i18n="api.step2.consent.item2"><strong>TradFi</strong> 상품은 일반 선물 거래
+                                            동의와 별도로 TradFi 거래 동의가 필요합니다.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="text-brand mt-1 text-[0.6rem] flex-shrink-0">●</span>
+                                        <span data-i18n="api.step2.consent.item3"><strong>Order Toolkit</strong> 제목 표시줄에
+                                            <strong>ERROR</strong>가 한 번이라도 표시됐다면, <strong>Ctrl + Shift + Esc</strong> →
+                                            작업 관리자에서 Order Toolkit을 강제 종료한 뒤 다시 실행하세요.</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         <!-- Step 3 -->
@@ -1790,6 +1817,79 @@
                                             합니다.</span>
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div id="windows-layout">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
+                                data-i18n="api.step5.title">5) Windows 창 배치 최적화 (선택)</h2>
+                            <div
+                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                <div class="flex flex-col gap-5">
+                                    <div class="flex items-start gap-3">
+                                        <i class="fa-brands fa-microsoft text-blue-400 mt-0.5 flex-shrink-0"></i>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-2 !mt-0"
+                                                data-i18n="api.step5.card.title">Microsoft 공식 Windows 유틸리티</h4>
+                                            <p class="text-sm text-gray-300 !m-0 leading-relaxed"
+                                                data-i18n="api.step5.card.body">
+                                                Microsoft PowerToys는 Microsoft에서 제공하는 공식 Windows 유틸리티입니다.
+                                                Microsoft Store에서 PowerToys를 설치하고 FancyZones를 활성화하면 여러 툴킷의 창
+                                                크기와 위치를 작업 스타일에 맞게 배치할 수 있습니다.
+                                            </p>
+                                            <p class="text-sm text-gray-400 !mt-3 !mb-0 leading-relaxed"
+                                                data-i18n="api.step5.card.body2">
+                                                Order Toolkit, Crypto Detector, Trades, Order Book을 각 구역에 고정해두면
+                                                매번 창을 다시 정리하지 않아도 되어 운영 화면을 빠르게 복구할 수 있습니다.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col sm:flex-row gap-3">
+                                        <a href="https://aka.ms/getPowertoys" target="_blank" rel="noopener noreferrer"
+                                            class="liquid-btn-yellow inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition-all">
+                                            <i class="fa-brands fa-microsoft"></i>
+                                            <span data-i18n="api.step5.install">PowerToys 설치</span>
+                                        </a>
+                                        <a href="https://learn.microsoft.com/windows/powertoys/install" target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="liquid-btn-white inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition-all">
+                                            <i class="fa-solid fa-book-open"></i>
+                                            <span data-i18n="api.step5.docs">공식 설치 안내</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
+                                        <a href="./assets/setup/fancyzones-setup-example.png" target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="block rounded-xl overflow-hidden border border-white/10 bg-black/20 hover:border-brand/60 transition-colors">
+                                            <img src="./assets/setup/fancyzones-setup-example.png"
+                                                alt="FancyZones 구역 설정 예시" loading="lazy"
+                                                class="w-full aspect-video object-cover object-center">
+                                            <div class="p-3 border-t border-white/10">
+                                                <div class="text-sm font-bold text-white"
+                                                    data-i18n="api.step5.image1.title">세팅 예시</div>
+                                                <p class="text-xs text-gray-400 !m-0"
+                                                    data-i18n="api.step5.image1.desc">FancyZones에서 창 구역을 나누고 저장하는 화면입니다.
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <a href="./assets/setup/toolkit-layout-example.png" target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="block rounded-xl overflow-hidden border border-white/10 bg-black/20 hover:border-brand/60 transition-colors">
+                                            <img src="./assets/setup/toolkit-layout-example.png" alt="여러 툴킷 창 배치 완료 예시"
+                                                loading="lazy" class="w-full aspect-video object-cover object-center">
+                                            <div class="p-3 border-t border-white/10">
+                                                <div class="text-sm font-bold text-white"
+                                                    data-i18n="api.step5.image2.title">세팅 완료 예시</div>
+                                                <p class="text-xs text-gray-400 !m-0"
+                                                    data-i18n="api.step5.image2.desc">여러 툴킷을 작업 구역별로 배치한 운영 화면 예시입니다.
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4512,7 +4612,7 @@
             "nav.terms": { ko: "이용약관", en: "Terms of Service" },
             "nav.faq": { ko: "자주 묻는 질문", en: "FAQ" },
             "nav.tools": { ko: "Setup & Tools", en: "Setup & Tools" },
-            "nav.apikey": { ko: "API Key", en: "API Key" },
+            "nav.apikey": { ko: "API / Setup", en: "API / Setup" },
             "nav.detector": { ko: "Crypto Detector", en: "Crypto Detector" },
             "nav.toolkit": { ko: "Order Toolkit", en: "Order Toolkit" },
             "nav.orderbook": { ko: "Order Book", en: "Order Book" },
@@ -4656,8 +4756,8 @@
 
             // API Key
             "api.badge": { ko: "Guide", en: "Guide" },
-            "api.title": { ko: "API Key", en: "API Key" },
-            "api.desc": { ko: "안전한 툴킷 사용을 위한 API 키 발급 및 설정 가이드입니다.", en: "Guide to issuing and configuring API keys for safe toolkit use." },
+            "api.title": { ko: "API / Setup", en: "API / Setup" },
+            "api.desc": { ko: "API 키 발급, 등록, Futures/TradFi 초기 설정 가이드입니다.", en: "Guide to API key issuance, registration, and Futures/TradFi initial setup." },
             "api.step1.title": { ko: "1) 발급 절차", en: "1) Issuance Steps" },
             "api.step1.item1": { ko: "바이낸스 로그인 후 우측 상단 <strong>[Account]</strong> → <strong>[API Management]</strong> 메뉴로 이동합니다.", en: "After logging in to Binance, go to the top-right <strong>[Account]</strong> → <strong>[API Management]</strong>." },
             "api.step1.item2": { ko: "<strong>[Create API]</strong> 클릭 후 <strong>System generated</strong> 방식을 선택합니다.", en: "Click <strong>[Create API]</strong> and choose <strong>System generated</strong>." },
@@ -4671,6 +4771,10 @@
             "api.step2.deny.item1": { ko: "Enable Spot & Margin Trading", en: "Enable Spot & Margin Trading" },
             "api.step2.deny.item2": { ko: "Enable Withdrawals (출금)", en: "Enable Withdrawals" },
             "api.step2.note": { ko: "본 툴킷은 <strong>Enable Futures</strong>(선물 거래) 권한만 있으면 모든 기능이 정상 작동합니다.<br/>운영자는 개인 자산(현물 거래, 출금 등)에 대한 권한을 전혀 요구하지 않으므로 안심하셔도 됩니다.", en: "This toolkit works fully with only <strong>Enable Futures</strong> permission.<br/>The operator never requests access to personal assets (spot trading, withdrawals, etc.), so you can use it safely." },
+            "api.step2.consent.title": { ko: "권한이 안 보이거나 주문이 실패할 때", en: "If permissions are missing or orders fail" },
+            "api.step2.consent.item1": { ko: "신규 계정은 Futures 거래 동의를 먼저 완료해야 API 설정 화면에 <strong>Enable Futures</strong> 항목이 표시됩니다.", en: "New accounts must complete Futures trading consent first before <strong>Enable Futures</strong> appears in the API settings." },
+            "api.step2.consent.item2": { ko: "<strong>TradFi</strong> 상품은 일반 선물 거래 동의와 별도로 TradFi 거래 동의가 필요합니다.", en: "<strong>TradFi</strong> products require separate TradFi trading consent in addition to regular Futures consent." },
+            "api.step2.consent.item3": { ko: "<strong>Order Toolkit</strong> 제목 표시줄에 <strong>ERROR</strong>가 한 번이라도 표시됐다면, <strong>Ctrl + Shift + Esc</strong> → 작업 관리자에서 Order Toolkit을 강제 종료한 뒤 다시 실행하세요.", en: "If <strong>ERROR</strong> appeared even once in the <strong>Order Toolkit</strong> title bar, press <strong>Ctrl + Shift + Esc</strong>, force close Order Toolkit in Task Manager, then run it again." },
             "api.step3.title": { ko: "3) IP 제한 설정 (보안 필수)", en: "3) IP Restriction (Security Required)" },
             "api.step3.item1": { ko: "API 설정 화면 하단의 <strong>IP Access Restrictions</strong> 항목을 확인합니다.", en: "Check the <strong>IP Access Restrictions</strong> section at the bottom of the API settings page." },
             "api.step3.item2": { ko: "<strong>Restrict access to trusted IPs only</strong>(권장) 옵션을 선택합니다.", en: "Select <strong>Restrict access to trusted IPs only</strong> (recommended)." },
@@ -4684,6 +4788,16 @@
             "api.step4.warn.title": { ko: "주의사항", en: "Warnings" },
             "api.step4.warn.item1": { ko: "<strong>Secret Key</strong>는 생성 직후 1회만 표시되며, 페이지를 벗어나면 다시 확인할 수 없습니다.", en: "<strong>Secret Key</strong> is shown only once at creation and cannot be viewed again after leaving the page." },
             "api.step4.warn.item2": { ko: "Secret Key를 분실한 경우 API를 삭제하고 새로 생성해야 합니다.", en: "If the Secret Key is lost, you must delete and re-create the API." },
+            "api.step5.title": { ko: "5) Windows 창 배치 최적화 (선택)", en: "5) Optimize Windows Layout (Optional)" },
+            "api.step5.card.title": { ko: "Microsoft 공식 Windows 유틸리티", en: "Official Microsoft Windows utility" },
+            "api.step5.card.body": { ko: "Microsoft PowerToys는 Microsoft에서 제공하는 공식 Windows 유틸리티입니다. Microsoft Store에서 PowerToys를 설치하고 FancyZones를 활성화하면 여러 툴킷의 창 크기와 위치를 작업 스타일에 맞게 배치할 수 있습니다.", en: "Microsoft PowerToys is an official Windows utility provided by Microsoft. Install PowerToys from the Microsoft Store and enable FancyZones to arrange multiple toolkit windows by size and position for your workflow." },
+            "api.step5.card.body2": { ko: "Order Toolkit, Crypto Detector, Trades, Order Book을 각 구역에 고정해두면 매번 창을 다시 정리하지 않아도 되어 운영 화면을 빠르게 복구할 수 있습니다.", en: "Pinning Order Toolkit, Crypto Detector, Trades, and Order Book into zones helps restore your operating screen quickly without rearranging windows each time." },
+            "api.step5.install": { ko: "PowerToys 설치", en: "Install PowerToys" },
+            "api.step5.docs": { ko: "공식 설치 안내", en: "Official install guide" },
+            "api.step5.image1.title": { ko: "세팅 예시", en: "Setup example" },
+            "api.step5.image1.desc": { ko: "FancyZones에서 창 구역을 나누고 저장하는 화면입니다.", en: "Example of splitting and saving window zones in FancyZones." },
+            "api.step5.image2.title": { ko: "세팅 완료 예시", en: "Completed setup example" },
+            "api.step5.image2.desc": { ko: "여러 툴킷을 작업 구역별로 배치한 운영 화면 예시입니다.", en: "Example operating screen with multiple toolkits arranged by work zone." },
 
             // Crypto Detector Preview (NEW)
             "preview.title": { ko: "Crypto Detector", en: "Crypto Detector" },
