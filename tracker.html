@@ -159,6 +159,43 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .summary-label{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
 .summary-value{font-size:1.25rem;font-weight:800;margin-top:6px}
 .summary-help{font-size:.72rem;color:var(--text-dim);margin-top:4px;line-height:1.4}
+.decision-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:12px;margin-bottom:14px}
+.decision-main{padding:18px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07)}
+.decision-main.danger{border-color:rgba(239,68,68,0.28);background:rgba(239,68,68,0.07)}
+.decision-main.warning{border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.065)}
+.decision-main.success{border-color:rgba(16,185,129,0.24);background:rgba(16,185,129,0.06)}
+.decision-main.info{border-color:rgba(59,130,246,0.24);background:rgba(59,130,246,0.06)}
+.decision-eyebrow{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.decision-title{font-size:1.35rem;font-weight:800;line-height:1.3}
+.decision-sub{font-size:.82rem;color:var(--text-muted);line-height:1.55;margin-top:8px}
+.decision-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.decision-meta-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);font-size:.72rem;color:var(--text-muted)}
+.observation-card{padding:16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)}
+.observation-card.warning{border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.06)}
+.observation-title{font-size:.85rem;font-weight:700;margin-bottom:10px}
+.observation-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.observation-stat{padding:10px;border-radius:var(--radius-xs);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04)}
+.observation-stat label{display:block;font-size:.68rem;color:var(--text-muted);margin-bottom:4px}
+.observation-stat strong{font-size:.9rem;font-family:var(--mono)}
+.decision-score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+.decision-score-card{padding:14px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.055)}
+.decision-score-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.decision-score-label{font-size:.85rem;font-weight:700}
+.decision-score-value{font-family:var(--mono);font-size:.82rem;color:var(--text-muted)}
+.decision-score-bar{height:7px;border-radius:999px;background:rgba(255,255,255,0.06);overflow:hidden}
+.decision-score-fill{height:100%;border-radius:999px;background:var(--text-dim);transition:width .3s}
+.decision-score-fill.danger{background:linear-gradient(90deg,#f97316,var(--danger))}
+.decision-score-fill.warning{background:linear-gradient(90deg,#facc15,var(--warning))}
+.decision-score-fill.success{background:linear-gradient(90deg,#22c55e,var(--success))}
+.decision-score-fill.info{background:linear-gradient(90deg,#38bdf8,var(--exchange))}
+.decision-reason-list{display:flex;flex-direction:column;gap:10px}
+.decision-reason-card{padding:14px 16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06)}
+.decision-reason-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.decision-reason-title{font-size:.9rem;font-weight:700;line-height:1.35}
+.decision-reason-body{font-size:.78rem;color:var(--text-muted);line-height:1.5}
+.decision-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.decision-actions button{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem}
+.decision-actions button:hover{border-color:var(--primary);color:var(--primary)}
 .wallet-meta{display:grid;gap:8px;margin-top:12px;min-height:96px;align-content:start}
 .wallet-signal,.wallet-label-row,.wallet-funder-row,.wallet-keyword-row{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:start;column-gap:8px;row-gap:6px;width:100%}
 .wallet-signal .meta-group-label,.wallet-label-row .meta-group-label,.wallet-funder-row .meta-group-label,.wallet-keyword-row .meta-group-label{min-width:0;padding-top:2px}
@@ -348,6 +385,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
   .app{padding:12px}
   .coin-metrics{grid-template-columns:1fr 1fr}
   .wallet-grid,.dex-pairs,.watchlist-coins{grid-template-columns:1fr}
+  .decision-hero{grid-template-columns:1fr}
   .header{flex-direction:column;gap:12px;align-items:flex-start}
   .session-stat-row{grid-template-columns:1fr}
 }
@@ -368,7 +406,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.2</small>
+        <small class="version-line">Tracker v1.1.3</small>
       </div>
     </div>
     <div class="header-actions">
@@ -408,7 +446,8 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
   <!-- Tabs -->
   <div class="tabs" id="tabsBar" style="display:none">
-    <button class="tab-btn active" data-tab="transfers" onclick="switchTab('transfers')">📋 전송내역</button>
+    <button class="tab-btn active" data-tab="decision" onclick="switchTab('decision')">🧭 판단요약</button>
+    <button class="tab-btn" data-tab="transfers" onclick="switchTab('transfers')">📋 전송내역</button>
     <button class="tab-btn" data-tab="wallets" onclick="clearWalletDetail(); switchTab('wallets')">🔍 지갑분석</button>
     <button class="tab-btn" data-tab="sessions" onclick="switchTab('sessions')">🕒 세션</button>
     <button class="tab-btn" data-tab="dex" onclick="switchTab('dex')">📊 DEX</button>
@@ -416,8 +455,21 @@ tr:hover td{background:rgba(99,102,241,0.04)}
     <button class="tab-btn" data-tab="watchlist" onclick="switchTab('watchlist')">⭐ 워치리스트</button>
   </div>
 
+  <!-- Tab: Decision -->
+  <div class="tab-content active" id="tab-decision">
+    <div class="card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span>🧭 판단 보조 요약 <span id="decisionCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn-sm" onclick="refreshData('manual')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">새로고침</button>
+        </div>
+      </div>
+      <div id="decisionContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 펌핑/덤핑/노이즈 판단 보조 요약이 표시됩니다</p></div></div>
+    </div>
+  </div>
+
   <!-- Tab: Transfers -->
-  <div class="tab-content active" id="tab-transfers">
+  <div class="tab-content" id="tab-transfers">
     <div class="card">
       <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
         <span>📋 최근 전송 내역 <span id="transferCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
@@ -579,7 +631,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.2';
+const APP_VERSION = 'Tracker v1.1.3';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -633,6 +685,9 @@ const CONFIG = {
     SOLANA_TOKEN_TOTAL: 300,
     SOLANA_PAIR_TOTAL: 100,
     SOLANA_WALLET_TOTAL: 200,
+    CATCHUP_TOTAL: 1000,
+    OBSERVATION_ACTIVE_MAX: 5000,
+    OBSERVATION_ARCHIVE_MAX: 6,
     NEWS_MAX: 10,
     HISTORY_PAGE_SIZE: 25,
     HISTORY_MAX: 500
@@ -649,6 +704,10 @@ const state = {
   analyzedWallets: [],
   walletSort: 'riskDesc',
   dexPairs: [],
+  decisionSummary: null,
+  observation: null,
+  observationRecord: null,
+  observationDb: null,
   watchCoins: JSON.parse(localStorage.getItem('phantom_watch_coins') || '[]'),
   watchWallets: JSON.parse(localStorage.getItem('phantom_watch_wallets') || '[]'),
   etherscanKey: localStorage.getItem('phantom_etherscan_key') || '',
@@ -684,6 +743,8 @@ const state = {
   alertPanelOpen: false,
   funderGroups: {},
   exchangeRequestId: 0,
+  forceCatchUp: false,
+  lastFocusCatchUpAt: 0,
   refreshTimer: null,
   refreshCountdown: 0,
   countdownTimer: null,
@@ -733,13 +794,17 @@ function formatTransferStats(){
   const rawCount=Math.max(0, Number(stats.rawCount)||0);
   const validCount=Math.max(0, Number(stats.validCount)||0);
   const filteredCount=Math.max(0, Number(stats.filteredCount)||0);
-  if(!rawCount && !validCount) return '';
-  return `원본 ${rawCount}건 · 유효 ${validCount}건${filteredCount ? ` · 제외 ${filteredCount}건` : ''}`;
+  const obs=state.observation||{};
+  const obsText=obs.activeCount ? `신규 ${obs.newCount||0}건 · 누적 관찰 ${obs.activeCount}건` : '';
+  if(!rawCount && !validCount) return obsText;
+  return `원본 ${rawCount}건 · 유효 ${validCount}건${filteredCount ? ` · 제외 ${filteredCount}건` : ''}${obsText ? ` · ${obsText}` : ''}`;
 }
 function buildTransferNote(message, tone='info'){
   const palette=tone==='success'
     ? { bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.2)', color:'#10b981' }
-    : { bg:'rgba(59,130,246,0.08)', border:'rgba(59,130,246,0.18)', color:'#7dd3fc' };
+    : tone==='warning'
+      ? { bg:'rgba(245,158,11,0.08)', border:'rgba(245,158,11,0.2)', color:'#f59e0b' }
+      : { bg:'rgba(59,130,246,0.08)', border:'rgba(59,130,246,0.18)', color:'#7dd3fc' };
   const statsText=formatTransferStats();
   const noteText=statsText ? `${message} · ${statsText}` : message;
   return `<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:${palette.bg};border:1px solid ${palette.border};font-size:.75rem;color:${palette.color}">${noteText}</div>`;
@@ -1152,6 +1217,227 @@ function mergeTransferLabels(baseTxs, labelTxs){
 
   return { merged, enrichedCount };
 }
+function getObservationKey(){
+  if(!state.currentCoin || !state.currentChain || !state.currentContract) return '';
+  return [
+    state.currentCoin.id || (state.currentCoin.symbol||'').toLowerCase(),
+    state.currentChain,
+    normalizeAddress(state.currentContract, state.currentChain)
+  ].join('|');
+}
+function sortTransfersDesc(list){
+  return [...(list||[])].sort((a,b)=>{
+    const dt=Number(b.timeStamp||0)-Number(a.timeStamp||0);
+    if(dt) return dt;
+    return String(b.hash||'').localeCompare(String(a.hash||''));
+  });
+}
+function mergeTransferLists(existing, incoming){
+  const map=new Map();
+  [...(existing||[]), ...(incoming||[])].forEach(tx=>{
+    const key=getTransferMergeKey(tx);
+    if(!key || key==='||0') return;
+    const prev=map.get(key);
+    if(!prev){
+      map.set(key, tx);
+      return;
+    }
+    map.set(key, {
+      ...prev,
+      ...tx,
+      fromLabel: pickAddressLabel(prev.fromLabel, tx.fromLabel),
+      toLabel: pickAddressLabel(prev.toLabel, tx.toLabel),
+      fromEntity: pickAddressLabel(prev.fromEntity, tx.fromEntity),
+      toEntity: pickAddressLabel(prev.toEntity, tx.toEntity),
+      fromEntityLogo: prev.fromEntityLogo || tx.fromEntityLogo || '',
+      toEntityLogo: prev.toEntityLogo || tx.toEntityLogo || ''
+    });
+  });
+  return sortTransfersDesc([...map.values()]);
+}
+function openObservationDb(){
+  if(!window.indexedDB) return Promise.resolve(null);
+  if(state.observationDb) return Promise.resolve(state.observationDb);
+  return new Promise(resolve=>{
+    const req=indexedDB.open('phantom_tracker_observations', 1);
+    req.onupgradeneeded=event=>{
+      const db=event.target.result;
+      if(!db.objectStoreNames.contains('records')){
+        db.createObjectStore('records', { keyPath:'key' });
+      }
+    };
+    req.onsuccess=event=>{
+      state.observationDb=event.target.result;
+      resolve(state.observationDb);
+    };
+    req.onerror=()=>{
+      console.warn('Observation DB open failed', req.error);
+      resolve(null);
+    };
+  });
+}
+async function readObservationRecord(key){
+  const db=await openObservationDb();
+  if(!db || !key) return null;
+  return new Promise(resolve=>{
+    const tx=db.transaction('records','readonly');
+    const req=tx.objectStore('records').get(key);
+    req.onsuccess=()=>resolve(req.result||null);
+    req.onerror=()=>{ console.warn('Observation read failed', req.error); resolve(null); };
+  });
+}
+async function saveObservationRecord(record){
+  const db=await openObservationDb();
+  if(!db || !record?.key) return false;
+  return new Promise(resolve=>{
+    const tx=db.transaction('records','readwrite');
+    const req=tx.objectStore('records').put(record);
+    req.onsuccess=()=>resolve(true);
+    req.onerror=()=>{ console.warn('Observation save failed', req.error); resolve(false); };
+  });
+}
+function createObservationSession(now, transfers, reason='new'){
+  return {
+    id:`obs-${now}-${Math.random().toString(36).slice(2,8)}`,
+    startedAt:now,
+    lastSuccessAt:now,
+    reason,
+    transfers:sortTransfersDesc(transfers||[]).slice(0, CONFIG.FETCH_LIMITS.OBSERVATION_ACTIVE_MAX),
+    fetchedCount:(transfers||[]).length,
+    newCount:(transfers||[]).length,
+    overlapCount:0
+  };
+}
+function getActiveObservationSession(record){
+  const sessions=record?.sessions||[];
+  return sessions.find(s=>s.id===record.activeSessionId) || sessions[0] || null;
+}
+function compactObservationRecord(record){
+  const maxActive=CONFIG.FETCH_LIMITS.OBSERVATION_ACTIVE_MAX;
+  const maxArchive=CONFIG.FETCH_LIMITS.OBSERVATION_ARCHIVE_MAX;
+  record.sessions=(record.sessions||[])
+    .sort((a,b)=>(b.startedAt||0)-(a.startedAt||0))
+    .slice(0, maxArchive + 1)
+    .map(session=>({
+      ...session,
+      transfers:sortTransfersDesc(session.transfers||[]).slice(0, maxActive)
+    }));
+  if(!record.sessions.some(s=>s.id===record.activeSessionId)){
+    record.activeSessionId=record.sessions[0]?.id || '';
+  }
+  return record;
+}
+function buildObservationMeta(record, session, fetchedCount, newCount, overlapCount, continuity){
+  const sessions=record?.sessions||[];
+  const activeTransfers=session?.transfers||[];
+  return {
+    key:record?.key||'',
+    sessionId:session?.id||'',
+    continuity,
+    fetchedCount:Math.max(0, Number(fetchedCount)||0),
+    newCount:Math.max(0, Number(newCount)||0),
+    overlapCount:Math.max(0, Number(overlapCount)||0),
+    activeCount:activeTransfers.length,
+    sessionCount:sessions.length,
+    gapCount:Math.max(0, Number(record?.gapCount)||0),
+    observedSince:session?.startedAt||record?.createdAt||0,
+    lastSuccessAt:session?.lastSuccessAt||record?.lastSuccessAt||0,
+    lastPollAt:record?.lastPollAt||0,
+    lastSource:record?.lastSource||''
+  };
+}
+async function applyObservedTransfers(fetchedTxs, source=''){
+  const normalized=sortTransfersDesc(dedupeTransfers(normalizeTransferList(fetchedTxs||[])));
+  const key=getObservationKey();
+  if(!key){
+    state.observation=null;
+    state.observationRecord=null;
+    return { transfers:normalized, continuity:'direct', newCount:normalized.length, overlapCount:0 };
+  }
+  const now=Date.now();
+  let record=await readObservationRecord(key);
+  if(!record){
+    record={
+      key,
+      coinId:state.currentCoin?.id||'',
+      coinName:state.currentCoin?.name||'',
+      coinSymbol:(state.currentCoin?.symbol||'').toUpperCase(),
+      chain:state.currentChain,
+      contract:state.currentContract,
+      createdAt:now,
+      gapCount:0,
+      sessions:[]
+    };
+  }
+  record.lastPollAt=now;
+  record.lastSource=source||record.lastSource||'';
+  let active=getActiveObservationSession(record);
+  if(!active){
+    active=createObservationSession(now, normalized, 'new');
+    record.sessions.unshift(active);
+    record.activeSessionId=active.id;
+  }
+
+  const existing=active.transfers||[];
+  const existingKeys=new Set(existing.map(getTransferMergeKey));
+  const fetchedKeys=normalized.map(getTransferMergeKey);
+  const overlapCount=fetchedKeys.filter(k=>existingKeys.has(k)).length;
+  const newCount=normalized.filter(tx=>!existingKeys.has(getTransferMergeKey(tx))).length;
+  let continuity=!existing.length ? 'new' : overlapCount>0 ? 'continuous' : 'gap';
+
+  if(continuity==='gap' && normalized.length){
+    active.endedAt=active.lastSuccessAt||now;
+    active.gapDetectedAt=now;
+    active.gapReason='최근 조회 범위 안에서 이전 관찰 거래와 겹치지 않았습니다';
+    active=createObservationSession(now, normalized, 'gap_restart');
+    record.sessions.unshift(active);
+    record.activeSessionId=active.id;
+    record.gapCount=(record.gapCount||0)+1;
+  }else{
+    active.transfers=mergeTransferLists(existing, normalized).slice(0, CONFIG.FETCH_LIMITS.OBSERVATION_ACTIVE_MAX);
+    active.lastSuccessAt=now;
+    active.fetchedCount=normalized.length;
+    active.newCount=newCount;
+    active.overlapCount=overlapCount;
+  }
+
+  record.lastSuccessAt=now;
+  record=compactObservationRecord(record);
+  await saveObservationRecord(record);
+  active=getActiveObservationSession(record);
+  state.observationRecord=record;
+  state.observation=buildObservationMeta(record, active, normalized.length, continuity==='gap' ? normalized.length : newCount, overlapCount, continuity);
+  return {
+    transfers:active?.transfers||normalized,
+    continuity,
+    newCount:state.observation.newCount,
+    overlapCount:state.observation.overlapCount
+  };
+}
+function resetObservationRuntime(){
+  state.observation=null;
+  state.observationRecord=null;
+  state.decisionSummary=null;
+  renderDecisionPanel();
+}
+async function hydrateObservationRuntime(){
+  const key=getObservationKey();
+  if(!key) return null;
+  if(state.observation?.key===key) return state.observation;
+  const record=await readObservationRecord(key);
+  if(!record) return null;
+  const active=getActiveObservationSession(record);
+  state.observationRecord=record;
+  state.observation=buildObservationMeta(record, active, 0, 0, 0, 'cached');
+  return state.observation;
+}
+function getTransferFetchTotal(base){
+  const safeBase=Math.max(1, Number(base)||1);
+  const lastSuccess=Number(state.observation?.lastSuccessAt||0);
+  const intervalMs=Math.max(60000, (state.refreshInterval||CONFIG.REFRESH_DEFAULT||5)*60000);
+  const stale=lastSuccess && Date.now()-lastSuccess > intervalMs*1.5;
+  return (state.forceCatchUp || stale) ? Math.max(safeBase, CONFIG.FETCH_LIMITS.CATCHUP_TOTAL) : safeBase;
+}
 function symbolUnitMultiplier(baseSymbol){
   const upper=(baseSymbol||'').toUpperCase();
   const current=(state.currentCoin?.symbol||'').toUpperCase();
@@ -1547,6 +1833,211 @@ function renderSessions(){
     </div>`).join('')}</div>`;
 }
 
+function getFlowCounts(txs){
+  const counts={};
+  (txs||[]).forEach(tx=>{
+    const flow=classifyTransfer(tx);
+    counts[flow.key]=(counts[flow.key]||0)+1;
+  });
+  return counts;
+}
+function getDexPulse(){
+  const pairs=(state.dexPairs||[]).slice(0,6);
+  const totals=pairs.reduce((acc,p)=>{
+    const txns=p.txns?.h24||{};
+    acc.buys+=Number(txns.buys||0);
+    acc.sells+=Number(txns.sells||0);
+    acc.volume+=Number(p.volume?.h24||0);
+    acc.liquidity+=Number(p.liquidity?.usd||0);
+    acc.sellChange=Math.min(acc.sellChange, Number(p.priceChange?.h1||0));
+    acc.buyChange=Math.max(acc.buyChange, Number(p.priceChange?.h1||0));
+    return acc;
+  }, { buys:0, sells:0, volume:0, liquidity:0, sellChange:0, buyChange:0 });
+  const totalTx=totals.buys+totals.sells;
+  return {
+    ...totals,
+    buyRatio:safeDiv(totals.buys, totalTx),
+    sellRatio:safeDiv(totals.sells, totalTx),
+    pairCount:pairs.length
+  };
+}
+function makeDecisionAxis(kind, label, tone, score, reasons){
+  return {
+    kind,
+    label,
+    tone,
+    score:clamp(Math.round(score||0),0,100),
+    reasons:(reasons||[]).filter(Boolean).slice(0,6)
+  };
+}
+function buildDecisionSummary(){
+  const txs=state.transfers||[];
+  const wallets=state.analyzedWallets||[];
+  const sessions=state.sessions.length ? state.sessions : buildSessionBuckets();
+  const flowCounts=getFlowCounts(txs);
+  const dex=getDexPulse();
+  const obs=state.observation||{};
+  const decimals=txs[0]?parseInt(txs[0].tokenDecimal||'18'):18;
+  const price=getCoinPrice();
+  const totalUsd=txs.reduce((sum,tx)=>sum+(parseFloat(tx.value||'0')/(10**decimals))*price,0);
+  const recentSessions=sessions.slice(0,4);
+  const highRisk=wallets.filter(w=>(w.primaryScore||0)>=75);
+  const suspicious=wallets.filter(w=>(w.primaryScore||0)>=60);
+  const accumulation=wallets.filter(w=>w.primaryKind==='accumulation' && (w.primaryScore||0)>=65);
+  const distribution=wallets.filter(w=>w.primaryKind==='distribution' && (w.primaryScore||0)>=65);
+  const wash=wallets.filter(w=>w.primaryKind==='wash' && (w.primaryScore||0)>=60);
+  const dumpWallets=wallets.filter(w=>w.primaryKind==='dump' && (w.primaryScore||0)>=60);
+  const clusterWallets=wallets.filter(w=>w.primaryKind==='cluster' && (w.primaryScore||0)>=60);
+  const sharedFunderGroups=Object.values(state.funderGroups||{}).filter(members=>(members||[]).length>=2);
+  const positiveOi=Object.values(state.exchangeOiDelta||{}).filter(delta=>delta.deltaUsd>50000 && delta.deltaPct>0.05);
+  const exchangeDeposits=flowCounts.exchange_deposit||0;
+  const exchangeWithdrawals=flowCounts.exchange_withdrawal||0;
+  const bridgeMoves=flowCounts.bridge_move||0;
+  const dexPoolMoves=(flowCounts.dex_pool_in||0)+(flowCounts.dex_pool_out||0)+(flowCounts.dex_router||0);
+
+  let pumpScore=0, dumpScore=0, washScore=0, neutralScore=0;
+  const pumpReasons=[], dumpReasons=[], washReasons=[], neutralReasons=[];
+
+  if(exchangeWithdrawals>=2){ pumpScore+=18; pumpReasons.push(`거래소 출금 ${exchangeWithdrawals}건이 관찰됐습니다`); }
+  if(accumulation.length>=2){ pumpScore+=22; pumpReasons.push(`축적 우세 지갑 ${accumulation.length}개가 잡혔습니다`); }
+  else if(accumulation.length===1){ pumpScore+=12; pumpReasons.push('축적 우세 지갑 1개가 잡혔습니다'); }
+  if(sharedFunderGroups.length){ pumpScore+=14; pumpReasons.push(`공통 자금원 지갑군 ${sharedFunderGroups.length}개가 있습니다`); }
+  if(dex.buyRatio>=0.6 && dex.buys+dex.sells>=20){ pumpScore+=12; pumpReasons.push(`DEX 24H 매수 비율이 ${(dex.buyRatio*100).toFixed(0)}%입니다`); }
+  if(positiveOi.length && exchangeWithdrawals>=1){ pumpScore+=8; pumpReasons.push(`선물 OI 증가와 거래소 출금이 함께 관찰됐습니다`); }
+
+  if(exchangeDeposits>=2){ dumpScore+=22; dumpReasons.push(`거래소 입금 ${exchangeDeposits}건이 관찰됐습니다`); }
+  else if(exchangeDeposits===1){ dumpScore+=10; dumpReasons.push('거래소 입금 1건이 관찰됐습니다'); }
+  if(dumpWallets.length){ dumpScore+=24; dumpReasons.push(`거래소 유출 신호 지갑 ${dumpWallets.length}개가 있습니다`); }
+  if(distribution.length){ dumpScore+=16; dumpReasons.push(`분배 우세 지갑 ${distribution.length}개가 있습니다`); }
+  if(recentSessions.some(s=>s.exchangeDeposits>=2 && s.suspiciousTouches>=1)){ dumpScore+=18; dumpReasons.push('최근 세션에서 거래소 입금과 의심 지갑 관여가 겹쳤습니다'); }
+  if(dex.sellRatio>=0.6 && dex.buys+dex.sells>=20){ dumpScore+=10; dumpReasons.push(`DEX 24H 매도 비율이 ${(dex.sellRatio*100).toFixed(0)}%입니다`); }
+  if(positiveOi.length && exchangeDeposits>=1){ dumpScore+=8; dumpReasons.push('선물 OI 증가와 거래소 입금이 함께 관찰됐습니다'); }
+
+  if(wash.length){ washScore+=26; washReasons.push(`핑퐁/워시 후보 지갑 ${wash.length}개가 있습니다`); }
+  if(clusterWallets.length){ washScore+=14; washReasons.push(`소수 지갑군 중심의 군집 이동 ${clusterWallets.length}개가 있습니다`); }
+  if(sharedFunderGroups.length && suspicious.length>=2){ washScore+=14; washReasons.push('같은 자금원에서 시작한 의심 지갑군이 있습니다'); }
+  if(recentSessions.some(s=>s.clusterTouches>=2 && s.txCount>=4)){ washScore+=12; washReasons.push('짧은 세션 안에 군집성 이동이 몰렸습니다'); }
+  if((flowCounts.wallet_transfer||0) >= Math.max(8, txs.length*0.45) && highRisk.length){ washScore+=10; washReasons.push('일반 송금처럼 보이는 흐름 안에 고신뢰 지갑이 섞였습니다'); }
+
+  const infraRatio=safeDiv(bridgeMoves+dexPoolMoves, Math.max(txs.length,1));
+  if(txs.length && Math.max(pumpScore,dumpScore,washScore)<40){ neutralScore+=50; neutralReasons.push('최근 관찰 데이터에서 강한 방향성 신호가 아직 없습니다'); }
+  if(infraRatio>=0.55){ neutralScore+=20; neutralReasons.push('브리지/DEX 인프라성 이동 비중이 높습니다'); }
+  if(txs.length<60){ neutralScore+=10; neutralReasons.push('관찰 건수가 아직 적어 판단 신뢰도가 낮습니다'); }
+  if(obs.continuity==='gap'){ neutralScore+=18; neutralReasons.push('관찰 공백으로 이전 세션과 현재 세션을 분리했습니다'); }
+
+  const axes=[
+    makeDecisionAxis('dump','덤핑 위험','danger',dumpScore,dumpReasons),
+    makeDecisionAxis('pump','펌핑 준비','success',pumpScore,pumpReasons),
+    makeDecisionAxis('wash','워시/노이즈','warning',washScore,washReasons),
+    makeDecisionAxis('neutral','판단보류','info',neutralScore,neutralReasons)
+  ];
+  const directional=axes.filter(a=>a.kind!=='neutral').sort((a,b)=>b.score-a.score);
+  let top=directional[0] || axes[3];
+  if(!top || top.score<45){
+    top=axes.find(a=>a.kind==='neutral');
+  }
+  let reliability=100;
+  if(txs.length<80) reliability-=18;
+  if(obs.continuity==='gap') reliability-=25;
+  if(!obs.activeCount) reliability-=12;
+  if(totalUsd && totalUsd<state.largeThreshold) reliability-=8;
+  const confidence=clamp(Math.round((top.score||0) * reliability / 100),0,100);
+  const keyReasons=top.reasons.length ? top.reasons : ['현재 표본 안에서는 뚜렷한 방향성 신호가 약합니다'];
+  return {
+    top,
+    confidence,
+    axes,
+    reasons:keyReasons,
+    txCount:txs.length,
+    totalUsd,
+    dex,
+    observation:obs
+  };
+}
+function renderDecisionPanel(){
+  const el=document.getElementById('decisionContent');
+  const countEl=document.getElementById('decisionCount');
+  if(!el || !countEl) return;
+  if(!state.currentCoin){
+    countEl.textContent='';
+    el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 펌핑/덤핑/노이즈 판단 보조 요약이 표시됩니다</p></div>';
+    return;
+  }
+  if(!state.transfers.length){
+    countEl.textContent='';
+    el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">전송 데이터가 준비되면 판단 요약이 표시됩니다</p></div>';
+    return;
+  }
+  const summary=buildDecisionSummary();
+  state.decisionSummary=summary;
+  const obs=summary.observation||{};
+  countEl.textContent=`(누적 관찰 ${obs.activeCount||summary.txCount}건 · 신규 ${obs.newCount||0}건)`;
+  const top=summary.top;
+  const topText=top.kind==='dump'
+    ? '덤핑 위험 후보'
+    : top.kind==='pump'
+      ? '펌핑 준비 후보'
+      : top.kind==='wash'
+        ? '워시/노이즈 후보'
+        : '판단보류';
+  const obsWarn=obs.continuity==='gap';
+  const observedSince=obs.observedSince ? new Date(obs.observedSince).toLocaleString('ko-KR', { timeZone:'Asia/Seoul' }) : '-';
+  const lastSuccess=obs.lastSuccessAt ? new Date(obs.lastSuccessAt).toLocaleString('ko-KR', { timeZone:'Asia/Seoul' }) : '-';
+  el.innerHTML=`
+    <div class="decision-hero">
+      <div class="decision-main ${top.tone}">
+        <div class="decision-eyebrow">최근 관찰 세션 기준</div>
+        <div class="decision-title">${topText} · 신뢰도 ${summary.confidence}/100</div>
+        <div class="decision-sub">
+          이 판단은 현재 브라우저가 누적 관찰한 전송과 무료 API 표본을 기준으로 한 후보 분류입니다. 전체 체인 히스토리 확정 판정이 아니라, 사용자가 확인해야 할 방향을 압축한 것입니다.
+        </div>
+        <div class="decision-meta">
+          <span class="decision-meta-chip">전송 ${summary.txCount}건</span>
+          <span class="decision-meta-chip">관찰량 ${formatUsd(summary.totalUsd)}</span>
+          <span class="decision-meta-chip">DEX ${summary.dex.pairCount}쌍</span>
+          ${obsWarn?'<span class="decision-meta-chip" style="color:var(--warning)">관찰 공백 있음</span>':''}
+        </div>
+      </div>
+      <div class="observation-card ${obsWarn?'warning':''}">
+        <div class="observation-title">관찰 상태</div>
+        <div class="observation-grid">
+          <div class="observation-stat"><label>세션 누적</label><strong>${obs.activeCount||summary.txCount}</strong></div>
+          <div class="observation-stat"><label>신규 감지</label><strong>${obs.newCount||0}</strong></div>
+          <div class="observation-stat"><label>겹침 확인</label><strong>${obs.overlapCount||0}</strong></div>
+          <div class="observation-stat"><label>공백 횟수</label><strong>${obs.gapCount||0}</strong></div>
+        </div>
+        <div class="decision-sub" style="margin-top:10px">시작 ${observedSince}<br>갱신 ${lastSuccess}</div>
+      </div>
+    </div>
+    <div class="decision-score-grid">
+      ${summary.axes.map(axis=>`
+        <div class="decision-score-card">
+          <div class="decision-score-top">
+            <div class="decision-score-label">${axis.label}</div>
+            <div class="decision-score-value">${axis.score}/100</div>
+          </div>
+          <div class="decision-score-bar"><div class="decision-score-fill ${axis.tone}" style="width:${axis.score}%"></div></div>
+          <div class="summary-help">${axis.reasons[0]||'강한 신호 없음'}</div>
+        </div>`).join('')}
+    </div>
+    <div class="decision-reason-list">
+      ${summary.reasons.map((reason,idx)=>`
+        <div class="decision-reason-card">
+          <div class="decision-reason-head">
+            <div class="decision-reason-title">근거 ${idx+1}</div>
+            ${renderFlowBadge({ label:top.label, tone:top.tone })}
+          </div>
+          <div class="decision-reason-body">${escapeHtml(reason)}</div>
+        </div>`).join('')}
+    </div>
+    <div class="decision-actions">
+      <button onclick="switchTab('transfers')">전송 원본 보기</button>
+      <button onclick="switchTab('wallets')">관여 지갑 보기</button>
+      <button onclick="switchTab('sessions')">세션 보기</button>
+      ${obsWarn?'<button onclick="switchTab(\'history\')">이전 감지 기록 보기</button>':''}
+    </div>`;
+}
+
 function buildAlerts(){
   if(state.loading || !state.currentCoin || !state.transfers.length){
     state.alerts=[];
@@ -1620,6 +2111,17 @@ function buildAlerts(){
     }
   });
 
+  const decision=state.decisionSummary || buildDecisionSummary();
+  if(decision?.top && decision.top.kind!=='neutral' && decision.confidence>=65){
+    alerts.push({
+      key:`decision:${decision.top.kind}:${state.observation?.sessionId||'live'}`,
+      level:decision.top.kind==='dump' ? 'high' : decision.top.kind==='wash' ? 'medium' : 'low',
+      title:`${decision.top.label} 판단 후보`,
+      description:`신뢰도 ${decision.confidence}/100 · ${decision.reasons?.[0] || '주요 패턴이 감지됐습니다.'}`,
+      targetTab:'decision'
+    });
+  }
+
   const deduped=new Map();
   alerts.forEach(alert=>{ if(!deduped.has(alert.key)) deduped.set(alert.key, alert); });
   state.alerts=[...deduped.values()].slice(0,20);
@@ -1673,6 +2175,7 @@ function refreshTrackingViews(){
     state.sessions=[];
   }
   renderSessions();
+  renderDecisionPanel();
   buildAndRenderAlerts();
   captureHistoryEvents();
   renderHistory();
@@ -1726,6 +2229,13 @@ async function selectCoin(coinId){
     const coin=await r.json();
     state.currentCoin=coin;
     state.allPlatforms=coin.platforms||{};
+    state.transfers=[];
+    state.analyzedWallets=[];
+    state.walletMap={};
+    state.walletInsights=null;
+    state.decisionSummary=null;
+    state.observation=null;
+    state.observationRecord=null;
     // pick primary chain
     const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]);
     const supportedChains=chains.filter(c=>CONFIG.EXPLORERS[c]);
@@ -1741,6 +2251,7 @@ async function selectCoin(coinId){
     document.getElementById('tabsBar').style.display='flex';
     // load extras
     await Promise.allSettled([loadDexData(), loadTransfers(), loadNewsFeed()]);
+    switchTab('decision');
     startRefreshTimer();
   }catch(e){
     console.error(e);
@@ -1802,8 +2313,16 @@ async function switchChain(chain){
   if(!CONFIG.EXPLORERS[chain]) return;
   state.currentChain=chain;
   state.currentContract=state.allPlatforms[chain];
+  state.transfers=[];
+  state.analyzedWallets=[];
+  state.walletMap={};
+  state.walletInsights=null;
+  state.decisionSummary=null;
+  state.observation=null;
+  state.observationRecord=null;
   if(state.currentCoin) renderCoinPanel(state.currentCoin);
   await Promise.allSettled([loadDexData(), loadTransfers(), loadNewsFeed(true)]);
+  switchTab('decision');
 }
 
 function isFut(t){
@@ -2349,6 +2868,7 @@ async function loadSolanaTransfers(isSilent=false){
     state.addressLabels={};
     state.sessions=[];
     state.alerts=[];
+    resetObservationRuntime();
     renderWalletAnalysis([]);
     renderSessions();
     renderAlertPanel();
@@ -2364,7 +2884,7 @@ async function loadSolanaTransfers(isSilent=false){
     const rawSwaps=await fetchMoralisPaginated(
       swapsUrl,
       headers,
-      CONFIG.FETCH_LIMITS.SOLANA_TOKEN_TOTAL,
+      getTransferFetchTotal(CONFIG.FETCH_LIMITS.SOLANA_TOKEN_TOTAL),
       CONFIG.FETCH_LIMITS.SOLANA_PAGE,
       'Moralis Solana API error'
     );
@@ -2389,16 +2909,22 @@ async function loadSolanaTransfers(isSilent=false){
       state.addressLabels={};
       state.sessions=[];
       state.alerts=[];
+      resetObservationRuntime();
       renderWalletAnalysis([]);
       renderSessions();
       renderAlertPanel();
       return;
     }
-    state.transfers=dedupeTransfers(mappedTxs);
-    setTransferStats('Solana', mappedTxs.length, state.transfers.length);
+    const normalizedTxs=dedupeTransfers(mappedTxs);
+    setTransferStats('Solana', mappedTxs.length, normalizedTxs.length);
+    const observation=await applyObservedTransfers(normalizedTxs, 'Solana');
+    state.transfers=observation.transfers;
     state.transferPage=1;
     refreshAddressLabels();
-    state.lastTransferKeyNote=buildTransferNote(note, 'success');
+    state.lastTransferKeyNote=buildTransferNote(
+      observation.continuity==='gap' ? `${note} · 관찰 공백으로 새 세션을 시작했습니다` : note,
+      observation.continuity==='gap' ? 'warning' : 'success'
+    );
     refreshTrackingViews();
   }catch(e){
     console.error(e);
@@ -2418,6 +2944,7 @@ async function loadTransfers(isSilent=false){
     state.addressLabels={};
     state.sessions=[];
     state.alerts=[];
+    resetObservationRuntime();
     renderTransfers([]);
     renderWalletAnalysis([]);
     clearWalletDetail();
@@ -2436,11 +2963,13 @@ async function loadTransfers(isSilent=false){
     state.addressLabels={};
     state.sessions=[];
     state.alerts=[];
+    resetObservationRuntime();
     renderWalletAnalysis([]);
     renderSessions();
     renderAlertPanel();
     return;
   }
+  await hydrateObservationRuntime();
   if(explorer.isSolana){
     await loadSolanaTransfers(isSilent);
     return;
@@ -2467,6 +2996,7 @@ async function loadTransfers(isSilent=false){
       state.analyzedWallets=[];
       state.walletMap={};
       state.walletInsights=null;
+      resetObservationRuntime();
       renderWalletAnalysis([]);
       return;
     }
@@ -2478,7 +3008,7 @@ async function loadTransfers(isSilent=false){
       const items=await fetchMoralisPaginated(
         url,
         { 'X-API-Key': moralisKey },
-        CONFIG.FETCH_LIMITS.MORALIS_TOTAL,
+        getTransferFetchTotal(CONFIG.FETCH_LIMITS.MORALIS_TOTAL),
         CONFIG.FETCH_LIMITS.MORALIS_PAGE,
         'Moralis API error'
       );
@@ -2492,6 +3022,7 @@ async function loadTransfers(isSilent=false){
         state.addressLabels={};
         state.sessions=[];
         state.alerts=[];
+        resetObservationRuntime();
         renderWalletAnalysis([]);
         renderSessions();
         renderAlertPanel();
@@ -2499,11 +3030,16 @@ async function loadTransfers(isSilent=false){
       }
       // Convert Moralis format to our normalized transfer shape
       const mappedTxs = items.map(mapMoralisTransfer);
-      state.transfers=normalizeTransferList(mappedTxs);
-      setTransferStats('Moralis', mappedTxs.length, state.transfers.length);
+      const normalizedTxs=normalizeTransferList(mappedTxs);
+      setTransferStats('Moralis', mappedTxs.length, normalizedTxs.length);
+      const observation=await applyObservedTransfers(normalizedTxs, 'Moralis');
+      state.transfers=observation.transfers;
       state.transferPage=1;
       refreshAddressLabels();
-      state.lastTransferKeyNote=buildTransferNote('✅ Moralis API로 전송내역 수신 완료', 'success');
+      state.lastTransferKeyNote=buildTransferNote(
+        observation.continuity==='gap' ? '✅ Moralis API 수신 완료 · 관찰 공백으로 새 세션을 시작했습니다' : '✅ Moralis API로 전송내역 수신 완료',
+        observation.continuity==='gap' ? 'warning' : 'success'
+      );
       refreshTrackingViews();
       return;
     }catch(e){
@@ -2520,6 +3056,7 @@ async function loadTransfers(isSilent=false){
     state.analyzedWallets=[];
     state.walletMap={};
     state.walletInsights=null;
+    resetObservationRuntime();
     renderWalletAnalysis([]);
     return;
   }
@@ -2528,7 +3065,7 @@ async function loadTransfers(isSilent=false){
     const etherscanTxs=await fetchEtherscanTokenTransfersPaginated(
       explorer,
       apiKey,
-      CONFIG.FETCH_LIMITS.ETHERSCAN_TOTAL,
+      getTransferFetchTotal(CONFIG.FETCH_LIMITS.ETHERSCAN_TOTAL),
       CONFIG.FETCH_LIMITS.ETHERSCAN_PAGE
     );
     if(!etherscanTxs.length){
@@ -2541,24 +3078,33 @@ async function loadTransfers(isSilent=false){
       state.addressLabels={};
       state.sessions=[];
       state.alerts=[];
+      resetObservationRuntime();
       renderWalletAnalysis([]);
       renderSessions();
       renderAlertPanel();
       return;
     }
-    state.transfers=normalizeTransferList(etherscanTxs);
-    setTransferStats('Etherscan', etherscanTxs.length, state.transfers.length);
-    state.transferPage=1;
-    let transferNote=buildTransferNote('ℹ Etherscan 기준 최근 전송을 분석합니다', 'info');
+    let normalizedTxs=normalizeTransferList(etherscanTxs);
+    setTransferStats('Etherscan', etherscanTxs.length, normalizedTxs.length);
+    let transferNoteMessage='ℹ Etherscan 기준 최근 전송을 분석합니다';
+    let transferNoteTone='info';
     if(moralisKey && explorer.moralisChain){
-      const enrichment=await enrichTransfersWithMoralisLabels(state.transfers, explorer);
-      state.transfers=enrichment.transfers;
+      const enrichment=await enrichTransfersWithMoralisLabels(normalizedTxs, explorer);
+      normalizedTxs=enrichment.transfers;
       if(enrichment.enriched){
-        transferNote=buildTransferNote('✅ Etherscan 전송내역 + Moralis 라벨 보강', 'success');
+        transferNoteMessage='✅ Etherscan 전송내역 + Moralis 라벨 보강';
+        transferNoteTone='success';
       }
     }
+    const observation=await applyObservedTransfers(normalizedTxs, 'Etherscan');
+    state.transfers=observation.transfers;
+    if(observation.continuity==='gap'){
+      transferNoteMessage='ℹ Etherscan 수신 완료 · 관찰 공백으로 새 세션을 시작했습니다';
+      transferNoteTone='warning';
+    }
+    state.transferPage=1;
     refreshAddressLabels();
-    state.lastTransferKeyNote=transferNote;
+    state.lastTransferKeyNote=buildTransferNote(transferNoteMessage, transferNoteTone);
     refreshTrackingViews();
   }catch(e){
     console.error(e);
@@ -2806,6 +3352,23 @@ function captureHistoryEvents(){
       });
     }
   });
+
+  const decision=state.decisionSummary || buildDecisionSummary();
+  if(decision?.top && decision.top.kind!=='neutral' && decision.confidence>=65){
+    pending.push({
+      ...context,
+      key:`decision:${context.chain}:${context.contract}:${state.observation?.sessionId||'live'}:${decision.top.kind}`,
+      category:'decision',
+      badge:decision.top.label,
+      tone:decision.top.tone==='danger' ? 'danger' : decision.top.tone==='warning' ? 'warning' : 'info',
+      title:`${decision.top.label} 판단 후보`,
+      description:`신뢰도 ${decision.confidence}/100 · ${(decision.reasons||[]).slice(0,2).join(' · ')}`,
+      savedAt:toUtcIso(Math.floor(Date.now()/1000)),
+      amountUsd:decision.totalUsd,
+      score:decision.confidence,
+      targetTab:'decision'
+    });
+  }
 
   if(mergeHistoryEvents(pending)){
     state.historyPage=1;
@@ -3816,6 +4379,7 @@ function ensureHistoryTabButton(){
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active',t.id==='tab-'+name));
+  if(name==='decision') renderDecisionPanel();
   if(name==='sessions') renderSessions();
   if(name==='news') renderNewsFeed();
   if(name==='history') renderHistory();
@@ -3834,7 +4398,7 @@ function startRefreshTimer(){
     const m=Math.floor(state.refreshCountdown/60);
     const s=state.refreshCountdown%60;
     document.getElementById('refreshTimer').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    if(state.refreshCountdown<=0){ refreshData(); state.refreshCountdown=state.refreshInterval*60; }
+    if(state.refreshCountdown<=0){ refreshData('timer'); state.refreshCountdown=state.refreshInterval*60; }
   },1000);
 }
 
@@ -3844,12 +4408,33 @@ function togglePause(){
   if(!state.paused) startRefreshTimer();
 }
 
-async function refreshData(){
+async function refreshData(reason='manual'){
   if(!state.currentCoin) return;
-  toast('🔄 데이터 새로고침 중...','info');
-  await Promise.allSettled([loadDexData(true), loadTransfers(true), loadNewsFeed(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')]);
-  toast('✅ 새로고침 완료!','success');
+  if(state.loading) return;
+  const wasCatchUp=state.forceCatchUp;
+  if(reason==='focus' || reason==='visible') state.forceCatchUp=true;
+  toast(reason==='focus' || reason==='visible' ? '🔄 탭 복귀 후 누락 구간 확인 중...' : '🔄 데이터 새로고침 중...','info');
+  try{
+    await Promise.allSettled([loadDexData(true), loadTransfers(true), loadNewsFeed(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')]);
+    toast('✅ 새로고침 완료!','success');
+  }finally{
+    state.forceCatchUp=wasCatchUp;
+  }
 }
+
+async function catchUpAfterFocus(reason='focus'){
+  if(document.hidden || !state.currentCoin || state.paused || state.loading) return;
+  const now=Date.now();
+  if(now-(state.lastFocusCatchUpAt||0)<15000) return;
+  const lastSuccess=Number(state.observation?.lastSuccessAt||0);
+  const intervalMs=Math.max(60000, (state.refreshInterval||CONFIG.REFRESH_DEFAULT||5)*60000);
+  if(lastSuccess && now-lastSuccess < Math.min(intervalMs, 60000)) return;
+  state.lastFocusCatchUpAt=now;
+  await refreshData(reason);
+}
+
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) catchUpAfterFocus('visible'); });
+window.addEventListener('focus',()=>catchUpAfterFocus('focus'));
 
 // ==================== SETTINGS ====================
 function openSettings(){
@@ -3888,10 +4473,18 @@ function showLoading(){
   document.getElementById('coinPanel').classList.add('active');
   document.getElementById('coinMetrics').innerHTML='<div class="skeleton" style="width:100%;height:60px"></div>'.repeat(3);
   document.getElementById('tabsBar').style.display='none';
+  state.transfers=[];
+  state.analyzedWallets=[];
+  state.walletMap={};
+  state.walletInsights=null;
   state.sessions=[];
   state.alerts=[];
   state.alertPanelOpen=false;
+  state.decisionSummary=null;
+  state.observation=null;
+  state.observationRecord=null;
   renderAlertPanel();
+  renderDecisionPanel();
 }
 
 // ==================== INIT ====================
