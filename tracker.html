@@ -406,7 +406,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.4</small>
+        <small class="version-line">Tracker v1.1.5</small>
       </div>
     </div>
     <div class="header-actions">
@@ -631,7 +631,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.4';
+const APP_VERSION = 'Tracker v1.1.5';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -752,7 +752,9 @@ const state = {
   lastFocusCatchUpAt: 0,
   refreshTimer: null,
   refreshCountdown: 0,
+  nextRefreshAt: 0,
   countdownTimer: null,
+  refreshing: false,
   paused: false,
   loading: false
 };
@@ -4454,19 +4456,44 @@ function switchTab(name){
 }
 
 // ==================== REFRESH ====================
+function getRefreshIntervalMs(){
+  return Math.max(60000, (state.refreshInterval||CONFIG.REFRESH_DEFAULT||5)*60000);
+}
+function scheduleNextRefresh(fromTime=Date.now()){
+  if(!state.refreshInterval){
+    state.nextRefreshAt=0;
+    state.refreshCountdown=0;
+    return;
+  }
+  state.nextRefreshAt=fromTime+getRefreshIntervalMs();
+  state.refreshCountdown=Math.ceil((state.nextRefreshAt-Date.now())/1000);
+}
+function updateRefreshCountdownDisplay(){
+  const timerEl=document.getElementById('refreshTimer');
+  if(!timerEl) return;
+  const remaining=Math.max(0, Math.ceil(((state.nextRefreshAt||Date.now())-Date.now())/1000));
+  state.refreshCountdown=remaining;
+  const m=Math.floor(remaining/60);
+  const s=remaining%60;
+  timerEl.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
 function startRefreshTimer(){
   clearInterval(state.refreshTimer);
   clearInterval(state.countdownTimer);
-  if(!state.refreshInterval||state.paused){document.getElementById('refreshBar').classList.remove('active');return;}
+  if(!state.refreshInterval||state.paused){
+    state.nextRefreshAt=0;
+    document.getElementById('refreshBar').classList.remove('active');
+    return;
+  }
   document.getElementById('refreshBar').classList.add('active');
-  state.refreshCountdown=state.refreshInterval*60;
+  scheduleNextRefresh();
+  updateRefreshCountdownDisplay();
   state.countdownTimer=setInterval(()=>{
     if(state.paused) return;
-    state.refreshCountdown--;
-    const m=Math.floor(state.refreshCountdown/60);
-    const s=state.refreshCountdown%60;
-    document.getElementById('refreshTimer').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    if(state.refreshCountdown<=0){ refreshData('timer'); state.refreshCountdown=state.refreshInterval*60; }
+    updateRefreshCountdownDisplay();
+    if(state.nextRefreshAt && Date.now()>=state.nextRefreshAt && !state.refreshing){
+      refreshData('timer');
+    }
   },1000);
 }
 
@@ -4478,10 +4505,11 @@ function togglePause(){
 
 async function refreshData(reason='manual'){
   if(!state.currentCoin) return;
-  if(state.loading) return;
+  if(state.loading || state.refreshing) return;
+  state.refreshing=true;
   const wasCatchUp=state.forceCatchUp;
-  if(reason==='focus' || reason==='visible') state.forceCatchUp=true;
-  toast(reason==='focus' || reason==='visible' ? '🔄 탭 복귀 후 누락 구간 확인 중...' : '🔄 데이터 새로고침 중...','info');
+  if(reason==='missed_timer') state.forceCatchUp=true;
+  toast(reason==='missed_timer' ? '🔄 놓친 자동 새로고침 보정 중...' : '🔄 데이터 새로고침 중...','info');
   try{
     const tasks=[loadDexData(true), loadTransfers(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')];
     if(reason==='manual') tasks.push(loadNewsFeed(true));
@@ -4489,18 +4517,24 @@ async function refreshData(reason='manual'){
     toast('✅ 새로고침 완료!','success');
   }finally{
     state.forceCatchUp=wasCatchUp;
+    state.refreshing=false;
+    if(state.refreshInterval && !state.paused){
+      scheduleNextRefresh();
+      updateRefreshCountdownDisplay();
+    }
   }
 }
 
 async function catchUpAfterFocus(reason='focus'){
-  if(document.hidden || !state.currentCoin || state.paused || state.loading) return;
+  if(document.hidden || !state.currentCoin || state.paused || state.loading || state.refreshing) return;
   const now=Date.now();
   if(now-(state.lastFocusCatchUpAt||0)<15000) return;
-  const lastSuccess=Number(state.observation?.lastSuccessAt||0);
-  const intervalMs=Math.max(60000, (state.refreshInterval||CONFIG.REFRESH_DEFAULT||5)*60000);
-  if(lastSuccess && now-lastSuccess < Math.min(intervalMs, 60000)) return;
+  if(!state.nextRefreshAt || now<state.nextRefreshAt) {
+    updateRefreshCountdownDisplay();
+    return;
+  }
   state.lastFocusCatchUpAt=now;
-  await refreshData(reason);
+  await refreshData('missed_timer');
 }
 
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden) catchUpAfterFocus('visible'); });
