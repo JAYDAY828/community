@@ -406,7 +406,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.3</small>
+        <small class="version-line">Tracker v1.1.4</small>
       </div>
     </div>
     <div class="header-actions">
@@ -535,7 +535,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
       <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
         <span>📰 뉴스피드 <span id="newsCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn-sm" onclick="loadNewsFeed(true)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">새로고침</button>
+          <button class="btn-sm" onclick="loadNewsFeed(false,{force:true})" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">새로고침</button>
         </div>
       </div>
       <div id="newsContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 관련 뉴스와 공식 링크가 표시됩니다</p></div></div>
@@ -631,7 +631,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.3';
+const APP_VERSION = 'Tracker v1.1.4';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -689,6 +689,8 @@ const CONFIG = {
     OBSERVATION_ACTIVE_MAX: 5000,
     OBSERVATION_ARCHIVE_MAX: 6,
     NEWS_MAX: 10,
+    NEWS_MIN_REFRESH_MS: 15*60*1000,
+    NEWS_RATE_LIMIT_COOLDOWN_MS: 30*60*1000,
     HISTORY_PAGE_SIZE: 25,
     HISTORY_MAX: 500
   }
@@ -723,6 +725,9 @@ const state = {
   newsWindowLabel: '',
   newsStatusMessage: '',
   newsRejectedCount: 0,
+  newsLastFetchAt: 0,
+  newsLastKey: '',
+  newsCooldownUntil: parseInt(localStorage.getItem('phantom_news_cooldown_until') || '0'),
   historyEvents: readStorageJson('phantom_event_history', []).filter(item=>item && item.key),
   historyPage: 1,
   historyScope: 'coin',
@@ -808,6 +813,22 @@ function buildTransferNote(message, tone='info'){
   const statsText=formatTransferStats();
   const noteText=statsText ? `${message} · ${statsText}` : message;
   return `<div style="margin-bottom:8px;padding:8px 12px;border-radius:6px;background:${palette.bg};border:1px solid ${palette.border};font-size:.75rem;color:${palette.color}">${noteText}</div>`;
+}
+function redactSensitiveUrl(value){
+  return String(value||'')
+    .replace(/([?&](?:api[_-]?key|apikey|key|token)=)[^&\s]+/gi, '$1[redacted]')
+    .replace(/((?:api[_-]?key|apikey|key|token)%3D)[^%&\s]+/gi, '$1[redacted]')
+    .replace(/(X-API-Key[:=]\s*)[^&\s]+/gi, '$1[redacted]');
+}
+function isRateLimitError(err){
+  const message=String(err?.message || err || '').toLowerCase();
+  return message.includes('status 429') || message.includes('too many requests') || message.includes('rate limit');
+}
+function formatCooldownUntil(ts){
+  const remaining=Math.max(0, Number(ts||0)-Date.now());
+  if(!remaining) return '잠시 후';
+  const minutes=Math.max(1, Math.ceil(remaining/60000));
+  return `${minutes}분 후`;
 }
 function sanitizeNewsTerm(value){
   return String(value||'').replace(/"/g,'').trim();
@@ -1005,6 +1026,10 @@ function mergeNewsArticles(primary, fallback){
   return [...byUrl.values()];
 }
 async function fetchGNewsSearch(query, options={}){
+  const now=Date.now();
+  if(state.newsCooldownUntil && now < state.newsCooldownUntil){
+    throw new Error(`GNews rate limited until ${new Date(state.newsCooldownUntil).toISOString()}`);
+  }
   const url=new URL(`${CONFIG.GNEWS_API}/search`);
   url.searchParams.set('q', query);
   url.searchParams.set('max', String(options.max || CONFIG.FETCH_LIMITS.NEWS_MAX));
@@ -1012,8 +1037,16 @@ async function fetchGNewsSearch(query, options={}){
   url.searchParams.set('sortby', options.sortby || 'publishedAt');
   url.searchParams.set('apikey', state.gnewsKey);
   if(options.from) url.searchParams.set('from', options.from);
-  const data=await fetchExternalJson(url.toString(), 'GNews');
-  return Array.isArray(data?.articles) ? data.articles : [];
+  try{
+    const data=await fetchExternalJson(url.toString(), 'GNews');
+    return Array.isArray(data?.articles) ? data.articles : [];
+  }catch(err){
+    if(isRateLimitError(err)){
+      state.newsCooldownUntil=Date.now()+CONFIG.NEWS_RATE_LIMIT_COOLDOWN_MS;
+      localStorage.setItem('phantom_news_cooldown_until', String(state.newsCooldownUntil));
+    }
+    throw err;
+  }
 }
 function median(nums){
   const arr=(nums||[]).filter(n=>Number.isFinite(n)).sort((a,b)=>a-b);
@@ -2419,7 +2452,7 @@ async function fetchExternalJson(targetUrl, label='External'){
     }catch(err){
       lastError=err;
       if(String(err?.message || '').includes('Host not allowed')) proxyHostError=err;
-      console.warn(`${label} fetch failed:`, candidate, err);
+      console.warn(`${label} fetch failed:`, redactSensitiveUrl(candidate), redactSensitiveUrl(err?.message || err));
     }
   }
   if(lastError && String(lastError.message||'').includes(' status ')) throw lastError;
@@ -2725,23 +2758,50 @@ function renderNewsFeed(){
     ${candidateSection}`;
 }
 
-async function loadNewsFeed(isSilent=false){
+function getNewsFetchKey(coin=state.currentCoin){
+  if(!coin) return '';
+  return `${coin.id||''}|${(coin.symbol||'').toLowerCase()}`;
+}
+async function loadNewsFeed(isSilent=false, options={}){
   const el=document.getElementById('newsContent');
+  if(!state.currentCoin){
+    state.newsItems=[];
+    state.newsCandidateItems=[];
+    state.newsQuery='';
+    state.newsWindowLabel='';
+    state.newsStatusMessage='';
+    state.newsRejectedCount=0;
+    renderNewsFeed();
+    return;
+  }
+  const force=!!options.force;
+  const nowMs=Date.now();
+  const newsKey=getNewsFetchKey();
+  if(!state.gnewsKey){
+    state.newsItems=[];
+    state.newsCandidateItems=[];
+    state.newsQuery='';
+    state.newsWindowLabel='';
+    state.newsStatusMessage='GNews API 키를 입력하면 선택 코인의 최근 이슈를 불러옵니다.';
+    state.newsRejectedCount=0;
+    renderNewsFeed();
+    return;
+  }
+  if(state.newsCooldownUntil && nowMs < state.newsCooldownUntil && !force){
+    state.newsStatusMessage=`GNews 요청 제한으로 자동 뉴스 조회를 쉬고 있습니다. ${formatCooldownUntil(state.newsCooldownUntil)} 다시 시도합니다.`;
+    renderNewsFeed();
+    return;
+  }
+  if(!force && state.newsLastKey===newsKey && state.newsLastFetchAt && nowMs-state.newsLastFetchAt<CONFIG.NEWS_MIN_REFRESH_MS){
+    renderNewsFeed();
+    return;
+  }
   state.newsItems=[];
   state.newsCandidateItems=[];
   state.newsQuery='';
   state.newsWindowLabel='';
   state.newsStatusMessage='';
   state.newsRejectedCount=0;
-  if(!state.currentCoin){
-    renderNewsFeed();
-    return;
-  }
-  if(!state.gnewsKey){
-    state.newsStatusMessage='GNews API 키를 입력하면 선택 코인의 최근 이슈를 불러옵니다.';
-    renderNewsFeed();
-    return;
-  }
   const query=buildNewsQuery(state.currentCoin);
   state.newsQuery=query;
   if(!query){
@@ -2790,19 +2850,27 @@ async function loadNewsFeed(isSilent=false){
       : state.newsCandidateItems.length
         ? '직접 연결되는 핵심 기사는 없지만, 후보 기사와 제외 건수를 함께 확인할 수 있습니다.'
         : '동명이인·저품질 기사·비암호화 문맥을 제외한 뒤 직접 연결되는 뉴스가 없었습니다. 공식 링크만 확인할 수 있습니다.';
+    state.newsLastFetchAt=Date.now();
+    state.newsLastKey=newsKey;
+    if(state.newsCooldownUntil){
+      state.newsCooldownUntil=0;
+      localStorage.removeItem('phantom_news_cooldown_until');
+    }
   }catch(err){
-    console.error(err);
+    console.warn('GNews fetch failed:', redactSensitiveUrl(err?.message || err));
     state.newsItems=[];
     state.newsCandidateItems=[];
     state.newsWindowLabel='';
     state.newsRejectedCount=0;
     const message=String(err?.message || 'Unknown error');
-    if(message.includes('Host not allowed: gnews.io')){
+    if(isRateLimitError(err)){
+      state.newsStatusMessage=`GNews 요청 한도에 걸렸습니다. 뉴스 자동 조회는 ${formatCooldownUntil(state.newsCooldownUntil)}까지 쉬고, 전송/DEX 자동 추적은 계속합니다.`;
+    }else if(message.includes('Host not allowed: gnews.io')){
       state.newsStatusMessage='뉴스를 불러오지 못했습니다. Cloudflare Worker 허용 호스트에 gnews.io 추가가 필요합니다.';
     }else if(message.includes('Failed to fetch')){
       state.newsStatusMessage='뉴스를 불러오지 못했습니다. 현재 호스팅 환경에서 GNews 직접 호출이 차단될 수 있어 Worker 경유가 필요합니다.';
     }else{
-      state.newsStatusMessage=`뉴스를 불러오지 못했습니다: ${message}`;
+      state.newsStatusMessage=`뉴스를 불러오지 못했습니다: ${redactSensitiveUrl(message)}`;
     }
   }
   renderNewsFeed();
@@ -4415,7 +4483,9 @@ async function refreshData(reason='manual'){
   if(reason==='focus' || reason==='visible') state.forceCatchUp=true;
   toast(reason==='focus' || reason==='visible' ? '🔄 탭 복귀 후 누락 구간 확인 중...' : '🔄 데이터 새로고침 중...','info');
   try{
-    await Promise.allSettled([loadDexData(true), loadTransfers(true), loadNewsFeed(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')]);
+    const tasks=[loadDexData(true), loadTransfers(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')];
+    if(reason==='manual') tasks.push(loadNewsFeed(true));
+    await Promise.allSettled(tasks);
     toast('✅ 새로고침 완료!','success');
   }finally{
     state.forceCatchUp=wasCatchUp;
