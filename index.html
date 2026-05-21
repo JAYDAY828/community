@@ -2707,6 +2707,7 @@
                                                     클릭 : 청산가/수수료 안내 팝업
                                                 </span>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -2721,10 +2722,14 @@
                                     <div class="liquid-card bg-[#161b22]/40 p-5 rounded-xl border border-gray-700">
                                         <h4 class="text-white font-bold text-sm mb-2 !mt-0"
                                             data-i18n="ot.actions.auto.title">Auto Stop Market (%)</h4>
-                                        <p class="text-xs text-gray-400 !m-0 mb-2" data-i18n="ot.actions.auto.desc">AT
-                                            SL 기능 사용 시 적용될 퍼센트입니다.</p>
-                                        <div class="text-right text-brand font-mono text-sm"
-                                            data-i18n="ot.actions.auto.default">기본값: 0.5% (설정 변경 가능)</div>
+                                        <div class="space-y-1 text-xs text-gray-400 pl-1">
+                                            <p class="!m-0" data-i18n="ot.actions.auto.desc">
+                                                진입과 동시에 설정 비율 기준 스탑로스 주문을 자동 배치합니다.
+                                            </p>
+                                            <p class="!m-0" data-i18n="ot.actions.auto.adjust">
+                                                비율은 설정창에서 입력하거나 메인 코스트 라벨에서 휠로 0.3%~10% 빠르게 조정합니다.
+                                            </p>
+                                        </div>
                                     </div>
 
                                     <!-- Price Protection -->
@@ -4816,8 +4821,8 @@
             "ot.actions.protect.off.tag": { ko: "스캘핑 권장", en: "Scalping" },
             "ot.actions.protect.off.desc": { ko: "<strong>OFF</strong>: 괴리율 무관 즉시 발동 (속도)", en: "<strong>OFF</strong>: execute immediately regardless of deviation (speed)" },
             "ot.actions.auto.title": { ko: "Auto Stop Market (%)", en: "Auto Stop Market (%)" },
-            "ot.actions.auto.desc": { ko: "AT SL 기능 사용 시 적용될 퍼센트입니다.", en: "Percentage applied when using AT SL." },
-            "ot.actions.auto.default": { ko: "기본값: 0.5% (설정 변경 가능)", en: "Default: 0.5% (adjustable)" },
+            "ot.actions.auto.desc": { ko: "진입과 동시에 설정 비율 기준 스탑로스 주문을 자동 배치합니다.", en: "Automatically places a stop-loss order on entry using the configured percentage." },
+            "ot.actions.auto.adjust": { ko: "비율은 설정창에서 입력하거나 메인 코스트 라벨에서 휠로 0.3%~10% 빠르게 조정합니다.", en: "Set the percentage in Settings, or use the mouse wheel on the main Cost Value label for quick 0.3%-10% adjustment." },
             "ot.actions.note.reduce": { ko: "<strong>Reduce-Only</strong>: 포지션 감소만 허용", en: "<strong>Reduce-Only</strong>: only reduce positions" },
             "ot.actions.note.auto": { ko: "<strong>Auto-Reduce</strong>: 포지션 종료 주문 시 Reduce-Only 자동 적용", en: "<strong>Auto-Reduce</strong>: auto applies Reduce-Only on close orders" },
             "ot.balance.title": { ko: "7) 잔고 및 기타 설정", en: "7) Balance & Other Settings" },
