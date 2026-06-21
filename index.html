@@ -3528,9 +3528,9 @@
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
                                             <div class="text-white font-bold text-sm">BIG</div>
-                                            <div class="text-white font-bold text-sm mt-1">0%</div>
+                                            <div class="text-[#63C86B] font-bold text-sm mt-1">↑ 60%</div>
                                             <div class="text-[11px] text-gray-500 mt-1"
-                                                data-i18n="tr.ui.metrics.layout.big">큰 체결 비중</div>
+                                                data-i18n="tr.ui.metrics.layout.big">큰 체결 / 방향</div>
                                         </div>
                                         <div
                                             class="rounded-lg bg-black/20 border border-gray-800 px-3 py-3 text-center transition-colors hover:border-yellow-400/30">
@@ -3622,8 +3622,8 @@
                                         </div>
                                         <p class="text-xs text-gray-400 !m-0 leading-relaxed"
                                             data-i18n="tr.ui.metrics.big">
-                                            최근 3초 구간에서 큰 체결이 차지하는 비중입니다. 값이 높을수록 <strong class="text-gray-300">굵은
-                                                프린트</strong>가 평소보다 강하게 들어오고 있다는 뜻입니다.
+                                            최근 3초 구간에서 큰 체결이 차지하는 비중입니다. 왼쪽 기호는 큰 체결로 분류된 체결금액의 우세 방향을 뜻하며,
+                                            <strong class="text-gray-300">30 / 60 / 85%</strong> 단계부터 색상이 강해집니다.
                                         </p>
                                     </div>
                                     <div
@@ -3646,7 +3646,8 @@
                                             data-i18n="tr.ui.metrics.flow">
                                             강한 델타 우세가 있을 때 가격이 그 방향으로 <strong class="text-[#2EBD74]">순행</strong>하는지,
                                             애매하게 <strong class="text-gray-300">정체</strong>하는지, 반대로 <strong
-                                                class="text-[#F6465D]">흡수</strong>되는지를 보여줍니다.
+                                                class="text-[#F6465D]">흡수</strong>되는지를 보여줍니다. 종목별 tick 차이를 줄이기 위해
+                                            가격 반응은 tick과 bps 기준을 함께 봅니다.
                                         </p>
                                     </div>
                                     <div
@@ -3755,7 +3756,7 @@
                                             </p>
                                             <p class="text-[11px] text-gray-500 !m-0 leading-relaxed"
                                                 data-i18n="tr.ui.metrics.flow_states.absorb.detail">
-                                                한쪽 델타가 강한데 가격이 그 방향으로 못 가고 반대로 밀립니다. 대기 물량이 두껍거나 반대편이 계속 받아주고 있다는 뜻입니다.
+                                                한쪽 델타가 강한데 가격이 그 방향으로 못 가거나 거의 움직이지 못합니다. 대기 물량이 두껍거나 반대편이 계속 받아주고 있다는 뜻입니다.
                                             </p>
                                         </div>
                                     </div>
@@ -4956,7 +4957,7 @@
             "tr.ui.metrics.layout.sell_short": { ko: "매도", en: "Sell" },
             "tr.ui.metrics.layout.d1": { ko: "1초 델타", en: "1s Delta" },
             "tr.ui.metrics.layout.d3": { ko: "3초 델타", en: "3s Delta" },
-            "tr.ui.metrics.layout.big": { ko: "큰 체결 비중", en: "Large-Trade Share" },
+            "tr.ui.metrics.layout.big": { ko: "큰 체결 / 방향", en: "Large Trades / Direction" },
             "tr.ui.metrics.layout.flow": { ko: "가격 반응", en: "Price Reaction" },
             "tr.ui.metrics.layout.speed_badge": { ko: "체결 강도 EQ", en: "Strength EQ" },
             "tr.ui.metrics.layout.liq_short": { ko: "숏 청산 1M", en: "Short Liq 1m" },
@@ -4964,8 +4965,8 @@
             "tr.ui.metrics.gross.title": { ko: "3초 누적 거래대금", en: "3s Gross Notional" },
             "tr.ui.metrics.gross.desc": { ko: "최근 3초 동안 매수/매도 체결대금이 각각 얼마나 실렸는지 보여줍니다. 순델타만으로는 가려지는 실제 매수·매도 합산 규모를 빠르게 확인하기 위한 칸입니다.", en: "Shows how much buy and sell notional have actually been committed over the last 3 seconds. It is meant to reveal the real combined size that a pure delta number can hide." },
             "tr.ui.metrics.delta": { ko: "순델타를 1초와 3초 기준으로 나눠 보여줍니다. 양수는 매수 우세, 음수는 매도 우세이며, D1은 순간 반응, D3는 조금 더 안정적인 흐름을 읽는 데 유용합니다.", en: "Shows net delta on 1-second and 3-second windows. Positive means buy-side dominance, negative means sell-side dominance; D1 is more reactive while D3 is a steadier short-term read." },
-            "tr.ui.metrics.big": { ko: "최근 3초 구간에서 큰 체결이 차지하는 비중을 보여줍니다. 값이 높을수록 굵은 프린트가 평소보다 더 강하게 들어오고 있다는 뜻입니다.", en: "Shows how much of the last 3 seconds is being driven by large trades. Higher values mean thick prints are coming in more aggressively than usual." },
-            "tr.ui.metrics.flow": { ko: "강한 델타 우세가 있을 때 가격이 그 방향으로 따라가는지, 애매하게 머무는지, 반대로 밀리는지를 보여줍니다.", en: "When delta becomes one-sided, FLOW shows whether price follows that direction, stalls in the middle, or gets pushed back against it." },
+            "tr.ui.metrics.big": { ko: "최근 3초 구간에서 큰 체결이 차지하는 비중을 보여줍니다. 왼쪽 기호는 큰 체결로 분류된 체결금액의 우세 방향이며, <strong>30 / 60 / 85%</strong> 단계부터 색상이 강해집니다.", en: "Shows the share of large trades in the last 3 seconds. The left marker shows the dominant direction among trades classified as large, and color intensity steps up at <strong>30 / 60 / 85%</strong>." },
+            "tr.ui.metrics.flow": { ko: "강한 델타 우세가 있을 때 가격이 그 방향으로 따라가는지, 애매하게 머무는지, 반대로 밀리는지를 보여줍니다. 종목별 tick 차이를 줄이기 위해 가격 반응은 tick과 bps 기준을 함께 봅니다.", en: "When delta becomes one-sided, FLOW shows whether price follows that direction, stalls in the middle, or gets pushed back against it. To reduce symbol-specific tick-size distortion, price reaction is checked with both tick and bps thresholds." },
             "tr.ui.metrics.liq1m.title": { ko: "1분 청산 대금 (1M LIQ)", en: "1m Liquidation" },
             "tr.ui.metrics.liq1m.desc": { ko: "최근 1분 동안 누적된 청산 금액입니다. <strong class=\"text-[#2EBD74]\">녹색(롱 청산)</strong>은 매도 포지션 강제 청산, <strong class=\"text-[#F6465D]\">붉은색(숏 청산)</strong>은 매수 포지션 강제 청산을 뜻하며 단기 유동성 분출과 변곡 가능성을 볼 때 사용합니다.", en: "Shows the cumulative liquidation amount over the last 1 minute. <strong class=\"text-[#2EBD74]\">Green (Long Liq)</strong> indicates forced sell-side liquidation, <strong class=\"text-[#F6465D]\">Red (Short Liq)</strong> indicates forced buy-side liquidation, and it is useful for spotting short-term liquidity bursts and turning points." },
             "tr.ui.metrics.speed.title": { ko: "체결 강도 이퀄라이저", en: "Trade-Strength Equalizer" },
@@ -4977,9 +4978,9 @@
             "tr.ui.metrics.flow_states.follow.summary": { ko: "때리는 쪽이 이기고 있음", en: "Aggressor side is winning" },
             "tr.ui.metrics.flow_states.follow.detail": { ko: "델타와 가격이 같은 방향으로 움직이는 상태입니다. 시장가 공격이 유동성을 뚫고 가격을 밀어내고 있습니다.", en: "Delta and price are moving in the same direction. Market orders are breaking through liquidity and pushing price." },
             "tr.ui.metrics.flow_states.neutral.summary": { ko: "아직 둘 다 애매함", en: "Both sides inconclusive" },
-            "tr.ui.metrics.flow_states.neutral.detail": { ko: "델타 방향성은 있지만 가격 반응이 뚣렷하지 않은 상태입니다. 아직 방향이 확정되지 않았습니다.", en: "Delta shows a direction but price reaction is unclear. Direction is not yet confirmed." },
+            "tr.ui.metrics.flow_states.neutral.detail": { ko: "델타 방향성은 있지만 가격 반응이 뚜렷하지 않은 상태입니다. 아직 방향이 확정되지 않았습니다.", en: "Delta shows a direction but price reaction is unclear. Direction is not yet confirmed." },
             "tr.ui.metrics.flow_states.absorb.summary": { ko: "받아내는 쪽이 버티거나 이기고 있음", en: "Resting side is absorbing" },
-            "tr.ui.metrics.flow_states.absorb.detail": { ko: "한쪽 델타가 강한데 가격이 그 방향으로 못 가고 반대로 밀립니다. 대기 물량이 두껏거나 반대편이 계속 받아주고 있다는 뜻입니다.", en: "One-sided delta is showing but price gets pushed back. Resting orders are thick or the opposite side keeps absorbing." },
+            "tr.ui.metrics.flow_states.absorb.detail": { ko: "한쪽 델타가 강한데 가격이 그 방향으로 못 가거나 거의 움직이지 못합니다. 대기 물량이 두껍거나 반대편이 계속 받아주고 있다는 뜻입니다.", en: "One-sided delta is strong, but price cannot move that way or barely moves. Resting orders are thick or the opposite side keeps absorbing." },
             "tr.ui.metrics.flow_states.note": { ko: "ABSORB가 나타나면 체결량은 강한데 가격 반응이 약하다는 뜻이므로, 추세 지속보다 정체·흡수·반전 가능성을 함께 의심해야 합니다.", en: "When ABSORB appears, volume is strong but price reaction is weak, so consider stall/absorption/reversal alongside trend continuation." },
             "tr.ui.metrics.read.title": { ko: "함께 읽는 법", en: "How to Read Together" },
             "tr.ui.metrics.read.item1": { ko: "먼저 델타로 어느 쪽이 우세한지 보고, FLOW로 그 우세가 실제 가격 진행인지 흡수인지 구분합니다.", en: "Start with delta to see which side is dominant, then use FLOW to judge whether that dominance is truly pushing price or getting absorbed." },
