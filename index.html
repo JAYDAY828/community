@@ -2411,6 +2411,47 @@
                                 </div>
                             </div>
 
+                            <div
+                                class="liquid-card bg-brand/5 border border-brand/20 rounded-xl p-6 mb-8 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                <h3 class="text-lg font-bold text-white !mt-0 mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-puzzle-piece text-brand"></i>
+                                    <span data-i18n="ext.install.title">설치 및 활성화</span>
+                                </h3>
+                                <p class="text-sm text-gray-400 leading-relaxed !mt-0 mb-5" data-i18n="ext.install.desc">
+                                    Binance Manager는 Trading API Launcher를 통해 다운로드한 확장 폴더를 Chrome에서 직접 로드해 사용합니다.
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
+                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">1</span>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step1.title">런처 업데이트 실행</h4>
+                                            <p class="text-xs text-gray-400 !m-0" data-i18n="ext.install.step1.body">Trading API Launcher에서 업데이트를 실행해 Binance Manager 확장 폴더를 내려받습니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
+                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">2</span>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step2.title">Chrome 확장 프로그램 열기</h4>
+                                            <p class="text-xs text-gray-400 !m-0"><code>chrome://extensions</code> <span data-i18n="ext.install.step2.body">로 이동한 뒤 개발자 모드를 켭니다.</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
+                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">3</span>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step3.title">압축해제된 확장 로드</h4>
+                                            <p class="text-xs text-gray-400 !m-0"><code>extensions/binance-manager</code> <span data-i18n="ext.install.step3.body">폴더를 선택해 로드합니다.</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
+                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">4</span>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step4.title">Binance 화면 새로고침</h4>
+                                            <p class="text-xs text-gray-400 !m-0" data-i18n="ext.install.step4.body">Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
                                 <h3 class="text-lg font-bold text-white !m-0 flex items-center gap-2">
                                     <i class="fa-solid fa-display text-brand"></i>
@@ -4894,6 +4935,16 @@
             "ext.binance.feature.item2": { ko: "1K, 5K, 10K, 50K, 100K 금액 버튼으로 수량을 계산합니다.", en: "Calculates quantity from 1K, 5K, 10K, 50K, and 100K value buttons." },
             "ext.binance.feature.item3": { ko: "바이낸스 단축키 흐름과 연결해 주문 취소와 포지션 종료를 더 가까운 위치에서 실행합니다.", en: "Connects with Binance shortcut flows so cancel and close-position actions are available closer to the order panel." },
             "ext.binance.feature.item4": { ko: "주문 생성과 취소 흐름에 사운드를 더해 실행 피드백을 즉시 확인할 수 있습니다.", en: "Adds sound feedback to order creation and cancel flows so execution cues are immediately noticeable." },
+            "ext.install.title": { ko: "설치 및 활성화", en: "Install & Activate" },
+            "ext.install.desc": { ko: "Binance Manager는 Trading API Launcher를 통해 다운로드한 확장 폴더를 Chrome에서 직접 로드해 사용합니다.", en: "Binance Manager is used by loading the extension folder downloaded through Trading API Launcher directly in Chrome." },
+            "ext.install.step1.title": { ko: "런처 업데이트 실행", en: "Run Launcher Update" },
+            "ext.install.step1.body": { ko: "Trading API Launcher에서 업데이트를 실행해 Binance Manager 확장 폴더를 내려받습니다.", en: "Run the update in Trading API Launcher to download the Binance Manager extension folder." },
+            "ext.install.step2.title": { ko: "Chrome 확장 프로그램 열기", en: "Open Chrome Extensions" },
+            "ext.install.step2.body": { ko: "로 이동한 뒤 개발자 모드를 켭니다.", en: "and turn on Developer mode." },
+            "ext.install.step3.title": { ko: "압축해제된 확장 로드", en: "Load Unpacked Extension" },
+            "ext.install.step3.body": { ko: "폴더를 선택해 로드합니다.", en: "folder and load it." },
+            "ext.install.step4.title": { ko: "Binance 화면 새로고침", en: "Refresh Binance" },
+            "ext.install.step4.body": { ko: "Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.", en: "Refresh the Binance Futures tab and confirm the serial authentication status in the extension popup." },
             "ext.screens.title": { ko: "화면 구성", en: "Screen Layout" },
             "ext.video.title": { ko: "실행 영상 보기", en: "Watch Demo Video" },
             "ext.video.desc": { ko: "실제 Binance Manager 적용 흐름을 영상으로 확인할 수 있습니다.", en: "Watch the actual Binance Manager workflow in action." },
