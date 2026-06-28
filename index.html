@@ -739,14 +739,6 @@
                             class="fa-solid fa-satellite-dish w-5 text-center text-gray-500 group-hover:text-accent-green transition-colors"></i>
                         <span data-i18n="nav.detector">Crypto Detector</span>
                     </button>
-                    <!-- [NEW] Detector Preview Menu -->
-                    <button onclick="activate('preview')"
-                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="preview">
-                        <i
-                            class="fa-solid fa-eye w-5 text-center text-gray-500 group-hover:text-accent-red transition-colors"></i>
-                        <span data-i18n="nav.detector_preview">Detector [ DEMO ]</span>
-                    </button>
                     <button onclick="activate('toolkit')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="toolkit">
@@ -774,6 +766,13 @@
                         <i
                             class="fa-solid fa-bolt w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
                         <span data-i18n="nav.trades">Trades</span>
+                    </button>
+                    <button onclick="activate('extensions')"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
+                        data-id="extensions">
+                        <i
+                            class="fa-solid fa-puzzle-piece w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        <span data-i18n="nav.extensions">Extensions</span>
                     </button>
                     <!-- [NEW] On-Chain Tracker 링크 버튼 -->
                     <button onclick="window.location.href='/tracker'"
@@ -874,22 +873,15 @@
                         <p class="text-xs text-gray-400" data-i18n="grid.form.desc">API 사용 승인 신청</p>
                     </a>
 
-                    <!-- Binance -->
-                    <a href="https://accounts.binance.com/register?ref=JAYDAY" target="_blank"
+                    <!-- TradingView -->
+                    <a href="https://kr.tradingview.com/script/2f5pifia/" target="_blank"
                         class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer">
                         <div class="flex items-center gap-4 mb-3">
-                            <!-- 수정됨: 좌표가 완벽한 32px 로고 + 잘림 방지 여유 공간(-4) 적용 -->
-                            <div
-                                class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center">
-                                <svg viewBox="-4 -4 40 40" class="w-5 h-5" fill="#FCD535"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M16 0L9.5 6.5L16 13L22.5 6.5L16 0Z M4.5 11.5L0 16L4.5 20.5L9 16L4.5 11.5Z M27.5 11.5L23 16L27.5 20.5L32 16L27.5 11.5Z M16 19L9.5 25.5L16 32L22.5 25.5L16 19Z M16 14.5L14.5 16L16 17.5L17.5 16L16 14.5Z" />
-                                </svg>
-                            </div>
-                            <h3 class="font-bold text-white" data-i18n="grid.binance.title">Binance 회원가입</h3>
+                            <img src="https://static.tradingview.com/static/images/favicon.ico"
+                                class="w-10 h-10 rounded-lg bg-gray-900 p-1" alt="TradingView">
+                            <h3 class="font-bold text-white" data-i18n="grid.tradingview.title">TradingView 지표</h3>
                         </div>
-                        <p class="text-xs text-gray-400" data-i18n="grid.binance.desc">가입 시 무료 이용 및 셀퍼럴 지급</p>
+                        <p class="text-xs text-gray-400" data-i18n="grid.tradingview.desc">Crypto Detector 전용 인디케이터 & 얼러트</p>
                     </a>
 
                     <!-- Kakao -->
@@ -1062,15 +1054,15 @@
                         </a>
 
                         <!-- Binance -->
-                        <a href="https://accounts.binance.com/register?ref=JAYDAY" target="_blank"
+                        <a href="https://tethermax.io/signup?inviteCode=3E62QF" target="_blank"
                             class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg"
                                 class="w-10 h-10" alt="Binance">
                             <div>
-                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.binance.title">Binance
-                                    Referral</h3>
-                                <p class="text-xs text-gray-400 !m-0" data-i18n="quick.binance.desc">Referral ID:
-                                    JAYDAY</p>
+                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.binance.title">TetherMax
+                                    Binance 50% 페이백</h3>
+                                <p class="text-xs text-gray-400 !m-0" data-i18n="quick.binance.desc">지정가 0.0100% /
+                                    시장가 0.0250%</p>
                             </div>
                         </a>
 
@@ -1916,6 +1908,23 @@
                                 즉시 모니터링할 수 있는 툴킷입니다.
                                 트레이딩뷰 지표 및 알림(Alerts) 기능과 연동하여 모바일 환경에서도 신호를 받아볼 수 있습니다.
                             </p>
+                            <div
+                                class="liquid-card bg-red-500/5 border border-red-500/20 rounded-xl p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-eye text-accent-red"></i>
+                                        <span data-i18n="cd.demo.title">Detector 데모 체험</span>
+                                    </h4>
+                                    <p class="text-xs md:text-sm text-gray-400 !m-0" data-i18n="cd.demo.body">
+                                        실제 시세와 무관한 시뮬레이션 데이터로 감지 로그와 사운드 흐름을 먼저 확인할 수 있습니다.
+                                    </p>
+                                </div>
+                                <button type="button" onclick="activate('preview')"
+                                    class="liquid-card w-full md:w-auto px-4 py-3 md:py-2 bg-[#161b22]/50 hover:bg-[#1f2630]/70 border border-red-500/30 hover:border-red-500/60 text-white text-xs font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2">
+                                    <span data-i18n="cd.demo.cta">데모 열기</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
                             <div class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 mb-6">
                                 <h4 class="text-blue-400 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-bell"></i> <span data-i18n="cd.mobile.title">모바일 알림 지원
@@ -2339,6 +2348,117 @@
                                         </div>
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: EXTENSIONS -->
+            <section id="extensions" class="guide-section hidden content-body">
+                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                    <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
+                        <span class="badge text-brand border-brand/50" data-i18n="ext.badge">Browser Tools</span>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="ext.title">Extensions</h1>
+                            <p class="text-sm text-gray-400" data-i18n="ext.desc">거래소 웹 UI 위에 빠른 주문 보조 흐름을 더하는 브라우저 확장 도구입니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-10">
+                        <div id="ext-binance">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
+                                data-i18n="ext.binance.title">Binance Manager</h2>
+                            <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="ext.binance.body">
+                                Binance Manager는 Google Chrome 확장 프로그램으로, 바이낸스 선물 웹의 Place Order 패널 위에 수량 유지, 금액 기반 수량 계산,
+                                코스트 확인, 취소/포지션 종료 단축 버튼을 더합니다. 자동호가(BBO) 스캘핑에 최적화된 주문 보조 흐름을
+                                제공하며, 낯선 외부 브로커/API 플랫폼이 아니라 익숙한 거래소 공식 웹 화면에서 빠르게 거래할 수 있도록 돕습니다.
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                <div
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-rotate-right text-brand"></i>
+                                        <span data-i18n="ext.binance.feature.title1">주문 수량 유지</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item1">주문 수량을 유지해 같은 규모의 반복 진입 흐름을 빠르게 이어갑니다.</p>
+                                </div>
+                                <div
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-calculator text-brand"></i>
+                                        <span data-i18n="ext.binance.feature.title2">금액 버튼 수량 계산</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item2">1K, 5K, 10K, 50K, 100K 금액 버튼으로 종목별 가격에 맞는 수량을 계산합니다.</p>
+                                </div>
+                                <div
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-keyboard text-brand"></i>
+                                        <span data-i18n="ext.binance.feature.title3">취소/종료 단축 실행</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item3">바이낸스 단축키 흐름과 연결해 주문 취소와 포지션 종료를 더 가까운 위치에서 실행합니다.</p>
+                                </div>
+                                <div
+                                    class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-brand/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-volume-high text-brand"></i>
+                                        <span data-i18n="ext.binance.feature.title4">실행 사운드 피드백</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item4">주문 생성과 취소 흐름에 사운드를 더해 실행 피드백을 즉시 확인할 수 있습니다.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+                                <h3 class="text-lg font-bold text-white !m-0 flex items-center gap-2">
+                                    <i class="fa-solid fa-display text-brand"></i>
+                                    <span data-i18n="ext.screens.title">화면 구성</span>
+                                </h3>
+                                <a href="https://youtu.be/VS_cTJY7ZXI" target="_blank" rel="noopener noreferrer"
+                                    class="liquid-card inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/30 bg-[#161b22]/50 px-4 py-2.5 text-sm font-bold text-white hover:border-red-500/60 hover:bg-[#1f2630]/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                    <i class="fa-brands fa-youtube text-[#FF0000]"></i>
+                                    <span data-i18n="ext.video.title">실행 영상 보기</span>
+                                </a>
+                            </div>
+
+                            <a href="./assets/extensions/bm%201.png" target="_blank"
+                                class="group block rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] hover:border-brand/60 transition-colors mb-4">
+                                <img src="./assets/extensions/bm%201.png" alt="Binance Manager active trading layout"
+                                    loading="lazy" class="w-full aspect-[16/9] object-cover object-top">
+                                <div class="p-4 border-t border-gray-800">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-1"
+                                        data-i18n="ext.image.bm1.title">활성화된 주문 보조 UI</h3>
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="ext.image.bm1.desc">금액 버튼, 코스트 표시, 취소/종료 버튼이 Place Order 영역에 추가됩니다.</p>
+                                </div>
+                            </a>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a href="./assets/extensions/off%201.png" target="_blank"
+                                    class="group block rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] hover:border-gray-500 transition-colors">
+                                    <div class="aspect-[3/4] bg-black/20 flex items-center justify-center">
+                                        <img src="./assets/extensions/off%201.png" alt="Binance default order panel"
+                                            loading="lazy" class="h-full w-auto max-w-full object-contain">
+                                    </div>
+                                    <div class="p-4 border-t border-gray-800">
+                                        <h3 class="text-white font-bold text-sm !mt-0 mb-1"
+                                            data-i18n="ext.image.off.title">기본 화면</h3>
+                                        <p class="text-xs text-gray-400 !m-0" data-i18n="ext.image.off.desc">확장 기능 적용 전의 Binance Place Order 패널입니다.</p>
+                                    </div>
+                                </a>
+                                <a href="./assets/extensions/bm%202.png" target="_blank"
+                                    class="group block rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] hover:border-brand/60 transition-colors">
+                                    <div class="aspect-[3/4] bg-black/20 overflow-hidden">
+                                        <img src="./assets/extensions/bm%202.png" alt="Binance Manager popup panel"
+                                            loading="lazy" class="w-full h-full object-cover object-top">
+                                    </div>
+                                    <div class="p-4 border-t border-gray-800">
+                                        <h3 class="text-white font-bold text-sm !mt-0 mb-1"
+                                            data-i18n="ext.image.bm2.title">팝업 패널</h3>
+                                        <p class="text-xs text-gray-400 !m-0" data-i18n="ext.image.bm2.desc">시리얼 인증, 업데이트 확인, 커뮤니티 링크, 초기 설정 안내를 한 곳에서 확인합니다.</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
@@ -4049,13 +4169,13 @@
                     <!-- 1. Pricing Cards (Grid Layout) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
 
-                        <!-- Left Card: Crypto Detector -->
+                        <!-- Left Card: Crypto Detector Lite -->
                         <div
                             class="liquid-card bg-[#161b22]/40 rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                             <div class="mb-6">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1"
-                                    data-i18n="sponsor.card.crypto.title">Crypto Detector</h3>
-                                <p class="text-xs text-gray-500" data-i18n="sponsor.card.crypto.desc">시세 포착 툴킷 (단독형)
+                                    data-i18n="sponsor.card.crypto.title">Crypto Detector Lite</h3>
+                                <p class="text-xs text-gray-500" data-i18n="sponsor.card.crypto.desc">Detector + Binance 자동호가 익스텐션 제공
                                 </p>
                             </div>
 
@@ -4104,7 +4224,7 @@
                             <div class="mb-6 mt-2">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1" data-i18n="sponsor.card.all.title">
                                     All-in-One Toolkit</h3>
-                                <p class="text-xs text-brand/80" data-i18n="sponsor.card.all.desc">레퍼럴 가입시 무료 ( 셀퍼럴
+                                <p class="text-xs text-brand/80" data-i18n="sponsor.card.all.desc">레퍼럴 가입시 무료 ( 페이백
                                     OK!
                                     하단 안내 참고 )</p>
                             </div>
@@ -4386,6 +4506,7 @@
             "nav.tools": { ko: "Setup & Tools", en: "Setup & Tools" },
             "nav.apikey": { ko: "API / Setup", en: "API / Setup" },
             "nav.detector": { ko: "Crypto Detector", en: "Crypto Detector" },
+            "nav.extensions": { ko: "Extensions", en: "Extensions" },
             "nav.toolkit": { ko: "Order Toolkit", en: "Order Toolkit" },
             "nav.orderbook": { ko: "Order Book", en: "Order Book" },
             "nav.trades": { ko: "Trades", en: "Trades" },
@@ -4406,8 +4527,8 @@
             "grid.tele.desc": { ko: "공지사항, 업데이트, 실시간 문의 및 커뮤니티", en: "Announcements, Updates, Inquiry & Community" },
             "grid.form.title": { ko: "가입 신청서", en: "Application Form" },
             "grid.form.desc": { ko: "API 사용 승인 신청", en: "Apply for API Access" },
-            "grid.binance.title": { ko: "Binance 회원가입", en: "Binance Register" },
-            "grid.binance.desc": { ko: "가입 시 무료 이용 및 셀퍼럴 지급", en: "Free Access & Self-Referral Benefits" },
+            "grid.tradingview.title": { ko: "TradingView 지표", en: "TradingView Indicator" },
+            "grid.tradingview.desc": { ko: "Crypto Detector 전용 인디케이터 & 얼러트", en: "Crypto Detector indicator & alerts" },
             "grid.kakao.title": { ko: "카카오톡 1:1 문의", en: "KakaoTalk Support" },
             "grid.kakao.desc": { ko: "부평구금융인 오픈 채팅방", en: "1:1 Open Chat Inquiry" },
             "grid.youtube.title": { ko: "YouTube 채널", en: "YouTube Channel" },
@@ -4434,8 +4555,8 @@
             "quick.form.desc": { ko: "API 사용 신청", en: "API access request" },
             "quick.tradingview.title": { ko: "TradingView : Indicator", en: "TradingView : Indicator" },
             "quick.tradingview.desc": { ko: "Crypto Detector 트레이딩뷰 전용 지표 & 얼러트 ( 신청문의 )", en: "Crypto Detector TradingView-only indicator & alerts" },
-            "quick.binance.title": { ko: "Binance Referral", en: "Binance Referral" },
-            "quick.binance.desc": { ko: "Referral ID: JAYDAY", en: "Referral ID: JAYDAY" },
+            "quick.binance.title": { ko: "TetherMax Binance 50% 페이백", en: "TetherMax Binance 50% Payback" },
+            "quick.binance.desc": { ko: "지정가 0.0100% / 시장가 0.0250%", en: "Maker 0.0100% / Taker 0.0250%" },
             "quick.kakao.inquiry.title": { ko: "KakaoTalk : 문의", en: "KakaoTalk : Inquiry" },
             "quick.kakao.inquiry.desc": { ko: "부평구금융인 1:1 문의", en: "1:1 inquiry with 부평구금융인" },
             "quick.kakao.community.title": { ko: "KakaoTalk : 커뮤니티", en: "KakaoTalk : Community" },
@@ -4614,6 +4735,9 @@
 
             "cd.intro.title": { ko: "1) 소개 및 로그인", en: "1) Overview & Login" },
             "cd.intro.body": { ko: "<strong>Crypto Detector</strong>는 조건에 맞는 필터로 종목을 빠르게 감지하고, 변동률·거래대금·미체결약정(OI) 정보를 기반으로 즉시 모니터링할 수 있는 툴킷입니다. 트레이딩뷰 지표 및 알림(Alerts) 기능과 연동하여 모바일 환경에서도 신호를 받아볼 수 있습니다.", en: "<strong>Crypto Detector</strong> quickly scans symbols with matching filters and lets you monitor them instantly based on change rate, volume, and open interest (OI). It also integrates with TradingView indicators and Alerts so you can receive signals on mobile." },
+            "cd.demo.title": { ko: "Detector 데모 체험", en: "Try Detector Demo" },
+            "cd.demo.body": { ko: "실제 시세와 무관한 시뮬레이션 데이터로 감지 로그와 사운드 흐름을 먼저 확인할 수 있습니다.", en: "Preview detection logs and sound flows with simulated data unrelated to real prices." },
+            "cd.demo.cta": { ko: "데모 열기", en: "Open Demo" },
 
             "cd.security.title": { ko: "보안 및 로그인 정책", en: "Security & Login Policy" },
             "cd.security.item1": { ko: "발급된 <strong>시리얼 키</strong>를 입력하여 로그인합니다. (무단 공유 적발 시 즉시 비활성화)", en: "Log in with your issued <strong>Serial Key</strong>. (Keys are disabled immediately if unauthorized sharing is detected.)" },
@@ -4751,6 +4875,30 @@
 
 
 
+            // Extensions
+            "ext.badge": { ko: "Browser Tools", en: "Browser Tools" },
+            "ext.title": { ko: "Extensions", en: "Extensions" },
+            "ext.desc": { ko: "거래소 웹 UI 위에 빠른 주문 보조 흐름을 더하는 브라우저 확장 도구입니다.", en: "Browser extensions that add fast order-assist workflows directly on exchange web UIs." },
+            "ext.binance.title": { ko: "Binance Manager", en: "Binance Manager" },
+            "ext.binance.body": { ko: "Binance Manager는 Google Chrome 확장 프로그램으로, 바이낸스 선물 웹의 Place Order 패널 위에 수량 유지, 금액 기반 수량 계산, 코스트 확인, 취소/포지션 종료 단축 버튼을 더합니다. 자동호가(BBO) 스캘핑에 최적화된 주문 보조 흐름을 제공하며, 낯선 외부 브로커/API 플랫폼이 아니라 익숙한 거래소 공식 웹 화면에서 빠르게 거래할 수 있도록 돕습니다.", en: "Binance Manager is a Google Chrome extension that adds quantity persistence, value-based quantity calculation, cost display, and cancel/close shortcut buttons on top of the Binance Futures Place Order panel. It provides an order-assist workflow optimized for BBO scalping, helping you trade quickly from the familiar official exchange web screen instead of an unfamiliar external broker/API platform." },
+            "ext.image.off.title": { ko: "기본 화면", en: "Default Screen" },
+            "ext.image.off.desc": { ko: "확장 기능 적용 전의 Binance Place Order 패널입니다.", en: "The Binance Place Order panel before the extension is applied." },
+            "ext.image.bm1.title": { ko: "활성화된 주문 보조 UI", en: "Active Order Helper UI" },
+            "ext.image.bm1.desc": { ko: "금액 버튼, 코스트 표시, 취소/종료 버튼이 Place Order 영역에 추가됩니다.", en: "Value buttons, cost display, and cancel/close buttons are added inside the Place Order area." },
+            "ext.binance.feature.title": { ko: "주요 기능", en: "Key Features" },
+            "ext.binance.feature.title1": { ko: "주문 수량 유지", en: "Persistent Order Quantity" },
+            "ext.binance.feature.title2": { ko: "금액 버튼 수량 계산", en: "Value Button Quantity" },
+            "ext.binance.feature.title3": { ko: "취소/종료 단축 실행", en: "Cancel/Close Shortcuts" },
+            "ext.binance.feature.title4": { ko: "실행 사운드 피드백", en: "Execution Sound Feedback" },
+            "ext.binance.feature.item1": { ko: "주문 수량을 유지해 같은 규모의 반복 진입 흐름을 빠르게 이어갑니다.", en: "Keeps the order quantity available so repeated entries can continue at the same scale." },
+            "ext.binance.feature.item2": { ko: "1K, 5K, 10K, 50K, 100K 금액 버튼으로 수량을 계산합니다.", en: "Calculates quantity from 1K, 5K, 10K, 50K, and 100K value buttons." },
+            "ext.binance.feature.item3": { ko: "바이낸스 단축키 흐름과 연결해 주문 취소와 포지션 종료를 더 가까운 위치에서 실행합니다.", en: "Connects with Binance shortcut flows so cancel and close-position actions are available closer to the order panel." },
+            "ext.binance.feature.item4": { ko: "주문 생성과 취소 흐름에 사운드를 더해 실행 피드백을 즉시 확인할 수 있습니다.", en: "Adds sound feedback to order creation and cancel flows so execution cues are immediately noticeable." },
+            "ext.screens.title": { ko: "화면 구성", en: "Screen Layout" },
+            "ext.video.title": { ko: "실행 영상 보기", en: "Watch Demo Video" },
+            "ext.video.desc": { ko: "실제 Binance Manager 적용 흐름을 영상으로 확인할 수 있습니다.", en: "Watch the actual Binance Manager workflow in action." },
+            "ext.image.bm2.title": { ko: "팝업 패널", en: "Popup Panel" },
+            "ext.image.bm2.desc": { ko: "시리얼 인증, 업데이트 확인, 커뮤니티 링크, 초기 설정 안내를 한 곳에서 확인합니다.", en: "Serial auth, update checks, community links, and setup guidance are available in one popup." },
             // Order Toolkit
             "ot.badge": { ko: "Execution", en: "Execution" },
             "ot.title": { ko: "Order Toolkit", en: "Order Toolkit" },
@@ -5028,8 +5176,8 @@
             "sponsor.notice.item1": { ko: "후원금은 서버 유지보수, 시스템 안정성 향상, 신규 기능 개발 등에 사용됩니다.", en: "Sponsorship funds are used for server maintenance, system stability, and new feature development." },
             "sponsor.notice.item2": { ko: "운영 상황에 따라 후원자에게 감사의 의미로 일부 기능 또는 편의 혜택(이용 기간 등)이 제공될 수 있습니다.", en: "Depending on operations, sponsors may receive certain features or benefits (e.g., access period) as thanks." },
             "sponsor.notice.item3": { ko: "후원 방법과 구체적인 안내는 <strong>가입 신청이 검토·승인된 후 운영자가 개별 연락</strong>드립니다.", en: "Sponsorship methods and details will be provided individually after your application is reviewed and approved." },
-            "sponsor.card.crypto.title": { ko: "Crypto Detector", en: "Crypto Detector" },
-            "sponsor.card.crypto.desc": { ko: "시세 포착 툴킷 (단독형)", en: "Price capture toolkit (standalone)." },
+            "sponsor.card.crypto.title": { ko: "Crypto Detector Lite", en: "Crypto Detector Lite" },
+            "sponsor.card.crypto.desc": { ko: "Detector + Binance 자동호가 익스텐션 제공", en: "Includes Detector + Binance BBO extension" },
             "sponsor.card.crypto.enterprise.label": { ko: "Source Code License &amp; 기술 이전", en: "Source Code License &amp; Technology Transfer" },
             "sponsor.card.crypto.enterprise.value": { ko: "별도 문의", en: "Inquire separately" },
             "sponsor.card.all.title": { ko: "All-in-One Toolkit", en: "All-in-One Toolkit" },
