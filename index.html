@@ -2546,10 +2546,11 @@
                                     class="liquid-card bg-[#161b22]/40 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-red/50 hover:shadow-lg hover:-translate-y-1">
                                     <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-shield-halved text-accent-red"></i> <span
-                                            data-i18n="ot.feature.stop.title">Auto Stop Market</span>
+                                            data-i18n="ot.feature.risk.title">리스크 관리 장치</span>
                                     </h4>
-                                    <p class="text-xs text-gray-400 !m-0" data-i18n="ot.feature.stop.body">
-                                        돌파 진입이나 급변동 시 리스크 관리를 위해, 진입과 동시에 설정된 % 구간에 자동으로 스탑로스(시장가) 주문을 대기시킵니다.
+                                    <p class="text-xs text-gray-400 !m-0" data-i18n="ot.feature.risk.body">
+                                        Auto Stop/Quick Stop으로 스탑마켓 주문을 빠르게 배치하고, SP로 얇은 호가에서 Market/Close가 과도하게 밀리는 체결을
+                                        제한합니다.
                                     </p>
                                 </div>
                             </div>
@@ -2879,38 +2880,58 @@
                                     data-i18n="ot.actions.title">6) 리스크 관리 및 실행</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                    <!-- Auto Stop Setting -->
                                     <div class="liquid-card bg-[#161b22]/40 p-5 rounded-xl border border-gray-700">
-                                        <h4 class="text-white font-bold text-sm mb-2 !mt-0"
-                                            data-i18n="ot.actions.auto.title">Auto Stop Market (%)</h4>
-                                        <div class="space-y-1 text-xs text-gray-400 pl-1">
-                                            <p class="!m-0" data-i18n="ot.actions.auto.desc">
-                                                진입과 동시에 설정 비율 기준 스탑로스 주문을 자동 배치합니다.
-                                            </p>
-                                            <p class="!m-0" data-i18n="ot.actions.auto.adjust">
-                                                비율은 설정창에서 입력하거나 메인 코스트 라벨에서 휠로 0.3%~10% 빠르게 조정합니다.
-                                            </p>
-                                        </div>
+                                        <h4 class="text-white font-bold text-sm mb-4 !mt-0"
+                                            data-i18n="ot.actions.risk.stop.title">Stop Market Protection</h4>
+                                        <ul class="list-none space-y-3 !m-0 !p-0 text-xs text-gray-400">
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.stop.auto.label">Auto Stop</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.stop.auto.desc">
+                                                    진입 즉시 Stop Market 주문을 생성해 트랩과 급반전 리스크를 줄입니다.
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.stop.quick.label">Quick Stop</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.stop.quick.desc">
+                                                    Buy/Sell 우클릭으로 현재 포지션 기준 스탑 주문을 언제든 빠르게 만듭니다.
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.stop.price.label">Price Protection</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.stop.price.desc">
+                                                    ON은 Last Price 기준 발동 시 Mark Price 괴리 구간을 보호하고, OFF는 더 빠른 발동을 우선합니다.
+                                                </p>
+                                            </li>
+                                        </ul>
                                     </div>
 
-                                    <!-- Price Protection -->
                                     <div class="liquid-card bg-[#161b22]/40 p-5 rounded-xl border border-gray-700">
-                                        <h4 class="text-white font-bold text-sm mb-2 !mt-0"
-                                            data-i18n="ot.actions.protect.title">Price Protection</h4>
-                                        <ul class="list-none space-y-1 !m-0 !p-0 text-xs text-gray-400">
-                                            <li class="flex items-start gap-3">
-                                                <span class="flex-1 min-w-0 order-2"
-                                                    data-i18n="ot.actions.protect.on.desc"><strong>ON</strong>: 괴리율 초과 시
-                                                    주문 거부 (안전)</span>
-                                                <span class="text-accent-green shrink-0 min-w-[100px] order-1"
-                                                    data-i18n="ot.actions.protect.on.tag">변동성 장세</span>
+                                        <h4 class="text-white font-bold text-sm mb-4 !mt-0"
+                                            data-i18n="ot.actions.risk.sp.title">Slippage Protection (SP)</h4>
+                                        <ul class="list-none space-y-3 !m-0 !p-0 text-xs text-gray-400">
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.sp.target.label">적용 대상</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.sp.target.desc">
+                                                    Market 진입과 Close Position 우클릭 청산에 적용됩니다.
+                                                </p>
                                             </li>
-                                            <li class="flex items-start gap-3">
-                                                <span class="flex-1 min-w-0 order-2"
-                                                    data-i18n="ot.actions.protect.off.desc"><strong>OFF</strong>: 괴리율 무관
-                                                    즉시 발동 (속도)</span>
-                                                <span class="text-accent-red shrink-0 min-w-[100px] order-1"
-                                                    data-i18n="ot.actions.protect.off.tag">스캘핑 권장</span>
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.sp.guard.label">보호 목적</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.sp.guard.desc">
+                                                    얇은 호가에서 주문이 과도하게 밀려 발생하는 슬리피지 손실을 줄입니다.
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <div class="text-gray-200 font-bold mb-1"
+                                                    data-i18n="ot.actions.risk.sp.exec.label">주문 방식</div>
+                                                <p class="!m-0 leading-relaxed" data-i18n="ot.actions.risk.sp.exec.desc">
+                                                    OFF는 기존 시장가, 0.3% 이상은 BBO 기준 LIMIT IOC로 가능한 수량만 즉시 처리합니다.
+                                                </p>
                                             </li>
                                         </ul>
                                     </div>
@@ -2968,7 +2989,7 @@
                                             표시. 클릭 시 표시 항목 전환.</li>
                                         <li data-i18n="ot.balance.item2"><strong>PIN</strong>: 창을 항상 위에 고정</li>
                                         <li data-i18n="ot.balance.item3"><strong>SETTING (Default)</strong>: 테마(Theme),
-                                            사운드(SFX), 오토 스탑 비율 등 전반적인 설정 팝업</li>
+                                            사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업</li>
                                         <li data-i18n="ot.balance.item4"><strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을
                                             커스터마이징하거나 선택할 수 있습니다.</li>
                                     </ul>
@@ -4998,8 +5019,8 @@
             "ot.order.toggles.at.desc": { ko: "활성화 시 포지션 진입과 동시에 스탑로스(SL) 주문을 자동으로 실행합니다.", en: "When enabled, automatically places a stop-loss (SL) order upon entry." },
             "ot.feature.grid.title": { ko: "그리드 자동호가", en: "Grid Auto-Quotes" },
             "ot.feature.grid.body": { ko: "고빈도 봇으로 인한 호가 밀림(슬리피지) 현상에 대응합니다. 현재가 주변에 다중 지정가 주문을 살포하여 체결 확률을 높이고 수수료(Maker)를 절약합니다.", en: "Mitigates slippage caused by HFT bots by placing multiple limit orders around the current price to improve fill probability and save maker fees." },
-            "ot.feature.stop.title": { ko: "Auto Stop Market", en: "Auto Stop Market" },
-            "ot.feature.stop.body": { ko: "돌파 진입이나 급변동 시 리스크 관리를 위해, 진입과 동시에 설정된 % 구간에 자동으로 스탑로스(시장가) 주문을 대기시킵니다.", en: "For breakout entries or sudden volatility, automatically queues stop-loss (market) orders within the set % range upon entry." },
+            "ot.feature.risk.title": { ko: "리스크 관리 장치", en: "Risk Controls" },
+            "ot.feature.risk.body": { ko: "Auto Stop/Quick Stop으로 스탑마켓 주문을 빠르게 배치하고, SP로 얇은 호가에서 Market/Close가 과도하게 밀리는 체결을 제한합니다.", en: "Use Auto Stop/Quick Stop to place stop-market protection quickly, and use SP to limit excessive Market/Close slippage in thin order books." },
 
             "ot.amount.title": { ko: "수량 및 금액 제어 (마우스 조작)", en: "Quantity & Cost Control (Mouse)" },
             "ot.amount.quick.title": { ko: "Quick Amount (1K ~ 1M)", en: "Quick Amount (1K-1M)" },
@@ -5015,20 +5036,26 @@
             "ot.actions.buttons.close": { ko: "Close Position", en: "Close Position" },
             "ot.actions.buttons.cancel": { ko: "Cancel Orders (ESC)", en: "Cancel Orders (ESC)" },
             "ot.actions.buttons.quickstop": { ko: "<strong>Quick Stop Market</strong>: Buy/Sell 우클릭으로 현재 포지션 기준 Stop Market 주문 실행", en: "<strong>Quick Stop Market</strong>: right-click Buy/Sell to place a Stop Market for the current position." },
-            "ot.actions.protect.title": { ko: "Price Protection", en: "Price Protection" },
-            "ot.actions.protect.on.tag": { ko: "변동성 장세", en: "High Volatility" },
-            "ot.actions.protect.on.desc": { ko: "<strong>ON</strong>: 괴리율 초과 시 주문 거부 (안전)", en: "<strong>ON</strong>: reject orders when deviation exceeds limit (safer)" },
-            "ot.actions.protect.off.tag": { ko: "스캘핑 권장", en: "Scalping" },
-            "ot.actions.protect.off.desc": { ko: "<strong>OFF</strong>: 괴리율 무관 즉시 발동 (속도)", en: "<strong>OFF</strong>: execute immediately regardless of deviation (speed)" },
-            "ot.actions.auto.title": { ko: "Auto Stop Market (%)", en: "Auto Stop Market (%)" },
-            "ot.actions.auto.desc": { ko: "진입과 동시에 설정 비율 기준 스탑로스 주문을 자동 배치합니다.", en: "Automatically places a stop-loss order on entry using the configured percentage." },
-            "ot.actions.auto.adjust": { ko: "비율은 설정창에서 입력하거나 메인 코스트 라벨에서 휠로 0.3%~10% 빠르게 조정합니다.", en: "Set the percentage in Settings, or use the mouse wheel on the main Cost Value label for quick 0.3%-10% adjustment." },
+            "ot.actions.risk.stop.title": { ko: "Stop Market Protection", en: "Stop Market Protection" },
+            "ot.actions.risk.stop.auto.label": { ko: "Auto Stop", en: "Auto Stop" },
+            "ot.actions.risk.stop.auto.desc": { ko: "진입 즉시 Stop Market 주문을 생성해 트랩과 급반전 리스크를 줄입니다.", en: "Creates a Stop Market order immediately on entry to reduce trap and sudden-reversal risk." },
+            "ot.actions.risk.stop.quick.label": { ko: "Quick Stop", en: "Quick Stop" },
+            "ot.actions.risk.stop.quick.desc": { ko: "Buy/Sell 우클릭으로 현재 포지션 기준 스탑 주문을 언제든 빠르게 만듭니다.", en: "Right-click Buy/Sell to quickly create a stop order for the current position at any time." },
+            "ot.actions.risk.stop.price.label": { ko: "Price Protection", en: "Price Protection" },
+            "ot.actions.risk.stop.price.desc": { ko: "ON은 Last Price 기준 발동 시 Mark Price 괴리 구간을 보호하고, OFF는 더 빠른 발동을 우선합니다.", en: "ON guards Last Price triggers when Mark Price deviation is large; OFF prioritizes faster triggering." },
+            "ot.actions.risk.sp.title": { ko: "Slippage Protection (SP)", en: "Slippage Protection (SP)" },
+            "ot.actions.risk.sp.target.label": { ko: "적용 대상", en: "Applies To" },
+            "ot.actions.risk.sp.target.desc": { ko: "Market 진입과 Close Position 우클릭 청산에 적용됩니다.", en: "Applies to Market entries and right-click Close Position." },
+            "ot.actions.risk.sp.guard.label": { ko: "보호 목적", en: "Protection Goal" },
+            "ot.actions.risk.sp.guard.desc": { ko: "얇은 호가에서 주문이 과도하게 밀려 발생하는 슬리피지 손실을 줄입니다.", en: "Reduces slippage loss caused by orders pushing too far through thin order books." },
+            "ot.actions.risk.sp.exec.label": { ko: "주문 방식", en: "Order Method" },
+            "ot.actions.risk.sp.exec.desc": { ko: "OFF는 기존 시장가, 0.3% 이상은 BBO 기준 LIMIT IOC로 가능한 수량만 즉시 처리합니다.", en: "OFF keeps the normal market flow; 0.3% or higher uses BBO-based LIMIT IOC and fills only immediately available quantity." },
             "ot.actions.note.reduce": { ko: "<strong>Reduce-Only</strong>: 포지션 감소만 허용", en: "<strong>Reduce-Only</strong>: only reduce positions" },
             "ot.actions.note.auto": { ko: "<strong>Auto-Reduce</strong>: 포지션 종료 주문 시 Reduce-Only 자동 적용", en: "<strong>Auto-Reduce</strong>: auto applies Reduce-Only on close orders" },
             "ot.balance.title": { ko: "7) 잔고 및 기타 설정", en: "7) Balance & Other Settings" },
             "ot.balance.item1": { ko: "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 클릭 시 표시 항목 전환.", en: "<strong>BALANCE</strong>: shows account balance and unrealized PnL; click to cycle display." },
             "ot.balance.item2": { ko: "<strong>PIN</strong>: 창을 항상 위에 고정", en: "<strong>PIN</strong>: keep window always on top." },
-            "ot.balance.item3": { ko: "<strong>SETTING (Default)</strong>: 테마(Theme), 사운드(SFX), 오토 스탑 비율 등 전반적인 설정 팝업", en: "<strong>SETTING (Default)</strong>: opens general settings for theme, SFX, auto-stop ratio, etc." },
+            "ot.balance.item3": { ko: "<strong>SETTING (Default)</strong>: 테마(Theme), 사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업", en: "<strong>SETTING (Default)</strong>: opens general settings for theme, SFX, auto-stop ratio, SP ratio, etc." },
             "ot.balance.item4": { ko: "<strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을 커스터마이징하거나 선택할 수 있습니다.", en: "<strong>SFX/THEME</strong>: customize or choose sound packs and theme skins." },
             "ot.shortcuts.title": { ko: "8) 단축키 (Shortcuts)", en: "8) Shortcuts" },
             "ot.shortcuts.fixed.title": { ko: "고정 단축키", en: "Fixed Shortcuts" },
