@@ -746,7 +746,8 @@
                             class="fa-solid fa-gavel w-5 text-center text-gray-500 group-hover:text-accent-blue transition-colors"></i>
                         <span data-i18n="nav.toolkit">Order Toolkit</span>
                     </button>
-                    <button onclick="activate('bot')"
+                    <!-- Temporarily hidden from the sidebar. Remove this style to restore it. -->
+                    <button hidden aria-hidden="true" style="display: none !important;" onclick="activate('bot')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="bot">
                         <i
