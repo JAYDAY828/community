@@ -4566,7 +4566,14 @@
                                     <p class="text-[10px] text-gray-500 mb-1">LATEST REQUEST</p>
                                     <p id="member-request-summary" class="text-sm text-white">-</p>
                                 </div>
-                                <span id="member-request-badge" class="text-[10px] font-bold text-brand">-</span>
+                                <div class="flex items-center gap-2 flex-shrink-0">
+                                    <span id="member-request-badge" class="text-[10px] font-bold text-brand">-</span>
+                                    <button id="member-request-refresh" type="button"
+                                        onclick="refreshMemberRequestStatus(this)" title="신청 상태 새로고침"
+                                        class="hidden w-8 h-8 items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
+                                        <i class="fa-solid fa-rotate"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -4739,9 +4746,16 @@
                         </form>
 
                         <div id="member-payment-panel" class="hidden border-t border-white/10 pt-5 space-y-4">
-                            <div class="flex items-center gap-2 text-sm font-bold text-white">
-                                <i class="fa-solid fa-circle-check text-accent-green"></i>
-                                <span>입금 확인 대기 중</span>
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-2 text-sm font-bold text-white">
+                                    <i class="fa-solid fa-circle-check text-accent-green"></i>
+                                    <span>입금 확인 대기 중</span>
+                                </div>
+                                <button type="button" onclick="refreshMemberRequestStatus(this)"
+                                    title="신청 상태 새로고침"
+                                    class="w-8 h-8 flex items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
+                                    <i class="fa-solid fa-rotate"></i>
+                                </button>
                             </div>
                             <div class="divide-y divide-white/10 border-y border-white/10">
                                 <div class="flex justify-between gap-4 py-3 text-sm">
@@ -6611,6 +6625,7 @@
             });
 
             const requestPanel = document.getElementById('member-request-status');
+            const requestRefresh = document.getElementById('member-request-refresh');
             if (profile.latestRequest) {
                 requestPanel.classList.remove('hidden');
                 const planLabel = MEMBER_CATALOG[profile.latestRequest.plan]?.label || profile.latestRequest.plan;
@@ -6620,8 +6635,15 @@
                     : profile.latestRequest.status === 'WAITING'
                         ? '입금 확인 대기'
                         : profile.latestRequest.status;
+                const canRefreshRequest = ['WAITING', 'PROCESSING'].includes(
+                    String(profile.latestRequest.status || '').toUpperCase()
+                );
+                requestRefresh.classList.toggle('hidden', !canRefreshRequest);
+                requestRefresh.classList.toggle('flex', canRefreshRequest);
             } else {
                 requestPanel.classList.add('hidden');
+                requestRefresh.classList.add('hidden');
+                requestRefresh.classList.remove('flex');
             }
 
             const isAdmin = profile.grade === 'admin';
@@ -7085,6 +7107,43 @@
 
             document.getElementById('member-payment-panel').classList.remove('hidden');
             setMemberMessage('profile', `${result.request.planLabel} ${result.request.termLabel} 신청이 접수되었습니다.`, 'success');
+        }
+
+        async function refreshMemberRequestStatus(button) {
+            if (!button || button.disabled) return;
+
+            const icon = button.querySelector('i');
+            button.disabled = true;
+            icon?.classList.add('fa-spin');
+
+            try {
+                const result = await memberApi('profile', { token: memberToken() });
+                if (!result.ok) throw new Error(result.error || 'invalid_session');
+
+                memberState.profile = result.profile;
+                renderMemberProfile(result.profile);
+                showMemberView('profile');
+
+                const status = String(result.profile.latestRequest?.status || '').toUpperCase();
+                setMemberMessage(
+                    'profile',
+                    status === 'APPLIED' ? '이용권 반영이 완료되었습니다.' : '아직 입금 확인 대기 중입니다.',
+                    status === 'APPLIED' ? 'success' : 'info'
+                );
+            } catch (error) {
+                if (error?.message === 'invalid_session') {
+                    storeMemberToken('');
+                    memberState.profile = null;
+                    showMemberView('auth');
+                    setMemberAuthTab('login');
+                    setMemberMessage('auth', memberErrorMessage(error));
+                    return;
+                }
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                button.disabled = false;
+                icon?.classList.remove('fa-spin');
+            }
         }
 
         async function copyMemberValue(elementId) {
