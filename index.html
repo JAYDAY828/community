@@ -6638,7 +6638,7 @@
                 const requestAmount = Number(profile.latestRequest.amount || 0);
                 document.getElementById('member-request-summary').textContent = `${planLabel} · ${requestAmount === 0 ? '무료' : `${requestAmount} USDT`}`;
                 document.getElementById('member-request-badge').textContent = profile.latestRequest.status === 'APPLIED'
-                    ? '이용권 반영 완료'
+                    ? '이용권 활성화 완료'
                     : profile.latestRequest.status === 'WAITING'
                         ? (requestAmount === 0 ? '승인 대기' : '입금 확인 대기')
                         : profile.latestRequest.status;
@@ -7144,7 +7144,7 @@
                 setMemberMessage(
                     'profile',
                     status === 'APPLIED'
-                        ? '이용권 반영이 완료되었습니다.'
+                        ? '이용권이 활성화되었습니다.'
                         : (isFree ? '아직 관리자 승인 대기 중입니다.' : '아직 입금 확인 대기 중입니다.'),
                     status === 'APPLIED' ? 'success' : 'info'
                 );
