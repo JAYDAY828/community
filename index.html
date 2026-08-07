@@ -4705,8 +4705,8 @@
                             </button>
                             <button id="member-download-button" type="button" onclick="openMemberDownload()"
                                 class="hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
-                                <i class="fa-solid fa-download"></i>
-                                다운로드
+                                <i id="member-download-icon" class="fa-solid fa-download"></i>
+                                <span id="member-download-label" aria-live="polite">다운로드</span>
                             </button>
                         </div>
 
@@ -6919,6 +6919,7 @@
             if (type === 'renewal') {
                 if (subscriptions.includes('all')) planIds = ['all', 'detector'];
                 else if (subscriptions.includes('detector')) planIds = ['detector', 'all'];
+                else if (subscriptions.includes('extension')) planIds = ['detector', 'all'];
             } else if (!subscriptions.length) {
                 planIds = Object.keys(MEMBER_CATALOG);
             }
@@ -6994,20 +6995,33 @@
         }
 
         async function openMemberDownload() {
+            const button = document.getElementById('member-download-button');
+            if (!button || button.disabled) return;
+            setMemberDownloadBusy(true);
             try {
                 const result = await memberApi('download_info', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 const url = String(result.url || '');
                 if (!/^https:\/\/drive(?:\.usercontent)?\.google\.com\//.test(url)) throw new Error('server_error');
-                const frame = document.createElement('iframe');
-                frame.hidden = true;
-                frame.setAttribute('aria-hidden', 'true');
-                frame.src = url;
-                document.body.appendChild(frame);
-                setTimeout(() => frame.remove(), 60000);
+                window.location.assign(url);
+                setTimeout(() => setMemberDownloadBusy(false), 2500);
             } catch (error) {
+                setMemberDownloadBusy(false);
                 setMemberMessage('profile', memberErrorMessage(error));
             }
+        }
+
+        function setMemberDownloadBusy(busy) {
+            const button = document.getElementById('member-download-button');
+            const icon = document.getElementById('member-download-icon');
+            const label = document.getElementById('member-download-label');
+            if (!button || !icon || !label) return;
+            button.disabled = busy;
+            button.setAttribute('aria-busy', String(busy));
+            button.classList.toggle('opacity-60', busy);
+            button.classList.toggle('cursor-wait', busy);
+            icon.className = busy ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-download';
+            label.textContent = busy ? '준비 중...' : '다운로드';
         }
 
         function renderMemberPayment(result) {
