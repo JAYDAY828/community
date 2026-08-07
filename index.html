@@ -4738,7 +4738,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center justify-between px-4 py-3 bg-black/30 border border-white/10 rounded-md">
-                                <span class="text-xs text-gray-400">입금 금액</span>
+                                <span class="text-xs text-gray-400">이용 금액</span>
                                 <strong id="member-price" class="font-mono text-lg text-brand">-</strong>
                             </div>
                             <button id="member-subscription-submit" type="submit"
@@ -4749,7 +4749,7 @@
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex items-center gap-2 text-sm font-bold text-white">
                                     <i class="fa-solid fa-circle-check text-accent-green"></i>
-                                    <span>입금 확인 대기 중</span>
+                                    <span id="member-payment-title">입금 확인 대기 중</span>
                                 </div>
                                 <button type="button" onclick="refreshMemberRequestStatus(this)"
                                     title="신청 상태 새로고침"
@@ -4757,7 +4757,7 @@
                                     <i class="fa-solid fa-rotate"></i>
                                 </button>
                             </div>
-                            <div class="divide-y divide-white/10 border-y border-white/10">
+                            <div id="member-payment-details" class="divide-y divide-white/10 border-y border-white/10">
                                 <div class="flex justify-between gap-4 py-3 text-sm">
                                     <span class="text-gray-500">자산</span><strong id="member-payment-asset" class="text-white">USDT</strong>
                                 </div>
@@ -4782,7 +4782,7 @@
                                     <p class="mt-2 text-[11px] text-gray-500">이용기간 반영 후 로컬 차단이 남아 있을 때만 사용하세요.</p>
                                 </div>
                             </div>
-                            <div class="px-4 py-3 bg-red-950/20 border border-red-900/40 rounded-md text-xs text-gray-300 leading-relaxed">
+                            <div id="member-payment-notice" class="px-4 py-3 bg-red-950/20 border border-red-900/40 rounded-md text-xs text-gray-300 leading-relaxed">
                                 반드시 <strong class="text-white">USDT</strong>와 <strong class="text-brand">Aptos 네트워크</strong>를 모두 확인한 후 송금하세요. 입금 확인 후 운영자가 이용기간을 반영합니다. 처리가 지연되면 운영자에게 문의해주세요.
                             </div>
                             <a id="member-support-link" href="#" target="_blank" rel="noopener noreferrer"
@@ -6306,6 +6306,12 @@
         const MEMBER_MANAGER_API_URL = 'https://script.google.com/macros/s/AKfycbwU2HlG45gA_R-j9AaUoK7Q2KHYtQr8gZs_fnHVBMIPcMmVJJNYTkAdDwsqafNfKXeqdQ/exec';
         const MEMBER_SESSION_STORAGE_KEY = 'jayday_member_session';
         const MEMBER_CATALOG = {
+            extension: {
+                label: 'TradingView Extension',
+                terms: {
+                    free: { label: '무료', amount: 0 }
+                }
+            },
             detector: {
                 label: 'Crypto Detector Lite',
                 terms: {
@@ -6629,11 +6635,12 @@
             if (profile.latestRequest) {
                 requestPanel.classList.remove('hidden');
                 const planLabel = MEMBER_CATALOG[profile.latestRequest.plan]?.label || profile.latestRequest.plan;
-                document.getElementById('member-request-summary').textContent = `${planLabel} · ${profile.latestRequest.amount} USDT`;
+                const requestAmount = Number(profile.latestRequest.amount || 0);
+                document.getElementById('member-request-summary').textContent = `${planLabel} · ${requestAmount === 0 ? '무료' : `${requestAmount} USDT`}`;
                 document.getElementById('member-request-badge').textContent = profile.latestRequest.status === 'APPLIED'
                     ? '이용권 반영 완료'
                     : profile.latestRequest.status === 'WAITING'
-                        ? '입금 확인 대기'
+                        ? (requestAmount === 0 ? '승인 대기' : '입금 확인 대기')
                         : profile.latestRequest.status;
                 const canRefreshRequest = ['WAITING', 'PROCESSING'].includes(
                     String(profile.latestRequest.status || '').toUpperCase()
@@ -6712,7 +6719,7 @@
                 const period = request.months === 0 ? '무제한' : `${request.months}개월`;
                 const detail = document.createElement('p');
                 detail.className = 'mt-1 text-[11px] text-gray-500';
-                detail.textContent = `${request.type.toUpperCase()} · ${plan} · ${period} · ${request.amount} USDT`;
+                detail.textContent = `${request.type.toUpperCase()} · ${plan} · ${period} · ${Number(request.amount || 0) === 0 ? '무료' : `${request.amount} USDT`}`;
                 const requestedAt = document.createElement('p');
                 requestedAt.className = 'mt-1 text-[10px] text-gray-600';
                 requestedAt.textContent = request.requestedAt || '';
@@ -6735,7 +6742,7 @@
             const plan = MEMBER_CATALOG[request.plan]?.label || request.plan;
             const period = request.months === 0 ? '무제한' : `${request.months}개월`;
             document.getElementById('member-admin-request-id').value = request.id;
-            document.getElementById('member-admin-approval-summary').textContent = `${request.username} · ${plan} · ${period} · ${request.amount} USDT`;
+            document.getElementById('member-admin-approval-summary').textContent = `${request.username} · ${plan} · ${period} · ${Number(request.amount || 0) === 0 ? '무료' : `${request.amount} USDT`}`;
             document.getElementById('member-admin-serial').value = '';
             const form = document.getElementById('member-admin-approval');
             form.classList.remove('hidden');
@@ -6966,6 +6973,9 @@
                 if (subscriptions.includes('all')) planIds = ['all', 'detector'];
                 else if (subscriptions.includes('detector')) planIds = ['detector', 'all'];
                 else if (subscriptions.includes('extension')) planIds = ['detector', 'all'];
+                const hasActiveExtension = profile.active
+                    && (subscriptions.includes('extension') || subscriptions.includes('all'));
+                if (!hasActiveExtension) planIds.push('extension');
             } else if (!subscriptions.length) {
                 planIds = Object.keys(MEMBER_CATALOG);
             }
@@ -7003,7 +7013,7 @@
             Object.entries(MEMBER_CATALOG[planId]?.terms || {}).forEach(([termId, term]) => {
                 const option = document.createElement('option');
                 option.value = termId;
-                option.textContent = `${term.label} · ${term.amount} USDT`;
+                option.textContent = term.amount === 0 ? term.label : `${term.label} · ${term.amount} USDT`;
                 termSelect.appendChild(option);
             });
             updateMemberPrice();
@@ -7013,7 +7023,7 @@
             const planId = document.getElementById('member-plan').value;
             const termId = document.getElementById('member-term').value;
             const term = MEMBER_CATALOG[planId]?.terms?.[termId];
-            document.getElementById('member-price').textContent = term ? `${term.amount} USDT` : '-';
+            document.getElementById('member-price').textContent = term ? (term.amount === 0 ? '무료' : `${term.amount} USDT`) : '-';
         }
 
         async function submitSubscriptionRequest(event) {
@@ -7082,6 +7092,10 @@
 
         function renderMemberPayment(result) {
             const payment = result.payment || {};
+            const isFree = Number(result.request?.amount || 0) === 0;
+            document.getElementById('member-payment-title').textContent = isFree ? '무료 이용권 승인 대기 중' : '입금 확인 대기 중';
+            document.getElementById('member-payment-details').classList.toggle('hidden', isFree);
+            document.getElementById('member-payment-notice').classList.toggle('hidden', isFree);
             document.getElementById('member-payment-asset').textContent = payment.asset || 'USDT';
             document.getElementById('member-payment-network').textContent = payment.network || 'APTOS';
             document.getElementById('member-payment-address').textContent = payment.address || '-';
@@ -7124,10 +7138,14 @@
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
 
-                const status = String(result.profile.latestRequest?.status || '').toUpperCase();
+                const latestRequest = result.profile.latestRequest;
+                const status = String(latestRequest?.status || '').toUpperCase();
+                const isFree = Number(latestRequest?.amount || 0) === 0;
                 setMemberMessage(
                     'profile',
-                    status === 'APPLIED' ? '이용권 반영이 완료되었습니다.' : '아직 입금 확인 대기 중입니다.',
+                    status === 'APPLIED'
+                        ? '이용권 반영이 완료되었습니다.'
+                        : (isFree ? '아직 관리자 승인 대기 중입니다.' : '아직 입금 확인 대기 중입니다.'),
                     status === 'APPLIED' ? 'success' : 'info'
                 );
             } catch (error) {
