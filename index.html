@@ -6339,6 +6339,7 @@
             empty_request_id: '승인할 신청번호가 없습니다.',
             empty_user_id: '수정할 사용자를 찾을 수 없습니다.',
             download_not_allowed: '활성화된 이용 권한이 있어야 다운로드할 수 있습니다.',
+            download_popup_blocked: '다운로드 창이 차단되었습니다. 이 사이트의 팝업을 허용한 후 다시 시도해주세요.',
             invalid_expiration: '만료일은 YYYY/MM/DD 또는 unlimited로 입력해주세요.',
             invalid_period: '신청 기간이 올바르지 않습니다.',
             invalid_plan: '선택한 구독 상품을 확인해주세요.',
@@ -7020,15 +7021,25 @@
         async function openMemberDownload() {
             const button = document.getElementById('member-download-button');
             if (!button || button.disabled) return;
+            const downloadWindow = window.open('about:blank', '_blank');
+            if (!downloadWindow) {
+                setMemberMessage('profile', MEMBER_ERROR_MESSAGES.download_popup_blocked);
+                return;
+            }
+            downloadWindow.opener = null;
+            downloadWindow.document.title = 'Download';
+            downloadWindow.document.body.style.cssText = 'margin:0;min-height:100vh;display:grid;place-items:center;background:#0b0e11;color:#e5e7eb;font:600 15px Arial,sans-serif;';
+            downloadWindow.document.body.textContent = '다운로드 준비 중...';
             setMemberDownloadBusy(true);
             try {
                 const result = await memberApi('download_info', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 const url = String(result.url || '');
                 if (!/^https:\/\/drive(?:\.usercontent)?\.google\.com\//.test(url)) throw new Error('server_error');
-                window.location.assign(url);
+                downloadWindow.location.replace(url);
                 setTimeout(() => setMemberDownloadBusy(false), 2500);
             } catch (error) {
+                downloadWindow.close();
                 setMemberDownloadBusy(false);
                 setMemberMessage('profile', memberErrorMessage(error));
             }
