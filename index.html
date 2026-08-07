@@ -4581,7 +4581,7 @@
                             <div id="member-admin-requests-view" class="space-y-4">
                                 <div class="flex items-center justify-between gap-3">
                                     <h4 class="text-sm font-bold text-white">구독 승인 관리</h4>
-                                    <button id="member-admin-refresh" type="button" onclick="loadAdminRequests()" title="새로고침"
+                                    <button id="member-admin-refresh" type="button" onclick="loadAdminRequests(true)" title="새로고침"
                                         class="w-9 h-9 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
@@ -4622,7 +4622,7 @@
                                         class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                     </button>
-                                    <button id="member-admin-users-refresh" type="button" onclick="loadAdminUsers()" title="새로고침"
+                                    <button id="member-admin-users-refresh" type="button" onclick="loadAdminUsers(true)" title="새로고침"
                                         class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
@@ -6321,7 +6321,11 @@
             adminUsersPage: 1,
             adminUsersPages: 1,
             adminUsersQuery: '',
-            selectedAdminUser: null
+            selectedAdminUser: null,
+            adminRequestsLoaded: false,
+            adminUsersLoaded: false,
+            adminRequestsLoading: false,
+            adminUsersLoading: false
         };
 
         const MEMBER_ERROR_MESSAGES = {
@@ -6540,6 +6544,7 @@
 
                 storeMemberToken(result.token);
                 serialInput.value = '';
+                resetMemberAdminCache();
                 memberState.profile = result.profile;
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
@@ -6639,19 +6644,27 @@
             setMemberMessage('profile', '');
         }
 
-        async function loadAdminRequests() {
+        async function loadAdminRequests(force = false) {
             if (memberState.profile?.grade !== 'admin') return;
+            if (memberState.adminRequestsLoading) return;
+            if (memberState.adminRequestsLoaded && !force) {
+                renderAdminRequests();
+                return;
+            }
             const refreshButton = document.getElementById('member-admin-refresh');
+            memberState.adminRequestsLoading = true;
             refreshButton.disabled = true;
             refreshButton.classList.add('opacity-50');
             try {
                 const result = await memberApi('admin_list_requests', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 memberState.adminRequests = result.requests || [];
+                memberState.adminRequestsLoaded = true;
                 renderAdminRequests();
             } catch (error) {
                 setMemberMessage('profile', memberErrorMessage(error));
             } finally {
+                memberState.adminRequestsLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
             }
@@ -6734,7 +6747,7 @@
                     `${result.request.username}님의 이용기간을 ${result.request.expiration}까지 반영했습니다.`,
                     'success'
                 );
-                await loadAdminRequests();
+                await loadAdminRequests(true);
             } catch (error) {
                 document.getElementById('member-admin-serial').value = '';
                 setMemberMessage('profile', memberErrorMessage(error));
@@ -6757,9 +6770,15 @@
             else loadAdminRequests();
         }
 
-        async function loadAdminUsers() {
+        async function loadAdminUsers(force = false) {
             if (memberState.profile?.grade !== 'admin') return;
+            if (memberState.adminUsersLoading) return;
+            if (memberState.adminUsersLoaded && !force) {
+                renderAdminUsers();
+                return;
+            }
             const refreshButton = document.getElementById('member-admin-users-refresh');
+            memberState.adminUsersLoading = true;
             refreshButton.disabled = true;
             refreshButton.classList.add('opacity-50');
             try {
@@ -6773,6 +6792,7 @@
                 memberState.adminUsers = result.users || [];
                 memberState.adminUsersPage = result.pagination?.page || 1;
                 memberState.adminUsersPages = result.pagination?.pages || 1;
+                memberState.adminUsersLoaded = true;
                 const sheetLink = document.getElementById('member-admin-sheet-link');
                 const sheetUrl = String(result.sheetUrl || '');
                 const validSheetUrl = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/[A-Za-z0-9_-]+\/edit#gid=\d+$/.test(sheetUrl);
@@ -6783,6 +6803,7 @@
             } catch (error) {
                 setMemberMessage('profile', memberErrorMessage(error));
             } finally {
+                memberState.adminUsersLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
             }
@@ -6835,16 +6856,18 @@
             event.preventDefault();
             memberState.adminUsersQuery = document.getElementById('member-admin-user-search').value.trim();
             memberState.adminUsersPage = 1;
+            memberState.adminUsersLoaded = false;
             cancelAdminUserEdit();
-            loadAdminUsers();
+            loadAdminUsers(true);
         }
 
         function changeAdminUsersPage(delta) {
             const next = Math.min(memberState.adminUsersPages, Math.max(1, memberState.adminUsersPage + delta));
             if (next === memberState.adminUsersPage) return;
             memberState.adminUsersPage = next;
+            memberState.adminUsersLoaded = false;
             cancelAdminUserEdit();
-            loadAdminUsers();
+            loadAdminUsers(true);
         }
 
         function selectAdminUser(userId) {
@@ -6899,7 +6922,7 @@
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 cancelAdminUserEdit();
                 setMemberMessage('profile', `${result.user.username}님의 정보를 저장했습니다.`, 'success');
-                await loadAdminUsers();
+                await loadAdminUsers(true);
             } catch (error) {
                 document.getElementById('member-admin-user-serial').value = '';
                 setMemberMessage('profile', memberErrorMessage(error));
@@ -7068,12 +7091,29 @@
             const token = memberToken();
             storeMemberToken('');
             memberState.profile = null;
+            resetMemberAdminCache();
             if (token && isMemberApiConfigured()) {
                 memberApi('logout', { token }).catch(() => { });
             }
             showMemberView('auth');
             setMemberAuthTab('login');
             setMemberMessage('auth', '로그아웃되었습니다.', 'info');
+        }
+
+        function resetMemberAdminCache() {
+            memberState.adminRequests = [];
+            memberState.adminUsers = [];
+            memberState.selectedAdminRequest = null;
+            memberState.selectedAdminUser = null;
+            memberState.adminUsersPage = 1;
+            memberState.adminUsersPages = 1;
+            memberState.adminUsersQuery = '';
+            memberState.adminRequestsLoaded = false;
+            memberState.adminUsersLoaded = false;
+            memberState.adminRequestsLoading = false;
+            memberState.adminUsersLoading = false;
+            const search = document.getElementById('member-admin-user-search');
+            if (search) search.value = '';
         }
 
         document.addEventListener('keydown', event => {
