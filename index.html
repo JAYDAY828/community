@@ -6638,7 +6638,7 @@
                 const requestAmount = Number(profile.latestRequest.amount || 0);
                 document.getElementById('member-request-summary').textContent = `${planLabel} · ${requestAmount === 0 ? '무료' : `${requestAmount} USDT`}`;
                 document.getElementById('member-request-badge').textContent = profile.latestRequest.status === 'APPLIED'
-                    ? '이용권 활성화 완료'
+                    ? '활성화 완료'
                     : profile.latestRequest.status === 'WAITING'
                         ? (requestAmount === 0 ? '승인 대기' : '입금 확인 대기')
                         : profile.latestRequest.status;
