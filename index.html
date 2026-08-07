@@ -603,7 +603,7 @@
                 </div>
 
                 <!-- Title Text -->
-                <div class="flex flex-col justify-center min-w-0">
+                <div class="hidden sm:flex flex-col justify-center min-w-0">
                     <h1 class="font-bold text-sm md:text-xl tracking-tight text-white leading-tight truncate">
                         Trading API.<span class="text-brand">All-in-One</span>
                     </h1>
@@ -649,13 +649,22 @@
                         data-i18n="header.community">Community</span>
                 </a>
 
-                <!-- Join Button Design C -->
-                <button id="join"
-                    class="liquid-btn-yellow font-extrabold py-1.5 px-3 md:py-2 md:px-5 rounded-xl text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-1 md:gap-2 whitespace-nowrap shrink-0 min-w-[5.5rem] md:min-w-[7.5rem]"
-                    onclick="window.open('https://forms.gle/r7pxYEqeCE77mmJW6')">
-                    <span data-i18n="header.join">가입<span class="hidden md:inline"> 신청</span></span>
-                    <i
-                        class="fa-solid fa-arrow-right text-[10px] md:text-xs group-hover:translate-x-1 transition-transform"></i>
+                <button id="member-register-button" title="회원가입" onclick="openMemberModal('register')"
+                    class="liquid-btn-yellow font-extrabold w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-user-plus text-xs"></i>
+                    <span class="hidden md:inline" data-i18n="header.register">회원가입</span>
+                </button>
+
+                <button id="member-login-button" title="로그인" onclick="openMemberModal('login')"
+                    class="liquid-card w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm font-bold text-gray-200 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-right-to-bracket text-xs"></i>
+                    <span class="hidden md:inline" data-i18n="header.login">로그인</span>
+                </button>
+
+                <button id="member-profile-button" title="마이페이지" onclick="openMemberModal('profile')"
+                    class="hidden liquid-btn-yellow w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-300 items-center justify-center gap-2 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-user text-xs"></i>
+                    <span class="hidden md:inline" data-i18n="header.mypage">마이페이지</span>
                 </button>
 
                 <!-- Mobile Menu Toggle -->
@@ -862,17 +871,17 @@
                         </div>
                     </a>
 
-                    <!-- Google Form -->
-                    <a href="https://forms.gle/r7pxYEqeCE77mmJW6" target="_blank"
-                        class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer">
+                    <!-- Membership -->
+                    <button type="button" onclick="openMemberModal('register')"
+                        class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer text-left w-full">
                         <div class="flex items-center gap-4 mb-3">
                             <div class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center text-white">
                                 <i class="fa-solid fa-file-signature"></i>
                             </div>
-                            <h3 class="font-bold text-white" data-i18n="grid.form.title">가입 신청서</h3>
+                            <h3 class="font-bold text-white" data-i18n="grid.form.title">회원가입</h3>
                         </div>
-                        <p class="text-xs text-gray-400" data-i18n="grid.form.desc">API 사용 승인 신청</p>
-                    </a>
+                        <p class="text-xs text-gray-400" data-i18n="grid.form.desc">시리얼 계정 생성 및 구독 관리</p>
+                    </button>
 
                     <!-- TradingView -->
                     <a href="https://kr.tradingview.com/script/2f5pifia/" target="_blank"
@@ -4316,12 +4325,12 @@
                             <div class="flex-1 space-y-0">
                                 <!-- 30일 (기준가) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.30days">30일 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.30days">1개월 이용</span>
                                     <span class="font-mono font-bold text-white">30 USDT</span>
                                 </div>
                                 <!-- 90일 (할인) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.90days">90일 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.90days">3개월 이용</span>
                                     <div class="text-right">
                                         <span class="text-xs text-gray-600 line-through mr-1.5">90 USDT</span>
                                         <span class="font-mono font-bold text-white">80 USDT</span>
@@ -4329,7 +4338,7 @@
                                 </div>
                                 <!-- 1년 (할인) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.1year">1년 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.1year">12개월 이용</span>
                                     <div class="text-right">
                                         <span class="text-xs text-gray-600 line-through mr-1.5">360 USDT</span>
                                         <span class="font-mono font-bold text-white">270 USDT</span>
@@ -4366,12 +4375,12 @@
                             <div class="flex-1 space-y-0">
                                 <!-- 30일 (기준가) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.30days">30일 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.30days">1개월 이용</span>
                                     <span class="font-mono font-bold text-white">50 USDT</span>
                                 </div>
                                 <!-- 90일 (할인) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.90days">90일 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.90days">3개월 이용</span>
                                     <div class="text-right">
                                         <span class="text-xs text-gray-600 line-through mr-1.5">150 USDT</span>
                                         <span class="font-mono font-bold text-white">120 USDT</span>
@@ -4379,7 +4388,7 @@
                                 </div>
                                 <!-- 1년 (할인) -->
                                 <div class="flex justify-between items-center py-4 border-b border-gray-800/50">
-                                    <span class="text-gray-300 text-sm" data-i18n="price.1year">1년 이용</span>
+                                    <span class="text-gray-300 text-sm" data-i18n="price.1year">12개월 이용</span>
                                     <div class="text-right">
                                         <span class="text-xs text-gray-600 line-through mr-1.5">600 USDT</span>
                                         <span class="font-mono font-bold text-white">450 USDT</span>
@@ -4411,7 +4420,7 @@
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item2"><strong>TRC20 / ERC20</strong> 네트워크를 반드시 확인 후
+                                <span data-i18n="sponsor.usdt.item2"><strong>Aptos</strong> 네트워크를 반드시 확인 후
                                     송금해주시기 바랍니다. 오입금 시 복구가 불가능합니다.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
@@ -4454,6 +4463,336 @@
             </div>
         </div>
     </footer>
+
+    <!-- === Member Manager === -->
+    <div id="member-modal" class="fixed inset-0 z-[80] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="member-modal-title">
+        <button type="button" class="absolute inset-0 bg-black/75 backdrop-blur-sm" aria-label="Close"
+            onclick="closeMemberModal()"></button>
+
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6">
+            <div
+                class="relative w-full max-w-xl max-h-[calc(100vh-1.5rem)] overflow-y-auto bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-[#11151b]/95 backdrop-blur-xl border-b border-white/10">
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-bold uppercase text-brand tracking-normal">MEMBER ACCESS</p>
+                        <h2 id="member-modal-title" class="text-base font-bold text-white truncate">회원 관리</h2>
+                    </div>
+                    <button type="button" onclick="closeMemberModal()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div id="member-auth-view" class="p-5 sm:p-6">
+                    <div class="grid grid-cols-2 p-1 bg-black/30 border border-white/10 rounded-lg mb-6">
+                        <button id="member-tab-register" type="button" onclick="setMemberAuthTab('register')"
+                            class="h-10 rounded-md text-sm font-bold transition-colors">회원가입</button>
+                        <button id="member-tab-login" type="button" onclick="setMemberAuthTab('login')"
+                            class="h-10 rounded-md text-sm font-bold transition-colors">로그인</button>
+                    </div>
+
+                    <form id="member-register-form" class="space-y-5" onsubmit="submitMemberRegistration(event)">
+                        <div>
+                            <label for="member-register-serial" class="block text-xs font-bold text-gray-300 mb-2">시리얼키</label>
+                            <input id="member-register-serial" name="serial" type="text" autocomplete="new-password"
+                                minlength="6" maxlength="64" required
+                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
+                                placeholder="사용할 시리얼키를 입력하세요">
+                            <p class="mt-2 text-xs text-gray-500">가입 후 로그인과 툴킷 인증에 사용하는 키입니다. 분실 시 재발급이 필요합니다.</p>
+                        </div>
+                        <div>
+                            <label for="member-register-username" class="block text-xs font-bold text-gray-300 mb-2">유저네임</label>
+                            <input id="member-register-username" name="username" type="text" autocomplete="nickname"
+                                minlength="2" maxlength="30" required
+                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"
+                                placeholder="표시할 유저네임을 입력하세요">
+                        </div>
+                        <div id="member-turnstile-slot"></div>
+                        <button id="member-register-submit" type="submit"
+                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i>
+                            회원가입
+                        </button>
+                    </form>
+
+                    <form id="member-login-form" class="hidden space-y-5" onsubmit="submitMemberLogin(event)">
+                        <div>
+                            <label for="member-login-serial" class="block text-xs font-bold text-gray-300 mb-2">시리얼키</label>
+                            <input id="member-login-serial" name="serial" type="password" autocomplete="current-password"
+                                minlength="6" maxlength="128" required
+                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
+                                placeholder="등록한 시리얼키를 입력하세요">
+                        </div>
+                        <button id="member-login-submit" type="submit"
+                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            로그인
+                        </button>
+                    </form>
+
+                    <div id="member-auth-message" class="hidden mt-5 px-4 py-3 rounded-md border text-sm"></div>
+                </div>
+
+                <div id="member-profile-view" class="hidden">
+                    <div class="px-5 sm:px-6 py-5 border-b border-white/10 flex items-start justify-between gap-4">
+                        <div class="min-w-0">
+                            <p class="text-xs text-gray-500 mb-1">USERNAME</p>
+                            <h3 id="member-profile-username" class="text-xl font-bold text-white truncate">-</h3>
+                        </div>
+                        <span id="member-profile-status"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-md border border-gray-700 text-gray-300">-</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 border-b border-white/10">
+                        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-white/10">
+                            <p class="text-[10px] text-gray-500 mb-1">GRADE</p>
+                            <p id="member-profile-grade" class="text-sm font-bold text-white uppercase">-</p>
+                        </div>
+                        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-white/10">
+                            <p class="text-[10px] text-gray-500 mb-1">SUBSCRIPTION</p>
+                            <p id="member-profile-subscription" class="text-sm font-bold text-white uppercase">-</p>
+                        </div>
+                        <div class="px-5 py-4">
+                            <p class="text-[10px] text-gray-500 mb-1">EXPIRATION</p>
+                            <p id="member-profile-expiration" class="text-sm font-bold text-white">-</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 sm:p-6 space-y-5">
+                        <div id="member-request-status" class="hidden px-4 py-3 bg-black/20 border border-white/10 rounded-md">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-[10px] text-gray-500 mb-1">LATEST REQUEST</p>
+                                    <p id="member-request-summary" class="text-sm text-white">-</p>
+                                </div>
+                                <span id="member-request-badge" class="text-[10px] font-bold text-brand">-</span>
+                            </div>
+                        </div>
+
+                        <div id="member-admin-panel" class="hidden border-y border-white/10 py-5 space-y-4">
+                            <div class="grid grid-cols-2 border border-gray-700 rounded-md overflow-hidden">
+                                <button id="member-admin-tab-requests" type="button" onclick="setMemberAdminTab('requests')"
+                                    class="h-10 text-xs font-bold bg-brand text-black">구독 승인</button>
+                                <button id="member-admin-tab-users" type="button" onclick="setMemberAdminTab('users')"
+                                    class="h-10 text-xs font-bold text-gray-400 hover:text-white border-l border-gray-700">유저 관리</button>
+                            </div>
+
+                            <div id="member-admin-requests-view" class="space-y-4">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h4 class="text-sm font-bold text-white">구독 승인 관리</h4>
+                                    <button id="member-admin-refresh" type="button" onclick="loadAdminRequests()" title="새로고침"
+                                        class="w-9 h-9 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
+                                        <i class="fa-solid fa-rotate"></i>
+                                    </button>
+                                </div>
+                                <div id="member-admin-empty"
+                                    class="hidden px-4 py-6 bg-black/20 border border-white/10 rounded-md text-center text-xs text-gray-500">
+                                    승인 대기 중인 구독 신청이 없습니다.
+                                </div>
+                                <div id="member-admin-list" class="space-y-2"></div>
+                                <form id="member-admin-approval" class="hidden px-4 py-4 bg-black/25 border border-brand/30 rounded-md space-y-4"
+                                    onsubmit="submitAdminApproval(event)">
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 mb-1">APPROVAL TARGET</p>
+                                        <p id="member-admin-approval-summary" class="text-sm font-bold text-white">-</p>
+                                    </div>
+                                    <input id="member-admin-request-id" type="hidden">
+                                    <div>
+                                        <label for="member-admin-serial" class="block text-xs font-bold text-gray-400 mb-2">관리자 시리얼 재확인</label>
+                                        <input id="member-admin-serial" type="password" autocomplete="current-password" required
+                                            class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
+                                            placeholder="현재 admin 시리얼을 입력하세요">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <button type="button" onclick="cancelAdminApproval()"
+                                            class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-400 hover:text-white">취소</button>
+                                        <button id="member-admin-approve-submit" type="submit"
+                                            class="liquid-btn-yellow h-10 rounded-md text-xs font-extrabold">입금 확인 및 승인</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="member-admin-users-view" class="hidden space-y-4">
+                                <form class="flex gap-2" onsubmit="searchAdminUsers(event)">
+                                    <input id="member-admin-user-search" type="search" maxlength="50"
+                                        class="min-w-0 flex-1 h-10 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"
+                                        placeholder="유저네임, 메모, 권한 검색">
+                                    <button type="submit" title="검색"
+                                        class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-white">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                    <button id="member-admin-users-refresh" type="button" onclick="loadAdminUsers()" title="새로고침"
+                                        class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
+                                        <i class="fa-solid fa-rotate"></i>
+                                    </button>
+                                    <a id="member-admin-sheet-link" href="#" target="_blank" rel="noopener noreferrer" title="Google Sheets에서 상세 편집"
+                                        class="hidden w-10 h-10 items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </form>
+                                <div id="member-admin-users-empty"
+                                    class="hidden px-4 py-6 bg-black/20 border border-white/10 rounded-md text-center text-xs text-gray-500">
+                                    조건에 맞는 사용자가 없습니다.
+                                </div>
+                                <div id="member-admin-users-list" class="space-y-2"></div>
+                                <div id="member-admin-users-pagination" class="hidden items-center justify-between gap-3">
+                                    <button id="member-admin-users-prev" type="button" onclick="changeAdminUsersPage(-1)" title="이전 페이지"
+                                        class="w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-left"></i></button>
+                                    <span id="member-admin-users-page" class="text-xs text-gray-500">1 / 1</span>
+                                    <button id="member-admin-users-next" type="button" onclick="changeAdminUsersPage(1)" title="다음 페이지"
+                                        class="w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
+                                <form id="member-admin-user-editor" class="hidden px-4 py-4 bg-black/25 border border-brand/30 rounded-md space-y-4"
+                                    onsubmit="submitAdminUserUpdate(event)">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <div>
+                                            <p class="text-[10px] text-gray-500 mb-1">EDIT USER</p>
+                                            <p id="member-admin-user-editor-title" class="text-sm font-bold text-white">-</p>
+                                        </div>
+                                        <button type="button" onclick="cancelAdminUserEdit()" title="닫기" class="w-8 h-8 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                                    </div>
+                                    <input id="member-admin-user-id" type="hidden">
+                                    <input id="member-admin-user-revision" type="hidden">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="member-admin-user-username" class="block text-xs font-bold text-gray-400 mb-2">유저네임</label>
+                                            <input id="member-admin-user-username" type="text" maxlength="30" required
+                                                class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand">
+                                        </div>
+                                        <div>
+                                            <label for="member-admin-user-subscription" class="block text-xs font-bold text-gray-400 mb-2">권한</label>
+                                            <select id="member-admin-user-subscription"
+                                                class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand">
+                                                <option value="">NONE</option>
+                                                <option value="detector">DETECTOR</option>
+                                                <option value="extension">EXTENSION</option>
+                                                <option value="all">ALL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="member-admin-user-expiration" class="block text-xs font-bold text-gray-400 mb-2">만료일</label>
+                                        <input id="member-admin-user-expiration" type="text" maxlength="10" placeholder="YYYY/MM/DD 또는 unlimited"
+                                            onblur="formatAdminExpirationInput(event)"
+                                            class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand">
+                                    </div>
+                                    <div>
+                                        <label for="member-admin-user-memo" class="block text-xs font-bold text-gray-400 mb-2">메모</label>
+                                        <textarea id="member-admin-user-memo" maxlength="500" rows="3"
+                                            class="w-full px-3 py-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white resize-y focus:outline-none focus:border-brand"></textarea>
+                                    </div>
+                                    <div>
+                                        <label for="member-admin-user-serial" class="block text-xs font-bold text-gray-400 mb-2">관리자 시리얼 재확인</label>
+                                        <input id="member-admin-user-serial" type="password" autocomplete="current-password" required
+                                            class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand">
+                                    </div>
+                                    <button id="member-admin-user-save" type="submit" class="liquid-btn-yellow w-full h-10 rounded-md text-xs font-extrabold">변경사항 저장</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div id="member-subscription-actions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button id="member-new-subscription-button" type="button" onclick="openSubscriptionForm('new')"
+                                class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-plus"></i>
+                                신규 구독
+                            </button>
+                            <button id="member-renewal-button" type="button" onclick="openSubscriptionForm('renewal')"
+                                class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-rotate"></i>
+                                구독 관리
+                            </button>
+                            <button id="member-download-button" type="button" onclick="openMemberDownload()"
+                                class="hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
+                                <i class="fa-solid fa-download"></i>
+                                다운로드
+                            </button>
+                        </div>
+
+                        <form id="member-subscription-form" class="hidden border-t border-white/10 pt-5 space-y-4"
+                            onsubmit="submitSubscriptionRequest(event)">
+                            <div class="flex items-center justify-between">
+                                <h4 id="member-subscription-title" class="text-sm font-bold text-white">구독 신청</h4>
+                                <button type="button" onclick="closeSubscriptionForm()" title="닫기"
+                                    class="w-8 h-8 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <input id="member-subscription-type" type="hidden" value="new">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="member-plan" class="block text-xs font-bold text-gray-400 mb-2">요금제</label>
+                                    <select id="member-plan" onchange="updateMemberTerms()"
+                                        class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"></select>
+                                </div>
+                                <div>
+                                    <label for="member-term" class="block text-xs font-bold text-gray-400 mb-2">이용기간</label>
+                                    <select id="member-term" onchange="updateMemberPrice()"
+                                        class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"></select>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between px-4 py-3 bg-black/30 border border-white/10 rounded-md">
+                                <span class="text-xs text-gray-400">입금 금액</span>
+                                <strong id="member-price" class="font-mono text-lg text-brand">-</strong>
+                            </div>
+                            <button id="member-subscription-submit" type="submit"
+                                class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold">다음 단계</button>
+                        </form>
+
+                        <div id="member-payment-panel" class="hidden border-t border-white/10 pt-5 space-y-4">
+                            <div class="flex items-center gap-2 text-sm font-bold text-white">
+                                <i class="fa-solid fa-circle-check text-accent-green"></i>
+                                <span>입금 확인 대기 중</span>
+                            </div>
+                            <div class="divide-y divide-white/10 border-y border-white/10">
+                                <div class="flex justify-between gap-4 py-3 text-sm">
+                                    <span class="text-gray-500">자산</span><strong id="member-payment-asset" class="text-white">USDT</strong>
+                                </div>
+                                <div class="flex justify-between gap-4 py-3 text-sm">
+                                    <span class="text-gray-500">네트워크</span><strong id="member-payment-network" class="text-brand">APTOS</strong>
+                                </div>
+                                <div class="py-3 text-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-gray-500">입금 주소</span>
+                                        <button type="button" onclick="copyMemberValue('member-payment-address')"
+                                            class="text-xs text-brand hover:text-yellow-300"><i class="fa-regular fa-copy mr-1"></i>복사</button>
+                                    </div>
+                                    <code id="member-payment-address" class="block text-xs text-white break-all leading-relaxed">-</code>
+                                </div>
+                                <div id="member-reset-row" class="hidden py-3 text-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-gray-500">툴킷 복구키</span>
+                                        <button type="button" onclick="copyMemberValue('member-reset-key')"
+                                            class="text-xs text-brand hover:text-yellow-300"><i class="fa-regular fa-copy mr-1"></i>복사</button>
+                                    </div>
+                                    <code id="member-reset-key" class="block text-xs text-white break-all">-</code>
+                                    <p class="mt-2 text-[11px] text-gray-500">이용기간 반영 후 로컬 차단이 남아 있을 때만 사용하세요.</p>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 bg-red-950/20 border border-red-900/40 rounded-md text-xs text-gray-300 leading-relaxed">
+                                반드시 <strong class="text-white">USDT</strong>와 <strong class="text-brand">Aptos 네트워크</strong>를 모두 확인한 후 송금하세요. 입금 확인 후 운영자가 이용기간을 반영합니다. 처리가 지연되면 운영자에게 문의해주세요.
+                            </div>
+                            <a id="member-support-link" href="#" target="_blank" rel="noopener noreferrer"
+                                class="hidden w-full h-10 border border-gray-700 hover:border-gray-500 rounded-md text-sm font-bold text-gray-300 items-center justify-center gap-2">
+                                <i class="fa-solid fa-headset"></i> 운영자 문의
+                            </a>
+                        </div>
+
+                        <div id="member-profile-message" class="hidden px-4 py-3 rounded-md border text-sm"></div>
+
+                        <button type="button" onclick="logoutMember()"
+                            class="w-full h-10 text-xs font-bold text-gray-500 hover:text-white transition-colors">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>로그아웃
+                        </button>
+                    </div>
+                </div>
+
+                <div id="member-loading-view" class="hidden p-12 text-center">
+                    <i class="fa-solid fa-circle-notch fa-spin text-brand text-2xl mb-4"></i>
+                    <p class="text-sm text-gray-400">회원정보를 확인하고 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Three.js (Final: Wide & Subtle Universe) -->
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -4627,7 +4966,10 @@
             "brand.desc": { ko: "BUILT FOR TRADERS.", en: "BUILT FOR TRADERS." },
             "header.search": { ko: "가이드 검색 (단축키 /)", en: "Search Guides (Press /)" },
             "header.community": { ko: "Community", en: "Community" },
-            "header.join": { ko: "가입<span class='hidden md:inline'> 신청</span>", en: "Join<span class='hidden md:inline'> Now</span>" },
+            "header.join": { ko: "회원가입", en: "Register" },
+            "header.register": { ko: "회원가입", en: "Register" },
+            "header.login": { ko: "로그인", en: "Login" },
+            "header.mypage": { ko: "마이페이지", en: "My Page" },
 
             // Navigation (Sidebar)
             "nav.menu": { ko: "메뉴", en: "Menu" },
@@ -4659,8 +5001,8 @@
             // Grid Items
             "grid.tele.title": { ko: "공식 텔레그램 채널", en: "Official Telegram" },
             "grid.tele.desc": { ko: "공지사항, 업데이트, 실시간 문의 및 커뮤니티", en: "Announcements, Updates, Inquiry & Community" },
-            "grid.form.title": { ko: "가입 신청서", en: "Application Form" },
-            "grid.form.desc": { ko: "API 사용 승인 신청", en: "Apply for API Access" },
+            "grid.form.title": { ko: "회원가입", en: "Register" },
+            "grid.form.desc": { ko: "시리얼 계정 생성 및 구독 관리", en: "Create a serial account and manage subscriptions" },
             "grid.tradingview.title": { ko: "TradingView 지표", en: "TradingView Indicator" },
             "grid.tradingview.desc": { ko: "Crypto Detector 전용 인디케이터 & 얼러트", en: "Crypto Detector indicator & alerts" },
             "grid.kakao.title": { ko: "카카오톡 1:1 문의", en: "KakaoTalk Support" },
@@ -5353,12 +5695,12 @@
             "sponsor.card.popular": { ko: "Most Popular", en: "Most Popular" },
             "sponsor.usdt.title": { ko: "USDT 후원 유의사항", en: "USDT Sponsorship Notes" },
             "sponsor.usdt.item1": { ko: "국내외 거래소 이용 시 트래블룰 규정에 따라 출금·입금이 제한될 수 있으므로 본인 계정에서 정상 절차로 송금해주세요.", en: "When using domestic/overseas exchanges, transfer to/from your own account following Travel Rule regulations, as deposits/withdrawals may be restricted." },
-            "sponsor.usdt.item2": { ko: "<strong>TRC20 / ERC20</strong> 네트워크를 반드시 확인 후 송금해주시기 바랍니다. 오입금 시 복구가 불가능합니다.", en: "Be sure to verify the <strong>TRC20 / ERC20</strong> network before sending. Mistakes cannot be recovered." },
+            "sponsor.usdt.item2": { ko: "<strong>Aptos</strong> 네트워크를 반드시 확인 후 송금해주시기 바랍니다. 오입금 시 복구가 불가능합니다.", en: "Be sure to select the <strong>Aptos</strong> network before sending. Transfers on the wrong network may not be recoverable." },
             "sponsor.usdt.item3": { ko: "송금 시 발생하는 수수료는 후원자 부담이며, 수수료 차감으로 금액 미달 시 추가 송금을 요청드릴 수 있습니다.", en: "Transfer fees are borne by the sponsor; if fees reduce the amount, additional transfer may be requested." },
             "sponsor.usdt.item4": { ko: "블록체인 특성상 송금 후 거래 취소 및 환불은 불가능합니다.", en: "Due to blockchain characteristics, transfers are irreversible and non-refundable." },
-            "price.30days": { ko: "30일 이용", en: "30 Days Access" },
-            "price.90days": { ko: "90일 이용", en: "90 Days Access" },
-            "price.1year": { ko: "1년 이용", en: "1 Year Access" },
+            "price.30days": { ko: "1개월 이용", en: "1 Month Access" },
+            "price.90days": { ko: "3개월 이용", en: "3 Months Access" },
+            "price.1year": { ko: "12개월 이용", en: "12 Months Access" },
             "price.lifetime": { ko: "무제한 (Lifetime)", en: "Lifetime Access" },
 
             // Footer
@@ -5677,7 +6019,9 @@
             window.addEventListener('keydown', (e) => {
                 // Search: /
                 if (e.key === '/') {
-                    if (document.activeElement !== input) {
+                    const active = document.activeElement;
+                    const isEditing = active && (active.matches('input, textarea, select') || active.isContentEditable);
+                    if (!isEditing) {
                         e.preventDefault();
                         input.focus();
                     }
@@ -5941,6 +6285,793 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
+    </script>
+
+    <script>
+        // Paste the deployed member_manager.gs /exec URL here.
+        const MEMBER_MANAGER_API_URL = 'https://script.google.com/macros/s/AKfycbwU2HlG45gA_R-j9AaUoK7Q2KHYtQr8gZs_fnHVBMIPcMmVJJNYTkAdDwsqafNfKXeqdQ/exec';
+        const MEMBER_SESSION_STORAGE_KEY = 'jayday_member_session';
+        const MEMBER_CATALOG = {
+            detector: {
+                label: 'Crypto Detector Lite',
+                terms: {
+                    '1': { label: '1개월', amount: 30 },
+                    '3': { label: '3개월', amount: 80 },
+                    '12': { label: '12개월', amount: 270 }
+                }
+            },
+            all: {
+                label: 'All-in-One Toolkit',
+                terms: {
+                    '1': { label: '1개월', amount: 50 },
+                    '3': { label: '3개월', amount: 120 },
+                    '12': { label: '12개월', amount: 450 },
+                    lifetime: { label: '무제한', amount: 1250 }
+                }
+            }
+        };
+
+        const memberState = {
+            profile: null,
+            authTab: 'register',
+            adminRequests: [],
+            selectedAdminRequest: null,
+            adminTab: 'requests',
+            adminUsers: [],
+            adminUsersPage: 1,
+            adminUsersPages: 1,
+            adminUsersQuery: '',
+            selectedAdminUser: null
+        };
+
+        const MEMBER_ERROR_MESSAGES = {
+            admin_reauth_failed: '관리자 시리얼 재확인에 실패했습니다.',
+            admin_required: '관리자 권한이 필요합니다.',
+            approval_conflict: '회원정보가 신청 이후 변경되었습니다. User 탭과 신청 내역을 확인해주세요.',
+            account_not_found: '등록된 회원정보를 찾을 수 없습니다.',
+            busy_try_again: '요청이 많습니다. 잠시 후 다시 시도해주세요.',
+            captcha_failed: '자동가입 방지 확인에 실패했습니다.',
+            empty_serial: '시리얼키를 입력해주세요.',
+            empty_request_id: '승인할 신청번호가 없습니다.',
+            empty_user_id: '수정할 사용자를 찾을 수 없습니다.',
+            download_not_allowed: '활성화된 이용 권한이 있어야 다운로드할 수 있습니다.',
+            invalid_expiration: '만료일은 YYYY/MM/DD 또는 unlimited로 입력해주세요.',
+            invalid_period: '신청 기간이 올바르지 않습니다.',
+            invalid_plan: '선택한 구독 상품을 확인해주세요.',
+            invalid_request_type: '구독 신청 유형을 확인해주세요.',
+            invalid_serial: '등록되지 않은 시리얼키입니다.',
+            invalid_serial_format: '시리얼키는 영문, 숫자, 밑줄 및 하이픈 6~64자로 입력해주세요.',
+            invalid_session: '로그인 세션이 만료되었습니다. 다시 로그인해주세요.',
+            invalid_username_format: '유저네임에는 한글, 영문, 숫자, 공백, 괄호, 밑줄 및 하이픈만 사용할 수 있습니다.',
+            invalid_username_length: '유저네임은 2~30자로 입력해주세요.',
+            invalid_subscription: '사용자 권한을 확인해주세요.',
+            memo_too_long: '메모는 500자 이내로 입력해주세요.',
+            protected_account: '관리자 계정은 이 화면에서 수정할 수 없습니다.',
+            registration_disabled: '현재 신규 회원가입이 중지되어 있습니다.',
+            request_already_applied: '이미 승인 완료된 신청입니다.',
+            request_not_approvable: '현재 승인할 수 없는 신청입니다.',
+            request_not_found: '구독 신청을 찾을 수 없습니다.',
+            renewal_not_available: '연장하거나 변경할 기존 구독이 없습니다.',
+            reserved_serial: '복구키는 회원 시리얼로 사용할 수 없습니다.',
+            serial_exists: '이미 등록된 시리얼키입니다.',
+            server_error: '회원관리 서버 처리 중 오류가 발생했습니다.',
+            subscription_not_required: '이 계정은 별도의 구독 신청이 필요하지 않습니다.',
+            target_account_not_found: '신청 회원을 User 탭에서 찾을 수 없습니다.',
+            too_many_requests: '요청 횟수를 초과했습니다. 잠시 후 다시 시도해주세요.',
+            unknown_action: '지원하지 않는 요청입니다.',
+            use_renewal: '기존 구독이 있습니다. 구독 관리를 선택해주세요.',
+            user_update_conflict: '사용자 정보가 다른 곳에서 변경되었습니다. 목록을 새로고침한 후 다시 시도해주세요.',
+            username_exists: '이미 사용 중인 유저네임입니다.'
+        };
+
+        function isMemberApiConfigured() {
+            return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(MEMBER_MANAGER_API_URL.trim());
+        }
+
+        async function memberApi(action, payload = {}) {
+            if (!isMemberApiConfigured()) {
+                throw new Error('member_api_not_configured');
+            }
+
+            const response = await fetch(MEMBER_MANAGER_API_URL, {
+                method: 'POST',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action, ...payload })
+            });
+            if (!response.ok) {
+                throw new Error('member_api_unavailable');
+            }
+            return response.json();
+        }
+
+        function memberToken() {
+            try {
+                return sessionStorage.getItem(MEMBER_SESSION_STORAGE_KEY) || '';
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function storeMemberToken(token) {
+            try {
+                if (token) {
+                    sessionStorage.setItem(MEMBER_SESSION_STORAGE_KEY, token);
+                } else {
+                    sessionStorage.removeItem(MEMBER_SESSION_STORAGE_KEY);
+                }
+            } catch (error) {
+                // Session storage can be unavailable in private browsing modes.
+            }
+            updateMemberHeader();
+        }
+
+        function updateMemberHeader() {
+            const authenticated = Boolean(memberToken());
+            document.getElementById('member-register-button')?.classList.toggle('hidden', authenticated);
+            document.getElementById('member-login-button')?.classList.toggle('hidden', authenticated);
+
+            const profileButton = document.getElementById('member-profile-button');
+            if (profileButton) {
+                profileButton.classList.toggle('hidden', !authenticated);
+                profileButton.classList.toggle('flex', authenticated);
+            }
+        }
+
+        function openMemberModal(view = 'login') {
+            const modal = document.getElementById('member-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            if (view === 'profile' && memberToken()) {
+                loadMemberProfile();
+                return;
+            }
+
+            showMemberView('auth');
+            setMemberAuthTab(view === 'register' ? 'register' : 'login');
+            setTimeout(() => {
+                document.getElementById(view === 'register' ? 'member-register-serial' : 'member-login-serial')?.focus();
+            }, 50);
+        }
+
+        function closeMemberModal() {
+            document.getElementById('member-modal')?.classList.add('hidden');
+            document.body.style.overflow = '';
+            closeSubscriptionForm();
+            document.getElementById('member-payment-panel')?.classList.add('hidden');
+        }
+
+        function showMemberView(view) {
+            document.getElementById('member-auth-view')?.classList.toggle('hidden', view !== 'auth');
+            document.getElementById('member-profile-view')?.classList.toggle('hidden', view !== 'profile');
+            document.getElementById('member-loading-view')?.classList.toggle('hidden', view !== 'loading');
+            const title = document.getElementById('member-modal-title');
+            if (title) {
+                title.textContent = view === 'profile' ? '마이페이지' : '회원 관리';
+            }
+        }
+
+        function setMemberAuthTab(tab) {
+            memberState.authTab = tab;
+            const isRegister = tab === 'register';
+            document.getElementById('member-register-form')?.classList.toggle('hidden', !isRegister);
+            document.getElementById('member-login-form')?.classList.toggle('hidden', isRegister);
+
+            const registerTab = document.getElementById('member-tab-register');
+            const loginTab = document.getElementById('member-tab-login');
+            [registerTab, loginTab].forEach(button => {
+                button?.classList.remove('bg-brand', 'text-black', 'text-gray-400');
+            });
+            registerTab?.classList.add(...(isRegister ? ['bg-brand', 'text-black'] : ['text-gray-400']));
+            loginTab?.classList.add(...(!isRegister ? ['bg-brand', 'text-black'] : ['text-gray-400']));
+            setMemberMessage('auth', '', 'info');
+        }
+
+        function setMemberMessage(scope, message, type = 'error') {
+            const element = document.getElementById(scope === 'profile' ? 'member-profile-message' : 'member-auth-message');
+            if (!element) return;
+            element.classList.remove('hidden', 'border-red-800', 'bg-red-950/20', 'text-red-200', 'border-green-800', 'bg-green-950/20', 'text-green-200', 'border-blue-800', 'bg-blue-950/20', 'text-blue-200');
+            if (!message) {
+                element.classList.add('hidden');
+                element.textContent = '';
+                return;
+            }
+
+            const classes = type === 'success'
+                ? ['border-green-800', 'bg-green-950/20', 'text-green-200']
+                : type === 'info'
+                    ? ['border-blue-800', 'bg-blue-950/20', 'text-blue-200']
+                    : ['border-red-800', 'bg-red-950/20', 'text-red-200'];
+            element.classList.add(...classes);
+            element.textContent = message;
+        }
+
+        function memberErrorMessage(error) {
+            const code = typeof error === 'string' ? error : error?.message;
+            if (code === 'member_api_not_configured') {
+                return '회원관리 API가 아직 연결되지 않았습니다.';
+            }
+            if (code === 'member_api_unavailable' || error instanceof TypeError) {
+                return '회원관리 서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.';
+            }
+            return MEMBER_ERROR_MESSAGES[code] || '요청을 처리하지 못했습니다. 잠시 후 다시 시도해주세요.';
+        }
+
+        function setMemberSubmitBusy(buttonId, busy) {
+            const button = document.getElementById(buttonId);
+            if (!button) return;
+            button.disabled = busy;
+            button.classList.toggle('opacity-60', busy);
+            button.classList.toggle('cursor-wait', busy);
+        }
+
+        async function submitMemberRegistration(event) {
+            event.preventDefault();
+            setMemberMessage('auth', '');
+            setMemberSubmitBusy('member-register-submit', true);
+            const serial = document.getElementById('member-register-serial').value.trim();
+            const username = document.getElementById('member-register-username').value.trim();
+
+            try {
+                const result = await memberApi('register', { serial, username });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+
+                document.getElementById('member-login-serial').value = serial;
+                document.getElementById('member-register-form').reset();
+                setMemberAuthTab('login');
+                setMemberMessage('auth', '회원가입이 완료되었습니다. 등록한 시리얼키로 로그인해주세요.', 'success');
+            } catch (error) {
+                setMemberMessage('auth', memberErrorMessage(error));
+            } finally {
+                setMemberSubmitBusy('member-register-submit', false);
+            }
+        }
+
+        async function submitMemberLogin(event) {
+            event.preventDefault();
+            setMemberMessage('auth', '');
+            setMemberSubmitBusy('member-login-submit', true);
+            const serialInput = document.getElementById('member-login-serial');
+
+            try {
+                const result = await memberApi('login', { serial: serialInput.value.trim() });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+
+                storeMemberToken(result.token);
+                serialInput.value = '';
+                memberState.profile = result.profile;
+                renderMemberProfile(result.profile);
+                showMemberView('profile');
+            } catch (error) {
+                setMemberMessage('auth', memberErrorMessage(error));
+            } finally {
+                setMemberSubmitBusy('member-login-submit', false);
+            }
+        }
+
+        async function loadMemberProfile() {
+            showMemberView('loading');
+            try {
+                const result = await memberApi('profile', { token: memberToken() });
+                if (!result.ok) throw new Error(result.error || 'invalid_session');
+                memberState.profile = result.profile;
+                renderMemberProfile(result.profile);
+                showMemberView('profile');
+            } catch (error) {
+                storeMemberToken('');
+                memberState.profile = null;
+                showMemberView('auth');
+                setMemberAuthTab('login');
+                setMemberMessage('auth', memberErrorMessage(error));
+            }
+        }
+
+        function renderMemberProfile(profile) {
+            document.getElementById('member-profile-username').textContent = profile.username || '-';
+            document.getElementById('member-profile-grade').textContent = profile.grade || 'NONE';
+            document.getElementById('member-profile-subscription').textContent = profile.subscription || 'NONE';
+            document.getElementById('member-profile-expiration').textContent = profile.expiration || '-';
+
+            const statusLabels = {
+                active: 'ACTIVE',
+                expired: 'EXPIRED',
+                no_subscription: 'NO SUBSCRIPTION',
+                invalid_expiration: 'CHECK REQUIRED'
+            };
+            const status = document.getElementById('member-profile-status');
+            status.textContent = statusLabels[profile.status] || String(profile.status || '-').toUpperCase();
+            status.className = `px-2.5 py-1 text-[11px] font-bold rounded-md border ${profile.active
+                ? 'border-green-800 text-green-300 bg-green-950/20'
+                : 'border-gray-700 text-gray-300 bg-black/20'}`;
+
+            const renewalButton = document.getElementById('member-renewal-button');
+            renewalButton.disabled = !profile.canRequestRenewal;
+            renewalButton.classList.toggle('opacity-40', !profile.canRequestRenewal);
+            renewalButton.classList.toggle('cursor-not-allowed', !profile.canRequestRenewal);
+            renewalButton.classList.toggle('hidden', !profile.canRequestRenewal);
+
+            const newSubscriptionButton = document.getElementById('member-new-subscription-button');
+            const canRequestNew = (profile.subscriptions || []).length === 0;
+            newSubscriptionButton.classList.toggle('hidden', !canRequestNew);
+
+            const downloadButton = document.getElementById('member-download-button');
+            const canDownload = profile.active && (profile.subscriptions || []).length > 0;
+            downloadButton.classList.toggle('hidden', !canDownload);
+            downloadButton.classList.toggle('flex', canDownload);
+            const visibleMemberActions = [canRequestNew, profile.canRequestRenewal, canDownload].filter(Boolean).length;
+            [newSubscriptionButton, renewalButton, downloadButton].forEach(button => {
+                button.classList.toggle('sm:col-span-2', visibleMemberActions === 1);
+            });
+
+            const requestPanel = document.getElementById('member-request-status');
+            if (profile.latestRequest) {
+                requestPanel.classList.remove('hidden');
+                const planLabel = MEMBER_CATALOG[profile.latestRequest.plan]?.label || profile.latestRequest.plan;
+                document.getElementById('member-request-summary').textContent = `${planLabel} · ${profile.latestRequest.amount} USDT`;
+                document.getElementById('member-request-badge').textContent = profile.latestRequest.status === 'APPLIED'
+                    ? '이용권 반영 완료'
+                    : profile.latestRequest.status === 'WAITING'
+                        ? '입금 확인 대기'
+                        : profile.latestRequest.status;
+            } else {
+                requestPanel.classList.add('hidden');
+            }
+
+            const isAdmin = profile.grade === 'admin';
+            const subscriptionActions = document.getElementById('member-subscription-actions');
+            subscriptionActions.classList.toggle('hidden', isAdmin || visibleMemberActions === 0);
+            subscriptionActions.classList.toggle('grid', !isAdmin && visibleMemberActions > 0);
+            document.getElementById('member-admin-panel').classList.toggle('hidden', !isAdmin);
+            if (isAdmin) {
+                setMemberAdminTab(memberState.adminTab || 'requests');
+                if (memberState.adminTab === 'requests') loadAdminUsers();
+                else loadAdminRequests();
+            } else {
+                memberState.adminRequests = [];
+                memberState.adminUsers = [];
+                cancelAdminApproval();
+                cancelAdminUserEdit();
+            }
+
+            closeSubscriptionForm();
+            document.getElementById('member-payment-panel').classList.add('hidden');
+            setMemberMessage('profile', '');
+        }
+
+        async function loadAdminRequests() {
+            if (memberState.profile?.grade !== 'admin') return;
+            const refreshButton = document.getElementById('member-admin-refresh');
+            refreshButton.disabled = true;
+            refreshButton.classList.add('opacity-50');
+            try {
+                const result = await memberApi('admin_list_requests', { token: memberToken() });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                memberState.adminRequests = result.requests || [];
+                renderAdminRequests();
+            } catch (error) {
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                refreshButton.disabled = false;
+                refreshButton.classList.remove('opacity-50');
+            }
+        }
+
+        function renderAdminRequests() {
+            const container = document.getElementById('member-admin-list');
+            const empty = document.getElementById('member-admin-empty');
+            container.replaceChildren();
+            empty.classList.toggle('hidden', memberState.adminRequests.length > 0);
+
+            memberState.adminRequests.forEach(request => {
+                const card = document.createElement('div');
+                card.className = 'px-4 py-3 bg-black/20 border border-white/10 rounded-md flex items-center justify-between gap-3';
+
+                const info = document.createElement('div');
+                info.className = 'min-w-0';
+                const title = document.createElement('p');
+                title.className = 'text-sm font-bold text-white truncate';
+                title.textContent = request.username || '-';
+                const plan = MEMBER_CATALOG[request.plan]?.label || request.plan;
+                const period = request.months === 0 ? '무제한' : `${request.months}개월`;
+                const detail = document.createElement('p');
+                detail.className = 'mt-1 text-[11px] text-gray-500';
+                detail.textContent = `${request.type.toUpperCase()} · ${plan} · ${period} · ${request.amount} USDT`;
+                const requestedAt = document.createElement('p');
+                requestedAt.className = 'mt-1 text-[10px] text-gray-600';
+                requestedAt.textContent = request.requestedAt || '';
+                info.append(title, detail, requestedAt);
+
+                const approve = document.createElement('button');
+                approve.type = 'button';
+                approve.className = 'flex-shrink-0 h-9 px-3 border border-brand/50 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors';
+                approve.textContent = request.status === 'PROCESSING' ? '승인 재개' : '승인';
+                approve.addEventListener('click', () => selectAdminRequest(request.id));
+                card.append(info, approve);
+                container.appendChild(card);
+            });
+        }
+
+        function selectAdminRequest(requestId) {
+            const request = memberState.adminRequests.find(item => item.id === requestId);
+            if (!request) return;
+            memberState.selectedAdminRequest = request;
+            const plan = MEMBER_CATALOG[request.plan]?.label || request.plan;
+            const period = request.months === 0 ? '무제한' : `${request.months}개월`;
+            document.getElementById('member-admin-request-id').value = request.id;
+            document.getElementById('member-admin-approval-summary').textContent = `${request.username} · ${plan} · ${period} · ${request.amount} USDT`;
+            document.getElementById('member-admin-serial').value = '';
+            const form = document.getElementById('member-admin-approval');
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            setTimeout(() => document.getElementById('member-admin-serial').focus(), 100);
+        }
+
+        function cancelAdminApproval() {
+            memberState.selectedAdminRequest = null;
+            const form = document.getElementById('member-admin-approval');
+            if (form) form.classList.add('hidden');
+            const serial = document.getElementById('member-admin-serial');
+            if (serial) serial.value = '';
+        }
+
+        async function submitAdminApproval(event) {
+            event.preventDefault();
+            const requestId = document.getElementById('member-admin-request-id').value;
+            const adminSerial = document.getElementById('member-admin-serial').value.trim();
+            setMemberSubmitBusy('member-admin-approve-submit', true);
+            try {
+                const result = await memberApi('admin_approve_request', {
+                    token: memberToken(),
+                    requestId,
+                    adminSerial
+                });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+
+                cancelAdminApproval();
+                setMemberMessage(
+                    'profile',
+                    `${result.request.username}님의 이용기간을 ${result.request.expiration}까지 반영했습니다.`,
+                    'success'
+                );
+                await loadAdminRequests();
+            } catch (error) {
+                document.getElementById('member-admin-serial').value = '';
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                setMemberSubmitBusy('member-admin-approve-submit', false);
+            }
+        }
+
+        function setMemberAdminTab(tab) {
+            if (memberState.profile?.grade !== 'admin') return;
+            memberState.adminTab = tab === 'users' ? 'users' : 'requests';
+            const isUsers = memberState.adminTab === 'users';
+            document.getElementById('member-admin-requests-view').classList.toggle('hidden', isUsers);
+            document.getElementById('member-admin-users-view').classList.toggle('hidden', !isUsers);
+            const requestsTab = document.getElementById('member-admin-tab-requests');
+            const usersTab = document.getElementById('member-admin-tab-users');
+            requestsTab.className = `h-10 text-xs font-bold ${isUsers ? 'text-gray-400 hover:text-white' : 'bg-brand text-black'}`;
+            usersTab.className = `h-10 text-xs font-bold border-l border-gray-700 ${isUsers ? 'bg-brand text-black' : 'text-gray-400 hover:text-white'}`;
+            if (isUsers) loadAdminUsers();
+            else loadAdminRequests();
+        }
+
+        async function loadAdminUsers() {
+            if (memberState.profile?.grade !== 'admin') return;
+            const refreshButton = document.getElementById('member-admin-users-refresh');
+            refreshButton.disabled = true;
+            refreshButton.classList.add('opacity-50');
+            try {
+                const result = await memberApi('admin_list_users', {
+                    token: memberToken(),
+                    query: memberState.adminUsersQuery,
+                    page: memberState.adminUsersPage,
+                    pageSize: 25
+                });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                memberState.adminUsers = result.users || [];
+                memberState.adminUsersPage = result.pagination?.page || 1;
+                memberState.adminUsersPages = result.pagination?.pages || 1;
+                const sheetLink = document.getElementById('member-admin-sheet-link');
+                const sheetUrl = String(result.sheetUrl || '');
+                const validSheetUrl = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/[A-Za-z0-9_-]+\/edit#gid=\d+$/.test(sheetUrl);
+                sheetLink.href = validSheetUrl ? sheetUrl : '#';
+                sheetLink.classList.toggle('hidden', !validSheetUrl);
+                sheetLink.classList.toggle('flex', validSheetUrl);
+                renderAdminUsers();
+            } catch (error) {
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                refreshButton.disabled = false;
+                refreshButton.classList.remove('opacity-50');
+            }
+        }
+
+        function renderAdminUsers() {
+            const container = document.getElementById('member-admin-users-list');
+            const empty = document.getElementById('member-admin-users-empty');
+            const pagination = document.getElementById('member-admin-users-pagination');
+            container.replaceChildren();
+            empty.classList.toggle('hidden', memberState.adminUsers.length > 0);
+
+            memberState.adminUsers.forEach(user => {
+                const row = document.createElement('div');
+                row.className = 'px-4 py-3 bg-black/20 border border-white/10 rounded-md flex items-center justify-between gap-3';
+                const info = document.createElement('div');
+                info.className = 'min-w-0';
+                const name = document.createElement('p');
+                name.className = 'text-sm font-bold text-white truncate';
+                name.textContent = user.username || '-';
+                const detail = document.createElement('p');
+                detail.className = 'mt-1 text-[11px] text-gray-500';
+                detail.textContent = `${(user.subscription || 'none').toUpperCase()} · ${user.expiration || '미설정'} · ${String(user.status || '').toUpperCase()}`;
+                if (user.memo) {
+                    const memo = document.createElement('p');
+                    memo.className = 'mt-1 text-[10px] text-gray-600 truncate';
+                    memo.textContent = user.memo;
+                    info.append(name, detail, memo);
+                } else {
+                    info.append(name, detail);
+                }
+                const edit = document.createElement('button');
+                edit.type = 'button';
+                edit.title = '사용자 편집';
+                edit.className = 'flex-shrink-0 w-9 h-9 border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand';
+                edit.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                edit.addEventListener('click', () => selectAdminUser(user.id));
+                row.append(info, edit);
+                container.appendChild(row);
+            });
+
+            pagination.classList.toggle('hidden', memberState.adminUsersPages <= 1);
+            pagination.classList.toggle('flex', memberState.adminUsersPages > 1);
+            document.getElementById('member-admin-users-page').textContent = `${memberState.adminUsersPage} / ${memberState.adminUsersPages}`;
+            document.getElementById('member-admin-users-prev').disabled = memberState.adminUsersPage <= 1;
+            document.getElementById('member-admin-users-next').disabled = memberState.adminUsersPage >= memberState.adminUsersPages;
+        }
+
+        function searchAdminUsers(event) {
+            event.preventDefault();
+            memberState.adminUsersQuery = document.getElementById('member-admin-user-search').value.trim();
+            memberState.adminUsersPage = 1;
+            cancelAdminUserEdit();
+            loadAdminUsers();
+        }
+
+        function changeAdminUsersPage(delta) {
+            const next = Math.min(memberState.adminUsersPages, Math.max(1, memberState.adminUsersPage + delta));
+            if (next === memberState.adminUsersPage) return;
+            memberState.adminUsersPage = next;
+            cancelAdminUserEdit();
+            loadAdminUsers();
+        }
+
+        function selectAdminUser(userId) {
+            const user = memberState.adminUsers.find(item => item.id === userId);
+            if (!user) return;
+            memberState.selectedAdminUser = user;
+            document.getElementById('member-admin-user-id').value = user.id;
+            document.getElementById('member-admin-user-revision').value = user.revision;
+            document.getElementById('member-admin-user-editor-title').textContent = user.username || '-';
+            document.getElementById('member-admin-user-username').value = user.username || '';
+            document.getElementById('member-admin-user-subscription').value = user.subscription || '';
+            document.getElementById('member-admin-user-expiration').value = user.expiration || '';
+            document.getElementById('member-admin-user-memo').value = user.memo || '';
+            document.getElementById('member-admin-user-serial').value = '';
+            const editor = document.getElementById('member-admin-user-editor');
+            editor.classList.remove('hidden');
+            editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function cancelAdminUserEdit() {
+            memberState.selectedAdminUser = null;
+            const editor = document.getElementById('member-admin-user-editor');
+            if (editor) editor.classList.add('hidden');
+            const serial = document.getElementById('member-admin-user-serial');
+            if (serial) serial.value = '';
+        }
+
+        function formatAdminExpirationInput(event) {
+            const input = event.target;
+            const raw = input.value.trim();
+            if (/^u/i.test(raw) || /[\/.-]/.test(raw)) return;
+            const digits = raw.replace(/\D/g, '');
+            if (digits.length === 8) {
+                input.value = `${digits.slice(0, 4)}/${digits.slice(4, 6)}/${digits.slice(6)}`;
+            }
+        }
+
+        async function submitAdminUserUpdate(event) {
+            event.preventDefault();
+            setMemberSubmitBusy('member-admin-user-save', true);
+            try {
+                const result = await memberApi('admin_update_user', {
+                    token: memberToken(),
+                    userId: document.getElementById('member-admin-user-id').value,
+                    revision: document.getElementById('member-admin-user-revision').value,
+                    username: document.getElementById('member-admin-user-username').value.trim(),
+                    subscription: document.getElementById('member-admin-user-subscription').value,
+                    expiration: document.getElementById('member-admin-user-expiration').value.trim(),
+                    memo: document.getElementById('member-admin-user-memo').value.trim(),
+                    adminSerial: document.getElementById('member-admin-user-serial').value.trim()
+                });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                cancelAdminUserEdit();
+                setMemberMessage('profile', `${result.user.username}님의 정보를 저장했습니다.`, 'success');
+                await loadAdminUsers();
+            } catch (error) {
+                document.getElementById('member-admin-user-serial').value = '';
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                setMemberSubmitBusy('member-admin-user-save', false);
+            }
+        }
+
+        function openSubscriptionForm(type) {
+            const profile = memberState.profile;
+            if (!profile) return;
+
+            const planSelect = document.getElementById('member-plan');
+            const subscriptions = profile.subscriptions || [];
+            let planIds = [];
+
+            if (type === 'renewal') {
+                if (subscriptions.includes('all')) planIds = ['all', 'detector'];
+                else if (subscriptions.includes('detector')) planIds = ['detector', 'all'];
+            } else if (!subscriptions.length) {
+                planIds = Object.keys(MEMBER_CATALOG);
+            }
+
+            if (!planIds.length) {
+                setMemberMessage('profile', type === 'renewal'
+                    ? '연장 가능한 구독이 없습니다.'
+                    : '신규로 신청할 수 있는 상품이 없습니다.');
+                return;
+            }
+
+            document.getElementById('member-subscription-type').value = type;
+            document.getElementById('member-subscription-title').textContent = type === 'renewal' ? '구독 관리' : '신규 구독';
+            planSelect.innerHTML = '';
+            planIds.forEach(planId => {
+                const option = document.createElement('option');
+                option.value = planId;
+                option.textContent = MEMBER_CATALOG[planId].label;
+                planSelect.appendChild(option);
+            });
+            document.getElementById('member-subscription-form').classList.remove('hidden');
+            document.getElementById('member-payment-panel').classList.add('hidden');
+            setMemberMessage('profile', '');
+            updateMemberTerms();
+        }
+
+        function closeSubscriptionForm() {
+            document.getElementById('member-subscription-form')?.classList.add('hidden');
+        }
+
+        function updateMemberTerms() {
+            const planId = document.getElementById('member-plan').value;
+            const termSelect = document.getElementById('member-term');
+            termSelect.innerHTML = '';
+            Object.entries(MEMBER_CATALOG[planId]?.terms || {}).forEach(([termId, term]) => {
+                const option = document.createElement('option');
+                option.value = termId;
+                option.textContent = `${term.label} · ${term.amount} USDT`;
+                termSelect.appendChild(option);
+            });
+            updateMemberPrice();
+        }
+
+        function updateMemberPrice() {
+            const planId = document.getElementById('member-plan').value;
+            const termId = document.getElementById('member-term').value;
+            const term = MEMBER_CATALOG[planId]?.terms?.[termId];
+            document.getElementById('member-price').textContent = term ? `${term.amount} USDT` : '-';
+        }
+
+        async function submitSubscriptionRequest(event) {
+            event.preventDefault();
+            setMemberSubmitBusy('member-subscription-submit', true);
+            try {
+                const result = await memberApi('create_subscription_request', {
+                    token: memberToken(),
+                    type: document.getElementById('member-subscription-type').value,
+                    plan: document.getElementById('member-plan').value,
+                    term: document.getElementById('member-term').value
+                });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+
+                renderMemberPayment(result);
+                closeSubscriptionForm();
+            } catch (error) {
+                if (error?.message === 'invalid_session') {
+                    storeMemberToken('');
+                }
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                setMemberSubmitBusy('member-subscription-submit', false);
+            }
+        }
+
+        async function openMemberDownload() {
+            try {
+                const result = await memberApi('download_info', { token: memberToken() });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                const url = String(result.url || '');
+                if (!/^https:\/\/drive(?:\.usercontent)?\.google\.com\//.test(url)) throw new Error('server_error');
+                const frame = document.createElement('iframe');
+                frame.hidden = true;
+                frame.setAttribute('aria-hidden', 'true');
+                frame.src = url;
+                document.body.appendChild(frame);
+                setTimeout(() => frame.remove(), 60000);
+            } catch (error) {
+                setMemberMessage('profile', memberErrorMessage(error));
+            }
+        }
+
+        function renderMemberPayment(result) {
+            const payment = result.payment || {};
+            document.getElementById('member-payment-asset').textContent = payment.asset || 'USDT';
+            document.getElementById('member-payment-network').textContent = payment.network || 'APTOS';
+            document.getElementById('member-payment-address').textContent = payment.address || '-';
+
+            const resetRow = document.getElementById('member-reset-row');
+            if (payment.resetKey) {
+                document.getElementById('member-reset-key').textContent = payment.resetKey;
+                resetRow.classList.remove('hidden');
+            } else {
+                document.getElementById('member-reset-key').textContent = '-';
+                resetRow.classList.add('hidden');
+            }
+
+            const supportLink = document.getElementById('member-support-link');
+            if (payment.supportUrl) {
+                supportLink.href = payment.supportUrl;
+                supportLink.classList.remove('hidden');
+                supportLink.classList.add('flex');
+            } else {
+                supportLink.classList.add('hidden');
+                supportLink.classList.remove('flex');
+            }
+
+            document.getElementById('member-payment-panel').classList.remove('hidden');
+            setMemberMessage('profile', `${result.request.planLabel} ${result.request.termLabel} 신청이 접수되었습니다.`, 'success');
+        }
+
+        async function copyMemberValue(elementId) {
+            const value = document.getElementById(elementId)?.textContent?.trim();
+            if (!value || value === '-') return;
+            try {
+                await navigator.clipboard.writeText(value);
+                setMemberMessage('profile', '클립보드에 복사했습니다.', 'success');
+            } catch (error) {
+                setMemberMessage('profile', '복사하지 못했습니다. 값을 직접 선택해주세요.');
+            }
+        }
+
+        async function logoutMember() {
+            const token = memberToken();
+            storeMemberToken('');
+            memberState.profile = null;
+            if (token && isMemberApiConfigured()) {
+                memberApi('logout', { token }).catch(() => { });
+            }
+            showMemberView('auth');
+            setMemberAuthTab('login');
+            setMemberMessage('auth', '로그아웃되었습니다.', 'info');
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !document.getElementById('member-modal')?.classList.contains('hidden')) {
+                closeMemberModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMemberHeader();
+            setMemberAuthTab('register');
+        });
     </script>
 </body>
 
