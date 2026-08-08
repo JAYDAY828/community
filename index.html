@@ -6635,7 +6635,7 @@
             document.getElementById('member-profile-username').textContent = profile.username || '-';
             document.getElementById('member-profile-grade').textContent = profile.grade || 'NONE';
             document.getElementById('member-profile-subscription').textContent = profile.subscription || 'NONE';
-            document.getElementById('member-profile-expiration').textContent = profile.expiration || '-';
+            document.getElementById('member-profile-expiration').textContent = memberExpirationLabel(profile.expiration);
 
             const statusLabels = {
                 active: 'ACTIVE',
@@ -6961,7 +6961,7 @@
                 name.textContent = user.username || '-';
                 const detail = document.createElement('p');
                 detail.className = 'mt-1 text-[11px] text-gray-500';
-                detail.textContent = `${(user.subscription || 'none').toUpperCase()} · ${user.expiration || '미설정'} · ${String(user.status || '').toUpperCase()}`;
+                detail.textContent = `${(user.subscription || 'none').toUpperCase()} · ${memberExpirationLabel(user.expiration, '미설정')} · ${String(user.status || '').toUpperCase()}`;
                 if (user.memo) {
                     const memo = document.createElement('p');
                     memo.className = 'mt-1 text-[10px] text-gray-600 truncate';
@@ -6985,6 +6985,11 @@
             document.getElementById('member-admin-users-page').textContent = `${memberState.adminUsersPage} / ${memberState.adminUsersPages}`;
             document.getElementById('member-admin-users-prev').disabled = memberState.adminUsersPage <= 1;
             document.getElementById('member-admin-users-next').disabled = memberState.adminUsersPage >= memberState.adminUsersPages;
+        }
+
+        function memberExpirationLabel(value, fallback = '-') {
+            const normalized = String(value || '').trim();
+            return normalized ? normalized.toUpperCase() : fallback;
         }
 
         function searchAdminUsers(event) {
