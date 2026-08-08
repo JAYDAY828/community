@@ -4577,6 +4577,20 @@
                             </div>
                         </div>
 
+                        <form id="member-payment-check-form" class="hidden px-4 py-4 bg-black/20 border border-white/10 rounded-md space-y-3"
+                            onsubmit="submitMemberPaymentCheck(event)">
+                            <input id="member-payment-request-id" type="hidden">
+                            <label for="member-payment-txid" class="block text-xs font-bold text-gray-400">전송 TXID</label>
+                            <div class="flex gap-2">
+                                <input id="member-payment-txid" type="text" maxlength="130" autocomplete="off" required
+                                    class="min-w-0 flex-1 h-10 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-xs font-mono text-white focus:outline-none focus:border-brand"
+                                    placeholder="전송 완료 후 TXID를 입력하세요">
+                                <button id="member-payment-check-submit" type="submit"
+                                    class="h-10 px-4 border border-brand/60 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors">입금 확인</button>
+                            </div>
+                            <p id="member-payment-check-status" class="text-[11px] text-gray-500">확인 요청은 60초 간격으로 가능합니다.</p>
+                        </form>
+
                         <div id="member-admin-panel" class="hidden border-y border-white/10 py-5 space-y-4">
                             <div class="grid grid-cols-2 border border-gray-700 rounded-md overflow-hidden">
                                 <button id="member-admin-tab-requests" type="button" onclick="setMemberAdminTab('requests')"
@@ -4603,6 +4617,7 @@
                                     <div>
                                         <p class="text-[10px] text-gray-500 mb-1">APPROVAL TARGET</p>
                                         <p id="member-admin-approval-summary" class="text-sm font-bold text-white">-</p>
+                                        <p id="member-admin-payment-summary" class="mt-2 text-[11px] text-gray-500 break-all">-</p>
                                     </div>
                                     <input id="member-admin-request-id" type="hidden">
                                     <div>
@@ -4611,13 +4626,20 @@
                                             class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
                                             placeholder="현재 admin 시리얼을 입력하세요">
                                     </div>
-                                    <div class="grid grid-cols-2 gap-3">
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         <button type="button" onclick="cancelAdminApproval()"
                                             class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-400 hover:text-white">취소</button>
+                                        <button id="member-admin-payment-check" type="button" onclick="adminCheckSelectedPayment()"
+                                            class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-300 hover:border-brand">입금 재확인</button>
                                         <button id="member-admin-approve-submit" type="submit"
-                                            class="liquid-btn-yellow h-10 rounded-md text-xs font-extrabold">입금 확인 및 승인</button>
+                                            class="liquid-btn-yellow h-10 rounded-md text-xs font-extrabold">수동 승인</button>
                                     </div>
                                 </form>
+                                <div class="border-t border-white/10 pt-4 space-y-3">
+                                    <h5 class="text-xs font-bold text-gray-400">최근 처리 내역</h5>
+                                    <div id="member-admin-history-empty" class="hidden py-4 text-center text-xs text-gray-600">최근 처리 내역이 없습니다.</div>
+                                    <div id="member-admin-history" class="space-y-2"></div>
+                                </div>
                             </div>
 
                             <div id="member-admin-users-view" class="hidden space-y-4">
@@ -4674,6 +4696,7 @@
                                                 <option value="">NONE</option>
                                                 <option value="detector">DETECTOR</option>
                                                 <option value="extension">EXTENSION</option>
+                                                <option value="detector,extension">DETECTOR + EXTENSION</option>
                                                 <option value="all">ALL</option>
                                             </select>
                                         </div>
@@ -6335,6 +6358,7 @@
             profile: null,
             authTab: 'register',
             adminRequests: [],
+            adminHistory: [],
             selectedAdminRequest: null,
             adminTab: 'requests',
             adminUsers: [],
@@ -6363,6 +6387,7 @@
             invalid_expiration: '만료일은 YYYY/MM/DD 또는 unlimited로 입력해주세요.',
             invalid_period: '신청 기간이 올바르지 않습니다.',
             invalid_plan: '선택한 구독 상품을 확인해주세요.',
+            invalid_txid: '올바른 Aptos TXID를 입력해주세요.',
             invalid_request_type: '구독 신청 유형을 확인해주세요.',
             invalid_serial: '등록되지 않은 시리얼키입니다.',
             invalid_serial_format: '시리얼키는 영문, 숫자, 밑줄 및 하이픈 6~64자로 입력해주세요.',
@@ -6376,6 +6401,19 @@
             request_already_applied: '이미 승인 완료된 신청입니다.',
             request_not_approvable: '현재 승인할 수 없는 신청입니다.',
             request_not_found: '구독 신청을 찾을 수 없습니다.',
+            payment_check_disabled: '현재 자동 입금 확인을 사용할 수 없습니다.',
+            payment_check_cooldown: '잠시 후 다시 확인해주세요.',
+            payment_check_limit: '확인 가능 횟수를 초과했습니다. 운영자에게 문의해주세요.',
+            payment_not_found: 'OKX 입금 내역에서 해당 TXID를 찾지 못했습니다.',
+            payment_not_final: '입금이 아직 최종 완료되지 않았습니다.',
+            payment_currency_mismatch: '입금 자산이 USDT가 아닙니다.',
+            payment_network_mismatch: 'Aptos 네트워크 입금이 아닙니다.',
+            payment_address_mismatch: '입금 주소가 일치하지 않습니다.',
+            payment_amount_mismatch: '입금 금액이 허용 범위와 일치하지 않습니다.',
+            payment_time_mismatch: '신청 이전에 처리된 입금은 사용할 수 없습니다.',
+            payment_already_used: '이미 다른 신청에 사용된 TXID입니다.',
+            payment_api_error: 'OKX 입금 조회에 실패했습니다. 잠시 후 다시 시도하거나 운영자에게 문의해주세요.',
+            payment_not_required: '무료 이용권은 입금 확인이 필요하지 않습니다.',
             renewal_not_available: '연장하거나 변경할 기존 구독이 없습니다.',
             reserved_serial: '복구키는 회원 시리얼로 사용할 수 없습니다.',
             serial_exists: '이미 등록된 시리얼키입니다.',
@@ -6632,6 +6670,7 @@
 
             const requestPanel = document.getElementById('member-request-status');
             const requestRefresh = document.getElementById('member-request-refresh');
+            const paymentCheckForm = document.getElementById('member-payment-check-form');
             if (profile.latestRequest) {
                 requestPanel.classList.remove('hidden');
                 const planLabel = MEMBER_CATALOG[profile.latestRequest.plan]?.label || profile.latestRequest.plan;
@@ -6647,10 +6686,16 @@
                 );
                 requestRefresh.classList.toggle('hidden', !canRefreshRequest);
                 requestRefresh.classList.toggle('flex', canRefreshRequest);
+                const canCheckPayment = canRefreshRequest && requestAmount > 0;
+                paymentCheckForm.classList.toggle('hidden', !canCheckPayment);
+                document.getElementById('member-payment-request-id').value = canCheckPayment ? profile.latestRequest.id : '';
+                document.getElementById('member-payment-txid').value = profile.latestRequest.submittedTxid || '';
+                document.getElementById('member-payment-check-status').textContent = memberPaymentStatusText(profile.latestRequest);
             } else {
                 requestPanel.classList.add('hidden');
                 requestRefresh.classList.add('hidden');
                 requestRefresh.classList.remove('flex');
+                paymentCheckForm.classList.add('hidden');
             }
 
             const isAdmin = profile.grade === 'admin';
@@ -6664,6 +6709,7 @@
                 else loadAdminRequests();
             } else {
                 memberState.adminRequests = [];
+                memberState.adminHistory = [];
                 memberState.adminUsers = [];
                 cancelAdminApproval();
                 cancelAdminUserEdit();
@@ -6689,6 +6735,7 @@
                 const result = await memberApi('admin_list_requests', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 memberState.adminRequests = result.requests || [];
+                memberState.adminHistory = result.history || [];
                 memberState.adminRequestsLoaded = true;
                 renderAdminRequests();
             } catch (error) {
@@ -6723,7 +6770,12 @@
                 const requestedAt = document.createElement('p');
                 requestedAt.className = 'mt-1 text-[10px] text-gray-600';
                 requestedAt.textContent = request.requestedAt || '';
-                info.append(title, detail, requestedAt);
+                const payment = document.createElement('p');
+                payment.className = 'mt-1 text-[10px] text-gray-500 break-all';
+                payment.textContent = request.amount > 0
+                    ? `${request.paymentStatus || 'TXID_PENDING'}${request.submittedTxid ? ` · ${request.submittedTxid}` : ''}`
+                    : '무료 승인';
+                info.append(title, detail, payment, requestedAt);
 
                 const approve = document.createElement('button');
                 approve.type = 'button';
@@ -6732,6 +6784,21 @@
                 approve.addEventListener('click', () => selectAdminRequest(request.id));
                 card.append(info, approve);
                 container.appendChild(card);
+            });
+
+            const historyContainer = document.getElementById('member-admin-history');
+            const historyEmpty = document.getElementById('member-admin-history-empty');
+            historyContainer.replaceChildren();
+            historyEmpty.classList.toggle('hidden', memberState.adminHistory.length > 0);
+            memberState.adminHistory.forEach(request => {
+                const item = document.createElement('div');
+                item.className = 'px-3 py-3 bg-black/15 border border-white/5 rounded-md';
+                const plan = MEMBER_CATALOG[request.plan]?.label || request.plan;
+                item.innerHTML = `<div class="flex justify-between gap-3 text-xs"><strong class="text-gray-300"></strong><span class="text-accent-green"></span></div><p class="mt-1 text-[10px] text-gray-600"></p>`;
+                item.querySelector('strong').textContent = `${request.username} · ${plan}`;
+                item.querySelector('span').textContent = request.approvalSource || 'APPLIED';
+                item.querySelector('p').textContent = `${request.completedAt || '-'}${request.submittedTxid ? ` · ${request.submittedTxid}` : ''}`;
+                historyContainer.appendChild(item);
             });
         }
 
@@ -6743,6 +6810,10 @@
             const period = request.months === 0 ? '무제한' : `${request.months}개월`;
             document.getElementById('member-admin-request-id').value = request.id;
             document.getElementById('member-admin-approval-summary').textContent = `${request.username} · ${plan} · ${period} · ${Number(request.amount || 0) === 0 ? '무료' : `${request.amount} USDT`}`;
+            document.getElementById('member-admin-payment-summary').textContent = request.amount > 0
+                ? `TXID: ${request.submittedTxid || '미제출'} · 상태: ${request.paymentStatus || 'TXID_PENDING'}${request.matchedAmount ? ` · ${request.matchedAmount} USDT` : ''}${request.paymentError ? ` · ${request.paymentError}` : ''}`
+                : '무료 이용권 신청';
+            document.getElementById('member-admin-payment-check').classList.toggle('hidden', !(request.amount > 0 && request.submittedTxid));
             document.getElementById('member-admin-serial').value = '';
             const form = document.getElementById('member-admin-approval');
             form.classList.remove('hidden');
@@ -6783,6 +6854,36 @@
                 setMemberMessage('profile', memberErrorMessage(error));
             } finally {
                 setMemberSubmitBusy('member-admin-approve-submit', false);
+            }
+        }
+
+        async function adminCheckSelectedPayment() {
+            const request = memberState.selectedAdminRequest;
+            const button = document.getElementById('member-admin-payment-check');
+            if (!request?.submittedTxid || button.disabled) return;
+            const original = button.textContent;
+            button.disabled = true;
+            button.textContent = '확인 중...';
+            try {
+                const result = await memberApi('admin_check_payment', {
+                    token: memberToken(),
+                    requestId: request.id,
+                    txid: request.submittedTxid
+                });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                setMemberMessage(
+                    'profile',
+                    result.verified ? `입금이 확인되었습니다. ${result.payment.amount} USDT` : memberErrorMessage({ message: result.payment.error }),
+                    result.verified ? 'success' : 'error'
+                );
+                await loadAdminRequests(true);
+                const refreshed = memberState.adminRequests.find(item => item.id === request.id);
+                if (refreshed) selectAdminRequest(refreshed.id);
+            } catch (error) {
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                button.disabled = false;
+                button.textContent = original;
             }
         }
 
@@ -7038,8 +7139,16 @@
                 });
                 if (!result.ok) throw new Error(result.error || 'server_error');
 
-                renderMemberPayment(result);
                 closeSubscriptionForm();
+                if (result.autoApproved) {
+                    const profileResult = await memberApi('profile', { token: memberToken() });
+                    if (!profileResult.ok) throw new Error(profileResult.error || 'server_error');
+                    memberState.profile = profileResult.profile;
+                    renderMemberProfile(profileResult.profile);
+                    setMemberMessage('profile', 'Extension 이용권이 즉시 활성화되었습니다.', 'success');
+                } else {
+                    renderMemberPayment(result);
+                }
             } catch (error) {
                 if (error?.message === 'invalid_session') {
                     storeMemberToken('');
@@ -7047,6 +7156,48 @@
                 setMemberMessage('profile', memberErrorMessage(error));
             } finally {
                 setMemberSubmitBusy('member-subscription-submit', false);
+            }
+        }
+
+        function memberPaymentStatusText(request) {
+            const status = String(request?.paymentStatus || '').toUpperCase();
+            if (status === 'VERIFIED') return '입금이 확인되었습니다. 관리자 승인을 기다리고 있습니다.';
+            if (status === 'CHECK_FAILED' && request?.paymentError) {
+                return MEMBER_ERROR_MESSAGES[request.paymentError] || '입금 정보를 확인하지 못했습니다.';
+            }
+            return request?.submittedTxid ? '제출한 TXID를 다시 확인할 수 있습니다.' : '전송 완료 후 TXID를 입력해주세요. 확인 요청은 60초 간격으로 가능합니다.';
+        }
+
+        async function submitMemberPaymentCheck(event) {
+            event.preventDefault();
+            const button = document.getElementById('member-payment-check-submit');
+            const requestId = document.getElementById('member-payment-request-id').value;
+            const txid = document.getElementById('member-payment-txid').value.trim();
+            if (!requestId || button.disabled) return;
+            const original = button.textContent;
+            button.disabled = true;
+            button.textContent = '확인 중...';
+            try {
+                const result = await memberApi('check_subscription_payment', { token: memberToken(), requestId, txid });
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                if (!result.verified) {
+                    throw new Error(result.payment?.error || 'payment_not_found');
+                }
+                const profileResult = await memberApi('profile', { token: memberToken() });
+                if (!profileResult.ok) throw new Error(profileResult.error || 'server_error');
+                memberState.profile = profileResult.profile;
+                renderMemberProfile(profileResult.profile);
+                setMemberMessage(
+                    'profile',
+                    result.autoApproved ? '입금 확인과 이용권 활성화가 완료되었습니다.' : '입금이 확인되었습니다. 관리자 승인을 기다리고 있습니다.',
+                    'success'
+                );
+            } catch (error) {
+                document.getElementById('member-payment-check-status').textContent = memberErrorMessage(error);
+                setMemberMessage('profile', memberErrorMessage(error));
+            } finally {
+                button.disabled = false;
+                button.textContent = original;
             }
         }
 
@@ -7120,6 +7271,11 @@
             }
 
             document.getElementById('member-payment-panel').classList.remove('hidden');
+            const paymentCheckForm = document.getElementById('member-payment-check-form');
+            paymentCheckForm.classList.toggle('hidden', isFree);
+            document.getElementById('member-payment-request-id').value = isFree ? '' : result.request.id;
+            document.getElementById('member-payment-txid').value = '';
+            document.getElementById('member-payment-check-status').textContent = '전송 완료 후 TXID를 입력해주세요. 확인 요청은 60초 간격으로 가능합니다.';
             setMemberMessage('profile', `${result.request.planLabel} ${result.request.termLabel} 신청이 접수되었습니다.`, 'success');
         }
 
@@ -7190,6 +7346,7 @@
 
         function resetMemberAdminCache() {
             memberState.adminRequests = [];
+            memberState.adminHistory = [];
             memberState.adminUsers = [];
             memberState.selectedAdminRequest = null;
             memberState.selectedAdminUser = null;
