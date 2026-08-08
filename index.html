@@ -4626,7 +4626,7 @@
                                             class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
                                             placeholder="현재 admin 시리얼을 입력하세요">
                                     </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div id="member-admin-approval-actions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <button type="button" onclick="cancelAdminApproval()"
                                             class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-400 hover:text-white">취소</button>
                                         <button id="member-admin-payment-check" type="button" onclick="adminCheckSelectedPayment()"
@@ -6813,7 +6813,11 @@
             document.getElementById('member-admin-payment-summary').textContent = request.amount > 0
                 ? `TXID: ${request.submittedTxid || '미제출'} · 상태: ${request.paymentStatus || 'TXID_PENDING'}${request.matchedAmount ? ` · ${request.matchedAmount} USDT` : ''}${request.paymentError ? ` · ${request.paymentError}` : ''}`
                 : '무료 이용권 신청';
-            document.getElementById('member-admin-payment-check').classList.toggle('hidden', !(request.amount > 0 && request.submittedTxid));
+            const showPaymentCheck = request.amount > 0 && Boolean(request.submittedTxid);
+            document.getElementById('member-admin-payment-check').classList.toggle('hidden', !showPaymentCheck);
+            const approvalActions = document.getElementById('member-admin-approval-actions');
+            approvalActions.classList.toggle('sm:grid-cols-2', !showPaymentCheck);
+            approvalActions.classList.toggle('sm:grid-cols-3', showPaymentCheck);
             document.getElementById('member-admin-serial').value = '';
             const form = document.getElementById('member-admin-approval');
             form.classList.remove('hidden');
