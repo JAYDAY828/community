@@ -4607,6 +4607,11 @@
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
                                 </div>
+                                <div id="member-admin-loading" class="hidden min-h-24 px-4 py-5 bg-black/20 border border-white/10 rounded-md animate-pulse space-y-3" aria-hidden="true">
+                                    <div class="h-3 w-28 rounded bg-white/10"></div>
+                                    <div class="h-2 w-48 max-w-full rounded bg-white/5"></div>
+                                    <div class="h-2 w-36 max-w-full rounded bg-white/5"></div>
+                                </div>
                                 <div id="member-admin-empty"
                                     class="hidden px-4 py-6 bg-black/20 border border-white/10 rounded-md text-center text-xs text-gray-500">
                                     승인 대기 중인 구독 신청이 없습니다.
@@ -4637,6 +4642,10 @@
                                 </form>
                                 <div class="border-t border-white/10 pt-4 space-y-3">
                                     <h5 class="text-xs font-bold text-gray-400">최근 처리 내역</h5>
+                                    <div id="member-admin-history-loading" class="hidden min-h-12 px-3 py-3 bg-black/15 border border-white/5 rounded-md animate-pulse space-y-2" aria-hidden="true">
+                                        <div class="h-2 w-32 rounded bg-white/10"></div>
+                                        <div class="h-2 w-44 max-w-full rounded bg-white/5"></div>
+                                    </div>
                                     <div id="member-admin-history-empty" class="hidden py-4 text-center text-xs text-gray-600">최근 처리 내역이 없습니다.</div>
                                     <div id="member-admin-history" class="space-y-2"></div>
                                 </div>
@@ -4660,6 +4669,16 @@
                                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
                                 </form>
+                                <div id="member-admin-users-loading" class="hidden space-y-2" aria-hidden="true">
+                                    <div class="min-h-16 px-4 py-3 bg-black/20 border border-white/10 rounded-md animate-pulse space-y-2">
+                                        <div class="h-3 w-24 rounded bg-white/10"></div>
+                                        <div class="h-2 w-40 max-w-full rounded bg-white/5"></div>
+                                    </div>
+                                    <div class="min-h-16 px-4 py-3 bg-black/20 border border-white/10 rounded-md animate-pulse space-y-2">
+                                        <div class="h-3 w-32 rounded bg-white/10"></div>
+                                        <div class="h-2 w-48 max-w-full rounded bg-white/5"></div>
+                                    </div>
+                                </div>
                                 <div id="member-admin-users-empty"
                                     class="hidden px-4 py-6 bg-black/20 border border-white/10 rounded-md text-center text-xs text-gray-500">
                                     조건에 맞는 사용자가 없습니다.
@@ -6328,6 +6347,7 @@
         // Paste the deployed member_manager.gs /exec URL here.
         const MEMBER_MANAGER_API_URL = 'https://script.google.com/macros/s/AKfycbwU2HlG45gA_R-j9AaUoK7Q2KHYtQr8gZs_fnHVBMIPcMmVJJNYTkAdDwsqafNfKXeqdQ/exec';
         const MEMBER_SESSION_STORAGE_KEY = 'jayday_member_session';
+        const MEMBER_PROFILE_CACHE_TTL_MS = 30000;
         const MEMBER_CATALOG = {
             extension: {
                 label: 'Extension',
@@ -6356,6 +6376,7 @@
 
         const memberState = {
             profile: null,
+            profileLoadedAt: 0,
             authTab: 'register',
             adminRequests: [],
             adminHistory: [],
@@ -6371,6 +6392,21 @@
             adminRequestsLoading: false,
             adminUsersLoading: false
         };
+
+        function cacheMemberProfile(profile) {
+            memberState.profile = profile;
+            memberState.profileLoadedAt = Date.now();
+        }
+
+        function clearMemberProfileCache() {
+            memberState.profile = null;
+            memberState.profileLoadedAt = 0;
+        }
+
+        function memberProfileCacheIsFresh() {
+            return Boolean(memberState.profile)
+                && Date.now() - memberState.profileLoadedAt < MEMBER_PROFILE_CACHE_TTL_MS;
+        }
 
         const MEMBER_ERROR_MESSAGES = {
             admin_reauth_failed: '관리자 시리얼 재확인에 실패했습니다.',
@@ -6605,7 +6641,7 @@
                 storeMemberToken(result.token);
                 serialInput.value = '';
                 resetMemberAdminCache();
-                memberState.profile = result.profile;
+                cacheMemberProfile(result.profile);
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
             } catch (error) {
@@ -6616,16 +6652,29 @@
         }
 
         async function loadMemberProfile() {
-            showMemberView('loading');
+            const cachedProfile = memberState.profile;
+            if (cachedProfile) {
+                renderMemberProfile(cachedProfile);
+                showMemberView('profile');
+                if (memberProfileCacheIsFresh()) return;
+            } else {
+                showMemberView('loading');
+            }
             try {
                 const result = await memberApi('profile', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'invalid_session');
-                memberState.profile = result.profile;
+                cacheMemberProfile(result.profile);
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
             } catch (error) {
+                const invalidSession = error?.message === 'invalid_session' || error?.message === 'account_not_found';
+                if (cachedProfile && !invalidSession) {
+                    showMemberView('profile');
+                    setMemberMessage('profile', memberErrorMessage(error));
+                    return;
+                }
                 storeMemberToken('');
-                memberState.profile = null;
+                clearMemberProfileCache();
                 showMemberView('auth');
                 setMemberAuthTab('login');
                 setMemberMessage('auth', memberErrorMessage(error));
@@ -6706,8 +6755,6 @@
             document.getElementById('member-admin-panel').classList.toggle('hidden', !isAdmin);
             if (isAdmin) {
                 setMemberAdminTab(memberState.adminTab || 'requests');
-                if (memberState.adminTab === 'requests') loadAdminUsers();
-                else loadAdminRequests();
             } else {
                 memberState.adminRequests = [];
                 memberState.adminHistory = [];
@@ -6729,9 +6776,16 @@
                 return;
             }
             const refreshButton = document.getElementById('member-admin-refresh');
+            const initialLoading = !memberState.adminRequestsLoaded;
             memberState.adminRequestsLoading = true;
             refreshButton.disabled = true;
             refreshButton.classList.add('opacity-50');
+            document.getElementById('member-admin-loading').classList.toggle('hidden', !initialLoading);
+            document.getElementById('member-admin-history-loading').classList.toggle('hidden', !initialLoading);
+            if (initialLoading) {
+                document.getElementById('member-admin-empty').classList.add('hidden');
+                document.getElementById('member-admin-history-empty').classList.add('hidden');
+            }
             try {
                 const result = await memberApi('admin_list_requests', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
@@ -6745,6 +6799,8 @@
                 memberState.adminRequestsLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
+                document.getElementById('member-admin-loading').classList.add('hidden');
+                document.getElementById('member-admin-history-loading').classList.add('hidden');
             }
         }
 
@@ -6789,6 +6845,8 @@
 
             const historyContainer = document.getElementById('member-admin-history');
             const historyEmpty = document.getElementById('member-admin-history-empty');
+            document.getElementById('member-admin-loading').classList.add('hidden');
+            document.getElementById('member-admin-history-loading').classList.add('hidden');
             historyContainer.replaceChildren();
             historyEmpty.classList.toggle('hidden', memberState.adminHistory.length > 0);
             memberState.adminHistory.forEach(request => {
@@ -6914,9 +6972,12 @@
                 return;
             }
             const refreshButton = document.getElementById('member-admin-users-refresh');
+            const initialLoading = !memberState.adminUsersLoaded;
             memberState.adminUsersLoading = true;
             refreshButton.disabled = true;
             refreshButton.classList.add('opacity-50');
+            document.getElementById('member-admin-users-loading').classList.toggle('hidden', !initialLoading);
+            if (initialLoading) document.getElementById('member-admin-users-empty').classList.add('hidden');
             try {
                 const result = await memberApi('admin_list_users', {
                     token: memberToken(),
@@ -6942,6 +7003,7 @@
                 memberState.adminUsersLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
+                document.getElementById('member-admin-users-loading').classList.add('hidden');
             }
         }
 
@@ -6949,6 +7011,7 @@
             const container = document.getElementById('member-admin-users-list');
             const empty = document.getElementById('member-admin-users-empty');
             const pagination = document.getElementById('member-admin-users-pagination');
+            document.getElementById('member-admin-users-loading').classList.add('hidden');
             container.replaceChildren();
             empty.classList.toggle('hidden', memberState.adminUsers.length > 0);
 
@@ -7153,7 +7216,7 @@
                 if (result.autoApproved) {
                     const profileResult = await memberApi('profile', { token: memberToken() });
                     if (!profileResult.ok) throw new Error(profileResult.error || 'server_error');
-                    memberState.profile = profileResult.profile;
+                    cacheMemberProfile(profileResult.profile);
                     renderMemberProfile(profileResult.profile);
                     setMemberMessage('profile', 'Extension 이용권이 즉시 활성화되었습니다.', 'success');
                 } else {
@@ -7195,7 +7258,7 @@
                 }
                 const profileResult = await memberApi('profile', { token: memberToken() });
                 if (!profileResult.ok) throw new Error(profileResult.error || 'server_error');
-                memberState.profile = profileResult.profile;
+                cacheMemberProfile(profileResult.profile);
                 renderMemberProfile(profileResult.profile);
                 setMemberMessage(
                     'profile',
@@ -7300,7 +7363,7 @@
                 const result = await memberApi('profile', { token: memberToken() });
                 if (!result.ok) throw new Error(result.error || 'invalid_session');
 
-                memberState.profile = result.profile;
+                cacheMemberProfile(result.profile);
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
 
@@ -7317,7 +7380,7 @@
             } catch (error) {
                 if (error?.message === 'invalid_session') {
                     storeMemberToken('');
-                    memberState.profile = null;
+                    clearMemberProfileCache();
                     showMemberView('auth');
                     setMemberAuthTab('login');
                     setMemberMessage('auth', memberErrorMessage(error));
@@ -7344,7 +7407,7 @@
         async function logoutMember() {
             const token = memberToken();
             storeMemberToken('');
-            memberState.profile = null;
+            clearMemberProfileCache();
             resetMemberAdminCache();
             if (token && isMemberApiConfigured()) {
                 memberApi('logout', { token }).catch(() => { });
