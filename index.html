@@ -6769,7 +6769,7 @@
             setMemberMessage('profile', '');
         }
 
-        async function loadAdminRequests(force = false) {
+        async function loadAdminRequests(force = false, silent = false) {
             if (memberState.profile?.grade !== 'admin') return;
             if (memberState.adminRequestsLoading) return;
             if (memberState.adminRequestsLoaded && !force) {
@@ -6797,8 +6797,11 @@
                 memberState.adminHistory = result.history || [];
                 memberState.adminRequestsLoaded = true;
                 renderAdminRequests();
+                if (!memberState.adminUsersLoaded && !memberState.adminUsersLoading) {
+                    setTimeout(() => loadAdminUsers(false, true), 0);
+                }
             } catch (error) {
-                setMemberMessage('profile', memberErrorMessage(error));
+                if (!silent) setMemberMessage('profile', memberErrorMessage(error));
             } finally {
                 memberState.adminRequestsLoading = false;
                 refreshButton.disabled = false;
@@ -6970,7 +6973,7 @@
             else loadAdminRequests();
         }
 
-        async function loadAdminUsers(force = false) {
+        async function loadAdminUsers(force = false, silent = false) {
             if (memberState.profile?.grade !== 'admin') return;
             if (memberState.adminUsersLoading) return;
             if (memberState.adminUsersLoaded && !force) {
@@ -7005,8 +7008,11 @@
                 sheetLink.classList.toggle('hidden', !validSheetUrl);
                 sheetLink.classList.toggle('flex', validSheetUrl);
                 renderAdminUsers();
+                if (!memberState.adminRequestsLoaded && !memberState.adminRequestsLoading) {
+                    setTimeout(() => loadAdminRequests(false, true), 0);
+                }
             } catch (error) {
-                setMemberMessage('profile', memberErrorMessage(error));
+                if (!silent) setMemberMessage('profile', memberErrorMessage(error));
             } finally {
                 memberState.adminUsersLoading = false;
                 refreshButton.disabled = false;
