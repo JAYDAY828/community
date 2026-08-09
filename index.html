@@ -4713,11 +4713,32 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div>
-                                        <label for="member-admin-user-expiration" class="block text-xs font-bold text-gray-400 mb-2">만료일</label>
-                                        <input id="member-admin-user-expiration" type="text" maxlength="10" placeholder="YYYY/MM/DD 또는 unlimited"
-                                            onblur="formatAdminExpirationInput(event)"
-                                            class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand">
+                                    <div class="space-y-3">
+                                        <input id="member-admin-user-expiration" type="hidden">
+                                        <div>
+                                            <p class="block text-xs font-bold text-gray-400 mb-2">만료 유형</p>
+                                            <div class="grid grid-cols-3 p-1 bg-black/30 border border-gray-700 rounded-md" role="group" aria-label="만료 유형">
+                                                <button id="member-admin-expiration-mode-date" type="button" onclick="setAdminExpirationMode('date')"
+                                                    class="h-9 rounded text-xs font-bold transition-colors">날짜 지정</button>
+                                                <button id="member-admin-expiration-mode-unlimited" type="button" onclick="setAdminExpirationMode('unlimited')"
+                                                    class="h-9 rounded text-xs font-bold transition-colors">무제한</button>
+                                                <button id="member-admin-expiration-mode-inactive" type="button" onclick="setAdminExpirationMode('inactive')"
+                                                    class="h-9 rounded text-xs font-bold transition-colors">비활성</button>
+                                            </div>
+                                        </div>
+                                        <div id="member-admin-expiration-date-controls" class="space-y-3">
+                                            <div>
+                                                <label for="member-admin-user-expiration-date" class="block text-xs font-bold text-gray-400 mb-2">만료일</label>
+                                                <input id="member-admin-user-expiration-date" type="date" onchange="syncAdminExpirationValue()"
+                                                    class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand [color-scheme:dark]">
+                                            </div>
+                                            <div class="grid grid-cols-4 gap-2" aria-label="만료일 빠른 연장">
+                                                <button type="button" onclick="extendAdminExpiration(1)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+1개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(3)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+3개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(6)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+6개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(12)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+12개월</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <label for="member-admin-user-memo" class="block text-xs font-bold text-gray-400 mb-2">메모</label>
@@ -7100,7 +7121,7 @@
             document.getElementById('member-admin-user-editor-title').textContent = user.username || '-';
             document.getElementById('member-admin-user-username').value = user.username || '';
             document.getElementById('member-admin-user-subscription').value = user.subscription || '';
-            document.getElementById('member-admin-user-expiration').value = user.expiration || '';
+            initializeAdminExpirationEditor(user.expiration);
             document.getElementById('member-admin-user-memo').value = user.memo || '';
             document.getElementById('member-admin-user-serial').value = '';
             const editor = document.getElementById('member-admin-user-editor');
@@ -7116,14 +7137,70 @@
             if (serial) serial.value = '';
         }
 
-        function formatAdminExpirationInput(event) {
-            const input = event.target;
-            const raw = input.value.trim();
-            if (/^u/i.test(raw) || /[\/.-]/.test(raw)) return;
-            const digits = raw.replace(/\D/g, '');
-            if (digits.length === 8) {
-                input.value = `${digits.slice(0, 4)}/${digits.slice(4, 6)}/${digits.slice(6)}`;
+        function initializeAdminExpirationEditor(value) {
+            const raw = String(value || '').trim();
+            if (raw.toLowerCase() === 'unlimited') {
+                setAdminExpirationMode('unlimited');
+                return;
             }
+            const normalizedDate = raw.replace(/\//g, '-');
+            if (/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate)) {
+                document.getElementById('member-admin-user-expiration-date').value = normalizedDate;
+                setAdminExpirationMode('date');
+                return;
+            }
+            document.getElementById('member-admin-user-expiration-date').value = '';
+            setAdminExpirationMode('inactive');
+        }
+
+        function setAdminExpirationMode(mode) {
+            const modes = ['date', 'unlimited', 'inactive'];
+            if (!modes.includes(mode)) return;
+            modes.forEach(item => {
+                const button = document.getElementById(`member-admin-expiration-mode-${item}`);
+                const active = item === mode;
+                button.classList.toggle('bg-brand', active);
+                button.classList.toggle('text-black', active);
+                button.classList.toggle('text-gray-400', !active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+            const dateControls = document.getElementById('member-admin-expiration-date-controls');
+            const dateInput = document.getElementById('member-admin-user-expiration-date');
+            dateControls.classList.toggle('hidden', mode !== 'date');
+            dateInput.required = mode === 'date';
+            document.getElementById('member-admin-user-expiration').dataset.mode = mode;
+            syncAdminExpirationValue();
+        }
+
+        function syncAdminExpirationValue() {
+            const output = document.getElementById('member-admin-user-expiration');
+            const mode = output.dataset.mode || 'inactive';
+            if (mode === 'unlimited') {
+                output.value = 'unlimited';
+            } else if (mode === 'date') {
+                output.value = document.getElementById('member-admin-user-expiration-date').value.replace(/-/g, '/');
+            } else {
+                output.value = '';
+            }
+        }
+
+        function extendAdminExpiration(months) {
+            const input = document.getElementById('member-admin-user-expiration-date');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const selected = /^\d{4}-\d{2}-\d{2}$/.test(input.value)
+                ? new Date(`${input.value}T00:00:00`)
+                : null;
+            const base = selected && selected >= today ? selected : today;
+            const targetMonth = base.getMonth() + Number(months || 0);
+            const target = new Date(base.getFullYear(), targetMonth, 1);
+            const lastDay = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+            target.setDate(Math.min(base.getDate(), lastDay));
+            const year = target.getFullYear();
+            const month = String(target.getMonth() + 1).padStart(2, '0');
+            const day = String(target.getDate()).padStart(2, '0');
+            input.value = `${year}-${month}-${day}`;
+            setAdminExpirationMode('date');
         }
 
         async function submitAdminUserUpdate(event) {
