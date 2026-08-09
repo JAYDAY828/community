@@ -6404,7 +6404,8 @@
             adminRequestsLoaded: false,
             adminUsersLoaded: false,
             adminRequestsLoading: false,
-            adminUsersLoading: false
+            adminUsersLoading: false,
+            sessionGeneration: 0
         };
 
         function cacheMemberProfile(profile) {
@@ -6496,7 +6497,11 @@
             if (!response.ok) {
                 throw new Error('member_api_unavailable');
             }
-            return response.json();
+            const result = await response.json();
+            if (memberToken() && ['invalid_session', 'account_not_found'].includes(result?.error)) {
+                expireMemberSession(result.error);
+            }
+            return result;
         }
 
         function memberToken() {
@@ -6660,9 +6665,9 @@
                 const result = await memberApi('login', { serial: serialInput.value.trim() });
                 if (!result.ok) throw new Error(result.error || 'server_error');
 
+                resetMemberSessionState();
                 storeMemberToken(result.token);
                 serialInput.value = '';
-                resetMemberAdminCache();
                 cacheMemberProfile(result.profile);
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
@@ -6675,6 +6680,8 @@
 
         async function loadMemberProfile() {
             const cachedProfile = memberState.profile;
+            const requestGeneration = memberState.sessionGeneration;
+            const requestToken = memberToken();
             if (cachedProfile) {
                 renderMemberProfile(cachedProfile);
                 showMemberView('profile');
@@ -6683,20 +6690,22 @@
                 showMemberView('loading');
             }
             try {
-                const result = await memberApi('profile', { token: memberToken() });
+                const result = await memberApi('profile', { token: requestToken });
+                if (requestGeneration !== memberState.sessionGeneration || requestToken !== memberToken()) return;
                 if (!result.ok) throw new Error(result.error || 'invalid_session');
                 cacheMemberProfile(result.profile);
                 renderMemberProfile(result.profile);
                 showMemberView('profile');
             } catch (error) {
+                if (requestGeneration !== memberState.sessionGeneration || requestToken !== memberToken()) return;
                 const invalidSession = error?.message === 'invalid_session' || error?.message === 'account_not_found';
                 if (cachedProfile && !invalidSession) {
                     showMemberView('profile');
                     setMemberMessage('profile', memberErrorMessage(error));
                     return;
                 }
+                resetMemberSessionState();
                 storeMemberToken('');
-                clearMemberProfileCache();
                 showMemberView('auth');
                 setMemberAuthTab('login');
                 setMemberMessage('auth', memberErrorMessage(error));
@@ -6798,6 +6807,8 @@
                 return;
             }
             const refreshButton = document.getElementById('member-admin-refresh');
+            const requestGeneration = memberState.sessionGeneration;
+            const requestToken = memberToken();
             const initialLoading = !memberState.adminRequestsLoaded;
             memberState.adminRequestsLoading = true;
             refreshButton.disabled = true;
@@ -6812,7 +6823,8 @@
                 document.getElementById('member-admin-history-empty').classList.add('hidden');
             }
             try {
-                const result = await memberApi('admin_list_requests', { token: memberToken() });
+                const result = await memberApi('admin_list_requests', { token: requestToken });
+                if (requestGeneration !== memberState.sessionGeneration || requestToken !== memberToken()) return;
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 memberState.adminRequests = result.requests || [];
                 memberState.adminHistory = result.history || [];
@@ -6822,8 +6834,11 @@
                     setTimeout(() => loadAdminUsers(false, true), 0);
                 }
             } catch (error) {
-                if (!silent) setMemberMessage('profile', memberErrorMessage(error));
+                if (requestGeneration === memberState.sessionGeneration && !silent) {
+                    setMemberMessage('profile', memberErrorMessage(error));
+                }
             } finally {
+                if (requestGeneration !== memberState.sessionGeneration) return;
                 memberState.adminRequestsLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
@@ -7002,6 +7017,8 @@
                 return;
             }
             const refreshButton = document.getElementById('member-admin-users-refresh');
+            const requestGeneration = memberState.sessionGeneration;
+            const requestToken = memberToken();
             const initialLoading = !memberState.adminUsersLoaded;
             memberState.adminUsersLoading = true;
             refreshButton.disabled = true;
@@ -7012,11 +7029,12 @@
             if (initialLoading) document.getElementById('member-admin-users-empty').classList.add('hidden');
             try {
                 const result = await memberApi('admin_list_users', {
-                    token: memberToken(),
+                    token: requestToken,
                     query: memberState.adminUsersQuery,
                     page: memberState.adminUsersPage,
                     pageSize: 25
                 });
+                if (requestGeneration !== memberState.sessionGeneration || requestToken !== memberToken()) return;
                 if (!result.ok) throw new Error(result.error || 'server_error');
                 memberState.adminUsers = result.users || [];
                 memberState.adminUsersPage = result.pagination?.page || 1;
@@ -7033,8 +7051,11 @@
                     setTimeout(() => loadAdminRequests(false, true), 0);
                 }
             } catch (error) {
-                if (!silent) setMemberMessage('profile', memberErrorMessage(error));
+                if (requestGeneration === memberState.sessionGeneration && !silent) {
+                    setMemberMessage('profile', memberErrorMessage(error));
+                }
             } finally {
+                if (requestGeneration !== memberState.sessionGeneration) return;
                 memberState.adminUsersLoading = false;
                 refreshButton.disabled = false;
                 refreshButton.classList.remove('opacity-50');
@@ -7497,15 +7518,32 @@
 
         async function logoutMember() {
             const token = memberToken();
+            resetMemberSessionState();
             storeMemberToken('');
-            clearMemberProfileCache();
-            resetMemberAdminCache();
             if (token && isMemberApiConfigured()) {
                 memberApi('logout', { token }).catch(() => { });
             }
             showMemberView('auth');
             setMemberAuthTab('login');
             setMemberMessage('auth', '로그아웃되었습니다.', 'info');
+        }
+
+        function expireMemberSession(errorCode = 'invalid_session') {
+            resetMemberSessionState();
+            storeMemberToken('');
+            showMemberView('auth');
+            setMemberAuthTab('login');
+            setMemberMessage('auth', memberErrorMessage({ message: errorCode }));
+        }
+
+        function resetMemberSessionState() {
+            memberState.sessionGeneration += 1;
+            clearMemberProfileCache();
+            resetMemberAdminCache();
+            closeSubscriptionForm();
+            document.getElementById('member-payment-panel')?.classList.add('hidden');
+            setMemberMessage('profile', '');
+            setMemberMessage('auth', '');
         }
 
         function resetMemberAdminCache() {
@@ -7517,12 +7555,18 @@
             memberState.adminUsersPage = 1;
             memberState.adminUsersPages = 1;
             memberState.adminUsersQuery = '';
+            memberState.adminTab = 'requests';
             memberState.adminRequestsLoaded = false;
             memberState.adminUsersLoaded = false;
             memberState.adminRequestsLoading = false;
             memberState.adminUsersLoading = false;
+            cancelAdminApproval();
+            cancelAdminUserEdit();
             const search = document.getElementById('member-admin-user-search');
             if (search) search.value = '';
+            document.getElementById('member-admin-list')?.replaceChildren();
+            document.getElementById('member-admin-history')?.replaceChildren();
+            document.getElementById('member-admin-users-list')?.replaceChildren();
         }
 
         document.addEventListener('keydown', event => {
