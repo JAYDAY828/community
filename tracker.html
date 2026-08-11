@@ -5,22 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OnChain Phantom Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg-primary:#06080f;--bg-secondary:#0c1020;--bg-card:rgba(14,19,44,0.75);
-  --border:rgba(99,102,241,0.12);--border-hover:rgba(99,102,241,0.3);
-  --text:#e2e8f0;--text-muted:#64748b;--text-dim:#475569;
-  --primary:#6366f1;--primary-glow:rgba(99,102,241,0.25);
-  --accent:#22d3ee;--accent-glow:rgba(34,211,238,0.2);
+  --bg-primary:#07090b;--bg-secondary:#101318;--bg-card:rgba(18,20,28,0.78);
+  --border:rgba(255,255,255,0.08);--border-hover:rgba(252,213,53,0.32);
+  --text:#eaecef;--text-muted:#929aa8;--text-dim:#5e6673;
+  --primary:#fcd535;--primary-glow:rgba(252,213,53,0.18);
+  --accent:#fcd535;--accent-glow:rgba(252,213,53,0.14);
   --success:#10b981;--warning:#f59e0b;--danger:#ef4444;
   --whale:#8b5cf6;--exchange:#3b82f6;
   --radius:12px;--radius-sm:8px;--radius-xs:6px;
   --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 html{font-size:14px}
-body{font-family:var(--font);background:var(--bg-primary);color:var(--text);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 0%,rgba(99,102,241,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(34,211,238,0.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+body{font-family:var(--font);background:var(--bg-primary);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 18% 0%,rgba(252,213,53,0.075) 0%,transparent 43%),radial-gradient(ellipse at 82% 100%,rgba(252,213,53,0.035) 0%,transparent 46%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:auto,auto,48px 48px,48px 48px;pointer-events:none;z-index:0}
 
 /* Scrollbar */
 ::-webkit-scrollbar{width:6px;height:6px}
@@ -29,26 +30,26 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 ::-webkit-scrollbar-thumb:hover{background:var(--primary)}
 
 /* Layout */
-.app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px}
+.app{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:24px 24px 88px}
 
 /* Header */
-.header{display:flex;align-items:center;justify-content:space-between;padding:16px 0;margin-bottom:24px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(255,255,255,.07);border-top-color:rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px)}
 .logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:40px;height:40px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px var(--primary-glow)}
-.logo-text h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--accent));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 6px 22px var(--primary-glow)}
+.logo-text h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.3px}
 .logo-text span{font-size:0.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
 .logo-text .version-line{display:block;margin-top:4px;font-size:.72rem;color:var(--warning);letter-spacing:.3px;text-transform:none}
 .header-actions{display:flex;gap:8px}
-.btn-icon{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-card);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
-.btn-icon:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-glow)}
+.btn-icon{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:rgba(8,10,13,.7);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+.btn-icon:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-glow);transform:translateY(-1px)}
 
 /* Search */
 .search-section{margin-bottom:24px;position:relative}
 .search-box{display:flex;gap:8px}
-.search-input{flex:1;padding:14px 18px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:1rem;font-family:var(--font);outline:none;transition:all .2s;backdrop-filter:blur(20px)}
+.search-input{flex:1;padding:14px 18px;border-radius:12px;border:1px solid var(--border);border-top-color:rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));color:var(--text);font-size:1rem;font-family:var(--font);outline:none;transition:all .2s;backdrop-filter:blur(20px)}
 .search-input::placeholder{color:var(--text-dim)}
 .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
-.btn-search{padding:14px 24px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,var(--primary),#818cf8);color:#fff;font-weight:600;cursor:pointer;transition:all .2s;font-size:1rem}
+.btn-search{padding:14px 24px;border-radius:12px;border:1px solid rgba(252,213,53,.4);border-top-color:rgba(255,255,255,.62);background:linear-gradient(135deg,rgba(252,213,53,.86),var(--primary));color:#090a0c;font-weight:800;cursor:pointer;transition:all .2s;font-size:1rem;box-shadow:0 8px 24px rgba(252,213,53,.12)}
 .btn-search:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
 .dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);max-height:300px;overflow-y:auto;display:none;z-index:100;backdrop-filter:blur(20px)}
 .dropdown.active{display:block}
@@ -62,13 +63,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 /* Coin Info Panel */
 .coin-panel{display:none;margin-bottom:20px}
 .coin-panel.active{display:block}
-.coin-header-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.coin-header-card{background:linear-gradient(180deg,rgba(23,25,36,.7),rgba(18,20,28,.86));border:1px solid var(--border);border-top-color:rgba(255,255,255,.15);border-radius:16px;padding:24px;backdrop-filter:blur(20px);box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);position:relative;overflow:hidden}
 .coin-header-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary))}
 .coin-top{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
 .coin-logo{width:48px;height:48px;border-radius:50%;border:2px solid var(--border)}
 .coin-title h2{font-size:1.5rem;font-weight:700}
 .coin-title .symbol{color:var(--accent);font-family:var(--mono);font-weight:600}
-.coin-chain-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(99,102,241,0.15);color:var(--primary);border:1px solid rgba(99,102,241,0.25);text-transform:capitalize}
+.coin-chain-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(252,213,53,0.12);color:var(--primary);border:1px solid rgba(252,213,53,0.24);text-transform:capitalize}
 .coin-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
 .metric-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:var(--radius-sm);padding:12px 16px}
 .metric-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
@@ -86,7 +87,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .warning-banner.active{display:flex}
 .exchange-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;width:100%}
 .exchange-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);padding:14px;min-height:132px;display:flex;flex-direction:column;gap:10px;transition:all .2s}
-.exchange-card.active{border-color:var(--border-hover);box-shadow:0 0 18px rgba(99,102,241,0.08)}
+.exchange-card.active{border-color:var(--border-hover);box-shadow:0 0 18px rgba(252,213,53,0.07)}
 .exchange-card.partial{border-color:rgba(59,130,246,0.2)}
 .exchange-card.dim{opacity:.76}
 .exchange-name{font-size:1.05rem;font-weight:700}
@@ -112,7 +113,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Cards & Tables */
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;backdrop-filter:blur(20px);margin-bottom:16px}
+.card{background:linear-gradient(180deg,rgba(23,25,36,.68),rgba(18,20,28,.84));border:1px solid var(--border);border-top-color:rgba(255,255,255,.14);border-radius:16px;padding:22px;backdrop-filter:blur(20px);box-shadow:0 10px 32px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.04);margin-bottom:16px}
 .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .table-wrap{overflow-x:auto}
 .pagination-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
@@ -125,13 +126,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 table{width:100%;border-collapse:collapse;font-size:.85rem}
 th{text-align:left;padding:10px 12px;color:var(--text-muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
 td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03)}
-tr:hover td{background:rgba(99,102,241,0.04)}
+tr:hover td{background:rgba(252,213,53,0.035)}
 .addr{font-family:var(--mono);font-size:.8rem;color:var(--accent);cursor:pointer;transition:color .15s}
 .addr:hover{color:#fff}
 .tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;text-transform:uppercase;white-space:nowrap;line-height:1.2;vertical-align:middle}
 .tag-whale{background:rgba(139,92,246,0.15);color:var(--whale)}
 .tag-exchange{background:rgba(59,130,246,0.15);color:var(--exchange);text-transform:none}
-.tag-labeled{background:rgba(34,211,238,0.14);color:#67e8f9;border:1px solid rgba(34,211,238,0.24);display:inline-flex;align-items:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none}
+.tag-labeled{background:rgba(252,213,53,0.11);color:#f6d85e;border:1px solid rgba(252,213,53,0.22);display:inline-flex;align-items:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none}
 .tag-accumulator{background:rgba(16,185,129,0.15);color:var(--success)}
 .tag-distributor{background:rgba(239,68,68,0.15);color:var(--danger)}
 .tag-suspicious{background:rgba(239,68,68,0.2);color:var(--danger);border:1px solid rgba(239,68,68,0.3)}
@@ -257,7 +258,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .session-flow-meta{font-size:.72rem;color:var(--text-dim);margin-top:4px}
 .session-flow-amount{font-size:.95rem;font-family:var(--mono);text-align:right;white-space:nowrap}
 .session-empty{text-align:center;padding:28px;color:var(--text-dim)}
-.alert-toggle{position:fixed;right:18px;bottom:72px;z-index:140;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(99,102,241,0.35);background:rgba(15,23,42,0.92);color:#fff;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,0.28);backdrop-filter:blur(16px)}
+.alert-toggle{position:fixed;right:18px;bottom:72px;z-index:140;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(252,213,53,0.32);background:rgba(15,16,19,0.94);color:#fff;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,0.35);backdrop-filter:blur(16px)}
 .alert-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--danger);color:#fff;font-size:.72rem;font-weight:800}
 .alert-panel{position:fixed;top:16px;right:16px;bottom:64px;width:min(360px,calc(100vw - 32px));background:rgba(10,15,30,0.96);border:1px solid rgba(255,255,255,0.08);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,0.35);z-index:150;transform:translateX(calc(100% + 24px));transition:transform .24s ease;display:flex;flex-direction:column;overflow:hidden;backdrop-filter:blur(22px)}
 .alert-panel.open{transform:translateX(0)}
@@ -309,7 +310,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .news-item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .news-item-actions a{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem;text-decoration:none}
 .news-item-actions a:hover{border-color:var(--primary);color:var(--primary)}
-.news-item-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;border:1px solid rgba(99,102,241,0.25);background:rgba(99,102,241,0.1);color:var(--accent);font-size:.68rem;font-weight:600}
+.news-item-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;border:1px solid rgba(252,213,53,0.24);background:rgba(252,213,53,0.1);color:var(--accent);font-size:.68rem;font-weight:600}
 .news-subsection{margin-top:14px}
 .news-subsection details{border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-sm);background:rgba(255,255,255,0.02);padding:0 14px}
 .news-subsection summary{cursor:pointer;list-style:none;padding:12px 0;font-size:.8rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;gap:12px}
@@ -351,7 +352,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 /* Settings modal */
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .modal-overlay.active{display:flex}
-.modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);padding:28px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto}
+.modal{background:linear-gradient(180deg,rgba(23,25,36,.98),rgba(14,16,22,.98));border:1px solid var(--border);border-top-color:rgba(255,255,255,.16);border-radius:18px;padding:28px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 28px 80px rgba(0,0,0,.6)}
 .modal h3{font-size:1.2rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:.8rem;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -360,7 +361,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .form-group small{display:block;margin-top:4px;color:var(--text-dim);font-size:.7rem}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
 .btn{padding:10px 20px;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.9rem;transition:all .2s;font-family:var(--font)}
-.btn-primary{background:linear-gradient(135deg,var(--primary),#818cf8);color:#fff}
+.btn-primary{background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c}
 .btn-primary:hover{box-shadow:0 4px 20px var(--primary-glow)}
 .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-muted)}
 .btn-secondary:hover{border-color:var(--text-muted);color:var(--text)}
@@ -370,7 +371,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 .toast{padding:12px 20px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;animation:slideIn .3s;backdrop-filter:blur(20px)}
 .toast-success{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--success)}
 .toast-error{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:var(--danger)}
-.toast-info{background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:var(--primary)}
+.toast-info{background:rgba(252,213,53,0.12);border:1px solid rgba(252,213,53,0.28);color:var(--primary)}
 @keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
 /* Loading */
@@ -382,11 +383,11 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 /* Responsive */
 @media(max-width:768px){
-  .app{padding:12px}
+  .app{padding:12px 12px 86px}
   .coin-metrics{grid-template-columns:1fr 1fr}
   .wallet-grid,.dex-pairs,.watchlist-coins{grid-template-columns:1fr}
   .decision-hero{grid-template-columns:1fr}
-  .header{flex-direction:column;gap:12px;align-items:flex-start}
+  .header{padding:13px;gap:12px}
   .session-stat-row{grid-template-columns:1fr}
 }
 @media(max-width:640px){
@@ -402,17 +403,17 @@ tr:hover td{background:rgba(99,102,241,0.04)}
   <!-- Header -->
   <header class="header">
     <div class="logo">
-      <div class="logo-icon">👻</div>
+      <div class="logo-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.5</small>
+        <small class="version-line">Tracker v1.1.6</small>
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn-icon" onclick="location.href='/'" title="메인으로">🏠</button>
-      <button class="btn-icon" onclick="refreshData()" title="새로고침">🔄</button>
-      <button class="btn-icon" onclick="openSettings()" title="설정">⚙️</button>
+      <button class="btn-icon" onclick="location.href='/'" title="메인으로" aria-label="메인으로"><i class="fa-solid fa-house"></i></button>
+      <button class="btn-icon" onclick="refreshData()" title="새로고침" aria-label="새로고침"><i class="fa-solid fa-rotate"></i></button>
+      <button class="btn-icon" onclick="openSettings()" title="설정" aria-label="설정"><i class="fa-solid fa-gear"></i></button>
     </div>
   </header>
 
@@ -420,7 +421,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
   <div class="search-section">
     <div class="search-box">
       <input type="text" class="search-input" id="searchInput" placeholder="코인 이름 또는 티커를 입력하세요 (예: RIVER, SIREN, PIPPIN...)" autocomplete="off">
-      <button class="btn-search" onclick="searchCoin()">🔍 검색</button>
+      <button class="btn-search" onclick="searchCoin()"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> 검색</button>
     </div>
     <div class="dropdown" id="searchDropdown"></div>
   </div>
@@ -631,7 +632,7 @@ tr:hover td{background:rgba(99,102,241,0.04)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.5';
+const APP_VERSION = 'Tracker v1.1.6';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -2925,7 +2926,7 @@ async function loadSolanaTransfers(isSilent=false){
         <div style="font-weight:600;margin-bottom:8px;color:var(--warning)">⚠ Moralis API 키 필요 (Solana)</div>
         <p style="color:var(--text-muted);margin-bottom:8px">Solana 체인은 현재 <strong>Moralis Solana API</strong>의 토큰 스왑 데이터를 기준으로 추적합니다. 사이트 내에서 조회하려면 <strong>⚙ 설정</strong>에서 <strong>Moralis API Key</strong>를 입력해주세요.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,var(--primary),#818cf8);color:#fff;border:none;cursor:pointer;font-size:.85rem;font-weight:600">⚙ 설정 열기</button>
+          <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙ 설정 열기</button>
           <a href="https://admin.moralis.io/register" target="_blank" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem">Moralis 무료가입</a>
         </div>
       </div>
@@ -3056,7 +3057,7 @@ async function loadTransfers(isSilent=false){
           <div style="font-weight:600;margin-bottom:8px;color:var(--warning)">⚠️ Moralis API 키 필요 (무료)</div>
           <p style="color:var(--text-muted);margin-bottom:8px">${state.currentChain.replace(/-/g,' ')} 체인은 이더스캔 정책 변경으로 전송내역 조회가 차단되었습니다. 사이트 내에서 조회하려면 <strong>⚙️ 설정</strong>에서 <strong>Moralis API Key</strong>를 입력해주세요.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,var(--primary),#818cf8);color:#fff;border:none;cursor:pointer;font-size:.85rem;font-weight:600">⚙️ 설정 열기</button>
+            <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙️ 설정 열기</button>
             <a href="https://admin.moralis.io/register" target="_blank" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem">Moralis 무료가입</a>
           </div>
         </div>
