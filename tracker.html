@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OnChain Phantom Tracker</title>
+<title>Trading API.Onchain Tracker | 부평구금융인</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -35,9 +35,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* Header */
 .header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(255,255,255,.07);border-top-color:rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px)}
 .logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 6px 22px var(--primary-glow)}
+.logo-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#ffe268,var(--primary) 62%,#ca8a04);color:#090a0c;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:900;line-height:1.02;letter-spacing:-.35px;border:1px solid rgba(252,213,53,.5);box-shadow:0 6px 22px var(--primary-glow)}
 .logo-text h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.3px}
-.logo-text span{font-size:0.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
+.logo-text .logo-accent{color:var(--primary)}
+.logo-text .logo-subtitle{display:block;font-size:.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
 .logo-text .version-line{display:block;margin-top:4px;font-size:.72rem;color:var(--warning);letter-spacing:.3px;text-transform:none}
 .header-actions{display:flex;gap:8px}
 .btn-icon{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:rgba(8,10,13,.7);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
@@ -197,12 +198,12 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .decision-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .decision-actions button{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;font-size:.72rem}
 .decision-actions button:hover{border-color:var(--primary);color:var(--primary)}
-.wallet-meta{display:grid;gap:8px;margin-top:12px;min-height:96px;align-content:start}
-.wallet-signal,.wallet-label-row,.wallet-funder-row,.wallet-keyword-row{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:start;column-gap:8px;row-gap:6px;width:100%}
+.wallet-meta{display:grid;grid-column:1/-1;gap:8px;margin-top:2px;min-height:96px;align-content:start;width:100%}
+.wallet-signal,.wallet-label-row,.wallet-funder-row,.wallet-keyword-row{display:grid;grid-template-columns:90px minmax(0,1fr);align-items:start;column-gap:10px;row-gap:6px;width:100%}
 .wallet-signal .meta-group-label,.wallet-label-row .meta-group-label,.wallet-funder-row .meta-group-label,.wallet-keyword-row .meta-group-label{min-width:0;padding-top:2px}
 .meta-value-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1;min-height:24px;align-content:flex-start}
 .meta-inline-chip{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.18);color:var(--warning);font-size:.7rem;font-weight:700;white-space:nowrap}
-.wallet-meta-note{font-size:.72rem;color:var(--text-dim);line-height:1.4;padding-left:66px;min-height:20px}
+.wallet-meta-note{font-size:.72rem;color:var(--text-dim);line-height:1.4;padding-left:100px;min-height:20px}
 .meta-group-label{font-size:.68rem;color:var(--text-dim);letter-spacing:.2px;white-space:nowrap}
 .score-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid transparent}
 .score-chip-danger{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.2);color:#ff8a97}
@@ -385,16 +386,40 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 @media(max-width:768px){
   .app{padding:12px 12px 86px}
   .coin-metrics{grid-template-columns:1fr 1fr}
+  .tabs{padding-right:28px;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%);mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%)}
+  .tab-btn{scroll-snap-align:start}
   .wallet-grid,.dex-pairs,.watchlist-coins{grid-template-columns:1fr}
   .decision-hero{grid-template-columns:1fr}
   .header{padding:13px;gap:12px}
   .session-stat-row{grid-template-columns:1fr}
 }
+@media(max-width:1100px) and (min-width:769px){
+  .coin-metrics{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:640px){
+  .logo-text{display:none}
   .wallet-card-header{grid-template-columns:1fr}
   .wallet-card-actions{justify-content:flex-start}
   .alert-toggle{right:12px;left:12px;bottom:68px;justify-content:center}
   .alert-panel{top:auto;left:12px;right:12px;bottom:118px;width:auto;max-height:60vh}
+}
+@media(max-width:380px){
+  .header{gap:8px}
+  .logo{gap:8px}
+  .logo-icon{width:44px;height:44px;font-size:10px;flex:0 0 44px}
+  .logo-text h1{font-size:1.05rem;white-space:nowrap}
+  .logo-text span{font-size:.62rem;letter-spacing:.35px;white-space:nowrap}
+  .logo-text .version-line{font-size:.65rem;white-space:nowrap}
+  .header-actions{gap:6px}
+  .btn-icon{width:34px;height:34px;font-size:.9rem}
+  .refresh-bar{padding:6px;gap:6px;font-size:.68rem}
+  .refresh-bar>span:first-child{font-size:0;white-space:nowrap}
+  .refresh-bar>span:first-child::after{content:'⏱ 자동';font-size:.68rem}
+  .btn-refresh{padding:4px 6px;font-size:.68rem;white-space:nowrap}
+}
+@media(max-width:340px){
+  .btn-search{width:62px;padding:0;font-size:0;display:flex;align-items:center;justify-content:center;flex:0 0 62px}
+  .btn-search i{font-size:1rem}
 }
 </style>
 </head>
@@ -403,11 +428,10 @@ tr:hover td{background:rgba(252,213,53,0.035)}
   <!-- Header -->
   <header class="header">
     <div class="logo">
-      <div class="logo-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
+        <div class="logo-icon" aria-label="부평구금융인"><span>부평구</span><span>금융인</span></div>
       <div class="logo-text">
-        <h1>Phantom Tracker</h1>
-        <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.7</small>
+        <h1>Trading API.<span class="logo-accent">Onchain Tracker</span></h1>
+        <span class="logo-subtitle">BUILT FOR TRADERS.</span>
       </div>
     </div>
     <div class="header-actions">
@@ -465,7 +489,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
           <button class="btn-sm" onclick="refreshData('manual')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">새로고침</button>
         </div>
       </div>
-      <div id="decisionContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 펌핑/덤핑/노이즈 판단 보조 요약이 표시됩니다</p></div></div>
+      <div id="decisionContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 축적·매도 압력·노이즈 판단 보조 요약이 표시됩니다</p></div></div>
     </div>
   </div>
 
@@ -1891,6 +1915,20 @@ function getFlowCounts(txs){
   });
   return counts;
 }
+function getFlowAmountStats(txs, decimals){
+  const byType={};
+  let totalAmount=0;
+  (txs||[]).forEach(tx=>{
+    const amount=parseFloat(tx.value||'0')/(10**decimals);
+    if(!Number.isFinite(amount) || amount<0) return;
+    const flow=classifyTransfer(tx);
+    const entry=byType[flow.key] || (byType[flow.key]={ count:0, amount:0 });
+    entry.count++;
+    entry.amount+=amount;
+    totalAmount+=amount;
+  });
+  return { byType, totalAmount };
+}
 function getDexPulse(){
   const pairs=(state.dexPairs||[]).slice(0,6);
   const totals=pairs.reduce((acc,p)=>{
@@ -1928,54 +1966,66 @@ function buildDecisionSummary(){
   const dex=getDexPulse();
   const obs=state.observation||{};
   const decimals=txs[0]?parseInt(txs[0].tokenDecimal||'18'):18;
+  const flowAmounts=getFlowAmountStats(txs,decimals);
   const price=getCoinPrice();
   const totalUsd=txs.reduce((sum,tx)=>sum+(parseFloat(tx.value||'0')/(10**decimals))*price,0);
   const recentSessions=sessions.slice(0,4);
-  const highRisk=wallets.filter(w=>(w.primaryScore||0)>=75);
   const suspicious=wallets.filter(w=>(w.primaryScore||0)>=60);
   const accumulation=wallets.filter(w=>w.primaryKind==='accumulation' && (w.primaryScore||0)>=65);
   const distribution=wallets.filter(w=>w.primaryKind==='distribution' && (w.primaryScore||0)>=65);
   const wash=wallets.filter(w=>w.primaryKind==='wash' && (w.primaryScore||0)>=60);
   const dumpWallets=wallets.filter(w=>w.primaryKind==='dump' && (w.primaryScore||0)>=60);
   const clusterWallets=wallets.filter(w=>w.primaryKind==='cluster' && (w.primaryScore||0)>=60);
-  const fanInWallets=wallets.filter(w=>w.fanIn);
-  const fanOutWallets=wallets.filter(w=>w.fanOut);
+  const fanInWallets=wallets.filter(w=>w.fanIn && w.net>0);
+  const fanOutWallets=wallets.filter(w=>w.fanOut && w.net<0);
   const cycleWallets=wallets.filter(w=>w.cycleCounterpartyCount>0);
+  const structuralNoiseWallets=wallets.filter(w=>(w.primaryScore||0)>=75 && (w.primaryKind==='wash' || w.primaryKind==='cluster' || w.cycleCounterpartyCount>0));
   const exchangeAggregators=wallets.filter(w=>w.exchangeAggregation);
   const sharedFunderGroups=Object.values(state.funderGroups||{}).filter(members=>(members||[]).length>=2);
   const positiveOi=Object.values(state.exchangeOiDelta||{}).filter(delta=>delta.deltaUsd>50000 && delta.deltaPct>0.05);
   const exchangeDeposits=flowCounts.exchange_deposit||0;
   const exchangeWithdrawals=flowCounts.exchange_withdrawal||0;
+  const exchangeDepositAmount=flowAmounts.byType.exchange_deposit?.amount||0;
+  const exchangeWithdrawalAmount=flowAmounts.byType.exchange_withdrawal?.amount||0;
+  const exchangeDepositShare=safeDiv(exchangeDepositAmount,flowAmounts.totalAmount);
+  const exchangeWithdrawalShare=safeDiv(exchangeWithdrawalAmount,flowAmounts.totalAmount);
   const bridgeMoves=flowCounts.bridge_move||0;
   const dexPoolMoves=(flowCounts.dex_pool_in||0)+(flowCounts.dex_pool_out||0)+(flowCounts.dex_router||0);
 
   let pumpScore=0, dumpScore=0, washScore=0, neutralScore=0;
   const pumpReasons=[], dumpReasons=[], washReasons=[], neutralReasons=[];
 
-  if(exchangeWithdrawals>=2){ pumpScore+=18; pumpReasons.push(`거래소 출금 ${exchangeWithdrawals}건이 관찰됐습니다`); }
+  if(exchangeWithdrawals){
+    const withdrawalPoints=exchangeWithdrawalShare>=0.25?22:exchangeWithdrawalShare>=0.10?16:exchangeWithdrawals>=2?8:4;
+    pumpScore+=withdrawalPoints;
+    pumpReasons.push(`거래소 출금 ${exchangeWithdrawals}건 · 관찰 전송량의 ${(exchangeWithdrawalShare*100).toFixed(1)}%입니다`);
+  }
   if(accumulation.length>=2){ pumpScore+=22; pumpReasons.push(`축적 우세 지갑 ${accumulation.length}개가 잡혔습니다`); }
   else if(accumulation.length===1){ pumpScore+=12; pumpReasons.push('축적 우세 지갑 1개가 잡혔습니다'); }
-  if(sharedFunderGroups.length){ pumpScore+=14; pumpReasons.push(`관찰 최초 유입원이 같은 지갑군 ${sharedFunderGroups.length}개가 있습니다`); }
+  if(sharedFunderGroups.length && accumulation.length){ pumpScore+=10; pumpReasons.push(`축적 지갑 중 관찰 최초 유입원이 같은 지갑군 ${sharedFunderGroups.length}개가 있습니다`); }
   if(fanInWallets.length){ pumpScore+=Math.min(14,6+fanInWallets.length*2); pumpReasons.push(`Fan-in 집중 유입 지갑 ${fanInWallets.length}개가 있습니다`); }
   if(dex.buyRatio>=0.6 && dex.buys+dex.sells>=20){ pumpScore+=12; pumpReasons.push(`DEX 24H 매수 비율이 ${(dex.buyRatio*100).toFixed(0)}%입니다`); }
-  if(positiveOi.length && exchangeWithdrawals>=1){ pumpScore+=8; pumpReasons.push(`선물 OI 증가와 거래소 출금이 함께 관찰됐습니다`); }
+  if(positiveOi.length && exchangeWithdrawals>=1){ pumpScore+=8; pumpReasons.push('선물 OI 증가와 거래소 출금이 함께 관찰됐습니다. OI 증가는 방향을 단독 확정하지 않습니다'); }
 
-  if(exchangeDeposits>=2){ dumpScore+=22; dumpReasons.push(`거래소 입금 ${exchangeDeposits}건이 관찰됐습니다`); }
-  else if(exchangeDeposits===1){ dumpScore+=10; dumpReasons.push('거래소 입금 1건이 관찰됐습니다'); }
-  if(dumpWallets.length){ dumpScore+=24; dumpReasons.push(`거래소 유출 신호 지갑 ${dumpWallets.length}개가 있습니다`); }
+  if(exchangeDeposits){
+    const depositPoints=exchangeDepositShare>=0.25?24:exchangeDepositShare>=0.10?18:exchangeDeposits>=2?9:5;
+    dumpScore+=depositPoints;
+    dumpReasons.push(`거래소 입금 ${exchangeDeposits}건 · 관찰 전송량의 ${(exchangeDepositShare*100).toFixed(1)}%입니다`);
+  }
+  if(dumpWallets.length){ dumpScore+=24; dumpReasons.push(`거래소 방향 유출 신호 지갑 ${dumpWallets.length}개가 있습니다`); }
   if(distribution.length){ dumpScore+=16; dumpReasons.push(`분배 우세 지갑 ${distribution.length}개가 있습니다`); }
   if(fanOutWallets.length){ dumpScore+=Math.min(14,6+fanOutWallets.length*2); dumpReasons.push(`Fan-out 분산 전송 지갑 ${fanOutWallets.length}개가 있습니다`); }
   if(exchangeAggregators.length){ dumpScore+=18; dumpReasons.push(`물량 집계 후 거래소 전송 지갑 ${exchangeAggregators.length}개가 있습니다`); }
   if(recentSessions.some(s=>s.exchangeDeposits>=2 && s.suspiciousTouches>=1)){ dumpScore+=18; dumpReasons.push('최근 세션에서 거래소 입금과 의심 지갑 관여가 겹쳤습니다'); }
   if(dex.sellRatio>=0.6 && dex.buys+dex.sells>=20){ dumpScore+=10; dumpReasons.push(`DEX 24H 매도 비율이 ${(dex.sellRatio*100).toFixed(0)}%입니다`); }
-  if(positiveOi.length && exchangeDeposits>=1){ dumpScore+=8; dumpReasons.push('선물 OI 증가와 거래소 입금이 함께 관찰됐습니다'); }
+  if(positiveOi.length && exchangeDeposits>=1){ dumpScore+=8; dumpReasons.push('선물 OI 증가와 거래소 입금이 함께 관찰됐습니다. OI 증가는 방향을 단독 확정하지 않습니다'); }
 
   if(wash.length){ washScore+=26; washReasons.push(`핑퐁/워시 후보 지갑 ${wash.length}개가 있습니다`); }
   if(clusterWallets.length){ washScore+=14; washReasons.push(`소수 지갑군 중심의 군집 이동 ${clusterWallets.length}개가 있습니다`); }
   if(cycleWallets.length){ washScore+=Math.min(18,8+cycleWallets.length*2); washReasons.push(`순환 전송 관여 지갑 ${cycleWallets.length}개가 있습니다`); }
   if(sharedFunderGroups.length && suspicious.length>=2){ washScore+=14; washReasons.push('같은 자금원에서 시작한 의심 지갑군이 있습니다'); }
   if(recentSessions.some(s=>s.clusterTouches>=2 && s.txCount>=4)){ washScore+=12; washReasons.push('짧은 세션 안에 군집성 이동이 몰렸습니다'); }
-  if((flowCounts.wallet_transfer||0) >= Math.max(8, txs.length*0.45) && highRisk.length){ washScore+=10; washReasons.push('일반 송금처럼 보이는 흐름 안에 고신뢰 지갑이 섞였습니다'); }
+  if((flowCounts.wallet_transfer||0) >= Math.max(8, txs.length*0.45) && structuralNoiseWallets.length){ washScore+=10; washReasons.push('일반 송금처럼 보이는 흐름 안에 고신뢰 순환·군집 지갑이 섞였습니다'); }
 
   const infraRatio=safeDiv(bridgeMoves+dexPoolMoves, Math.max(txs.length,1));
   if(txs.length && Math.max(pumpScore,dumpScore,washScore)<40){ neutralScore+=50; neutralReasons.push('최근 관찰 데이터에서 강한 방향성 신호가 아직 없습니다'); }
@@ -1983,18 +2033,30 @@ function buildDecisionSummary(){
   if(txs.length<60){ neutralScore+=10; neutralReasons.push('관찰 건수가 아직 적어 판단 신뢰도가 낮습니다'); }
   if(obs.continuity==='gap'){ neutralScore+=18; neutralReasons.push('관찰 공백으로 이전 세션과 현재 세션을 분리했습니다'); }
 
+  const dataReliability=getAnalysisReliability(txs);
   const axes=[
-    makeDecisionAxis('dump','덤핑 위험','danger',dumpScore,dumpReasons),
-    makeDecisionAxis('pump','펌핑 준비','success',pumpScore,pumpReasons),
+    makeDecisionAxis('dump','매도 압력','danger',dumpScore,dumpReasons),
+    makeDecisionAxis('pump','축적 우세','success',pumpScore,pumpReasons),
     makeDecisionAxis('wash','워시/노이즈','warning',washScore,washReasons),
     makeDecisionAxis('neutral','판단보류','info',neutralScore,neutralReasons)
   ];
   const directional=axes.filter(a=>a.kind!=='neutral').sort((a,b)=>b.score-a.score);
+  const neutralAxis=axes.find(a=>a.kind==='neutral');
+  const runnerUp=directional[1]||null;
+  const directionGap=runnerUp ? Math.max(0,(directional[0]?.score||0)-runnerUp.score) : null;
+  const conflicted=Boolean(directional[0]?.score>=55 && runnerUp?.score>=50 && directionGap<=12);
   let top=directional[0] || axes[3];
-  if(!top || top.score<45){
-    top=axes.find(a=>a.kind==='neutral');
+  if(dataReliability.score<40){
+    neutralAxis.score=Math.max(neutralAxis.score,60);
+    neutralAxis.reasons.unshift(`데이터 신뢰도 ${dataReliability.score}/100으로 방향성 판정을 보류합니다`);
+    top=neutralAxis;
+  }else if(conflicted){
+    neutralAxis.score=Math.max(neutralAxis.score,65);
+    neutralAxis.reasons.unshift(`${directional[0].label}(${directional[0].score})와 ${runnerUp.label}(${runnerUp.score}) 신호가 비슷해 단일 방향으로 확정하지 않습니다`);
+    top=neutralAxis;
+  }else if(!top || top.score<45){
+    top=neutralAxis;
   }
-  const dataReliability=getAnalysisReliability(txs);
   const confidence=clamp(Math.round((top.score||0) * dataReliability.score / 100),0,100);
   const keyReasons=top.reasons.length ? top.reasons : ['현재 표본 안에서는 뚜렷한 방향성 신호가 약합니다'];
   return {
@@ -2006,6 +2068,14 @@ function buildDecisionSummary(){
     totalUsd,
     dex,
     dataReliability,
+    directionGap,
+    conflicted,
+    exchangeFlow:{
+      depositCount:exchangeDeposits,
+      withdrawalCount:exchangeWithdrawals,
+      depositShare:exchangeDepositShare,
+      withdrawalShare:exchangeWithdrawalShare
+    },
     observation:obs
   };
 }
@@ -2015,7 +2085,7 @@ function renderDecisionPanel(){
   if(!el || !countEl) return;
   if(!state.currentCoin){
     countEl.textContent='';
-    el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 펌핑/덤핑/노이즈 판단 보조 요약이 표시됩니다</p></div>';
+    el.innerHTML='<div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 축적·매도 압력·노이즈 판단 보조 요약이 표시됩니다</p></div>';
     return;
   }
   if(!state.transfers.length){
@@ -2036,13 +2106,16 @@ function renderDecisionPanel(){
         ? '워시/노이즈 후보'
         : '판단보류';
   const obsWarn=obs.continuity==='gap';
+  const headline=top.kind==='neutral'
+    ? `${topText} · 데이터 신뢰도 ${summary.dataReliability.score}/100`
+    : `${topText} · 종합 점수 ${summary.confidence}/100`;
   const observedSince=obs.observedSince ? new Date(obs.observedSince).toLocaleString('ko-KR', { timeZone:'Asia/Seoul' }) : '-';
   const lastSuccess=obs.lastSuccessAt ? new Date(obs.lastSuccessAt).toLocaleString('ko-KR', { timeZone:'Asia/Seoul' }) : '-';
   el.innerHTML=`
     <div class="decision-hero">
       <div class="decision-main ${top.tone}">
         <div class="decision-eyebrow">최근 관찰 세션 기준</div>
-        <div class="decision-title">${topText} · 종합 점수 ${summary.confidence}/100</div>
+        <div class="decision-title">${headline}</div>
         <div class="decision-sub">
           이 판단은 현재 브라우저가 누적 관찰한 전송과 무료 API 표본을 기준으로 한 후보 분류입니다. 전체 체인 히스토리 확정 판정이 아니라, 사용자가 확인해야 할 방향을 압축한 것입니다.
         </div>
@@ -2051,6 +2124,8 @@ function renderDecisionPanel(){
           <span class="decision-meta-chip">관찰량 ${formatUsd(summary.totalUsd)}</span>
           <span class="decision-meta-chip">DEX ${summary.dex.pairCount}쌍</span>
           <span class="decision-meta-chip">데이터 신뢰도 ${summary.dataReliability.label} ${summary.dataReliability.score}</span>
+          ${(summary.exchangeFlow.depositCount||summary.exchangeFlow.withdrawalCount)?`<span class="decision-meta-chip">거래소 입금 ${(summary.exchangeFlow.depositShare*100).toFixed(1)}% · 출금 ${(summary.exchangeFlow.withdrawalShare*100).toFixed(1)}%</span>`:''}
+          ${summary.conflicted?'<span class="decision-meta-chip" style="color:var(--warning)">상충 신호 감지</span>':''}
           ${obsWarn?'<span class="decision-meta-chip" style="color:var(--warning)">관찰 공백 있음</span>':''}
         </div>
       </div>
@@ -3882,6 +3957,13 @@ function getWalletBorderStyle(wallet){
 }
 
 // ==================== WALLET ANALYSIS DETAIL ====================
+function scrollToWalletSection() {
+  const target = document.getElementById('tabsBar') || document.getElementById('tab-wallets');
+  if(!target) return;
+  const targetTop = window.scrollY + target.getBoundingClientRect().top - 12;
+  window.scrollTo({top:Math.max(0,targetTop), behavior:'smooth'});
+}
+
 async function viewWalletDetail(addr, preventScroll=false) {
   state.selectedWalletDetail = addr;
   const detailRequestKey = `${addr}:${Date.now()}`;
@@ -3890,7 +3972,7 @@ async function viewWalletDetail(addr, preventScroll=false) {
   document.getElementById('btnWalletBack').style.display = 'inline-block';
   document.getElementById('walletSort').style.display = 'none';
   switchTab('wallets');
-  if(!preventScroll) window.scrollTo({top:0, behavior:'smooth'});
+  if(!preventScroll) scrollToWalletSection();
   
   const el=document.getElementById('walletsContent');
   if(!state.transfers || !state.transfers.length){
@@ -4074,7 +4156,9 @@ function getAnalysisReliability(txs=state.transfers||[]){
   else if(spanSec>=6*3600) score+=18;
   else if(spanSec>=3600) score+=10;
   if(continuity!=='gap') score+=20;
-  const bounded=clamp(score,0,100);
+  let bounded=clamp(score,0,100);
+  if(count<20) bounded=Math.min(bounded,35);
+  else if(count<60) bounded=Math.min(bounded,55);
   return {
     score:bounded,
     label:bounded>=75?'높음':bounded>=50?'보통':'낮음',
@@ -4546,15 +4630,15 @@ function renderWalletAnalysis(wallets){
       <div class="wallet-card-header">
         <div class="wallet-card-main">
           <span class="addr" style="font-size:.95rem;font-weight:700;letter-spacing:0.5px">💼 ${shortAddr(w.addr)}</span>
-          <div class="wallet-meta">
-            <div class="wallet-signal"><span class="meta-group-label">상태</span><div class="meta-value-group">${renderRiskPill(w)}</div></div>
-            ${walletLabelTag ? `<div class="wallet-label-row"><span class="meta-group-label">라벨</span><div class="meta-value-group">${walletLabelTag}</div></div>` : ''}
-            ${walletFunderMeta ? `<div class="wallet-funder-row"><span class="meta-group-label">관찰 최초 유입원</span>${walletFunderMeta}</div>` : ''}
-            ${walletKeywordTags ? `<div class="wallet-keyword-row"><span class="meta-group-label">키워드</span><div class="meta-value-group">${walletKeywordTags}</div></div>` : ''}
-            <div class="wallet-meta-note">상대 ${w.counterpartyCount}곳 · 거래 ${w.txCount}건</div>
-          </div>
         </div>
         <div class="wallet-card-actions"><button class="btn-watch ${isWatched?'active':''}" onclick="event.stopPropagation(); toggleWatchWallet('${w.addr}')">👁 ${isWatched?'추적중':'추적'}</button></div>
+        <div class="wallet-meta">
+          <div class="wallet-signal"><span class="meta-group-label">상태</span><div class="meta-value-group">${renderRiskPill(w)}</div></div>
+          ${walletLabelTag ? `<div class="wallet-label-row"><span class="meta-group-label">라벨</span><div class="meta-value-group">${walletLabelTag}</div></div>` : ''}
+          ${walletFunderMeta ? `<div class="wallet-funder-row"><span class="meta-group-label">관찰 최초 유입원</span>${walletFunderMeta}</div>` : ''}
+          ${walletKeywordTags ? `<div class="wallet-keyword-row"><span class="meta-group-label">키워드</span><div class="meta-value-group">${walletKeywordTags}</div></div>` : ''}
+          <div class="wallet-meta-note">상대 ${w.counterpartyCount}곳 · 거래 ${w.txCount}건</div>
+        </div>
       </div>
       <div style="margin-top:auto">
         <div class="reason-list">${renderReasonChips(w.primaryReasons,3)}</div>
