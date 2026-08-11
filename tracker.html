@@ -407,7 +407,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
       <div class="logo-text">
         <h1>Phantom Tracker</h1>
         <span>OnChain Intelligence</span>
-        <small class="version-line">Tracker v1.1.6</small>
+        <small class="version-line">Tracker v1.1.7</small>
       </div>
     </div>
     <div class="header-actions">
@@ -493,7 +493,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
           <select id="walletSort" onchange="sortWallets(this.value)" style="display:none;padding:4px 8px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.8rem;">
             <option value="riskDesc">🚨 의심도순 (Signal)</option>
             <option value="washGroup">🔄 핑퐁 그룹순</option>
-            <option value="sharedFunder">🪙 공통 자금원순</option>
+            <option value="sharedFunder">🪙 관찰 최초 유입원순</option>
             <option value="totalVol">🔄 총 볼륨순 (Total Vol)</option>
             <option value="netDesc">📥 매집량순 (Net 축적)</option>
             <option value="recent">⏱ 최근 활동순 (Last Seen)</option>
@@ -632,7 +632,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.6';
+const APP_VERSION = 'Tracker v1.1.7';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
@@ -641,6 +641,7 @@ const CONFIG = {
   MORALIS_SOLANA_API: 'https://solana-gateway.moralis.io',
   GNEWS_API: 'https://gnews.io/api/v4',
   EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
+  BINANCE_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/binance_futures?include_tickers=unexpired',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
     'binance-smart-chain':{ name:'BscScan',      chainId:56,    moralisChain:'bsc',     url:'https://bscscan.com',                v2Free:false },
@@ -743,6 +744,7 @@ const state = {
   addressLabels: {},
   exchangeIntel: {},
   exchangeOiDelta: {},
+  binanceFallback: { loadedAt:0, tickers:[] },
   sessions: [],
   sessionWindow: 900,
   alerts: [],
@@ -1792,7 +1794,7 @@ function buildSessionBuckets(){
     if((fromWallet?.clusterScore||0)>=60 || (toWallet?.clusterScore||0)>=60) bucket.clusterTouches++;
   });
 
-  state.sessions=Object.values(bucketMap)
+  const sessions=Object.values(bucketMap)
     .sort((a,b)=>b.start-a.start)
     .map(bucket=>({
       ...bucket,
@@ -1800,6 +1802,17 @@ function buildSessionBuckets(){
       topTypes:Object.values(bucket.typeCounts).sort((a,b)=>b.count-a.count).slice(0,3),
       topFlows:Object.values(bucket.flows).sort((a,b)=>b.amount-a.amount).slice(0,4)
     }));
+  sessions.forEach((session,index)=>{
+    const previous=sessions[index+1];
+    session.txDelta=previous ? session.txCount-previous.txCount : null;
+    session.volumeDeltaPct=previous&&previous.totalAmount>0
+      ? safeDiv(session.totalAmount-previous.totalAmount,previous.totalAmount)
+      : null;
+    session.newWallets=previous
+      ? [...session.wallets].filter(addr=>!previous.wallets.has(addr)).length
+      : session.uniqueWallets;
+  });
+  state.sessions=sessions;
   return state.sessions;
 }
 
@@ -1843,6 +1856,7 @@ function renderSessions(){
         <div>
           <div class="session-title">${formatClock(session.start)} ~ ${formatClock(session.end)}</div>
           <div class="session-sub">${session.topTypes.map(type=>`${type.label} ${type.count}건`).join(' · ') || '유형 정보 없음'}</div>
+          <div class="session-sub">직전 세션 대비 거래량 ${session.volumeDeltaPct==null?'-':`${session.volumeDeltaPct>=0?'+':''}${(session.volumeDeltaPct*100).toFixed(0)}%`} · 신규 주소 ${session.newWallets}곳</div>
         </div>
         <div>${session.suspiciousTouches>0?`<span class="flow-badge flow-warning">의심 관여 ${session.suspiciousTouches}</span>`:'<span class="flow-badge flow-neutral">정상 흐름</span>'}</div>
       </div>
@@ -1924,6 +1938,10 @@ function buildDecisionSummary(){
   const wash=wallets.filter(w=>w.primaryKind==='wash' && (w.primaryScore||0)>=60);
   const dumpWallets=wallets.filter(w=>w.primaryKind==='dump' && (w.primaryScore||0)>=60);
   const clusterWallets=wallets.filter(w=>w.primaryKind==='cluster' && (w.primaryScore||0)>=60);
+  const fanInWallets=wallets.filter(w=>w.fanIn);
+  const fanOutWallets=wallets.filter(w=>w.fanOut);
+  const cycleWallets=wallets.filter(w=>w.cycleCounterpartyCount>0);
+  const exchangeAggregators=wallets.filter(w=>w.exchangeAggregation);
   const sharedFunderGroups=Object.values(state.funderGroups||{}).filter(members=>(members||[]).length>=2);
   const positiveOi=Object.values(state.exchangeOiDelta||{}).filter(delta=>delta.deltaUsd>50000 && delta.deltaPct>0.05);
   const exchangeDeposits=flowCounts.exchange_deposit||0;
@@ -1937,7 +1955,8 @@ function buildDecisionSummary(){
   if(exchangeWithdrawals>=2){ pumpScore+=18; pumpReasons.push(`거래소 출금 ${exchangeWithdrawals}건이 관찰됐습니다`); }
   if(accumulation.length>=2){ pumpScore+=22; pumpReasons.push(`축적 우세 지갑 ${accumulation.length}개가 잡혔습니다`); }
   else if(accumulation.length===1){ pumpScore+=12; pumpReasons.push('축적 우세 지갑 1개가 잡혔습니다'); }
-  if(sharedFunderGroups.length){ pumpScore+=14; pumpReasons.push(`공통 자금원 지갑군 ${sharedFunderGroups.length}개가 있습니다`); }
+  if(sharedFunderGroups.length){ pumpScore+=14; pumpReasons.push(`관찰 최초 유입원이 같은 지갑군 ${sharedFunderGroups.length}개가 있습니다`); }
+  if(fanInWallets.length){ pumpScore+=Math.min(14,6+fanInWallets.length*2); pumpReasons.push(`Fan-in 집중 유입 지갑 ${fanInWallets.length}개가 있습니다`); }
   if(dex.buyRatio>=0.6 && dex.buys+dex.sells>=20){ pumpScore+=12; pumpReasons.push(`DEX 24H 매수 비율이 ${(dex.buyRatio*100).toFixed(0)}%입니다`); }
   if(positiveOi.length && exchangeWithdrawals>=1){ pumpScore+=8; pumpReasons.push(`선물 OI 증가와 거래소 출금이 함께 관찰됐습니다`); }
 
@@ -1945,12 +1964,15 @@ function buildDecisionSummary(){
   else if(exchangeDeposits===1){ dumpScore+=10; dumpReasons.push('거래소 입금 1건이 관찰됐습니다'); }
   if(dumpWallets.length){ dumpScore+=24; dumpReasons.push(`거래소 유출 신호 지갑 ${dumpWallets.length}개가 있습니다`); }
   if(distribution.length){ dumpScore+=16; dumpReasons.push(`분배 우세 지갑 ${distribution.length}개가 있습니다`); }
+  if(fanOutWallets.length){ dumpScore+=Math.min(14,6+fanOutWallets.length*2); dumpReasons.push(`Fan-out 분산 전송 지갑 ${fanOutWallets.length}개가 있습니다`); }
+  if(exchangeAggregators.length){ dumpScore+=18; dumpReasons.push(`물량 집계 후 거래소 전송 지갑 ${exchangeAggregators.length}개가 있습니다`); }
   if(recentSessions.some(s=>s.exchangeDeposits>=2 && s.suspiciousTouches>=1)){ dumpScore+=18; dumpReasons.push('최근 세션에서 거래소 입금과 의심 지갑 관여가 겹쳤습니다'); }
   if(dex.sellRatio>=0.6 && dex.buys+dex.sells>=20){ dumpScore+=10; dumpReasons.push(`DEX 24H 매도 비율이 ${(dex.sellRatio*100).toFixed(0)}%입니다`); }
   if(positiveOi.length && exchangeDeposits>=1){ dumpScore+=8; dumpReasons.push('선물 OI 증가와 거래소 입금이 함께 관찰됐습니다'); }
 
   if(wash.length){ washScore+=26; washReasons.push(`핑퐁/워시 후보 지갑 ${wash.length}개가 있습니다`); }
   if(clusterWallets.length){ washScore+=14; washReasons.push(`소수 지갑군 중심의 군집 이동 ${clusterWallets.length}개가 있습니다`); }
+  if(cycleWallets.length){ washScore+=Math.min(18,8+cycleWallets.length*2); washReasons.push(`순환 전송 관여 지갑 ${cycleWallets.length}개가 있습니다`); }
   if(sharedFunderGroups.length && suspicious.length>=2){ washScore+=14; washReasons.push('같은 자금원에서 시작한 의심 지갑군이 있습니다'); }
   if(recentSessions.some(s=>s.clusterTouches>=2 && s.txCount>=4)){ washScore+=12; washReasons.push('짧은 세션 안에 군집성 이동이 몰렸습니다'); }
   if((flowCounts.wallet_transfer||0) >= Math.max(8, txs.length*0.45) && highRisk.length){ washScore+=10; washReasons.push('일반 송금처럼 보이는 흐름 안에 고신뢰 지갑이 섞였습니다'); }
@@ -1972,12 +1994,8 @@ function buildDecisionSummary(){
   if(!top || top.score<45){
     top=axes.find(a=>a.kind==='neutral');
   }
-  let reliability=100;
-  if(txs.length<80) reliability-=18;
-  if(obs.continuity==='gap') reliability-=25;
-  if(!obs.activeCount) reliability-=12;
-  if(totalUsd && totalUsd<state.largeThreshold) reliability-=8;
-  const confidence=clamp(Math.round((top.score||0) * reliability / 100),0,100);
+  const dataReliability=getAnalysisReliability(txs);
+  const confidence=clamp(Math.round((top.score||0) * dataReliability.score / 100),0,100);
   const keyReasons=top.reasons.length ? top.reasons : ['현재 표본 안에서는 뚜렷한 방향성 신호가 약합니다'];
   return {
     top,
@@ -1987,6 +2005,7 @@ function buildDecisionSummary(){
     txCount:txs.length,
     totalUsd,
     dex,
+    dataReliability,
     observation:obs
   };
 }
@@ -2010,9 +2029,9 @@ function renderDecisionPanel(){
   countEl.textContent=`(누적 관찰 ${obs.activeCount||summary.txCount}건 · 신규 ${obs.newCount||0}건)`;
   const top=summary.top;
   const topText=top.kind==='dump'
-    ? '덤핑 위험 후보'
+    ? '매도 압력 가능성'
     : top.kind==='pump'
-      ? '펌핑 준비 후보'
+      ? '축적 우세 흐름'
       : top.kind==='wash'
         ? '워시/노이즈 후보'
         : '판단보류';
@@ -2023,7 +2042,7 @@ function renderDecisionPanel(){
     <div class="decision-hero">
       <div class="decision-main ${top.tone}">
         <div class="decision-eyebrow">최근 관찰 세션 기준</div>
-        <div class="decision-title">${topText} · 신뢰도 ${summary.confidence}/100</div>
+        <div class="decision-title">${topText} · 종합 점수 ${summary.confidence}/100</div>
         <div class="decision-sub">
           이 판단은 현재 브라우저가 누적 관찰한 전송과 무료 API 표본을 기준으로 한 후보 분류입니다. 전체 체인 히스토리 확정 판정이 아니라, 사용자가 확인해야 할 방향을 압축한 것입니다.
         </div>
@@ -2031,6 +2050,7 @@ function renderDecisionPanel(){
           <span class="decision-meta-chip">전송 ${summary.txCount}건</span>
           <span class="decision-meta-chip">관찰량 ${formatUsd(summary.totalUsd)}</span>
           <span class="decision-meta-chip">DEX ${summary.dex.pairCount}쌍</span>
+          <span class="decision-meta-chip">데이터 신뢰도 ${summary.dataReliability.label} ${summary.dataReliability.score}</span>
           ${obsWarn?'<span class="decision-meta-chip" style="color:var(--warning)">관찰 공백 있음</span>':''}
         </div>
       </div>
@@ -2091,7 +2111,7 @@ function buildAlerts(){
       alerts.push({
         key:`funder:${source}`,
         level:'high',
-        title:`공통 자금원 지갑군 감지`,
+        title:`관찰 최초 유입원 지갑군 감지`,
         description:`${shortAddr(source)}에서 시작된 지갑 ${suspicious.length}개가 동시에 의심 패턴에 걸렸습니다.`,
         target:suspicious[0]?.addr||source,
         targetLabel:shortAddr(source)
@@ -2396,6 +2416,15 @@ function getExchangeOiSourceNote(intel){
   return intel.rawOiText || '';
 }
 
+function renderMarketFlag(ex, market){
+  const listed=Boolean(ex[market]);
+  const status=ex[`${market}Status`] || (listed ? 'listed' : 'unlisted');
+  const label=market==='spot' ? '현물' : '선물';
+  if(status==='checking') return `<span class="market-flag">⏳ ${label} 확인 중</span>`;
+  if(status==='error') return `<span class="market-flag" title="거래소 응답을 확인하지 못했습니다">⚠ ${label} 조회 실패</span>`;
+  return `<span class="market-flag ${listed?'good':'bad'}">${listed?'✅':'❌'} ${label}</span>`;
+}
+
 function renderExchangeIntel(intelMap){
   const esSt=document.getElementById('exchangeStatus');
   const exchanges=Object.values(intelMap);
@@ -2414,8 +2443,8 @@ function renderExchangeIntel(intelMap){
         return `<div class="${cardClass}">
           <div class="exchange-name" style="color:${ex.spot||ex.futures?'#fff':'var(--text-dim)'}">${ex.name}</div>
           <div class="exchange-flags">
-            <span class="market-flag ${ex.spot?'good':'bad'}">${ex.spot?'✅ 현물':'❌ 현물'}</span>
-            ${ex.showFutures!==false?`<span class="market-flag ${ex.futures?'good':'bad'}">${ex.futures?'✅ 선물':'❌ 선물'}</span>`:''}
+            ${renderMarketFlag(ex,'spot')}
+            ${ex.showFutures!==false?renderMarketFlag(ex,'futures'):''}
           </div>
           <div class="oi-block">
             <div class="oi-label">Open Interest ( USDT )</div>
@@ -2466,16 +2495,72 @@ async function fetchExchangeJson(targetUrl){
   return fetchExternalJson(targetUrl, 'Exchange');
 }
 
+async function getBinanceFallbackTickers(){
+  const cached=state.binanceFallback||{};
+  if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
+    return cached.tickers;
+  }
+  const response=await fetch(CONFIG.BINANCE_FUTURES_FALLBACK,{cache:'no-store'});
+  if(!response.ok) throw new Error(`CoinGecko Binance Futures status ${response.status}`);
+  const data=await response.json();
+  const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
+  state.binanceFallback={loadedAt:Date.now(),tickers};
+  return tickers;
+}
+
+function findBinanceFallbackTicker(tickers, symbolUpper){
+  const coinId=state.currentCoin?.id||'';
+  const expected=`${symbolUpper}USDT`;
+  const candidates=(tickers||[]).filter(item=>
+    item?.contract_type==='perpetual' &&
+    item?.target==='USDT' &&
+    (!coinId || item.coin_id===coinId || item.base===symbolUpper)
+  );
+  return candidates.find(item=>item.symbol===expected) ||
+    candidates.find(item=>item.base===symbolUpper) ||
+    candidates[0] || null;
+}
+
+async function fetchBinanceFallback(symbolUpper){
+  const tickers=await getBinanceFallbackTickers();
+  return findBinanceFallbackTicker(tickers,symbolUpper);
+}
+
+async function fetchBinanceSpotFallback(symbolUpper){
+  const coinId=state.currentCoin?.id;
+  if(!coinId) return null;
+  const response=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}/tickers?exchange_ids=binance&page=1`,{cache:'no-store'});
+  if(!response.ok) throw new Error(`CoinGecko Binance Spot status ${response.status}`);
+  const data=await response.json();
+  return (data?.tickers||[]).find(item=>
+    item?.market?.identifier==='binance' &&
+    String(item.base||'').toUpperCase()===symbolUpper &&
+    !item.is_stale
+  ) || null;
+}
+
 async function fetchExchangeOi(exchangeKey, ex){
   const price=Math.max(0, getCoinPrice());
   switch(exchangeKey){
     case 'binance': {
-      const d=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
-      const raw=parseFloat(d.openInterest||'0');
-      return {
-        oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
-        rawOiText: `${compactNum(raw)} ${ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
-      };
+      try{
+        const d=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
+        const raw=parseFloat(d.openInterest||'0');
+        return {
+          oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
+          rawOiText: `${compactNum(raw)} ${ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
+        };
+      }catch(primaryError){
+        const fallback=ex.fallbackTicker || await fetchBinanceFallback(state.currentCoin?.symbol?.toUpperCase()||'');
+        if(!fallback || !Number.isFinite(Number(fallback.open_interest_usd))) throw primaryError;
+        ex.fallbackTicker=fallback;
+        ex.futuresSymbol=fallback.symbol||ex.futuresSymbol;
+        ex.baseSymbol=fallback.base||ex.baseSymbol;
+        return {
+          oiUsd:Number(fallback.open_interest_usd),
+          rawOiText:`CoinGecko · ${fallback.symbol}`
+        };
+      }
     }
     case 'bybit': {
       const d=await fetchExchangeJson(`https://api.bybit.com/v5/market/open-interest?category=linear&symbol=${ex.futuresSymbol}&intervalTime=5min`);
@@ -2569,21 +2654,72 @@ async function checkExchangeListings(tickers, sysSymbol){
     coinbase:{ key:'coinbase', name:'Coinbase', spot:(tickers||[]).some(t=>t.market&&t.market.identifier==='gdax'), futures:false, showFutures:false, oiStatus:'idle' }
   };
 
+  intel.binance.spotStatus=intel.binance.spot?'listed':'checking';
+  intel.binance.futuresStatus=intel.binance.futures?'listed':'checking';
+
   renderExchangeIntel(intel);
   if(!symbolUpper) return;
 
   const checks = [];
-  if(!intel.binance.futures) checks.push(fetchExchangeJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`).then(d=>{ if(d.price) intel.binance.futures=true; }).catch(()=>null));
-  if(!intel.okx.futures) checks.push(fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`).then(d=>{ if(d.data?.length) intel.okx.futures=true; }).catch(()=>null));
-  if(!intel.bybit.futures) checks.push(fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`).then(d=>{ if(d.result?.list?.length) intel.bybit.futures=true; }).catch(()=>null));
-  if(!intel.bitget.futures) checks.push(fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`).then(d=>{ if(d.code==='00000' && d.data?.length) intel.bitget.futures=true; }).catch(()=>null));
-  if(!intel.kucoin.spot) checks.push(fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.spot=true; }).catch(()=>null));
-  if(!intel.kucoin.futures) checks.push(fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`).then(d=>{ if(d.code==='200000' && d.data?.symbol) intel.kucoin.futures=true; }).catch(()=>null));
-  if(!intel.mexc.futures) checks.push(fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`).then(d=>{ if(d.success && d.data?.symbol) intel.mexc.futures=true; }).catch(()=>null));
-  if(!intel.upbit.spot) checks.push(fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`).then(d=>{ if(d[0]?.trade_price) intel.upbit.spot=true; }).catch(()=>null));
-  if(!intel.bithumb.spot) checks.push(fetchExchangeJson(`https://api.bithumb.com/v1/market/all?isDetails=false`).then(d=>{ if((d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`))) intel.bithumb.spot=true; }).catch(()=>null));
+  const addListingCheck=(ex,market,requestFactory,predicate)=>{
+    ex[`${market}Status`]='checking';
+    checks.push((async()=>{
+      try{
+        const data=await requestFactory();
+        ex[market]=Boolean(predicate(data));
+        ex[`${market}Status`]=ex[market]?'listed':'unlisted';
+      }catch(err){
+        const message=String(err?.message||'');
+        ex[market]=false;
+        ex[`${market}Status`]=/status 40[04]/.test(message)?'unlisted':'error';
+      }
+    })());
+  };
+  checks.push((async()=>{
+    if(!intel.binance.spot){
+      try{
+        intel.binance.spot=Boolean(await fetchBinanceSpotFallback(symbolUpper));
+        intel.binance.spotStatus=intel.binance.spot?'listed':'unlisted';
+      }catch(err){
+        intel.binance.spotStatus='error';
+      }
+    }
+    if(!intel.binance.futures){
+      try{
+        const direct=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`);
+        intel.binance.futures=Boolean(direct?.price);
+      }catch(err){
+        try{
+          const fallback=await fetchBinanceFallback(symbolUpper);
+          if(fallback){
+            intel.binance.fallbackTicker=fallback;
+            intel.binance.futuresSymbol=fallback.symbol||intel.binance.futuresSymbol;
+            intel.binance.baseSymbol=fallback.base||intel.binance.baseSymbol;
+            intel.binance.futures=true;
+          }
+        }catch(fallbackError){
+          intel.binance.futuresStatus='error';
+        }
+      }
+      if(intel.binance.futuresStatus!=='error') intel.binance.futuresStatus=intel.binance.futures?'listed':'unlisted';
+    }
+  })());
+  if(!intel.okx.futures) addListingCheck(intel.okx,'futures',()=>fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`),d=>d.data?.length);
+  if(!intel.bybit.futures) addListingCheck(intel.bybit,'futures',()=>fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`),d=>d.result?.list?.length);
+  if(!intel.bitget.futures) addListingCheck(intel.bitget,'futures',()=>fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`),d=>d.code==='00000'&&d.data?.length);
+  if(!intel.kucoin.spot) addListingCheck(intel.kucoin,'spot',()=>fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`),d=>d.code==='200000'&&d.data?.symbol);
+  if(!intel.kucoin.futures) addListingCheck(intel.kucoin,'futures',()=>fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`),d=>d.code==='200000'&&d.data?.symbol);
+  if(!intel.mexc.futures) addListingCheck(intel.mexc,'futures',()=>fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`),d=>d.success&&d.data?.symbol);
+  if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
+  if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchExchangeJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`)));
+  renderExchangeIntel(intel);
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
+
+  Object.values(intel).forEach(ex=>{
+    ex.spotStatus ||= ex.spot?'listed':'unlisted';
+    if(ex.showFutures!==false) ex.futuresStatus ||= ex.futures?'listed':'unlisted';
+  });
 
   Object.values(intel).forEach(ex=>{ if(ex.futures) ex.oiStatus='loading'; });
   renderExchangeIntel(intel);
@@ -3378,9 +3514,9 @@ function captureHistoryEvents(){
       ...context,
       key:`funder:${context.chain}:${context.contract}:${source}:${members.length}`,
       category:'funder',
-      badge:'공통 자금원',
+      badge:'관찰 최초 유입원',
       tone:suspicious.some(wallet=>(wallet.primaryScore||0) >= 75) ? 'danger' : 'warning',
-      title:'공통 자금원 지갑군 감지',
+      title:'관찰 최초 유입원 지갑군 감지',
       description:`${shortAddr(source)} 에서 출발한 지갑 ${members.length}개 중 ${suspicious.length}개가 의심 신호를 보였습니다.`,
       savedAt:toUtcIso(Math.max(...suspicious.map(wallet=>wallet.lastSeen||0))),
       score:Math.max(...suspicious.map(wallet=>wallet.primaryScore||0)),
@@ -3568,7 +3704,7 @@ function renderHistory(){
             <option value="all" ${state.historyType==='all'?'selected':''}>전체 이벤트</option>
             <option value="transfer" ${state.historyType==='transfer'?'selected':''}>대량/거래소 흐름</option>
             <option value="wallet" ${state.historyType==='wallet'?'selected':''}>의심 지갑</option>
-            <option value="funder" ${state.historyType==='funder'?'selected':''}>공통 자금원</option>
+            <option value="funder" ${state.historyType==='funder'?'selected':''}>관찰 최초 유입원</option>
             <option value="session" ${state.historyType==='session'?'selected':''}>세션</option>
           </select>
           <select onchange="setHistorySort(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
@@ -3592,7 +3728,7 @@ function renderHistory(){
           <option value="all" ${state.historyType==='all'?'selected':''}>전체 이벤트</option>
           <option value="transfer" ${state.historyType==='transfer'?'selected':''}>대량/거래소 흐름</option>
           <option value="wallet" ${state.historyType==='wallet'?'selected':''}>의심 지갑</option>
-          <option value="funder" ${state.historyType==='funder'?'selected':''}>공통 자금원</option>
+          <option value="funder" ${state.historyType==='funder'?'selected':''}>관찰 최초 유입원</option>
           <option value="session" ${state.historyType==='session'?'selected':''}>세션</option>
         </select>
         <select onchange="setHistorySort(this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:.75rem">
@@ -3804,6 +3940,7 @@ async function viewWalletDetail(addr, preventScroll=false) {
   const supply = state.currentCoin?.market_data?.total_supply || state.currentCoin?.market_data?.circulating_supply || 0;
   const supplyRatio = supply && netVol > 0 ? ((netVol / supply) * 100).toFixed(4) : 0;
   const gaugePct = w?.primaryScore ? clamp(w.primaryScore,0,100) : 0;
+  const reliability=getAnalysisReliability(txs);
   const borderStyle = getWalletBorderStyle(w);
   const detailLabelHtml = renderAddressTag(addr, [w?.roleLabel, w?.primaryLabel, ...(w?.tags||[]).map(t=>t.label)]);
   const detailKeywordHtml = renderWalletTags(w?.tags, { exclude:[w?.primaryLabel] });
@@ -3811,10 +3948,14 @@ async function viewWalletDetail(addr, preventScroll=false) {
 
   const detailMetrics = w ? `
     <div class="detail-metrics">
-      <div class="detail-metric"><div class="label">패턴 신뢰도</div><div class="value">${w.primaryScore || 0}/100</div></div>
+      <div class="detail-metric"><div class="label">패턴 점수</div><div class="value">${w.primaryScore || 0}/100</div></div>
+      <div class="detail-metric"><div class="label">데이터 신뢰도</div><div class="value">${reliability.label} · ${reliability.score}</div></div>
       <div class="detail-metric"><div class="label">상대 집중도</div><div class="value">${((w.topCounterpartyRatio||0)*100).toFixed(1)}%</div></div>
       <div class="detail-metric"><div class="label">왕복 비중</div><div class="value">${((w.reciprocalRatio||0)*100).toFixed(1)}%</div></div>
       <div class="detail-metric"><div class="label">거래소 유출</div><div class="value">${((w.exchangeOutRatio||0)*100).toFixed(1)}%</div></div>
+      <div class="detail-metric"><div class="label">반복 금액 비중</div><div class="value">${((w.repeatedAmountRatio||0)*100).toFixed(1)}%</div></div>
+      <div class="detail-metric"><div class="label">Fan-in / Fan-out</div><div class="value">${w.fanInCount||0} / ${w.fanOutCount||0}</div></div>
+      <div class="detail-metric"><div class="label">순환 상대</div><div class="value">${w.cycleCounterpartyCount||0}곳</div></div>
     </div>
     <div class="reason-list">${renderReasonChips(w.primaryReasons,5)}</div>` : '';
 
@@ -3837,18 +3978,18 @@ async function viewWalletDetail(addr, preventScroll=false) {
               </div>
             </div>
             ${detailLabelHtml ? `<div class="detail-badge-group"><span class="meta-group-label">라벨</span><div class="detail-badge-flow">${detailLabelHtml}</div></div>` : ''}
-            ${funderHtml ? `<div class="detail-badge-group"><span class="meta-group-label">공통 자금원</span><div class="detail-badge-flow">${funderHtml}</div></div>` : ''}
+            ${funderHtml ? `<div class="detail-badge-group"><span class="meta-group-label">관찰 최초 유입원</span><div class="detail-badge-flow">${funderHtml}</div></div>` : ''}
             ${detailKeywordHtml ? `<div class="detail-badge-group"><span class="meta-group-label">키워드</span><div class="detail-badge-flow">${detailKeywordHtml}</div></div>` : ''}
           </div>
         </div>
         <div style="display:flex;gap:16px;background:var(--bg-secondary);padding:12px;border-radius:8px;flex-wrap:wrap">
           <div><div style="font-size:.75rem;color:var(--text-muted)">총 입금</div><div style="font-weight:600;color:var(--success)">+${formatNum(inVol)} ${state.currentCoin.symbol.toUpperCase()}</div><div style="font-size:.7rem;color:var(--text-dim)">${formatUsd(inVol*price)}</div></div>
           <div><div style="font-size:.75rem;color:var(--text-muted)">총 출금</div><div style="font-weight:600;color:var(--danger)">-${formatNum(outVol)} ${state.currentCoin.symbol.toUpperCase()}</div><div style="font-size:.7rem;color:var(--text-dim)">${formatUsd(outVol*price)}</div></div>
-          <div><div style="font-size:.75rem;color:var(--text-muted)">순 보유량 (Net)</div><div style="font-weight:600;color:${netVol>=0?'var(--success)':'var(--danger)'}">${netVol>=0?'+':''}${formatNum(netVol)} ${state.currentCoin.symbol.toUpperCase()}</div><div style="font-size:.7rem;color:var(--text-dim)">${netVol>0&&supplyRatio>0?`공급량의 ${supplyRatio}%`:formatUsd(netVol*price)}</div></div>
+          <div><div style="font-size:.75rem;color:var(--text-muted)">관찰 구간 순유입</div><div style="font-weight:600;color:${netVol>=0?'var(--success)':'var(--danger)'}">${netVol>=0?'+':''}${formatNum(netVol)} ${state.currentCoin.symbol.toUpperCase()}</div><div style="font-size:.7rem;color:var(--text-dim)">${netVol>0&&supplyRatio>0?`관찰 순유입 / 공급량 ${supplyRatio}%`:formatUsd(netVol*price)}</div></div>
         </div>
       </div>
       <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:0.7rem;color:var(--text-dim)">패턴 신뢰도</span>
+        <span style="font-size:0.7rem;color:var(--text-dim)">패턴 점수</span>
         <span style="font-size:0.75rem;color:${w?.signalClass==='danger'?'var(--danger)':w?.signalClass==='warning'?'var(--warning)':w?.signalClass==='success'?'var(--success)':'var(--accent)'};font-weight:600">${w?.primaryScore || 0}</span>
       </div>
       <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden">
@@ -3916,6 +4057,41 @@ function clearWalletDetail() {
 }
 function getCoinPrice(){
   return state.currentCoin?.market_data?.current_price?.usd||0;
+}
+
+function getAnalysisReliability(txs=state.transfers||[]){
+  const times=(txs||[]).map(tx=>Number(tx.timeStamp||0)).filter(Boolean).sort((a,b)=>a-b);
+  const count=times.length;
+  const spanSec=count>1 ? times[times.length-1]-times[0] : 0;
+  const continuity=state.observation?.continuity||'unknown';
+  let score=0;
+  if(count>=200) score+=55;
+  else if(count>=100) score+=45;
+  else if(count>=60) score+=34;
+  else if(count>=20) score+=22;
+  else score+=10;
+  if(spanSec>=24*3600) score+=25;
+  else if(spanSec>=6*3600) score+=18;
+  else if(spanSec>=3600) score+=10;
+  if(continuity!=='gap') score+=20;
+  const bounded=clamp(score,0,100);
+  return {
+    score:bounded,
+    label:bounded>=75?'높음':bounded>=50?'보통':'낮음',
+    count,
+    spanSec,
+    firstAt:times[0]||0,
+    lastAt:times[times.length-1]||0,
+    continuity
+  };
+}
+
+function formatDuration(seconds){
+  const value=Math.max(0,Number(seconds)||0);
+  if(value>=86400) return `${(value/86400).toFixed(value>=864000?0:1)}일`;
+  if(value>=3600) return `${(value/3600).toFixed(value>=36000?0:1)}시간`;
+  if(value>=60) return `${Math.round(value/60)}분`;
+  return `${Math.round(value)}초`;
 }
 
 // ==================== WALLET ANALYSIS ====================
@@ -3995,6 +4171,29 @@ function analyzeAndRenderWallets(txs){
     w.topCounterpartyRatio=safeDiv(cpEntries[0]?.total||0, Math.max(w.totalVol,1e-9));
     w.top3CounterpartyRatio=safeDiv(cpEntries.slice(0,3).reduce((sum,cp)=>sum+cp.total,0), Math.max(w.totalVol,1e-9));
     w.reciprocalRatio=safeDiv(cpEntries.reduce((sum,cp)=>sum+Math.min(cp.sent,cp.received),0), Math.max(w.totalVol,1e-9));
+    w.cycleCounterpartyCount=cpEntries.filter(cp=>cp.sent>0&&cp.received>0).length;
+    const inboundWallets=new Set((w.inbound||[]).filter(item=>!getExchangeTag(item.from)&&!inferInfrastructureInfo(item.from)?.exclude).map(item=>item.from));
+    const outboundWallets=new Set((w.outbound||[]).filter(item=>!getExchangeTag(item.to)&&!inferInfrastructureInfo(item.to)?.exclude).map(item=>item.to));
+    w.fanIn=inboundWallets.size>=4 && w.received>w.sent*1.25;
+    w.fanOut=outboundWallets.size>=4 && w.sent>w.received*1.25;
+    w.fanInCount=inboundWallets.size;
+    w.fanOutCount=outboundWallets.size;
+    const amountCounts={};
+    [...(w.inbound||[]),...(w.outbound||[])].forEach(item=>{
+      const amount=Number(item.amount||0);
+      if(amount<=0) return;
+      const key=amount.toPrecision(4);
+      amountCounts[key]=(amountCounts[key]||0)+1;
+    });
+    const repeatedTransfers=Object.values(amountCounts).reduce((sum,count)=>sum+(count>=2?count:0),0);
+    w.repeatedAmountRatio=safeDiv(repeatedTransfers,Math.max(w.txCount,1));
+    w.exchangeAggregation=(w.outbound||[]).some(out=>{
+      if(!getExchangeTag(out.to)) return false;
+      const sources=new Set((w.inbound||[])
+        .filter(item=>item.timeStamp<=out.timeStamp&&out.timeStamp-item.timeStamp<=21600&&!getExchangeTag(item.from))
+        .map(item=>item.from));
+      return sources.size>=3;
+    });
 
     const sortedTimes=[...w.timestamps].sort((a,b)=>a-b);
     let rapidCount=0;
@@ -4054,6 +4253,9 @@ function analyzeAndRenderWallets(txs){
     if(w.rapidTxRatio > 0.28){ washScore+=14; scoreReasons.wash.push('짧은 간격 반복 전송이 많습니다'); }
     if(w.maxBurst1h >= 8){ washScore+=10; scoreReasons.wash.push('1시간 내 거래가 비정상적으로 몰렸습니다'); }
     if(w.counterpartyCount <= 6){ washScore+=8; scoreReasons.wash.push('소수 주소끼리만 주고받습니다'); }
+    if(w.cycleCounterpartyCount>=2){ washScore+=14; scoreReasons.wash.push(`순환 상대 ${w.cycleCounterpartyCount}곳이 감지됐습니다 (+14)`); }
+    else if(w.cycleCounterpartyCount===1){ washScore+=7; scoreReasons.wash.push('양방향 순환 상대가 감지됐습니다 (+7)'); }
+    if(w.repeatedAmountRatio>=0.45){ washScore+=12; scoreReasons.wash.push(`유사 금액 반복 비중이 ${(w.repeatedAmountRatio*100).toFixed(0)}%입니다 (+12)`); }
     if(w.exchangeOutRatio > 0.2 || w.exchangeInRatio > 0.2) washScore-=12;
     if(w.isHubLike) washScore-=18;
 
@@ -4065,6 +4267,7 @@ function analyzeAndRenderWallets(txs){
     if(w.counterpartyCount <= 6) dumpScore+=8;
     if(w.rapidTxRatio > 0.24 || w.maxBurst1h >= 6){ dumpScore+=10; scoreReasons.dump.push('짧은 시간에 집중 유출됩니다'); }
     if(w.receivedFromExchange===0 && w.received < w.sent*0.25){ dumpScore+=10; scoreReasons.dump.push('직전 공급보다 처분 흐름이 강합니다'); }
+    if(w.exchangeAggregation){ dumpScore+=18; scoreReasons.dump.push('여러 지갑의 물량을 모은 뒤 거래소로 전송했습니다 (+18)'); }
     if(w.balanceRatio < 0.12) dumpScore-=12;
     if(w.isHubLike) dumpScore-=12;
 
@@ -4075,6 +4278,8 @@ function analyzeAndRenderWallets(txs){
     if(w.totalVol >= p75Vol){ clusterScore+=10; scoreReasons.cluster.push('거래 규모가 큽니다'); }
     if(w.exchangeOutRatio < 0.15 && w.exchangeInRatio < 0.15) clusterScore+=8;
     if(w.balanceRatio > 0.12 && w.balanceRatio < 0.65) clusterScore+=8;
+    if(w.fanIn){ clusterScore+=14; scoreReasons.cluster.push(`여러 지갑(${w.fanInCount})에서 한 지갑으로 집중됩니다 (+14)`); }
+    if(w.fanOut){ clusterScore+=14; scoreReasons.cluster.push(`한 지갑에서 여러 지갑(${w.fanOutCount})으로 분산됩니다 (+14)`); }
     if(w.isHubLike) clusterScore-=15;
 
     if(w.net > 0 && w.received > Math.max(w.sent*1.8, medianVol*0.5)){ accumulationScore+=18; scoreReasons.accumulation.push('유출보다 유입이 우세합니다'); }
@@ -4084,6 +4289,7 @@ function analyzeAndRenderWallets(txs){
     if(w.balanceRatio > 0.30){ accumulationScore+=10; scoreReasons.accumulation.push('순보유가 남습니다'); }
     if(w.counterpartyCount <= 10) accumulationScore+=6;
     if(w.exchangeOutRatio > 0.18) accumulationScore-=8;
+    if(w.fanIn){ accumulationScore+=12; scoreReasons.accumulation.push(`Fan-in 집중 유입 ${w.fanInCount}곳이 감지됐습니다 (+12)`); }
 
     if(w.net < 0 && w.sent > Math.max(w.received*1.6, medianVol*0.5)){ distributionScore+=18; scoreReasons.distribution.push('유출이 우세한 분산 패턴입니다'); }
     if(w.counterpartyCount > 5){ distributionScore+=8; scoreReasons.distribution.push('여러 주소로 분산 전송됩니다'); }
@@ -4092,6 +4298,7 @@ function analyzeAndRenderWallets(txs){
     if(w.balanceRatio > 0.25){ distributionScore+=8; scoreReasons.distribution.push('잔고 감소가 분명합니다'); }
     if(w.rapidTxRatio > 0.20) distributionScore+=8;
     if(w.balanceRatio < 0.10) distributionScore-=10;
+    if(w.fanOut){ distributionScore+=12; scoreReasons.distribution.push(`Fan-out 분산 전송 ${w.fanOutCount}곳이 감지됐습니다 (+12)`); }
 
     w.washScore=clamp(Math.round(washScore),0,100);
     w.dumpScore=clamp(Math.round(dumpScore),0,100);
@@ -4152,6 +4359,10 @@ function analyzeAndRenderWallets(txs){
 
     if(w.totalVol >= p90Vol) w.tags.push({label:'고래',cls:'tag-whale'});
     if(w.maxBurst1h >= Math.max(6, medianTx)) w.tags.push({label:'집중',cls:'tag-active'});
+    if(w.fanIn) w.tags.push({label:`Fan-in ${w.fanInCount}`,cls:'tag-accumulator'});
+    if(w.fanOut) w.tags.push({label:`Fan-out ${w.fanOutCount}`,cls:'tag-distributor'});
+    if(w.cycleCounterpartyCount) w.tags.push({label:`순환 ${w.cycleCounterpartyCount}`,cls:'tag-suspicious'});
+    if(w.exchangeAggregation) w.tags.push({label:'거래소 집계 흐름',cls:'tag-suspicious'});
   });
 
   const funderGroups={};
@@ -4236,6 +4447,10 @@ function analyzeAndRenderWallets(txs){
     mediumRiskCount: state.analyzedWallets.filter(w=>w.isSuspicious && !w.isHighRisk).length,
     accumulationCount: state.analyzedWallets.filter(w=>w.primaryKind==='accumulation' && w.primaryScore>=65).length,
     distributionCount: state.analyzedWallets.filter(w=>w.primaryKind==='distribution' && w.primaryScore>=65).length,
+    cycleCount: state.analyzedWallets.filter(w=>w.cycleCounterpartyCount>0).length,
+    fanInCount: state.analyzedWallets.filter(w=>w.fanIn).length,
+    fanOutCount: state.analyzedWallets.filter(w=>w.fanOut).length,
+    exchangeAggregationCount: state.analyzedWallets.filter(w=>w.exchangeAggregation).length,
     topRiskWallet: [...state.analyzedWallets].sort((a,b)=>(b.primaryScore||0)-(a.primaryScore||0))[0] || null
   };
   sortWallets(state.walletSort);
@@ -4298,11 +4513,14 @@ function renderWalletAnalysis(wallets){
   const summary=state.walletInsights||{};
   const topRisk=summary.topRiskWallet;
   const transferStatsText=formatTransferStats();
+  const reliability=getAnalysisReliability();
   const bannerHtml=`
     <div class="intel-banner">
       <strong>최근 유효 ${state.transfers.length}건 기준 패턴 요약</strong><br>
       ${transferStatsText ? `${transferStatsText}을 기준으로 패턴을 계산했습니다.<br>` : ''}
+      데이터 신뢰도 <strong>${reliability.label} ${reliability.score}/100</strong> · 관찰 범위 ${formatDuration(reliability.spanSec)} · ${reliability.continuity==='gap'?'중간 관찰 공백 있음':'연속 관찰'}<br>
       고신뢰 의심 ${summary.highRiskCount||0}개, 주의 ${summary.mediumRiskCount||0}개, 축적 ${summary.accumulationCount||0}개, 분배 ${summary.distributionCount||0}개를 추렸습니다.
+      <br>행동 패턴: 순환 ${summary.cycleCount||0}개 · Fan-in ${summary.fanInCount||0}개 · Fan-out ${summary.fanOutCount||0}개 · 거래소 집계 ${summary.exchangeAggregationCount||0}개
       ${topRisk ? `<br>현재 최상단 신호는 <strong>${shortAddr(topRisk.addr)}</strong>의 <strong>${topRisk.primaryLabel}</strong> (${topRisk.primaryScore})입니다.` : ''}
     </div>
     <div class="summary-grid">
@@ -4331,7 +4549,7 @@ function renderWalletAnalysis(wallets){
           <div class="wallet-meta">
             <div class="wallet-signal"><span class="meta-group-label">상태</span><div class="meta-value-group">${renderRiskPill(w)}</div></div>
             ${walletLabelTag ? `<div class="wallet-label-row"><span class="meta-group-label">라벨</span><div class="meta-value-group">${walletLabelTag}</div></div>` : ''}
-            ${walletFunderMeta ? `<div class="wallet-funder-row"><span class="meta-group-label">공통 자금원</span>${walletFunderMeta}</div>` : ''}
+            ${walletFunderMeta ? `<div class="wallet-funder-row"><span class="meta-group-label">관찰 최초 유입원</span>${walletFunderMeta}</div>` : ''}
             ${walletKeywordTags ? `<div class="wallet-keyword-row"><span class="meta-group-label">키워드</span><div class="meta-value-group">${walletKeywordTags}</div></div>` : ''}
             <div class="wallet-meta-note">상대 ${w.counterpartyCount}곳 · 거래 ${w.txCount}건</div>
           </div>
@@ -4344,11 +4562,11 @@ function renderWalletAnalysis(wallets){
         <div class="wallet-stats">
           <div class="wallet-stat"><label>총 수령</label><span class="buys">${formatNum(w.received)} ${symbol}</span></div>
           <div class="wallet-stat"><label>총 전송</label><span class="sells">${formatNum(w.sent)} ${symbol}</span></div>
-          <div class="wallet-stat" style="grid-column:span 2"><label>순 보유량</label><span class="${w.net>=0?'buys':'sells'}">${w.net>=0?'+':''}${formatNum(w.net)} ${w.net>0&&supplyRatio>0?`<span style="font-size:0.7rem;color:var(--text-dim)">(총 공급량의 ${supplyRatio}%)</span>`:''}</span></div>
+          <div class="wallet-stat" style="grid-column:span 2"><label>관찰 구간 순유입</label><span class="${w.net>=0?'buys':'sells'}">${w.net>=0?'+':''}${formatNum(w.net)} ${w.net>0&&supplyRatio>0?`<span style="font-size:0.7rem;color:var(--text-dim)">(관찰 순유입 / 공급량 ${supplyRatio}%)</span>`:''}</span></div>
         </div>
         <div style="margin-top:10px;width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden" title="최대 순보유량 변동 대비 비율"><div style="width:${gaugePct}%;height:100%;background:${netGaugeColor};transition:width 0.5s"></div></div>
         <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span style="font-size:0.7rem;color:var(--text-dim)">패턴 신뢰도</span>
+          <span style="font-size:0.7rem;color:var(--text-dim)">패턴 점수</span>
           <span style="font-size:0.75rem;color:${w.signalClass==='danger'?'var(--danger)':w.signalClass==='warning'?'var(--warning)':w.signalClass==='success'?'var(--success)':'var(--accent)'};font-weight:700">${w.primaryScore || 0}</span>
         </div>
         <div style="width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden">
