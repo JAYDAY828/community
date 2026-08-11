@@ -666,6 +666,7 @@ const CONFIG = {
   GNEWS_API: 'https://gnews.io/api/v4',
   EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
   BINANCE_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/binance_futures?include_tickers=unexpired',
+  KUCOIN_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/kumex?include_tickers=unexpired',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
     'binance-smart-chain':{ name:'BscScan',      chainId:56,    moralisChain:'bsc',     url:'https://bscscan.com',                v2Free:false },
@@ -769,6 +770,7 @@ const state = {
   exchangeIntel: {},
   exchangeOiDelta: {},
   binanceFallback: { loadedAt:0, tickers:[] },
+  kucoinFallback: { loadedAt:0, tickers:[] },
   sessions: [],
   sessionWindow: 900,
   alerts: [],
@@ -2601,6 +2603,39 @@ async function fetchBinanceFallback(symbolUpper){
   return findBinanceFallbackTicker(tickers,symbolUpper);
 }
 
+async function getKuCoinFallbackTickers(){
+  const cached=state.kucoinFallback||{};
+  if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
+    return cached.tickers;
+  }
+  const response=await fetch(CONFIG.KUCOIN_FUTURES_FALLBACK,{cache:'no-store'});
+  if(!response.ok) throw new Error(`CoinGecko KuCoin Futures status ${response.status}`);
+  const data=await response.json();
+  const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
+  state.kucoinFallback={loadedAt:Date.now(),tickers};
+  return tickers;
+}
+
+function findKuCoinFallbackTicker(tickers, symbolUpper){
+  const coinId=state.currentCoin?.id||'';
+  const expected=getKuCoinFuturesSymbol(symbolUpper);
+  const kucoinBase=getKuCoinBaseSymbol(symbolUpper);
+  const candidates=(tickers||[]).filter(item=>
+    item?.contract_type==='perpetual' &&
+    item?.target==='USDT' &&
+    (!coinId || item.coin_id===coinId || item.base===symbolUpper || item.base===kucoinBase)
+  );
+  return candidates.find(item=>item.symbol===expected) ||
+    candidates.find(item=>item.coin_id===coinId) ||
+    candidates.find(item=>item.base===kucoinBase || item.base===symbolUpper) ||
+    null;
+}
+
+async function fetchKuCoinFallback(symbolUpper){
+  const tickers=await getKuCoinFallbackTickers();
+  return findKuCoinFallbackTicker(tickers,symbolUpper);
+}
+
 async function fetchBinanceSpotFallback(symbolUpper){
   const coinId=state.currentCoin?.id;
   if(!coinId) return null;
@@ -2694,16 +2729,29 @@ async function fetchExchangeOi(exchangeKey, ex){
       };
     }
     case 'kucoin': {
-      const d=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${ex.futuresSymbol}`);
-      const item=d.data||{};
-      const rawContracts=parseFloat(item.openInterest||'0');
-      const multiplier=parseFloat(item.multiplier||'1');
-      const markPrice=parseFloat(item.markPrice||price||'0');
-      const baseAmount=rawContracts * multiplier;
-      return {
-        oiUsd: baseAmount * markPrice,
-        rawOiText: `${compactNum(baseAmount)} ${ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
-      };
+      try{
+        const d=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${ex.futuresSymbol}`);
+        const item=d.data||{};
+        const rawContracts=parseFloat(item.openInterest||'0');
+        const multiplier=parseFloat(item.multiplier||'1');
+        const markPrice=parseFloat(item.markPrice||price||'0');
+        const baseAmount=rawContracts * multiplier;
+        return {
+          oiUsd: baseAmount * markPrice,
+          rawOiText: `${compactNum(baseAmount)} ${ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
+        };
+      }catch(primaryError){
+        const symbolUpper=state.currentCoin?.symbol?.toUpperCase()||ex.displaySymbol||'';
+        const fallback=ex.fallbackTicker || await fetchKuCoinFallback(symbolUpper);
+        if(!fallback || !Number.isFinite(Number(fallback.open_interest_usd))) throw primaryError;
+        ex.fallbackTicker=fallback;
+        ex.futuresSymbol=fallback.symbol||ex.futuresSymbol;
+        ex.baseSymbol=fallback.base||ex.baseSymbol;
+        return {
+          oiUsd:Number(fallback.open_interest_usd),
+          rawOiText:`CoinGecko · ${fallback.symbol}`
+        };
+      }
     }
     default:
       return { oiUsd: null, rawOiText: '지원 준비 중' };
@@ -2783,7 +2831,28 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.bybit.futures) addListingCheck(intel.bybit,'futures',()=>fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`),d=>d.result?.list?.length);
   if(!intel.bitget.futures) addListingCheck(intel.bitget,'futures',()=>fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`),d=>d.code==='00000'&&d.data?.length);
   if(!intel.kucoin.spot) addListingCheck(intel.kucoin,'spot',()=>fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`),d=>d.code==='200000'&&d.data?.symbol);
-  if(!intel.kucoin.futures) addListingCheck(intel.kucoin,'futures',()=>fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`),d=>d.code==='200000'&&d.data?.symbol);
+  if(!intel.kucoin.futures){
+    intel.kucoin.futuresStatus='checking';
+    checks.push((async()=>{
+      try{
+        const direct=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`);
+        intel.kucoin.futures=Boolean(direct.code==='200000'&&direct.data?.symbol);
+      }catch(err){
+        try{
+          const fallback=await fetchKuCoinFallback(symbolUpper);
+          if(fallback){
+            intel.kucoin.fallbackTicker=fallback;
+            intel.kucoin.futuresSymbol=fallback.symbol||intel.kucoin.futuresSymbol;
+            intel.kucoin.baseSymbol=fallback.base||intel.kucoin.baseSymbol;
+            intel.kucoin.futures=true;
+          }
+        }catch(fallbackError){
+          intel.kucoin.futuresStatus='error';
+        }
+      }
+      if(intel.kucoin.futuresStatus!=='error') intel.kucoin.futuresStatus=intel.kucoin.futures?'listed':'unlisted';
+    })());
+  }
   if(!intel.mexc.futures) addListingCheck(intel.mexc,'futures',()=>fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`),d=>d.success&&d.data?.symbol);
   if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
   if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchExchangeJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`)));
