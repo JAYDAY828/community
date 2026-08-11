@@ -570,6 +570,16 @@
                 font-size: 0.6rem;
             }
         }
+
+        .terms-bullet-dot {
+            display: block;
+            flex: 0 0 auto;
+            width: 0.375rem;
+            height: 0.375rem;
+            margin-top: 0.4rem;
+            border-radius: 9999px;
+            background: #6b7280;
+        }
     </style>
 </head>
 
@@ -739,7 +749,7 @@
                         data-id="apikey">
                         <i
                             class="fa-solid fa-key w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
-                        <span data-i18n="nav.apikey">API / Setup</span>
+                        <span data-i18n="nav.apikey">Getting Started</span>
                     </button>
                     <button onclick="activate('detector')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
@@ -1269,190 +1279,85 @@
             <!-- SECTION: TERMS OF SERVICE -->
             <section id="terms" class="guide-section hidden content-body">
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
-                    <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-gray-300 border-gray-500/50" data-i18n="terms.badge">Policy</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="terms.title">서비스 이용약관</h1>
-                            <p class="text-sm text-gray-400" data-i18n="terms.desc">부평구금융인 Trading API 서비스 이용에 관한 규정입니다.
-                            </p>
+                            <p class="text-sm text-gray-400" data-i18n="terms.desc">부평구금융인 오더툴킷 및 관련 서비스 이용에 관한 규정입니다.</p>
                         </div>
                     </div>
 
                     <div class="space-y-10">
-                        <!-- 제1조 -->
                         <div id="tos-purpose">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article1.title">제1조 (목적)</h2>
-                            <p class="text-gray-400 leading-relaxed" data-i18n="terms.article1.body">
-                                이 약관은 <strong>부평구금융인 Trading API</strong>의 이용과 관련하여, 이용자와 운영자 간의 권리·의무 및 책임사항을 규정함을 목적으로
-                                합니다.
-                            </p>
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article1.title">제1조 (목적)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article1.body">본 약관은 부평구금융인이 제공하는 오더툴킷 및 관련 프로그램·서비스(이하 “서비스”)의 이용과 관련하여 이용자와 운영자 간의 권리, 의무 및 책임사항을 정하는 것을 목적으로 합니다.</div>
                         </div>
 
-                        <!-- 제2조 -->
                         <div id="tos-sponsorship">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article2.title">제2조 (운영 성격 및 후원)</h2>
-                            <ul class="list-disc pl-5 space-y-2 text-gray-400 leading-relaxed">
-                                <li data-i18n="terms.article2.item1">부평구금융인 Trading API는 <strong>후원 기반</strong>으로 운영됩니다.
-                                </li>
-                                <li data-i18n="terms.article2.item2">이용자는 후원 금액에 따라 일정 기간 이용 혜택을 받을 수 있으며, 기간은 운영 상황에 따라
-                                    변동될 수 있습니다.</li>
-                                <li data-i18n="terms.article2.item3">이용 제공 여부 및 기간은 후원 상황, 기술적 여건, 기타 운영 사정에 따라 조정될 수
-                                    있습니다.</li>
-                            </ul>
-                        </div>
-
-                        <!-- 제3조 (수직 정렬 완료됨) -->
-                        <div id="tos-privacy">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article3.title">제3조 (개인정보 및 접속 정보 수집)</h2>
-                            <p class="text-gray-400 mb-3" data-i18n="terms.article3.lead">부평구금융인 Trading API는 부정 사용 방지 및
-                                안정적인 이용 제공을 위해 다음 정보를 수집·저장할 수 있습니다.</p>
-
-                            <!-- Box: Flex 정렬 적용 -->
-                            <div
-                                class="liquid-card bg-gray-800/20 p-6 rounded-lg border border-gray-700 mb-5 flex flex-col justify-center">
-                                <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-300">
-                                    <li class="flex items-center gap-3">
-                                        <i class="fa-solid fa-check text-brand w-4 text-center"></i>
-                                        <span data-i18n="terms.article3.item1">접속 시간</span>
-                                    </li>
-                                    <li class="flex items-center gap-3">
-                                        <i class="fa-solid fa-check text-brand w-4 text-center"></i>
-                                        <span data-i18n="terms.article3.item2">IP 주소</span>
-                                    </li>
-                                    <li class="flex items-center gap-3">
-                                        <i class="fa-solid fa-check text-brand w-4 text-center"></i>
-                                        <span data-i18n="terms.article3.item3">기기 정보 (Machine ID)</span>
-                                    </li>
-                                    <li class="flex items-center gap-3">
-                                        <i class="fa-solid fa-check text-brand w-4 text-center"></i>
-                                        <span data-i18n="terms.article3.item4">시리얼키 사용 기록</span>
-                                    </li>
-                                </ul>
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article2.title">제2조 (운영 성격 및 후원)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article2.body">
+                                <ol class="list-decimal pl-5 space-y-2"><li>본 서비스는 소규모 후원 기반으로 운영됩니다.</li><li>이용자는 사전에 안내된 후원 기준에 따라 일정 기간 서비스 이용 혜택을 받을 수 있습니다.</li><li>후원 금액, 이용 가능한 서비스와 이용기간은 후원 전에 안내합니다.</li><li>이미 부여된 이용기간은 이용자의 약관 위반, 부정 사용, 서비스 종료 또는 불가피한 운영 사유가 없는 한 임의로 단축하지 않습니다.</li><li>서비스의 기능과 제공 범위는 바이낸스 API 정책, 기술적 환경 및 운영 여건에 따라 변경될 수 있습니다.</li></ol>
                             </div>
-
-                            <p class="text-gray-400 leading-relaxed" data-i18n="terms.article3.body">
-                                수집된 정보는 부정 접속 적발 및 운영 목적 외에는 사용하지 않으며, <strong>이용자가 탈퇴하는 시점까지 보관한 후 지체 없이
-                                    파기합니다.</strong><br>
-                                다만, 관련 법령에 따라 일정 기간 보존이 요구되는 경우에는 해당 법령에서 정한 기간 동안 별도로 보관할 수 있습니다.<br>
-                                부정 사용이 적발된 경우, 이용자의 계정은 사전 경고 없이 영구 정지될 수 있습니다.
-                            </p>
-                            <p class="text-xs text-gray-500 mt-2" data-i18n="terms.article3.note">* 부평구금융인 Trading API를
-                                이용하는 경우, 개인정보 수집에 동의한 것으로 간주됩니다.</p>
                         </div>
 
-                        <!-- 제4조 (면책 조항: 표준 규격 p-6 적용 및 제목 숨은 여백 제거) -->
+                        <div id="tos-service">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article3.title">제3조 (서비스의 성격과 이용자의 책임)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article3.body">
+                                <ol class="list-decimal pl-5 space-y-2"><li>본 서비스는 이용자가 직접 발급하고 권한을 설정한 바이낸스 API 키를 이용하여 주문 요청과 관련 정보를 바이낸스 시스템에 전달하는 보조 도구입니다.</li><li>주문의 접수, 체결, 취소, 포지션·잔고 처리 및 시세 데이터 제공은 바이낸스 시스템에서 수행됩니다.</li><li>이용자는 API 키의 권한, IP 제한, 계정 상태 및 주문 내용을 직접 확인하고 안전하게 관리해야 합니다.</li><li>이용자는 출금 권한 등 서비스 이용에 불필요한 API 권한을 활성화해서는 안 됩니다.</li><li>본 서비스는 투자 자문, 매매 권유 또는 수익 보장 서비스를 제공하지 않습니다. 모든 투자 판단과 그에 따른 손익은 이용자 본인에게 귀속됩니다.</li><li>바이낸스는 API 사양, 엔드포인트, 요청 제한, 응답 데이터 및 서비스 제공 범위를 변경하거나 중단할 수 있습니다. 이용자는 <a class="text-brand hover:underline" href="https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/change-log" target="_blank" rel="noopener noreferrer">바이낸스 공식 API 변경 로그</a>에서 최신 변경사항을 직접 확인할 수 있습니다.</li><li>운영자는 확인된 변경사항에 대응하기 위해 노력하지만, 바이낸스의 변경 시점, 사전 통지 여부 또는 변경 내용 자체를 보증하지 않습니다.</li></ol>
+                            </div>
+                        </div>
+
+                        <div id="tos-access-data">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article4.title">제4조 (접속정보의 수집 및 이용)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article4.body">
+                                <ol class="list-decimal pl-5 space-y-3"><li>운영자는 사용자 인증, 중복·부정 사용 방지, 보안 관리 및 접속 장애 확인을 위해 다음 정보를 처리할 수 있습니다.<div class="liquid-card mt-4 rounded-lg border border-gray-700 bg-gray-800/20 p-6"><ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 !m-0 !p-0 list-none text-sm text-gray-300"><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>사용자명 및 이용 등급</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>이용 프로그램 및 버전</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>PC 이름</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>IP 주소</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>MAC 주소</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>기기 식별정보</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>시리얼키 사용 기록</span></li><li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand w-4 text-center"></i><span>접속 일시</span></li></ul></div></li><li>수집된 정보는 사용자 인증, 부정 사용 확인, 보안 관리 및 서비스 운영 목적 외에는 사용하지 않습니다.</li><li>접속정보는 서비스 운영과 부정 사용 대응에 필요한 기간 동안 보관하며, 처리 목적이 달성되거나 보관할 필요가 없어진 경우 지체 없이 파기합니다. 다만 관계 법령에 따라 보관이 필요한 경우에는 해당 기간 동안 별도로 보관할 수 있습니다.</li><li><span class="inline-flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm"><i class="fa-brands fa-telegram text-brand mt-0.5"></i><span>보안 및 인증 로그는 운영 알림과 부정 사용 확인을 위해 운영자가 사용하는 <strong class="text-gray-200 font-semibold">텔레그램 봇을 통해 전달·관리될 수 있습니다.</strong></span></span></li><li>신규 이용자는 회원가입 과정에서 접속정보 수집 및 이용에 관한 내용을 확인하고 동의해야 합니다. 동의하지 않는 경우 회원가입 및 사용자 인증이 필요한 서비스를 이용할 수 없습니다.</li><li>운영자는 수집된 정보가 분실, 유출 또는 무단 사용되지 않도록 접근 권한을 제한하고 필요한 보호조치를 적용합니다.</li></ol>
+                            </div>
+                        </div>
+
                         <div id="tos-disclaimer">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-red"
-                                data-i18n="terms.article4.title">제4조 (책임 제한)</h2>
-
-                            <!-- Box: 다른 박스들과 동일하게 p-6 (1.5rem) 적용 -->
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-red" data-i18n="terms.article5.title">제5조 (책임 제한)</h2>
                             <div class="liquid-card bg-red-900/10 border border-red-900/40 rounded-xl p-6">
-                                <!-- Title: !mt-0 클래스로 h3 태그의 기본 상단 여백 제거 (핵심) -->
-                                <h3 class="!text-accent-red font-bold text-sm mb-5 !mt-0 flex items-center gap-2">
-                                    <i class="fa-solid fa-triangle-exclamation"></i> <span
-                                        data-i18n="terms.article4.notice.title">면책 조항 (Disclaimer)</span>
-                                </h3>
-                                <ul class="list-none space-y-2.5 !m-0 !p-0 text-gray-400 text-sm leading-relaxed">
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="terms.article4.item1">본 도구는 바이낸스(Binance) API를 기반으로 작동하며, 모든
-                                            거래·체결·시세 데이터는 바이낸스 시스템에서 처리됩니다.</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="terms.article4.item2">부평구금융인 Trading API는 이용자의 지갑이나 자산에 직접 접근할
-                                            권한이 없으며, 이용자가 API 키 발급을 통해 <strong>허용한 기능 범위 내</strong>에서만 작동합니다.</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="terms.article4.item3">운영자는 바이낸스의 서버 장애, API 변경, 지연, 오류 등으로 인한
-                                            거래 문제에 대해 어떠한 책임도 지지 않습니다.</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="terms.article4.item4">이용자의 매매 손익, 주문 오류, 네트워크 장애, 계정 설정 실수 등으로
-                                            발생한 손실에 대해 운영자는 책임을 지지 않습니다.</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-accent-red mt-1.5 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span class="text-gray-200 font-semibold"
-                                            data-i18n="terms.article4.item5">부평구금융인 Trading API는 투자 자문이나 재정적 권고를 제공하지
-                                            않으며, 모든 투자 판단과 책임은 이용자 본인에게 있습니다.</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- 제5조 -->
-                        <div id="tos-restrictions">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article5.title">제5조 (이용 제한)</h2>
-                            <p class="text-gray-400 mb-3" data-i18n="terms.article5.lead">이용자가 다음 각 호에 해당하는 경우 이용을 제한하거나
-                                종료할 수 있습니다.</p>
-                            <ul class="list-disc pl-5 space-y-2 text-gray-400">
-                                <li data-i18n="terms.article5.item1">타인의 계정 정보 도용</li>
-                                <li data-i18n="terms.article5.item2">시리얼키 불법 공유 또는 판매</li>
-                                <li data-i18n="terms.article5.item3">부평구금융인 Trading API의 역분석·복제·변조 행위</li>
-                                <li data-i18n="terms.article5.item4">법령 및 본 약관 위반</li>
-                            </ul>
-                            <p class="text-gray-500 text-sm mt-3" data-i18n="terms.article5.note">위 사유로 인해 발생한 불이익에 대해
-                                운영자는 책임을 지지 않습니다.</p>
-                        </div>
-
-                        <!-- 제6조 (지식재산권: 정렬 및 여백 수정) -->
-                        <div id="tos-ip">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article6.title">제6조 (지식재산권)</h2>
-                            <div class="text-gray-400 space-y-4 leading-relaxed">
-                                <p data-i18n="terms.article6.p1">
-                                    본 서비스는 바이낸스 API를 기반으로 제작되었으며, API 및 이를 통해 제공되는 모든 원천 데이터의 권리는 원저작자인 Binance (이하
-                                    “바이낸스”)에 귀속됩니다.
-                                </p>
-                                <p data-i18n="terms.article6.p2">
-                                    단, 본 서비스를 구성하는 소프트웨어, 디자인, 로고, 사용자 인터페이스(UI), 그리고 데이터를 가공·분석하여 생성된 2차적 산출물에 대한 저작권 및
-                                    지식재산권은 운영자에게 귀속됩니다.
-                                </p>
-
-                                <!-- Box: Flex 정렬 및 여백 제거 -->
-                                <div
-                                    class="liquid-card bg-gray-800/20 p-6 rounded-lg border border-gray-700 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
-                                    <p class="text-sm text-gray-300 mb-3 font-semibold"
-                                        data-i18n="terms.article6.box.lead">이용자는 운영자의 사전 서면 동의 없이 다음 각 호의 행위를 하여서는 아니
-                                        됩니다.</p>
-                                    <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
-                                        <li class="flex items-start gap-2.5">
-                                            <span class="text-gray-500 mt-1.5 text-[0.5rem] flex-shrink-0">●</span>
-                                            <span data-i18n="terms.article6.box.item1">본 서비스의 소스 코드 또는 프로그램을 역설계(Reverse
-                                                Engineering), 디컴파일(Decompile), 복제하는 행위</span>
-                                        </li>
-                                        <li class="flex items-start gap-2.5">
-                                            <span class="text-gray-500 mt-1.5 text-[0.5rem] flex-shrink-0">●</span>
-                                            <span data-i18n="terms.article6.box.item2">본 서비스를 수정, 임대, 배포, 판매하거나 이를 기반으로
-                                                2차적 저작물을 작성·제공하는 행위</span>
-                                        </li>
-                                        <li class="flex items-start gap-2.5">
-                                            <span class="text-gray-500 mt-1.5 text-[0.5rem] flex-shrink-0">●</span>
-                                            <span data-i18n="terms.article6.box.item3">서비스에 포함된 운영자의 상표, 로고, 고유한 식별표지를
-                                                무단으로 사용하는 행위</span>
-                                        </li>
-                                    </ul>
+                                <h3 class="!text-accent-red font-bold text-sm mb-5 !mt-0 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i><span data-i18n="terms.article5.notice">면책 조항 (Disclaimer)</span></h3>
+                                <div class="text-gray-400 text-sm leading-relaxed" data-i18n="terms.article5.body">
+                                    <ol class="list-decimal pl-5 space-y-2"><li>운영자는 바이낸스 서버 장애·점검, API 변경·중단, 응답 또는 체결 지연, 데이터 오류, 네트워크 장애 등 운영자가 통제할 수 없는 사유로 발생한 주문 실패·지연·중복 처리 또는 손해에 대해 책임을 지지 않습니다.</li><li>이용자가 입력한 주문 정보, API 권한 설정, 계정 상태, 네트워크 환경 또는 이용자의 조작 실수로 발생한 결과와 손실은 <strong class='text-gray-200 font-semibold'>이용자 본인에게 귀속됩니다.</strong></li><li>운영자는 바이낸스에서 제공하는 시세, 잔고, 포지션 및 체결 데이터의 정확성이나 실시간성을 보증하지 않습니다.</li><li>운영자는 서비스가 모든 환경에서 항상 중단이나 오류 없이 작동하는 것을 보증하지 않습니다.</li><li>운영자는 이용자의 매매 결과, 기대수익 또는 투자손실에 대해 책임을 지지 않습니다.</li><li>다만 운영자의 고의 또는 중대한 과실로 발생한 손해와 관계 법령상 제한할 수 없는 책임에는 본 조의 면책 규정이 적용되지 않습니다.</li></ol>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 제7조 -->
+                        <div id="tos-usdt">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article6.title">제6조 (후원 및 USDT 전송 유의사항)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article6.body">
+                                <p>후원 방법, 금액, 이용 가능한 서비스와 이용기간은 후원 전에 별도로 안내합니다.</p><p class="mt-4">USDT 전송은 이용자가 외부 거래소 또는 개인 지갑을 통해 직접 수행하는 블록체인 거래입니다.</p><div class="liquid-card mt-5 rounded-lg border border-gray-700 bg-gray-800/20 p-6"><p class="text-sm font-semibold text-gray-300 mb-4">USDT 전송 전 다음 사항을 반드시 확인해야 합니다.</p><ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400"><li class="flex items-start gap-3"><span class="terms-bullet-dot" aria-hidden="true"></span><span><strong class="text-gray-200 font-semibold">블록체인에서 완료된 전송은 일반적으로 취소하거나 되돌릴 수 없습니다.</strong></span></li><li class="flex items-start gap-3"><span class="terms-bullet-dot" aria-hidden="true"></span><span>운영자는 거래소 또는 블록체인 네트워크의 운영자가 아니므로 잘못된 주소, 자산 또는 네트워크로 전송하거나 필수 정보를 잘못 입력한 경우 <strong class="text-gray-200 font-semibold">해당 전송을 취소하거나 자산을 복구할 수 없습니다.</strong></span></li><li class="flex items-start gap-3"><span class="terms-bullet-dot" aria-hidden="true"></span><span>이용자는 전송 전에 수신 주소, 자산 종류, 네트워크 및 전송 금액을 반드시 확인해야 합니다.</span></li><li class="flex items-start gap-3"><span class="terms-bullet-dot" aria-hidden="true"></span><span>운영자가 안내한 수신 주소와 네트워크에서 정상적으로 입금이 확인되지 않은 전송은 후원금 수령으로 인정되지 않을 수 있습니다.</span></li><li class="flex items-start gap-3"><span class="terms-bullet-dot" aria-hidden="true"></span><span>오입금이나 잘못된 네트워크 선택으로 발생한 손실은 운영자의 고의 또는 중대한 과실이 없는 한 이용자 본인에게 귀속됩니다.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>이용 권한 활성화 후 최초 인증·접속 로그가 발생한 시점부터 서비스 이용이 개시된 것으로 보며, 이후 <strong class='text-gray-200 font-semibold'>단순 변심에 따른 환불은 제공하지 않습니다.</strong> 다만 서비스 미제공, 운영자의 귀책사유 또는 관계 법령상 환불이 필요한 경우에는 예외로 합니다.</span></li></ul></div>
+                            </div>
+                        </div>
+
+                        <div id="tos-restrictions">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article7.title">제7조 (이용 제한)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article7.body">
+                                <ol class="list-decimal pl-5 space-y-3"><li>운영자는 다음 행위가 확인된 경우 서비스 이용을 제한하거나 종료할 수 있습니다.<ul class="list-disc pl-5 mt-2 space-y-1"><li>타인의 계정 또는 시리얼키를 도용하는 행위</li><li>시리얼키를 무단으로 공유, 양도 또는 판매하는 행위</li><li>프로그램을 역설계, 복제, 변조하거나 보호조치를 우회하는 행위</li><li>서비스 또는 인증 시스템에 비정상적인 접근을 시도하는 행위</li><li>서비스 운영을 방해하거나 다른 이용자에게 피해를 주는 행위</li><li>관련 법령 또는 본 약관을 위반하는 행위</li></ul></li><li>계정 도용, 시리얼키 공유, 프로그램 변조 등 중대한 부정 사용이 의심되는 경우 운영자는 피해 방지를 위해 이용을 즉시 제한할 수 있습니다.</li><li>운영자는 가능한 범위에서 이용 제한 사유를 안내하며, 이용자는 운영자에게 이의를 제기할 수 있습니다.</li><li>중대한 위반이 확인되거나 동일한 위반이 반복되는 경우 서비스 이용을 영구적으로 제한할 수 있습니다.</li></ol>
+                            </div>
+                        </div>
+
+                        <div id="tos-ip">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article8.title">제8조 (지식재산권)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article8.body">
+                                <ol class="list-decimal pl-5 space-y-3"><li>바이낸스 API와 바이낸스가 제공하는 데이터 및 상표에 관한 권리는 바이낸스의 이용약관과 지식재산권 정책을 따릅니다.</li><li>본 서비스를 구성하는 소프트웨어, 디자인, 로고, 사용자 인터페이스 및 운영자가 직접 제작한 자료에 관한 권리는 운영자에게 귀속됩니다.</li><li>이용자는 운영자의 사전 동의 없이 다음 행위를 해서는 안 됩니다.<ul class="list-disc pl-5 mt-2 space-y-1"><li>서비스 또는 프로그램을 역설계, 디컴파일, 복제 또는 변조하는 행위</li><li>서비스를 무단으로 배포, 임대, 판매 또는 재판매하는 행위</li><li>서비스를 기반으로 무단 복제물이나 파생 프로그램을 제작·제공하는 행위</li><li>운영자의 상표, 로고 또는 고유한 식별표지를 무단으로 사용하는 행위</li></ul></li></ol>
+                            </div>
+                        </div>
+
+                        <div id="tos-changes">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article9.title">제9조 (서비스 및 약관의 변경)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article9.body">
+                                <ol class="list-decimal pl-5 space-y-2"><li>운영자는 보안 강화, 기능 개선, 관계 법령 변경, 바이낸스 API 변경 또는 운영상 필요한 경우 서비스와 본 약관을 변경할 수 있습니다.</li><li>약관을 변경하는 경우 적용일과 주요 변경 내용을 웹사이트 또는 서비스 내 공지를 통해 사전에 안내합니다.</li><li>이용자에게 불리하거나 중요한 변경은 충분한 기간을 두고 안내합니다.</li><li>변경된 약관에 동의하지 않는 이용자는 서비스 이용을 종료할 수 있습니다.</li></ol>
+                            </div>
+                        </div>
+
                         <div id="tos-etc">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="terms.article7.title">제7조 (기타)</h2>
-                            <ul class="list-disc pl-5 space-y-2 text-gray-400">
-                                <li data-i18n="terms.article7.item1">본 약관에서 정하지 않은 사항은 관계 법령 및 상관례를 따릅니다.</li>
-                                <li data-i18n="terms.article7.item2">운영자는 필요한 경우 본 약관을 변경할 수 있으며, 변경된 약관은 공지 또는 안내 후
-                                    적용됩니다.</li>
-                            </ul>
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="terms.article10.title">제10조 (기타)</h2>
+                            <div class="text-gray-400 leading-relaxed" data-i18n="terms.article10.body">
+                                <ol class="list-decimal pl-5 space-y-2"><li>본 약관에서 정하지 않은 사항은 대한민국 관계 법령 및 일반적인 상관례를 따릅니다.</li><li>서비스 이용과 관련하여 분쟁이 발생한 경우 이용자와 운영자는 상호 협의를 통해 해결하도록 노력합니다.</li><li>본 약관의 일부 조항이 관계 법령에 따라 효력을 잃더라도 나머지 조항은 계속 적용됩니다.</li></ol>
+                            </div>
+                            <p class="mt-5 text-xs text-gray-500" data-i18n="terms.effective">시행일 및 최종 변경일: 2026년 8월 11일</p>
                         </div>
                     </div>
                 </div>
@@ -1633,14 +1538,22 @@
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-brand border-brand/50" data-i18n="api.badge">Guide</span>
                         <div>
-                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="api.title">API / Setup</h1>
-                            <p class="text-sm text-gray-400" data-i18n="api.desc">API 키 발급, 등록, Futures/TradFi 초기 설정
-                                가이드입니다.
-                            </p>
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="api.title">Getting Started</h1>
+                            <p class="text-sm text-gray-400" data-i18n="api.desc">바이낸스 오더툴킷 사용을 위한 API 키 발급 및 등록 방법을 안내합니다.</p>
                         </div>
                     </div>
 
                     <div class="space-y-10">
+                        <a href="https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/change-log"
+                            target="_blank" rel="noopener noreferrer"
+                            class="flex items-center justify-between gap-4 p-4 rounded-xl border border-brand/30 bg-brand/5 hover:border-brand/60 transition-colors group">
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-white mb-1" data-i18n="api.changelog.title">바이낸스 공식 API 변경사항</p>
+                                <p class="text-xs text-gray-400 leading-relaxed" data-i18n="api.changelog.desc">최신 API 사양과 변경 일정은 바이낸스 공식 개발자 문서에서 직접 확인할 수 있습니다.</p>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-brand flex-shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true"></i>
+                        </a>
+
                         <!-- Step 1 -->
                         <div id="api-quick">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
@@ -4497,20 +4410,39 @@
                             <label for="member-register-serial" class="block text-xs font-bold text-gray-300 mb-2">시리얼키</label>
                             <input id="member-register-serial" name="serial" type="text" autocomplete="new-password"
                                 minlength="6" maxlength="64" required
-                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
+                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono tracking-wide text-white placeholder:font-sans placeholder:tracking-normal focus:outline-none focus:border-brand"
                                 placeholder="사용할 시리얼키를 입력하세요">
                             <p class="mt-2 text-xs text-gray-500">가입 후 로그인과 툴킷 인증에 사용하는 키입니다. 분실 시 재발급이 필요합니다.</p>
                         </div>
                         <div>
-                            <label for="member-register-username" class="block text-xs font-bold text-gray-300 mb-2">유저네임</label>
+                            <label for="member-register-username" class="block text-xs font-bold text-gray-300 mb-2" data-i18n="member.register.username.label">유저네임</label>
                             <input id="member-register-username" name="username" type="text" autocomplete="nickname"
-                                minlength="2" maxlength="30" required
+                                minlength="2" maxlength="30" required data-i18n-placeholder="member.register.username.placeholder"
                                 class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"
-                                placeholder="표시할 유저네임을 입력하세요">
+                                placeholder="부평구금융인 커뮤니티에서 사용할 닉네임">
+                            <p class="mt-2 text-xs text-amber-300/80 leading-relaxed" data-i18n="member.register.username.help">웹사이트와 부평구금융인 커뮤니티에서 동일한 닉네임을 사용해 주세요. 닉네임이 다르면 가입자 확인이 지연될 수 있습니다.</p>
+                        </div>
+                        <div class="rounded-lg border border-white/10 bg-black/20 p-4 space-y-3">
+                            <div>
+                                <p class="text-xs font-bold text-white mb-1" data-i18n="member.register.access.title">접속정보 수집 안내</p>
+                                <p class="text-[11px] text-gray-400 leading-relaxed" data-i18n="member.register.access.desc">서비스 인증 및 부정 사용 방지를 위해 사용자명, 이용 프로그램 및 버전, PC 이름, IP 주소, MAC 주소, 기기 식별정보, 시리얼키 사용 기록과 접속 일시를 처리할 수 있습니다.</p>
+                                <p class="mt-2 text-[11px] text-gray-500 leading-relaxed" data-i18n="member.register.access.purpose">이용 목적: 사용자 인증, 부정 사용 방지 및 보안 관리</p>
+                            </div>
+                            <div class="flex items-start gap-3 pt-3 border-t border-white/10">
+                                <input id="member-register-consent" type="checkbox" required
+                                    onchange="updateMemberConsentState()"
+                                    class="mt-0.5 h-4 w-4 flex-shrink-0 accent-yellow-400 cursor-pointer">
+                                <div class="min-w-0 flex-1">
+                                    <label for="member-register-consent" class="block text-xs font-semibold text-gray-200 cursor-pointer leading-relaxed" data-i18n="member.register.consent.label">[필수] 이용약관 및 접속정보 수집·이용에 동의합니다.</label>
+                                    <button type="button" onclick="openMemberTermsModal()"
+                                        class="mt-1 text-[11px] font-bold text-brand hover:text-yellow-300 hover:underline"
+                                        data-i18n="member.register.terms.open">이용약관 전체 보기</button>
+                                </div>
+                            </div>
                         </div>
                         <div id="member-turnstile-slot"></div>
-                        <button id="member-register-submit" type="submit"
-                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2">
+                        <button id="member-register-submit" type="submit" disabled
+                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:saturate-0">
                             <i class="fa-solid fa-user-plus"></i>
                             회원가입
                         </button>
@@ -4521,7 +4453,7 @@
                             <label for="member-login-serial" class="block text-xs font-bold text-gray-300 mb-2">시리얼키</label>
                             <input id="member-login-serial" name="serial" type="password" autocomplete="current-password"
                                 minlength="6" maxlength="128" required
-                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand"
+                                class="w-full h-11 px-3 bg-black/30 border border-gray-700 rounded-md text-sm font-mono tracking-wide text-white placeholder:font-sans placeholder:tracking-normal focus:outline-none focus:border-brand"
                                 placeholder="등록한 시리얼키를 입력하세요">
                         </div>
                         <button id="member-login-submit" type="submit"
@@ -4864,6 +4796,33 @@
         </div>
     </div>
 
+    <!-- Member Terms Preview -->
+    <div id="member-terms-modal" class="fixed inset-0 z-[90] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="member-terms-modal-title">
+        <button type="button" class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-label="Close"
+            onclick="closeMemberTermsModal()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-3xl max-h-[calc(100vh-1.5rem)] flex flex-col bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 flex-shrink-0">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-brand tracking-normal">POLICY</p>
+                        <h2 id="member-terms-modal-title" class="text-base font-bold text-white" data-i18n="member.register.terms.title">서비스 이용약관</h2>
+                    </div>
+                    <button type="button" onclick="closeMemberTermsModal()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="member-terms-content" class="overflow-y-auto p-5 sm:p-7 space-y-10 content-body"></div>
+                <div class="px-5 py-4 border-t border-white/10 flex justify-end flex-shrink-0">
+                    <button type="button" onclick="closeMemberTermsModal()"
+                        class="h-10 px-5 rounded-md border border-gray-700 text-sm font-bold text-gray-300 hover:text-white hover:border-gray-500"
+                        data-i18n="member.register.terms.close">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Three.js (Final: Wide & Subtle Universe) -->
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <script>
@@ -5040,6 +4999,17 @@
             "header.register": { ko: "회원가입", en: "Register" },
             "header.login": { ko: "로그인", en: "Login" },
             "header.mypage": { ko: "마이페이지", en: "My Page" },
+            "member.register.username.label": { ko: "유저네임", en: "Username" },
+            "member.register.username.placeholder": { ko: "부평구금융인 커뮤니티에서 사용할 닉네임", en: "Nickname to use in the Bupyeong Finance Community" },
+            "member.register.username.help": { ko: "웹사이트와 부평구금융인 커뮤니티에서 동일한 닉네임을 사용해 주세요. 닉네임이 다르면 가입자 확인이 지연될 수 있습니다.", en: "Use the same nickname on this website and in the Bupyeong Finance Community. A different nickname may delay membership verification." },
+            "member.register.access.title": { ko: "접속정보 수집 안내", en: "Access Information Notice" },
+            "member.register.access.desc": { ko: "서비스 인증 및 부정 사용 방지를 위해 사용자명, 이용 프로그램 및 버전, PC 이름, IP 주소, MAC 주소, 기기 식별정보, 시리얼키 사용 기록과 접속 일시를 처리할 수 있습니다.", en: "For service authentication and misuse prevention, we may process your username, program and version, PC name, IP address, MAC address, device identifier, serial-key usage records, and access date and time." },
+            "member.register.access.purpose": { ko: "이용 목적: 사용자 인증, 부정 사용 방지 및 보안 관리", en: "Purpose: user authentication, misuse prevention, and security management" },
+            "member.register.consent.label": { ko: "[필수] 이용약관 및 접속정보 수집·이용에 동의합니다.", en: "[Required] I agree to the Terms of Service and the collection and use of access information." },
+            "member.register.terms.open": { ko: "이용약관 전체 보기", en: "View full Terms of Service" },
+            "member.register.terms.title": { ko: "서비스 이용약관", en: "Terms of Service" },
+            "member.register.terms.close": { ko: "확인", en: "Done" },
+            "member.register.consent.required": { ko: "이용약관 및 접속정보 수집·이용에 동의해 주세요.", en: "Please agree to the Terms of Service and the collection and use of access information." },
 
             // Navigation (Sidebar)
             "nav.menu": { ko: "메뉴", en: "Menu" },
@@ -5050,7 +5020,7 @@
             "nav.terms": { ko: "이용약관", en: "Terms of Service" },
             "nav.faq": { ko: "자주 묻는 질문", en: "FAQ" },
             "nav.tools": { ko: "Setup & Tools", en: "Setup & Tools" },
-            "nav.apikey": { ko: "API / Setup", en: "API / Setup" },
+            "nav.apikey": { ko: "Getting Started", en: "Getting Started" },
             "nav.detector": { ko: "Crypto Detector", en: "Crypto Detector" },
             "nav.extensions": { ko: "Extensions", en: "Extensions" },
             "nav.toolkit": { ko: "Order Toolkit", en: "Order Toolkit" },
@@ -5083,7 +5053,7 @@
             // Sections Titles
             "link.title": { ko: "전체 링크 모음", en: "All Links" },
             "terms.title": { ko: "서비스 이용약관", en: "Terms of Service" },
-            "terms.desc": { ko: "부평구금융인 Trading API 서비스 이용에 관한 규정입니다.", en: "Regulations regarding the use of the 부평구금융인 Trading API service." },
+            "terms.desc": { ko: "부평구금융인 오더툴킷 및 관련 서비스 이용에 관한 규정입니다.", en: "Rules governing the use of the Bupyeong Finance Community Order Toolkit and related services." },
             "faq.title": { ko: "자주 묻는 질문", en: "Frequently Asked Questions" },
             "faq.desc": { ko: "서비스 이용 중 자주 발생하는 질문들을 모았습니다.", en: "We collected common questions that come up while using the service." },
 
@@ -5116,43 +5086,27 @@
             // Terms of Service (Policy)
             "terms.badge": { ko: "Policy", en: "Policy" },
             "terms.article1.title": { ko: "제1조 (목적)", en: "Article 1 (Purpose)" },
-            "terms.article1.body": { ko: "이 약관은 <strong>부평구금융인 Trading API</strong>의 이용과 관련하여, 이용자와 운영자 간의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.", en: "These terms set out the rights, obligations, and responsibilities between users and the operator regarding the use of <strong>부평구금융인 Trading API</strong>." },
+            "terms.article1.body": { ko: "본 약관은 부평구금융인이 제공하는 오더툴킷 및 관련 프로그램·서비스(이하 ‘서비스’)의 이용과 관련하여 이용자와 운영자 간의 권리, 의무 및 책임사항을 정하는 것을 목적으로 합니다.", en: "These Terms define the rights, obligations, and responsibilities between users and the operator regarding the Order Toolkit and related programs and services provided by Bupyeong Finance Community (the ‘Service’)." },
             "terms.article2.title": { ko: "제2조 (운영 성격 및 후원)", en: "Article 2 (Operation & Sponsorship)" },
-            "terms.article2.item1": { ko: "부평구금융인 Trading API는 <strong>후원 기반</strong>으로 운영됩니다.", en: "부평구금융인 Trading API is operated on a <strong>sponsorship basis</strong>." },
-            "terms.article2.item2": { ko: "이용자는 후원 금액에 따라 일정 기간 이용 혜택을 받을 수 있으며, 기간은 운영 상황에 따라 변동될 수 있습니다.", en: "Users may receive access benefits for a certain period depending on their sponsorship amount, and the period may vary depending on operational circumstances." },
-            "terms.article2.item3": { ko: "이용 제공 여부 및 기간은 후원 상황, 기술적 여건, 기타 운영 사정에 따라 조정될 수 있습니다.", en: "Access availability and duration may be adjusted based on sponsorship status, technical conditions, or other operational factors." },
-            "terms.article3.title": { ko: "제3조 (개인정보 및 접속 정보 수집)", en: "Article 3 (Collection of Personal/Access Information)" },
-            "terms.article3.lead": { ko: "부평구금융인 Trading API는 부정 사용 방지 및 안정적인 이용 제공을 위해 다음 정보를 수집·저장할 수 있습니다.", en: "To prevent misuse and ensure stable service, 부평구금융인 Trading API may collect and store the following information." },
-            "terms.article3.item1": { ko: "접속 시간", en: "Access time" },
-            "terms.article3.item2": { ko: "IP 주소", en: "IP address" },
-            "terms.article3.item3": { ko: "기기 정보 (Machine ID)", en: "Device information (Machine ID)" },
-            "terms.article3.item4": { ko: "시리얼키 사용 기록", en: "Serial key usage history" },
-            "terms.article3.body": { ko: "수집된 정보는 부정 접속 적발 및 운영 목적 외에는 사용하지 않으며, <strong>이용자가 탈퇴하는 시점까지 보관한 후 지체 없이 파기합니다.</strong><br/>다만, 관련 법령에 따라 일정 기간 보존이 요구되는 경우에는 해당 법령에서 정한 기간 동안 별도로 보관할 수 있습니다.<br/>부정 사용이 적발된 경우, 이용자의 계정은 사전 경고 없이 영구 정지될 수 있습니다.", en: "Collected information is used only for detecting unauthorized access and operational purposes, and <strong>will be retained until the user withdraws and then destroyed without delay.</strong><br/>However, if retention is required under applicable law, it may be stored separately for the period mandated by such law.<br/>If misuse is detected, the user's account may be permanently suspended without prior notice." },
-            "terms.article3.note": { ko: "* 부평구금융인 Trading API를 이용하는 경우, 개인정보 수집에 동의한 것으로 간주됩니다.", en: "* By using 부평구금융인 Trading API, you are deemed to consent to the collection of personal information." },
-            "terms.article4.title": { ko: "제4조 (책임 제한)", en: "Article 4 (Limitation of Liability)" },
-            "terms.article4.notice.title": { ko: "면책 조항 (Disclaimer)", en: "Disclaimer" },
-            "terms.article4.item1": { ko: "본 도구는 바이낸스(Binance) API를 기반으로 작동하며, 모든 거래·체결·시세 데이터는 바이낸스 시스템에서 처리됩니다.", en: "This tool operates on the Trading API, and all trades, fills, and price data are processed by Binance's systems." },
-            "terms.article4.item2": { ko: "부평구금융인 Trading API는 이용자의 지갑이나 자산에 직접 접근할 권한이 없으며, 이용자가 API 키 발급을 통해 <strong>허용한 기능 범위 내</strong>에서만 작동합니다.", en: "부평구금융인 Trading API has no direct access to users' wallets or assets and operates only within the <strong>permissions granted</strong> via API keys." },
-            "terms.article4.item3": { ko: "운영자는 바이낸스의 서버 장애, API 변경, 지연, 오류 등으로 인한 거래 문제에 대해 어떠한 책임도 지지 않습니다.", en: "The operator is not liable for trading issues caused by Binance server outages, API changes, delays, or errors." },
-            "terms.article4.item4": { ko: "이용자의 매매 손익, 주문 오류, 네트워크 장애, 계정 설정 실수 등으로 발생한 손실에 대해 운영자는 책임을 지지 않습니다.", en: "The operator is not responsible for losses arising from trading profits/losses, order errors, network issues, or account configuration mistakes." },
-            "terms.article4.item5": { ko: "부평구금융인 Trading API는 투자 자문이나 재정적 권고를 제공하지 않으며, 모든 투자 판단과 책임은 이용자 본인에게 있습니다.", en: "부평구금융인 Trading API does not provide investment advice or financial recommendations; all decisions and responsibility lie with the user." },
-            "terms.article5.title": { ko: "제5조 (이용 제한)", en: "Article 5 (Restrictions on Use)" },
-            "terms.article5.lead": { ko: "이용자가 다음 각 호에 해당하는 경우 이용을 제한하거나 종료할 수 있습니다.", en: "If a user falls under any of the following, access may be restricted or terminated." },
-            "terms.article5.item1": { ko: "타인의 계정 정보 도용", en: "Stealing another person's account information" },
-            "terms.article5.item2": { ko: "시리얼키 불법 공유 또는 판매", en: "Illegal sharing or sale of serial keys" },
-            "terms.article5.item3": { ko: "부평구금융인 Trading API의 역분석·복제·변조 행위", en: "Reverse engineering, copying, or tampering with 부평구금융인 Trading API" },
-            "terms.article5.item4": { ko: "법령 및 본 약관 위반", en: "Violation of laws or these terms" },
-            "terms.article5.note": { ko: "위 사유로 인해 발생한 불이익에 대해 운영자는 책임을 지지 않습니다.", en: "The operator is not responsible for any disadvantages arising from these reasons." },
-            "terms.article6.title": { ko: "제6조 (지식재산권)", en: "Article 6 (Intellectual Property)" },
-            "terms.article6.p1": { ko: "본 서비스는 바이낸스 API를 기반으로 제작되었으며, API 및 이를 통해 제공되는 모든 원천 데이터의 권리는 원저작자인 Binance (이하 “바이낸스”)에 귀속됩니다.", en: "This service is built on the Trading API, and all rights to the API and the underlying data provided through it belong to the original author, Binance (the “Binance”)." },
-            "terms.article6.p2": { ko: "단, 본 서비스를 구성하는 소프트웨어, 디자인, 로고, 사용자 인터페이스(UI), 그리고 데이터를 가공·분석하여 생성된 2차적 산출물에 대한 저작권 및 지식재산권은 운영자에게 귀속됩니다.", en: "However, the copyrights and intellectual property rights to the software, design, logo, user interface (UI), and derivative outputs created by processing/analysis of data belong to the operator." },
-            "terms.article6.box.lead": { ko: "이용자는 운영자의 사전 서면 동의 없이 다음 각 호의 행위를 하여서는 아니 됩니다.", en: "Users must not engage in any of the following without the operator's prior written consent." },
-            "terms.article6.box.item1": { ko: "본 서비스의 소스 코드 또는 프로그램을 역설계(Reverse Engineering), 디컴파일(Decompile), 복제하는 행위", en: "Reverse engineering, decompiling, or copying the source code or program of this service" },
-            "terms.article6.box.item2": { ko: "본 서비스를 수정, 임대, 배포, 판매하거나 이를 기반으로 2차적 저작물을 작성·제공하는 행위", en: "Modifying, leasing, distributing, selling, or creating/providing derivative works based on this service" },
-            "terms.article6.box.item3": { ko: "서비스에 포함된 운영자의 상표, 로고, 고유한 식별표지를 무단으로 사용하는 행위", en: "Unauthorized use of the operator's trademarks, logos, or unique identifiers contained in the service" },
-            "terms.article7.title": { ko: "제7조 (기타)", en: "Article 7 (Miscellaneous)" },
-            "terms.article7.item1": { ko: "본 약관에서 정하지 않은 사항은 관계 법령 및 상관례를 따릅니다.", en: "Matters not specified in these terms follow relevant laws and customary practice." },
-            "terms.article7.item2": { ko: "운영자는 필요한 경우 본 약관을 변경할 수 있으며, 변경된 약관은 공지 또는 안내 후 적용됩니다.", en: "The operator may amend these terms as needed, and revised terms will take effect after notice or announcement." },
+            "terms.article2.body": { ko: "<ol class='list-decimal pl-5 space-y-2'><li>본 서비스는 소규모 후원 기반으로 운영됩니다.</li><li>이용자는 사전에 안내된 후원 기준에 따라 일정 기간 서비스 이용 혜택을 받을 수 있습니다.</li><li>후원 금액, 이용 가능한 서비스와 이용기간은 후원 전에 안내합니다.</li><li>이미 부여된 이용기간은 이용자의 약관 위반, 부정 사용, 서비스 종료 또는 불가피한 운영 사유가 없는 한 임의로 단축하지 않습니다.</li><li>서비스의 기능과 제공 범위는 바이낸스 API 정책, 기술적 환경 및 운영 여건에 따라 변경될 수 있습니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-2'><li>The Service is operated on a small-scale sponsorship basis.</li><li>Users may receive access for a specified period under the sponsorship terms presented in advance.</li><li>The sponsorship amount, available services, and access period are disclosed before sponsorship.</li><li>An access period already granted will not be arbitrarily shortened unless the user violates these Terms, misuses the Service, the Service ends, or unavoidable operational circumstances arise.</li><li>Features and availability may change due to Binance API policies, technical conditions, or operational circumstances.</li></ol>" },
+            "terms.article3.title": { ko: "제3조 (서비스의 성격과 이용자의 책임)", en: "Article 3 (Nature of the Service and User Responsibilities)" },
+            "terms.article3.body": { ko: "<ol class='list-decimal pl-5 space-y-2'><li>본 서비스는 이용자가 직접 발급하고 권한을 설정한 바이낸스 API 키를 이용하여 주문 요청과 관련 정보를 바이낸스 시스템에 전달하는 보조 도구입니다.</li><li>주문의 접수, 체결, 취소, 포지션·잔고 처리 및 시세 데이터 제공은 바이낸스 시스템에서 수행됩니다.</li><li>이용자는 API 키의 권한, IP 제한, 계정 상태 및 주문 내용을 직접 확인하고 안전하게 관리해야 합니다.</li><li>이용자는 출금 권한 등 <strong class='text-gray-200 font-semibold'>서비스 이용에 불필요한 API 권한을 활성화해서는 안 됩니다.</strong></li><li>본 서비스는 투자 자문, 매매 권유 또는 수익 보장 서비스를 제공하지 않습니다. 모든 투자 판단과 그에 따른 손익은 이용자 본인에게 귀속됩니다.</li><li>바이낸스는 API 사양, 엔드포인트, 요청 제한, 응답 데이터 및 서비스 제공 범위를 변경하거나 중단할 수 있습니다. 이용자는 <a class='text-brand hover:underline' href='https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/change-log' target='_blank' rel='noopener noreferrer'>바이낸스 공식 API 변경 로그</a>에서 최신 변경사항을 직접 확인할 수 있습니다.</li><li>운영자는 확인된 변경사항에 대응하기 위해 노력하지만, 바이낸스의 변경 시점, 사전 통지 여부 또는 변경 내용 자체를 보증하지 않습니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-2'><li>The Service is an auxiliary tool that transmits order requests and related information to Binance using an API key issued and configured by the user.</li><li>Order acceptance, execution, cancellation, position and balance processing, and market data are handled by Binance systems.</li><li>Users must verify and securely manage API permissions, IP restrictions, account status, and order details.</li><li>Users <strong class='text-gray-200 font-semibold'>must not enable API permissions that are unnecessary for the Service</strong>, including withdrawal permission.</li><li>The Service does not provide investment advice, trade recommendations, or profit guarantees. All investment decisions and resulting gains or losses belong to the user.</li><li>Binance may change or discontinue API specifications, endpoints, request limits, response data, or service coverage. Users can review the latest information in the <a class='text-brand hover:underline' href='https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/change-log' target='_blank' rel='noopener noreferrer'>official Binance API Change Log</a>.</li><li>The operator will make reasonable efforts to respond to known changes but does not guarantee their timing, advance notice, or content.</li></ol>" },
+            "terms.article4.title": { ko: "제4조 (접속정보의 수집 및 이용)", en: "Article 4 (Collection and Use of Access Information)" },
+            "terms.article4.body": { ko: "<ol class='list-decimal pl-5 space-y-3'><li>운영자는 사용자 인증, 중복·부정 사용 방지, 보안 관리 및 접속 장애 확인을 위해 다음 정보를 처리할 수 있습니다.<div class='liquid-card mt-4 rounded-lg border border-gray-700 bg-gray-800/20 p-6'><ul class='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 !m-0 !p-0 list-none text-sm text-gray-300'><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>사용자명 및 이용 등급</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>이용 프로그램 및 버전</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>PC 이름</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>IP 주소</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>MAC 주소</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>기기 식별정보</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>시리얼키 사용 기록</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>접속 일시</span></li></ul></div></li><li>수집된 정보는 사용자 인증, 부정 사용 확인, 보안 관리 및 서비스 운영 목적 외에는 사용하지 않습니다.</li><li>접속정보는 서비스 운영과 부정 사용 대응에 필요한 기간 동안 보관하며, 처리 목적이 달성되거나 보관할 필요가 없어진 경우 지체 없이 파기합니다. 다만 관계 법령에 따라 보관이 필요한 경우에는 해당 기간 동안 별도로 보관할 수 있습니다.</li><li><span class='inline-flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm'><i class='fa-brands fa-telegram text-brand mt-0.5'></i><span>보안 및 인증 로그는 운영 알림과 부정 사용 확인을 위해 운영자가 사용하는 <strong class='text-gray-200 font-semibold'>텔레그램 봇을 통해 전달·관리될 수 있습니다.</strong></span></span></li><li>신규 이용자는 회원가입 과정에서 접속정보 수집 및 이용에 관한 내용을 확인하고 동의해야 합니다. 동의하지 않는 경우 회원가입 및 사용자 인증이 필요한 서비스를 이용할 수 없습니다.</li><li>운영자는 수집된 정보가 분실, 유출 또는 무단 사용되지 않도록 접근 권한을 제한하고 필요한 보호조치를 적용합니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-3'><li>The operator may process the following information for user authentication, prevention of duplicate or unauthorized use, security management, and access troubleshooting:<div class='liquid-card mt-4 rounded-lg border border-gray-700 bg-gray-800/20 p-6'><ul class='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 !m-0 !p-0 list-none text-sm text-gray-300'><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>Username and access grade</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>Program and version</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>PC name</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>IP address</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>MAC address</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>Device identifier</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>Serial-key usage records</span></li><li class='flex items-center gap-3'><i class='fa-solid fa-check text-brand w-4 text-center'></i><span>Access date and time</span></li></ul></div></li><li>The information is used only for authentication, misuse detection, security, and service operations.</li><li>Access information is retained for as long as necessary for service operations and misuse response, then deleted without delay when the purpose is fulfilled or retention is no longer needed. Statutory retention requirements remain applicable.</li><li><span class='inline-flex items-start gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm'><i class='fa-brands fa-telegram text-brand mt-0.5'></i><span>Security and authentication logs may be <strong class='text-gray-200 font-semibold'>delivered and managed through a Telegram bot</strong> used by the operator for operational alerts and misuse review.</span></span></li><li>New users must review and consent to this processing during registration. Without consent, registration and authentication-required services are unavailable.</li><li>The operator restricts access and applies appropriate safeguards against loss, disclosure, or unauthorized use.</li></ol>" },
+            "terms.article5.title": { ko: "제5조 (책임 제한)", en: "Article 5 (Limitation of Liability)" },
+            "terms.article5.notice": { ko: "면책 조항 (Disclaimer)", en: "Disclaimer" },
+            "terms.article5.body": { ko: "<ol class='list-decimal pl-5 space-y-2'><li>운영자는 바이낸스 서버 장애·점검, API 변경·중단, 응답 또는 체결 지연, 데이터 오류, 네트워크 장애 등 운영자가 통제할 수 없는 사유로 발생한 주문 실패·지연·중복 처리 또는 손해에 대해 책임을 지지 않습니다.</li><li>이용자가 입력한 주문 정보, API 권한 설정, 계정 상태, 네트워크 환경 또는 이용자의 조작 실수로 발생한 결과와 손실은 <strong class='text-gray-200 font-semibold'>이용자 본인에게 귀속됩니다.</strong></li><li>운영자는 바이낸스에서 제공하는 시세, 잔고, 포지션 및 체결 데이터의 정확성이나 실시간성을 보증하지 않습니다.</li><li>운영자는 서비스가 모든 환경에서 항상 중단이나 오류 없이 작동하는 것을 보증하지 않습니다.</li><li>운영자는 이용자의 매매 결과, 기대수익 또는 투자손실에 대해 책임을 지지 않습니다.</li><li><strong class='text-gray-200 font-semibold'>다만 운영자의 고의 또는 중대한 과실로 발생한 손해와 관계 법령상 제한할 수 없는 책임에는 본 조의 면책 규정이 적용되지 않습니다.</strong></li></ol>", en: "<ol class='list-decimal pl-5 space-y-2'><li>The operator is not liable for failed, delayed, or duplicate orders or losses caused by circumstances beyond the operator's control, including Binance outages or maintenance, API changes or suspension, response or execution delays, data errors, or network failures.</li><li>Results and losses caused by order details entered by the user, API permission settings, account status, network conditions, or user actions <strong class='text-gray-200 font-semibold'>are the user's responsibility.</strong></li><li>The operator does not guarantee the accuracy or real-time nature of market, balance, position, or execution data supplied by Binance.</li><li>The operator does not guarantee uninterrupted or error-free operation in every environment.</li><li>The operator is not responsible for trading results, expected profits, or investment losses.</li><li><strong class='text-gray-200 font-semibold'>This limitation does not apply to damage caused by the operator's willful misconduct or gross negligence, or to liability that cannot be limited by applicable law.</strong></li></ol>" },
+            "terms.article6.title": { ko: "제6조 (후원 및 USDT 전송 유의사항)", en: "Article 6 (Sponsorship and USDT Transfer Notice)" },
+            "terms.article6.body": { ko: "<p>후원 방법, 금액, 이용 가능한 서비스와 이용기간은 후원 전에 별도로 안내합니다.</p><p class='mt-4'>USDT 전송은 이용자가 외부 거래소 또는 개인 지갑을 통해 직접 수행하는 블록체인 거래입니다.</p><div class='liquid-card mt-5 rounded-lg border border-gray-700 bg-gray-800/20 p-6'><p class='text-sm font-semibold text-gray-300 mb-4'>USDT 전송 전 다음 사항을 반드시 확인해야 합니다.</p><ul class='list-none space-y-3 !m-0 !p-0 text-sm text-gray-400'><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span><strong class='text-gray-200 font-semibold'>블록체인에서 완료된 전송은 일반적으로 취소하거나 되돌릴 수 없습니다.</strong></span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>운영자는 거래소 또는 블록체인 네트워크의 운영자가 아니므로 잘못된 주소, 자산 또는 네트워크로 전송하거나 필수 정보를 잘못 입력한 경우 <strong class='text-gray-200 font-semibold'>해당 전송을 취소하거나 자산을 복구할 수 없습니다.</strong></span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>이용자는 전송 전에 수신 주소, 자산 종류, 네트워크 및 전송 금액을 반드시 확인해야 합니다.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>운영자가 안내한 수신 주소와 네트워크에서 정상적으로 입금이 확인되지 않은 전송은 후원금 수령으로 인정되지 않을 수 있습니다.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>오입금이나 잘못된 네트워크 선택으로 발생한 손실은 운영자의 고의 또는 중대한 과실이 없는 한 이용자 본인에게 귀속됩니다.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>이용 권한 활성화 후 최초 인증·접속 로그가 발생한 시점부터 서비스 이용이 개시된 것으로 보며, 이후 <strong class='text-gray-200 font-semibold'>단순 변심에 따른 환불은 제공하지 않습니다.</strong> 다만 서비스 미제공, 운영자의 귀책사유 또는 관계 법령상 환불이 필요한 경우에는 예외로 합니다.</span></li></ul></div>", en: "<p>Sponsorship methods, amounts, available services, and access periods are disclosed before sponsorship.</p><p class='mt-4'>A USDT transfer is a blockchain transaction initiated directly by the user from an external exchange or wallet.</p><div class='liquid-card mt-5 rounded-lg border border-gray-700 bg-gray-800/20 p-6'><p class='text-sm font-semibold text-gray-300 mb-4'>Before sending USDT, users must verify the following:</p><ul class='list-none space-y-3 !m-0 !p-0 text-sm text-gray-400'><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span><strong class='text-gray-200 font-semibold'>A completed blockchain transfer generally cannot be canceled or reversed.</strong></span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>The operator is not an exchange or blockchain network operator and <strong class='text-gray-200 font-semibold'>cannot cancel or recover a transfer</strong> sent using the wrong address, asset, network, or required information.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>Users must verify the recipient address, asset, network, and amount before sending.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>A transfer not confirmed at the address and network provided by the operator may not be recognized as a received sponsorship payment.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>Losses from incorrect transfers or network selection belong to the user unless caused by the operator's willful misconduct or gross negligence.</span></li><li class='flex items-start gap-3'><span class='terms-bullet-dot' aria-hidden='true'></span><span>Service use is deemed to begin when the first successful authentication or access log is recorded after access has been activated. After service use begins, <strong class='text-gray-200 font-semibold'>refunds are not provided for a change of mind.</strong> Exceptions apply where the service was not provided, the operator is at fault, or a refund is required by applicable law.</span></li></ul></div>" },
+            "terms.article7.title": { ko: "제7조 (이용 제한)", en: "Article 7 (Restrictions on Use)" },
+            "terms.article7.body": { ko: "<ol class='list-decimal pl-5 space-y-3'><li>운영자는 다음 행위가 확인된 경우 서비스 이용을 제한하거나 종료할 수 있습니다.<ul class='list-disc pl-5 mt-2 space-y-1'><li>타인의 계정 또는 시리얼키를 도용하는 행위</li><li>시리얼키를 무단으로 공유, 양도 또는 판매하는 행위</li><li>프로그램을 역설계, 복제, 변조하거나 보호조치를 우회하는 행위</li><li>서비스 또는 인증 시스템에 비정상적인 접근을 시도하는 행위</li><li>서비스 운영을 방해하거나 다른 이용자에게 피해를 주는 행위</li><li>관련 법령 또는 본 약관을 위반하는 행위</li></ul></li><li>계정 도용, 시리얼키 공유, 프로그램 변조 등 중대한 부정 사용이 의심되는 경우 운영자는 피해 방지를 위해 이용을 즉시 제한할 수 있습니다.</li><li>운영자는 가능한 범위에서 이용 제한 사유를 안내하며, 이용자는 운영자에게 이의를 제기할 수 있습니다.</li><li>중대한 위반이 확인되거나 동일한 위반이 반복되는 경우 서비스 이용을 영구적으로 제한할 수 있습니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-3'><li>The operator may restrict or terminate access if a user:<ul class='list-disc pl-5 mt-2 space-y-1'><li>Steals another person's account or serial key</li><li>Shares, transfers, or sells a serial key without authorization</li><li>Reverse engineers, copies, tampers with, or bypasses protections in the program</li><li>Attempts abnormal access to the Service or authentication system</li><li>Disrupts operations or harms another user</li><li>Violates applicable law or these Terms</li></ul></li><li>The operator may immediately restrict access to prevent harm when serious misuse is suspected, including account theft, serial-key sharing, or program tampering.</li><li>Where practicable, the operator will explain the restriction, and the user may submit an objection.</li><li>Access may be permanently restricted when a serious violation is confirmed or repeated.</li></ol>" },
+            "terms.article8.title": { ko: "제8조 (지식재산권)", en: "Article 8 (Intellectual Property)" },
+            "terms.article8.body": { ko: "<ol class='list-decimal pl-5 space-y-3'><li>바이낸스 API와 바이낸스가 제공하는 데이터 및 상표에 관한 권리는 바이낸스의 이용약관과 지식재산권 정책을 따릅니다.</li><li>본 서비스를 구성하는 소프트웨어, 디자인, 로고, 사용자 인터페이스 및 운영자가 직접 제작한 자료에 관한 권리는 운영자에게 귀속됩니다.</li><li>이용자는 운영자의 사전 동의 없이 다음 행위를 해서는 안 됩니다.<ul class='list-disc pl-5 mt-2 space-y-1'><li>서비스 또는 프로그램을 역설계, 디컴파일, 복제 또는 변조하는 행위</li><li>서비스를 무단으로 배포, 임대, 판매 또는 재판매하는 행위</li><li>서비스를 기반으로 무단 복제물이나 파생 프로그램을 제작·제공하는 행위</li><li>운영자의 상표, 로고 또는 고유한 식별표지를 무단으로 사용하는 행위</li></ul></li></ol>", en: "<ol class='list-decimal pl-5 space-y-3'><li>Rights relating to the Binance API, Binance-provided data, and Binance trademarks are governed by Binance terms and intellectual-property policies.</li><li>Rights in the Service software, design, logo, user interface, and materials created by the operator belong to the operator.</li><li>Without prior consent, users must not:<ul class='list-disc pl-5 mt-2 space-y-1'><li>Reverse engineer, decompile, copy, or tamper with the Service or program</li><li>Distribute, lease, sell, or resell the Service without authorization</li><li>Create or provide unauthorized copies or derivative programs based on the Service</li><li>Use the operator's trademarks, logos, or identifiers without authorization</li></ul></li></ol>" },
+            "terms.article9.title": { ko: "제9조 (서비스 및 약관의 변경)", en: "Article 9 (Changes to the Service and Terms)" },
+            "terms.article9.body": { ko: "<ol class='list-decimal pl-5 space-y-2'><li>운영자는 보안 강화, 기능 개선, 관계 법령 변경, 바이낸스 API 변경 또는 운영상 필요한 경우 서비스와 본 약관을 변경할 수 있습니다.</li><li>약관을 변경하는 경우 적용일과 주요 변경 내용을 웹사이트 또는 서비스 내 공지를 통해 사전에 안내합니다.</li><li>이용자에게 불리하거나 중요한 변경은 충분한 기간을 두고 안내합니다.</li><li>변경된 약관에 동의하지 않는 이용자는 서비스 이용을 종료할 수 있습니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-2'><li>The operator may change the Service or these Terms for security, feature improvements, legal changes, Binance API changes, or operational needs.</li><li>The effective date and material changes will be announced in advance on the website or within the Service.</li><li>Changes that are material or unfavorable to users will be announced with sufficient advance notice.</li><li>A user who does not agree to revised Terms may stop using the Service.</li></ol>" },
+            "terms.article10.title": { ko: "제10조 (기타)", en: "Article 10 (Miscellaneous)" },
+            "terms.article10.body": { ko: "<ol class='list-decimal pl-5 space-y-2'><li>본 약관에서 정하지 않은 사항은 대한민국 관계 법령 및 일반적인 상관례를 따릅니다.</li><li>서비스 이용과 관련하여 분쟁이 발생한 경우 이용자와 운영자는 상호 협의를 통해 해결하도록 노력합니다.</li><li>본 약관의 일부 조항이 관계 법령에 따라 효력을 잃더라도 나머지 조항은 계속 적용됩니다.</li></ol>", en: "<ol class='list-decimal pl-5 space-y-2'><li>Matters not addressed by these Terms are governed by the laws of the Republic of Korea and customary practice.</li><li>Users and the operator will make reasonable efforts to resolve disputes through mutual consultation.</li><li>If any provision is held invalid under applicable law, the remaining provisions continue in effect.</li></ol>" },
+            "terms.effective": { ko: "시행일 및 최종 변경일: 2026년 8월 11일", en: "Effective and last revised: August 11, 2026" },
 
             // FAQ (Details)
             "faq.badge": { ko: "Q&A", en: "Q&A" },
@@ -5195,8 +5149,10 @@
 
             // API Key
             "api.badge": { ko: "Guide", en: "Guide" },
-            "api.title": { ko: "API / Setup", en: "API / Setup" },
-            "api.desc": { ko: "API 키 발급, 등록, Futures/TradFi 초기 설정 가이드입니다.", en: "Guide to API key issuance, registration, and Futures/TradFi initial setup." },
+            "api.title": { ko: "Getting Started", en: "Getting Started" },
+            "api.desc": { ko: "바이낸스 오더툴킷 사용을 위한 API 키 발급 및 등록 방법을 안내합니다.", en: "Learn how to create and register an API key for the Binance Order Toolkit." },
+            "api.changelog.title": { ko: "바이낸스 공식 API 변경사항", en: "Official Binance API Changes" },
+            "api.changelog.desc": { ko: "최신 API 사양과 변경 일정은 바이낸스 공식 개발자 문서에서 직접 확인할 수 있습니다.", en: "Review the latest API specifications and change schedule directly in the official Binance Developer documentation." },
             "api.step1.title": { ko: "1) 발급 절차", en: "1) Issuance Steps" },
             "api.step1.item1": { ko: "바이낸스 로그인 후 우측 상단 <strong>[Account]</strong> → <strong>[API Management]</strong> 메뉴로 이동합니다.", en: "After logging in to Binance, go to the top-right <strong>[Account]</strong> → <strong>[API Management]</strong>." },
             "api.step1.item2": { ko: "<strong>[Create API]</strong> 클릭 후 <strong>System generated</strong> 방식을 선택합니다.", en: "Click <strong>[Create API]</strong> and choose <strong>System generated</strong>." },
@@ -5823,6 +5779,12 @@
                 const key = el.getAttribute('data-i18n');
                 if (translations[key] && translations[key][currentLang]) {
                     el.innerHTML = translations[key][currentLang];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[key] && translations[key][currentLang]) {
+                    el.placeholder = translations[key][currentLang];
                 }
             });
             const input = document.getElementById('q');
@@ -6549,16 +6511,50 @@
 
             showMemberView('auth');
             setMemberAuthTab(view === 'register' ? 'register' : 'login');
+            updateMemberConsentState();
             setTimeout(() => {
                 document.getElementById(view === 'register' ? 'member-register-serial' : 'member-login-serial')?.focus();
             }, 50);
         }
 
         function closeMemberModal() {
+            closeMemberTermsModal();
             document.getElementById('member-modal')?.classList.add('hidden');
             document.body.style.overflow = '';
             closeSubscriptionForm();
             document.getElementById('member-payment-panel')?.classList.add('hidden');
+        }
+
+        function openMemberTermsModal() {
+            const source = document.querySelector('#terms .space-y-10');
+            const target = document.getElementById('member-terms-content');
+            const modal = document.getElementById('member-terms-modal');
+            if (!source || !target || !modal) return;
+
+            const nodes = Array.from(source.children).map(node => {
+                const clone = node.cloneNode(true);
+                clone.removeAttribute('id');
+                clone.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+                return clone;
+            });
+            target.replaceChildren(...nodes);
+            target.scrollTop = 0;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMemberTermsModal() {
+            document.getElementById('member-terms-modal')?.classList.add('hidden');
+            if (document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function updateMemberConsentState() {
+            const checkbox = document.getElementById('member-register-consent');
+            const button = document.getElementById('member-register-submit');
+            if (!checkbox || !button || button.getAttribute('aria-busy') === 'true') return;
+            button.disabled = !checkbox.checked;
         }
 
         function showMemberView(view) {
@@ -6636,6 +6632,14 @@
         async function submitMemberRegistration(event) {
             event.preventDefault();
             setMemberMessage('auth', '');
+            const consent = document.getElementById('member-register-consent');
+            if (!consent?.checked) {
+                const message = translations['member.register.consent.required']?.[currentLang]
+                    || '이용약관 및 접속정보 수집·이용에 동의해 주세요.';
+                setMemberMessage('auth', message);
+                updateMemberConsentState();
+                return;
+            }
             setMemberSubmitBusy('member-register-submit', true);
             const serial = document.getElementById('member-register-serial').value.trim();
             const username = document.getElementById('member-register-username').value.trim();
@@ -6652,6 +6656,7 @@
                 setMemberMessage('auth', memberErrorMessage(error));
             } finally {
                 setMemberSubmitBusy('member-register-submit', false);
+                updateMemberConsentState();
             }
         }
 
@@ -7570,14 +7575,19 @@
         }
 
         document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && !document.getElementById('member-modal')?.classList.contains('hidden')) {
-                closeMemberModal();
+            if (event.key === 'Escape') {
+                if (!document.getElementById('member-terms-modal')?.classList.contains('hidden')) {
+                    closeMemberTermsModal();
+                } else if (!document.getElementById('member-modal')?.classList.contains('hidden')) {
+                    closeMemberModal();
+                }
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             updateMemberHeader();
             setMemberAuthTab('register');
+            updateMemberConsentState();
         });
     </script>
 </body>
