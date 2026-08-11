@@ -845,7 +845,7 @@
                         실시간 데이터, 시세감지, 고빈도 MM 봇에 대응하는 최적 솔루션을 제공합니다.
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
-                        <button onclick="activate('detector')"
+                        <button id="trading-video-trigger" type="button" onclick="openTradingVideoModal()"
                             class="liquid-btn-white px-8 py-3.5 font-extrabold rounded-xl transition-all"
                             data-i18n="btn.explore">
                             알아보기
@@ -1544,16 +1544,6 @@
                     </div>
 
                     <div class="space-y-10">
-                        <a href="https://www.binance.com/en/my/settings/api-management"
-                            target="_blank" rel="noopener noreferrer"
-                            class="flex items-center justify-between gap-4 p-4 rounded-xl border border-brand/30 bg-brand/5 hover:border-brand/60 transition-colors group">
-                            <div class="min-w-0">
-                                <p class="text-sm font-bold text-white mb-1" data-i18n="api.management.title">바이낸스 API 키 발급</p>
-                                <p class="text-xs text-gray-400 leading-relaxed" data-i18n="api.management.desc">바이낸스에 로그인한 후 API 관리 페이지에서 오더툴킷에 사용할 API 키를 생성하세요.</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-brand flex-shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true"></i>
-                        </a>
-
                         <!-- Step 1 -->
                         <div id="api-quick">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
@@ -1562,9 +1552,7 @@
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
-                                    <li data-i18n="api.step1.item1">바이낸스 로그인 후 우측 상단 <strong>[Account]</strong> →
-                                        <strong>[API Management]</strong> 메뉴로 이동합니다.
-                                    </li>
+                                    <li data-i18n="api.step1.item1">바이낸스 로그인 후 <a class="text-brand font-semibold hover:underline" href="https://www.binance.com/en/my/settings/api-management" target="_blank" rel="noopener noreferrer">API Management 바로가기 <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]" aria-hidden="true"></i></a>를 열어 API 관리 페이지로 이동합니다.</li>
                                     <li data-i18n="api.step1.item2"><strong>[Create API]</strong> 클릭 후 <strong>System
                                             generated</strong> 방식을 선택합니다.</li>
                                     <li data-i18n="api.step1.item3"><strong>Label</strong>(이름)을 입력합니다. (예:
@@ -1672,9 +1660,7 @@
                                             Restrictions</strong> 항목을 확인합니다.</li>
                                     <li data-i18n="api.step3.item2"><strong>Restrict access to trusted IPs
                                             only</strong>(권장) 옵션을 선택합니다.</li>
-                                    <li data-i18n="api.step3.item3">네이버 검색창에 <code
-                                            class="text-brand bg-gray-700 px-1 rounded">내 IP</code>를 검색하여 본인의 IP 주소를
-                                        확인합니다.</li>
+                                    <li data-i18n="api.step3.item3">네이버 <a class="text-brand font-semibold hover:underline" href="https://search.naver.com/search.naver?query=%EB%82%B4%20IP" target="_blank" rel="noopener noreferrer">내 IP 확인 바로가기 <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]" aria-hidden="true"></i></a>에서 현재 사용 중인 공인 IP 주소를 확인합니다.</li>
                                     <li data-i18n="api.step3.item4">확인된 IP 주소를 입력란에 붙여넣고 <strong>Confirm</strong>을 누른 뒤,
                                         상단의 <strong>Save</strong> 버튼을 눌러 저장합니다.</li>
                                 </ol>
@@ -4796,6 +4782,37 @@
         </div>
     </div>
 
+    <!-- Trading Video -->
+    <div id="trading-video-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="trading-video-modal-title">
+        <button type="button" class="absolute inset-0 bg-black/85 backdrop-blur-sm" aria-label="Close"
+            onclick="closeTradingVideoModal()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-5xl overflow-hidden bg-[#0b0e11] border border-white/10 rounded-xl shadow-2xl">
+                <div class="flex items-center justify-between gap-4 px-4 sm:px-5 py-3 border-b border-white/10">
+                    <h2 id="trading-video-modal-title" class="text-sm sm:text-base font-bold text-white"
+                        data-i18n="video.title">실전 트레이딩 영상</h2>
+                    <div class="flex items-center gap-1">
+                        <a href="https://youtu.be/pZvWV3hUT-I?si=AYIi40rF-TCUtZVX" target="_blank"
+                            rel="noopener noreferrer"
+                            class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors"
+                            data-i18n="video.youtube">YouTube에서 보기</a>
+                        <button id="trading-video-close" type="button" onclick="closeTradingVideoModal()" title="닫기"
+                            class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="aspect-video bg-black">
+                    <iframe id="trading-video-frame" class="block w-full h-full" title="YouTube video player"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Member Terms Preview -->
     <div id="member-terms-modal" class="fixed inset-0 z-[90] hidden" role="dialog" aria-modal="true"
         aria-labelledby="member-terms-modal-title">
@@ -5037,6 +5054,8 @@
             },
             "btn.explore": { ko: "알아보기", en: "Explore" },
             "btn.telegram": { ko: "텔레그램", en: "Telegram" },
+            "video.title": { ko: "실전 트레이딩 영상", en: "Live Trading Video" },
+            "video.youtube": { ko: "YouTube에서 보기", en: "Watch on YouTube" },
 
             // Grid Items
             "grid.tele.title": { ko: "공식 텔레그램 채널", en: "Official Telegram" },
@@ -5151,10 +5170,8 @@
             "api.badge": { ko: "Guide", en: "Guide" },
             "api.title": { ko: "Getting Started", en: "Getting Started" },
             "api.desc": { ko: "바이낸스 오더툴킷 사용을 위한 API 키 발급 및 등록 방법을 안내합니다.", en: "Learn how to create and register an API key for the Binance Order Toolkit." },
-            "api.management.title": { ko: "바이낸스 API 키 발급", en: "Create a Binance API Key" },
-            "api.management.desc": { ko: "바이낸스에 로그인한 후 API 관리 페이지에서 오더툴킷에 사용할 API 키를 생성하세요.", en: "Sign in to Binance and create an API key for the Order Toolkit from the API Management page." },
             "api.step1.title": { ko: "1) 발급 절차", en: "1) Issuance Steps" },
-            "api.step1.item1": { ko: "바이낸스 로그인 후 우측 상단 <strong>[Account]</strong> → <strong>[API Management]</strong> 메뉴로 이동합니다.", en: "After logging in to Binance, go to the top-right <strong>[Account]</strong> → <strong>[API Management]</strong>." },
+            "api.step1.item1": { ko: "바이낸스 로그인 후 <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>API Management 바로가기 <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>를 열어 API 관리 페이지로 이동합니다.", en: "After signing in to Binance, open <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>Binance API Management <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>." },
             "api.step1.item2": { ko: "<strong>[Create API]</strong> 클릭 후 <strong>System generated</strong> 방식을 선택합니다.", en: "Click <strong>[Create API]</strong> and choose <strong>System generated</strong>." },
             "api.step1.item3": { ko: "<strong>Label</strong>(이름)을 입력합니다. (예: <code>futures-toolkit</code>)", en: "Enter a <strong>Label</strong> (e.g., <code>futures-toolkit</code>)." },
             "api.step1.item4": { ko: "이메일 및 OTP 인증(Security Verification)을 완료하여 키를 생성합니다.", en: "Complete email and OTP verification (Security Verification) to create the key." },
@@ -5173,7 +5190,7 @@
             "api.step3.title": { ko: "3) IP 제한 설정 (보안 필수)", en: "3) IP Restriction (Security Required)" },
             "api.step3.item1": { ko: "API 설정 화면 하단의 <strong>IP Access Restrictions</strong> 항목을 확인합니다.", en: "Check the <strong>IP Access Restrictions</strong> section at the bottom of the API settings page." },
             "api.step3.item2": { ko: "<strong>Restrict access to trusted IPs only</strong>(권장) 옵션을 선택합니다.", en: "Select <strong>Restrict access to trusted IPs only</strong> (recommended)." },
-            "api.step3.item3": { ko: "네이버 검색창에 <code class='text-brand bg-gray-700 px-1 rounded'>내 IP</code>를 검색하여 본인의 IP 주소를 확인합니다.", en: "Search <code class='text-brand bg-gray-700 px-1 rounded'>내 IP</code> on Naver to find your IP address." },
+            "api.step3.item3": { ko: "네이버 <a class='text-brand font-semibold hover:underline' href='https://search.naver.com/search.naver?query=%EB%82%B4%20IP' target='_blank' rel='noopener noreferrer'>내 IP 확인 바로가기 <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>에서 현재 사용 중인 공인 IP 주소를 확인합니다.", en: "Use <a class='text-brand font-semibold hover:underline' href='https://search.naver.com/search.naver?query=%EB%82%B4%20IP' target='_blank' rel='noopener noreferrer'>Naver IP search <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a> to check your current public IP address." },
             "api.step3.item4": { ko: "확인된 IP 주소를 입력란에 붙여넣고 <strong>Confirm</strong>을 누른 뒤, 상단의 <strong>Save</strong> 버튼을 눌러 저장합니다.", en: "Paste the IP address, click <strong>Confirm</strong>, then click <strong>Save</strong> at the top." },
             "api.step3.note": { ko: "허용된 IP 이외의 환경(다른 PC, 외부 네트워크 등)에서는 API가 동작하지 않아 안전합니다.", en: "For security, the API will not work outside the allowed IPs." },
             "api.step4.title": { ko: "4) Order Toolkit에 입력", en: "4) Enter into Order Toolkit" },
@@ -6525,6 +6542,34 @@
             document.getElementById('member-payment-panel')?.classList.add('hidden');
         }
 
+        function openTradingVideoModal() {
+            const modal = document.getElementById('trading-video-modal');
+            const frame = document.getElementById('trading-video-frame');
+            if (!modal || !frame) return;
+
+            if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') {
+                window.open('https://youtu.be/pZvWV3hUT-I?si=AYIi40rF-TCUtZVX', '_blank', 'noopener,noreferrer');
+                return;
+            }
+
+            const siteOrigin = encodeURIComponent(window.location.origin);
+            frame.src = `https://www.youtube-nocookie.com/embed/pZvWV3hUT-I?autoplay=1&playsinline=1&rel=0&origin=${siteOrigin}`;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('trading-video-close')?.focus(), 0);
+        }
+
+        function closeTradingVideoModal() {
+            const modal = document.getElementById('trading-video-modal');
+            const frame = document.getElementById('trading-video-frame');
+            modal?.classList.add('hidden');
+            frame?.removeAttribute('src');
+            if (document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+            document.getElementById('trading-video-trigger')?.focus();
+        }
+
         function openMemberTermsModal() {
             const source = document.querySelector('#terms .space-y-10');
             const target = document.getElementById('member-terms-content');
@@ -7576,7 +7621,9 @@
 
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape') {
-                if (!document.getElementById('member-terms-modal')?.classList.contains('hidden')) {
+                if (!document.getElementById('trading-video-modal')?.classList.contains('hidden')) {
+                    closeTradingVideoModal();
+                } else if (!document.getElementById('member-terms-modal')?.classList.contains('hidden')) {
                     closeMemberTermsModal();
                 } else if (!document.getElementById('member-modal')?.classList.contains('hidden')) {
                     closeMemberModal();
