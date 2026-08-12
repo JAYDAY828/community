@@ -36,8 +36,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* Header */
 .header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(255,255,255,.07);border-top-color:rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px)}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:48px;height:48px;border-radius:12px;display:block;object-fit:cover;flex-shrink:0;box-shadow:0 6px 22px rgba(0,0,0,.3)}
+.logo{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;cursor:pointer}
+.logo-icon{width:48px;height:48px;display:block;object-fit:contain;flex-shrink:0}
 .logo-text h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.3px}
 .logo-text .logo-accent{color:var(--primary)}
 .logo-text .logo-subtitle{display:block;font-size:.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
@@ -429,13 +429,13 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 <div class="app">
   <!-- Header -->
   <header class="header">
-    <div class="logo">
-        <img class="logo-icon" src="assets/brand/bf-icon-512.png" alt="부평구금융인 BF 로고" width="48" height="48" draggable="false">
+    <a class="logo" href="/" aria-label="부평구금융인 메인으로 이동">
+        <img class="logo-icon" src="assets/brand/bf-header-transparent.png" alt="부평구금융인 BF 로고" width="48" height="48" draggable="false">
       <div class="logo-text">
         <h1>Trading API.<span class="logo-accent">Onchain Tracker</span></h1>
         <span class="logo-subtitle">BUILT FOR TRADERS.</span>
       </div>
-    </div>
+    </a>
     <div class="header-actions">
       <button class="btn-icon" onclick="location.href='/'" title="메인으로" aria-label="메인으로"><i class="fa-solid fa-house"></i></button>
       <button class="btn-icon" onclick="refreshData()" title="새로고침" aria-label="새로고침"><i class="fa-solid fa-rotate"></i></button>
