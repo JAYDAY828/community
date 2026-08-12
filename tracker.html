@@ -661,6 +661,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 const APP_VERSION = 'Tracker v1.1.8';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
+  COINPAPRIKA: 'https://api.coinpaprika.com/v1',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
   ETHERSCAN_V2: 'https://api.etherscan.io/v2/api',
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
@@ -774,6 +775,7 @@ const state = {
   binanceFallback: { loadedAt:0, tickers:[] },
   kucoinFallback: { loadedAt:0, tickers:[] },
   kucoinSpotFallback: { loadedAt:0, symbols:[] },
+  coinPaprikaMarkets: {},
   sessions: [],
   sessionWindow: 900,
   alerts: [],
@@ -2666,12 +2668,52 @@ async function getKuCoinSpotFallbackSymbols(){
 async function fetchKuCoinSpotFallback(symbolUpper){
   const expected=getKuCoinSpotSymbol(symbolUpper);
   if(!expected) return null;
-  const symbols=await getKuCoinSpotFallbackSymbols();
-  return symbols.find(item=>
-    item?.symbol===expected &&
-    item?.quoteCurrency==='USDT' &&
-    item?.enableTrading!==false
-  ) || null;
+  try{
+    const symbols=await getKuCoinSpotFallbackSymbols();
+    const match=symbols.find(item=>
+      item?.symbol===expected &&
+      item?.quoteCurrency==='USDT' &&
+      item?.enableTrading!==false
+    );
+    if(match) return match;
+  }catch(err){
+    console.warn('KuCoin symbol-list fallback failed:', redactSensitiveUrl(err?.message||err));
+  }
+  return fetchKuCoinSpotFromCoinPaprika(symbolUpper);
+}
+
+async function fetchKuCoinSpotFromCoinPaprika(symbolUpper){
+  const coin=state.currentCoin||{};
+  const cacheKey=String(coin.id||`${coin.name||''}:${symbolUpper}`).toLowerCase();
+  const cached=state.coinPaprikaMarkets?.[cacheKey];
+  if(cached && Date.now()-Number(cached.loadedAt||0)<10*60*1000){
+    return cached.market||null;
+  }
+
+  const query=String(coin.name||symbolUpper).trim();
+  const searchUrl=new URL(`${CONFIG.COINPAPRIKA}/search`);
+  searchUrl.searchParams.set('q',query);
+  searchUrl.searchParams.set('c','currencies');
+  const searchResp=await fetch(searchUrl.toString(),{cache:'no-store'});
+  if(!searchResp.ok) throw new Error(`CoinPaprika search status ${searchResp.status}`);
+  const searchData=await searchResp.json();
+  const candidates=(searchData?.currencies||[])
+    .filter(item=>String(item?.symbol||'').toUpperCase()===symbolUpper)
+    .sort((a,b)=>Number(a.rank||Number.MAX_SAFE_INTEGER)-Number(b.rank||Number.MAX_SAFE_INTEGER));
+  const exactName=candidates.find(item=>String(item?.name||'').toLowerCase()===String(coin.name||'').toLowerCase());
+  const selected=exactName||candidates[0];
+  if(!selected?.id) return null;
+
+  const marketsResp=await fetch(`${CONFIG.COINPAPRIKA}/coins/${encodeURIComponent(selected.id)}/markets`,{cache:'no-store'});
+  if(!marketsResp.ok) throw new Error(`CoinPaprika markets status ${marketsResp.status}`);
+  const markets=await marketsResp.json();
+  const expectedPair=`${symbolUpper}/USDT`;
+  const market=(Array.isArray(markets)?markets:[]).find(item=>
+    String(item?.exchange_id||'').toLowerCase()==='kucoin' &&
+    String(item?.pair||'').toUpperCase()===expectedPair
+  )||null;
+  state.coinPaprikaMarkets[cacheKey]={loadedAt:Date.now(),market};
+  return market ? {symbol:getKuCoinSpotSymbol(symbolUpper),source:'coinpaprika'} : null;
 }
 
 async function fetchBinanceSpotFallback(symbolUpper){
