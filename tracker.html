@@ -706,7 +706,7 @@ const CONFIG = {
   LARGE_TX_DEFAULT: 10000,
   FETCH_LIMITS: {
     TRANSFER_PAGE_SIZE: 50,
-    ETHERSCAN_PAGE: 200,
+    ETHERSCAN_PAGE: 1000,
     ETHERSCAN_TOTAL: 400,
     MORALIS_PAGE: 100,
     MORALIS_TOTAL: 400,
@@ -773,6 +773,7 @@ const state = {
   exchangeOiDelta: {},
   binanceFallback: { loadedAt:0, tickers:[] },
   kucoinFallback: { loadedAt:0, tickers:[] },
+  kucoinSpotFallback: { loadedAt:0, symbols:[] },
   sessions: [],
   sessionWindow: 900,
   alerts: [],
@@ -1667,11 +1668,24 @@ async function fetchEtherscanTokenTransfersPaginated(explorer, apiKey, totalLimi
   while(results.length < totalLimit){
     const offset=Math.min(pageSize, totalLimit - results.length);
     const url=`${CONFIG.ETHERSCAN_V2}?chainid=${explorer.chainId}&module=account&action=tokentx&contractaddress=${state.currentContract}&page=${page}&offset=${offset}&sort=desc&apikey=${apiKey}`;
-    const r=await fetch(url);
-    const d=await r.json();
+    let d=null;
+    let errMsg='';
+    for(let attempt=0;attempt<3;attempt++){
+      const r=await fetch(url,{cache:'no-store'});
+      d=await r.json();
+      const resultMessage=typeof d.result==='string' ? d.result.trim() : '';
+      const statusMessage=String(d.message||'').trim();
+      errMsg=resultMessage || statusMessage;
+      if(d.status==='1' && Array.isArray(d.result)) break;
+      if(!/rate limit|max rate|timeout|temporar/i.test(errMsg) || attempt===2) break;
+      await new Promise(resolve=>setTimeout(resolve,700*(attempt+1)));
+    }
     if(d.status!=='1' || !Array.isArray(d.result)){
-      const errMsg=String(d.message || d.result || '');
-      if(results.length && /no transactions|not found/i.test(errMsg)){
+      if(/no transactions|not found/i.test(errMsg)){
+        break;
+      }
+      if(results.length && /rate limit|max rate|timeout|temporar/i.test(errMsg)){
+        console.warn('Etherscan pagination ended with partial results:', errMsg);
         break;
       }
       throw new Error(errMsg || '전송 내역이 없습니다');
@@ -2638,6 +2652,28 @@ async function fetchKuCoinFallback(symbolUpper){
   return findKuCoinFallbackTicker(tickers,symbolUpper);
 }
 
+async function getKuCoinSpotFallbackSymbols(){
+  const cached=state.kucoinSpotFallback||{};
+  if(cached.symbols?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
+    return cached.symbols;
+  }
+  const data=await fetchExchangeJson('https://api.kucoin.com/api/v2/symbols');
+  const symbols=Array.isArray(data?.data) ? data.data : [];
+  state.kucoinSpotFallback={loadedAt:Date.now(),symbols};
+  return symbols;
+}
+
+async function fetchKuCoinSpotFallback(symbolUpper){
+  const expected=getKuCoinSpotSymbol(symbolUpper);
+  if(!expected) return null;
+  const symbols=await getKuCoinSpotFallbackSymbols();
+  return symbols.find(item=>
+    item?.symbol===expected &&
+    item?.quoteCurrency==='USDT' &&
+    item?.enableTrading!==false
+  ) || null;
+}
+
 async function fetchBinanceSpotFallback(symbolUpper){
   const coinId=state.currentCoin?.id;
   if(!coinId) return null;
@@ -2832,7 +2868,24 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.okx.futures) addListingCheck(intel.okx,'futures',()=>fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`),d=>d.data?.length);
   if(!intel.bybit.futures) addListingCheck(intel.bybit,'futures',()=>fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`),d=>d.result?.list?.length);
   if(!intel.bitget.futures) addListingCheck(intel.bitget,'futures',()=>fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`),d=>d.code==='00000'&&d.data?.length);
-  if(!intel.kucoin.spot) addListingCheck(intel.kucoin,'spot',()=>fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`),d=>d.code==='200000'&&d.data?.symbol);
+  if(!intel.kucoin.spot){
+    intel.kucoin.spotStatus='checking';
+    checks.push((async()=>{
+      try{
+        const direct=await fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`);
+        intel.kucoin.spot=Boolean(direct.code==='200000'&&direct.data?.symbol);
+      }catch(err){
+        try{
+          const fallback=await fetchKuCoinSpotFallback(symbolUpper);
+          intel.kucoin.spot=Boolean(fallback);
+          if(fallback) intel.kucoin.spotSymbol=fallback.symbol||intel.kucoin.spotSymbol;
+        }catch(fallbackError){
+          intel.kucoin.spotStatus='error';
+        }
+      }
+      if(intel.kucoin.spotStatus!=='error') intel.kucoin.spotStatus=intel.kucoin.spot?'listed':'unlisted';
+    })());
+  }
   if(!intel.kucoin.futures){
     intel.kucoin.futuresStatus='checking';
     checks.push((async()=>{
@@ -4952,6 +5005,7 @@ function showLoading(){
   document.getElementById('coinMetrics').innerHTML='<div class="skeleton" style="width:100%;height:60px"></div>'.repeat(3);
   document.getElementById('tabsBar').style.display='none';
   state.transfers=[];
+  resetTransferStats();
   state.analyzedWallets=[];
   state.walletMap={};
   state.walletInsights=null;
