@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trading API.Onchain Tracker | 부평구금융인</title>
+<link rel="icon" href="assets/brand/bf-favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/brand/bf-apple-touch-icon.png" sizes="180x180">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -35,7 +37,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* Header */
 .header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(255,255,255,.07);border-top-color:rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px)}
 .logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#ffe268,var(--primary) 62%,#ca8a04);color:#090a0c;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:900;line-height:1.02;letter-spacing:-.35px;border:1px solid rgba(252,213,53,.5);box-shadow:0 6px 22px var(--primary-glow)}
+.logo-icon{width:48px;height:48px;border-radius:12px;display:block;object-fit:cover;flex-shrink:0;box-shadow:0 6px 22px rgba(0,0,0,.3)}
 .logo-text h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.3px}
 .logo-text .logo-accent{color:var(--primary)}
 .logo-text .logo-subtitle{display:block;font-size:.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
@@ -406,7 +408,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 @media(max-width:380px){
   .header{gap:8px}
   .logo{gap:8px}
-  .logo-icon{width:44px;height:44px;font-size:10px;flex:0 0 44px}
+  .logo-icon{width:44px;height:44px;flex:0 0 44px}
   .logo-text h1{font-size:1.05rem;white-space:nowrap}
   .logo-text span{font-size:.62rem;letter-spacing:.35px;white-space:nowrap}
   .logo-text .version-line{font-size:.65rem;white-space:nowrap}
@@ -428,7 +430,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
   <!-- Header -->
   <header class="header">
     <div class="logo">
-        <div class="logo-icon" aria-label="부평구금융인"><span>부평구</span><span>금융인</span></div>
+        <img class="logo-icon" src="assets/brand/bf-icon-512.png" alt="부평구금융인 BF 로고" width="48" height="48" draggable="false">
       <div class="logo-text">
         <h1>Trading API.<span class="logo-accent">Onchain Tracker</span></h1>
         <span class="logo-subtitle">BUILT FOR TRADERS.</span>
@@ -656,7 +658,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.7';
+const APP_VERSION = 'Tracker v1.1.8';
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   DEXSCREENER: 'https://api.dexscreener.com/latest/dex',
