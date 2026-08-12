@@ -600,18 +600,10 @@
             <!-- 수정사항: 'overflow-hidden' 제거 상태 유지 -->
             <div class="flex items-center gap-3 cursor-pointer min-w-0" onclick="activate('home')">
 
-                <!-- 수정사항: 'border border-white/10' 제거 (테두리 띠 삭제) -->
-                <!-- shadow-md는 유지하여 배경과 분리감만 줌 -->
-                <!-- Refined Logo Design C -->
-                <div
-                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-brand via-brand/90 to-yellow-600 flex-shrink-0 flex items-center justify-center relative z-10 transition-transform duration-300 hover:scale-105 border border-brand/50">
-                    <div class="flex flex-col items-center justify-center leading-none select-none py-0.5">
-                        <span
-                            class="font-black text-black text-[10px] md:text-[11px] tracking-tight mb-[1px]">부평구</span>
-                        <span class="font-black text-black text-[10px] md:text-[11px] tracking-tight"
-                            data-i18n="brand.sub">금융인</span>
-                    </div>
-                </div>
+                <!-- Brand icon -->
+                <img src="assets/brand/bf-icon-512.png" alt="부평구금융인 BF 로고" width="48" height="48"
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl flex-shrink-0 object-cover relative z-10 transition-transform duration-300 hover:scale-105"
+                    draggable="false" />
 
                 <!-- Title Text -->
                 <div class="hidden sm:flex flex-col justify-center min-w-0">
