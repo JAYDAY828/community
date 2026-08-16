@@ -2217,10 +2217,148 @@
                             </div>
                         </div>
 
-                        <!-- 5. Troubleshooting -->
+                        <!-- 5. OI Flow -->
+                        <div id="cd-oi-flow">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-green"
+                                data-i18n="cd.oi_flow.title">5) OI FLOW</h2>
+                            <p class="text-gray-400 leading-relaxed mb-5" data-i18n="cd.oi_flow.body">
+                                감지 종목의 OI 기록을 차트로 열어 미체결약정 변화와 24시간 거래대금 흐름을 시간 순서로 비교할 수 있습니다.
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-green/50 hover:shadow-lg hover:-translate-y-1">
+                                    <div class="flex items-start gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-accent-green/10 border border-accent-green/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fa-solid fa-chart-line text-accent-green"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold text-sm !mt-0 mb-2"
+                                                data-i18n="cd.oi_flow.main.title">메인 화면</h3>
+                                            <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="cd.oi_flow.main.body">감지 목록에서 종목의 <strong
+                                                    class="text-gray-200">OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-blue/50 hover:shadow-lg hover:-translate-y-1">
+                                    <div class="flex items-start gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-accent-blue"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold text-sm !mt-0 mb-2"
+                                                data-i18n="cd.oi_flow.log.title">LOG 화면</h3>
+                                            <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                                data-i18n="cd.oi_flow.log.body">종목을 선택한 후 상세 정보의 <strong
+                                                    class="text-gray-200">OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-5 mb-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fa-solid fa-crosshairs text-accent-blue mt-0.5"></i>
+                                    <div>
+                                        <h3 class="text-gray-200 font-bold text-sm !mt-0 mb-1"
+                                            data-i18n="cd.oi_flow.chart.title">차트 확인</h3>
+                                        <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                            data-i18n="cd.oi_flow.chart.body">차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3 text-xs text-gray-400 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-4">
+                                <i class="fa-solid fa-circle-info text-yellow-400 mt-0.5 flex-shrink-0"></i>
+                                <p class="!m-0 leading-relaxed" data-i18n="cd.oi_flow.note">OI FLOW는 실시간 연속 차트가 아니라 Crypto Detector가 해당 종목을 감지한 시점의 기록을 기반으로 구성됩니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.</p>
+                            </div>
+                        </div>
+
+                        <!-- 6. Detection Log -->
+                        <div id="cd-log">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-green"
+                                data-i18n="cd.log.title">6) LOG</h2>
+                            <div
+                                class="liquid-card bg-emerald-900/10 border border-emerald-900/30 rounded-xl p-5 mb-5 flex items-start gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-accent-green/10 border border-accent-green/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-clock-rotate-left text-accent-green"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-gray-200 font-bold text-sm !mt-0 mb-1"
+                                        data-i18n="cd.log.overview.title">감지 기록 열기</h3>
+                                    <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                        data-i18n="cd.log.overview.body">메인 화면의 <strong
+                                            class="text-gray-200">LOG</strong> 버튼을 누르면 최근 7일 동안 감지된 종목과 감지 이력을 확인할 수 있습니다. 종목별 감지 빈도와 시장 데이터를 비교하고, 선택한 종목의 상세 흐름을 분석할 수 있습니다.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-green/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-ranking-star text-accent-green"></i>
+                                        <span data-i18n="cd.log.detected.title">Detected Symbols</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                        data-i18n="cd.log.detected.body">최근 7일간 감지된 종목의 HITS, 감지 일수, 최근 감지 시각, 24시간 등락률, 거래대금과 OI를 표시합니다. 검색창과 열 제목을 이용해 종목을 찾거나 정렬할 수 있습니다.</p>
+                                </div>
+
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-accent-blue/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-chart-column text-accent-blue"></i>
+                                        <span data-i18n="cd.log.detail.title">Symbol Detail</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                        data-i18n="cd.log.detail.body">선택한 종목의 오늘·최근 7일 감지 횟수, 감지 기간, 1분 변동 범위, 24시간 등락률과 거래대금, 시가총액, FDV 및 OI를 요약합니다.</p>
+                                </div>
+
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-bolt text-yellow-400"></i>
+                                        <span data-i18n="cd.log.highlights.title">Flow Highlights</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                        data-i18n="cd.log.highlights.body">최근 기록에서 거래대금이나 OI 변화 등 주목할 만한 흐름을 선별해 보여줍니다. 항목을 선택하면 해당 종목의 상세 기록으로 이동합니다.</p>
+                                </div>
+
+                                <div
+                                    class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-5 transition-all duration-300 hover:border-purple-400/50 hover:shadow-lg hover:-translate-y-1">
+                                    <h3 class="text-white font-bold text-sm !mt-0 mb-2 flex items-center gap-2">
+                                        <i class="fa-solid fa-table-list text-purple-400"></i>
+                                        <span data-i18n="cd.log.history.title">Daily Flow / Events</span>
+                                    </h3>
+                                    <p class="text-sm text-gray-400 !m-0 leading-relaxed"
+                                        data-i18n="cd.log.history.body"><strong class="text-gray-300">Daily Flow</strong>에서는 날짜별 감지 횟수와 상승·하락 흐름을 요약하고, <strong class="text-gray-300">Events</strong>에서는 개별 감지 시각, 거래소, 1분·24시간 변동률, 거래대금, OI 및 감지 조건을 확인할 수 있습니다.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <div class="flex items-start gap-3 text-xs text-gray-400 bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                                    <i class="fa-solid fa-copy text-accent-blue mt-0.5 flex-shrink-0"></i>
+                                    <p class="!m-0 leading-relaxed" data-i18n="cd.log.copy.note"><strong
+                                            class="text-gray-300">Symbol Detail</strong>과 <strong
+                                            class="text-gray-300">Flow Highlights</strong> 제목을 클릭하면 표시된 내용을 클립보드에 복사할 수 있습니다.</p>
+                                </div>
+                                <div class="flex items-start gap-3 text-xs text-gray-400 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-4">
+                                    <i class="fa-solid fa-circle-info text-yellow-400 mt-0.5 flex-shrink-0"></i>
+                                    <p class="!m-0 leading-relaxed" data-i18n="cd.log.note">LOG는 전체 시장의 연속 데이터를 저장하는 기능이 아니라 Crypto Detector가 종목을 감지한 시점의 기록을 최근 7일간 보여줍니다. 상세 화면의 OI 값을 클릭하면 해당 종목의 OI FLOW 차트가 열립니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Troubleshooting -->
                         <div id="cd-troubleshoot">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
-                                data-i18n="cd.trouble.title">5) 문제 해결 및 팁</h2>
+                                data-i18n="cd.trouble.title">7) 문제 해결 및 팁</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-400">
@@ -3610,11 +3748,7 @@
                                         </li>
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-code-compare text-cyan-400 mt-1"></i>
-                                            <span data-i18n="tr.ui.top.mark_gap"><strong>Mark Gap (괴리율)</strong>: 가격 라벨 우측에 <code>(Mark Price - Last Price) ÷ Last Price × 100</code>으로 계산한 괴리율을 표시합니다. 양수(녹색)는 Mark Price가 Last Price보다 높은 상태, 음수(적색)는 낮은 상태를 의미하며, 데이터가 지연되거나 확인되지 않으면 <code>--</code>로 표시됩니다.</span>
-                                        </li>
-                                        <li class="flex items-start gap-2">
-                                            <i class="fa-solid fa-computer-mouse text-gray-500 mt-1"></i>
-                                            <span data-i18n="tr.ui.top.mark_gap_note">괴리율 라벨에 마우스를 올리면 Last Price, Mark Price와 괴리율 상세 정보를 확인할 수 있으며, 클릭하면 상세 창을 고정하거나 해제할 수 있습니다. 괴리가 커질수록 경고 표시가 강화되며 현물 모드에서는 표시되지 않습니다.</span>
+                                            <span data-i18n="tr.ui.top.mark_gap"><strong>Mark Gap (괴리율)</strong>: Last Price와 Mark Price의 차이를 백분율로 표시합니다. 라벨에 마우스를 올리면 상세 정보를 확인할 수 있으며, 클릭하면 상세 창을 고정하거나 해제할 수 있습니다. 현물 모드에서는 표시되지 않습니다.</span>
                                         </li>
                                         <li class="flex items-start gap-2">
                                             <i class="fa-solid fa-gauge-high text-yellow-400 mt-1"></i>
@@ -3625,28 +3759,6 @@
                                             <span data-i18n="tr.ui.top.item4"><strong>3초 누적 대금</strong>: 하단에 최근 3초 매수/매도 체결대금을 표시합니다.</span>
                                         </li>
                                     </ul>
-                                </div>
-                            </div>
-
-                            <!-- OI Flow Chart -->
-                            <div class="mb-6">
-                                <h3 class="text-white font-bold text-lg mb-3 flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-line text-accent-green"></i>
-                                    <span data-i18n="cd.ui.oi_flow.title">OI Flow 차트</span>
-                                </h3>
-                                <div class="liquid-card bg-emerald-900/10 border border-emerald-900/30 rounded-xl p-6">
-                                    <p class="text-sm text-gray-300 mb-4 !mt-0" data-i18n="cd.ui.oi_flow.body">감지 종목의 OI 값을 클릭하면 해당 종목의 감지 기록에 따른 Open Interest 변화와 24시간 거래대금을 시간 순서로 비교할 수 있습니다.</p>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                                        <div class="bg-[#0b0e11] p-4 rounded border border-gray-700">
-                                            <div class="text-xs font-bold text-accent-green mb-1" data-i18n="cd.ui.oi_flow.main.title">메인 UI</div>
-                                            <p class="text-xs text-gray-400 !m-0" data-i18n="cd.ui.oi_flow.main.body">감지 목록에서 종목의 <strong class="text-gray-200">OI</strong> 값을 클릭합니다.</p>
-                                        </div>
-                                        <div class="bg-[#0b0e11] p-4 rounded border border-gray-700">
-                                            <div class="text-xs font-bold text-accent-green mb-1" data-i18n="cd.ui.oi_flow.log.title">LOG 다이얼로그</div>
-                                            <p class="text-xs text-gray-400 !m-0" data-i18n="cd.ui.oi_flow.log.body">종목을 선택한 후 상세 정보의 <strong class="text-gray-200">OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-xs text-gray-500 !m-0" data-i18n="cd.ui.oi_flow.note">차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.</p>
                                 </div>
                             </div>
 
@@ -5557,13 +5669,28 @@
             "cd.ui.clipboard.card1": { ko: "URL (Default)", en: "URL (Default)" },
             "cd.ui.clipboard.card2": { ko: "Symbol Only", en: "Symbol Only" },
             "cd.ui.clipboard.card3": { ko: "Custom Format", en: "Custom Format" },
-            "cd.ui.oi_flow.title": { ko: "OI Flow 차트", en: "OI Flow Chart" },
-            "cd.ui.oi_flow.body": { ko: "감지 종목의 OI 값을 클릭하면 해당 종목의 감지 기록에 따른 Open Interest 변화와 24시간 거래대금을 시간 순서로 비교할 수 있습니다.", en: "Click a detected symbol's OI value to compare its Open Interest changes and 24-hour trading volume across the detection timeline." },
-            "cd.ui.oi_flow.main.title": { ko: "메인 UI", en: "Main UI" },
-            "cd.ui.oi_flow.main.body": { ko: "감지 목록에서 종목의 <strong class='text-gray-200'>OI</strong> 값을 클릭합니다.", en: "Click the symbol's <strong class='text-gray-200'>OI</strong> value in the detection list." },
-            "cd.ui.oi_flow.log.title": { ko: "LOG 다이얼로그", en: "LOG Dialog" },
-            "cd.ui.oi_flow.log.body": { ko: "종목을 선택한 후 상세 정보의 <strong class='text-gray-200'>OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.", en: "Select a symbol, then click the <strong class='text-gray-200'>OI</strong> value or external-open icon in its details." },
-            "cd.ui.oi_flow.note": { ko: "차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.", en: "Click a chart point to view OI, 24-hour volume, change from the previous record, and its KST timestamp. The chart is unavailable when no detection history exists." },
+            "cd.oi_flow.title": { ko: "5) OI FLOW", en: "5) OI FLOW" },
+            "cd.oi_flow.body": { ko: "감지 종목의 OI 기록을 차트로 열어 미체결약정 변화와 24시간 거래대금 흐름을 시간 순서로 비교할 수 있습니다.", en: "Open a detected symbol's OI history as a chart to compare open-interest changes and 24-hour trading-volume flow over time." },
+            "cd.oi_flow.main.title": { ko: "메인 화면", en: "Main Screen" },
+            "cd.oi_flow.main.body": { ko: "감지 목록에서 종목의 <strong class='text-gray-200'>OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.", en: "Click the symbol's <strong class='text-gray-200'>OI</strong> value in the detection list to open the OI FLOW chart directly." },
+            "cd.oi_flow.log.title": { ko: "LOG 화면", en: "LOG Screen" },
+            "cd.oi_flow.log.body": { ko: "종목을 선택한 후 상세 정보의 <strong class='text-gray-200'>OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.", en: "Select a symbol, then click the <strong class='text-gray-200'>OI</strong> value or external-open icon in its details." },
+            "cd.oi_flow.chart.title": { ko: "차트 확인", en: "Chart Details" },
+            "cd.oi_flow.chart.body": { ko: "차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다.", en: "Click a chart point to view OI, 24-hour volume, change from the previous record, and its KST timestamp." },
+            "cd.oi_flow.note": { ko: "OI FLOW는 실시간 연속 차트가 아니라 Crypto Detector가 해당 종목을 감지한 시점의 기록을 기반으로 구성됩니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.", en: "OI FLOW is not a continuous real-time chart; it is built from records captured when Crypto Detector detects the symbol. The chart is unavailable when no detection history exists." },
+            "cd.log.title": { ko: "6) LOG", en: "6) LOG" },
+            "cd.log.overview.title": { ko: "감지 기록 열기", en: "Open Detection Log" },
+            "cd.log.overview.body": { ko: "메인 화면의 <strong class='text-gray-200'>LOG</strong> 버튼을 누르면 최근 7일 동안 감지된 종목과 감지 이력을 확인할 수 있습니다. 종목별 감지 빈도와 시장 데이터를 비교하고, 선택한 종목의 상세 흐름을 분석할 수 있습니다.", en: "Click <strong class='text-gray-200'>LOG</strong> on the main screen to view symbols and detection history from the last seven days. Compare detection frequency and market data, then analyze the selected symbol in detail." },
+            "cd.log.detected.title": { ko: "Detected Symbols", en: "Detected Symbols" },
+            "cd.log.detected.body": { ko: "최근 7일간 감지된 종목의 HITS, 감지 일수, 최근 감지 시각, 24시간 등락률, 거래대금과 OI를 표시합니다. 검색창과 열 제목을 이용해 종목을 찾거나 정렬할 수 있습니다.", en: "Shows HITS, detection days, latest detection time, 24-hour change, traded volume, and OI for symbols detected over the last seven days. Use the search field and column headings to find or sort symbols." },
+            "cd.log.detail.title": { ko: "Symbol Detail", en: "Symbol Detail" },
+            "cd.log.detail.body": { ko: "선택한 종목의 오늘·최근 7일 감지 횟수, 감지 기간, 1분 변동 범위, 24시간 등락률과 거래대금, 시가총액, FDV 및 OI를 요약합니다.", en: "Summarizes today's and seven-day detection counts, detection span, one-minute move range, 24-hour change and volume, market cap, FDV, and OI for the selected symbol." },
+            "cd.log.highlights.title": { ko: "Flow Highlights", en: "Flow Highlights" },
+            "cd.log.highlights.body": { ko: "최근 기록에서 거래대금이나 OI 변화 등 주목할 만한 흐름을 선별해 보여줍니다. 항목을 선택하면 해당 종목의 상세 기록으로 이동합니다.", en: "Surfaces notable recent flows such as changes in traded volume or OI. Select an item to open that symbol's detailed history." },
+            "cd.log.history.title": { ko: "Daily Flow / Events", en: "Daily Flow / Events" },
+            "cd.log.history.body": { ko: "<strong class='text-gray-300'>Daily Flow</strong>에서는 날짜별 감지 횟수와 상승·하락 흐름을 요약하고, <strong class='text-gray-300'>Events</strong>에서는 개별 감지 시각, 거래소, 1분·24시간 변동률, 거래대금, OI 및 감지 조건을 확인할 수 있습니다.", en: "<strong class='text-gray-300'>Daily Flow</strong> summarizes daily detection counts and upward/downward flow. <strong class='text-gray-300'>Events</strong> shows each detection time, exchange, one-minute and 24-hour changes, traded volume, OI, and trigger." },
+            "cd.log.copy.note": { ko: "<strong class='text-gray-300'>Symbol Detail</strong>과 <strong class='text-gray-300'>Flow Highlights</strong> 제목을 클릭하면 표시된 내용을 클립보드에 복사할 수 있습니다.", en: "Click the <strong class='text-gray-300'>Symbol Detail</strong> or <strong class='text-gray-300'>Flow Highlights</strong> heading to copy the displayed content to the clipboard." },
+            "cd.log.note": { ko: "LOG는 전체 시장의 연속 데이터를 저장하는 기능이 아니라 Crypto Detector가 종목을 감지한 시점의 기록을 최근 7일간 보여줍니다. 상세 화면의 OI 값을 클릭하면 해당 종목의 OI FLOW 차트가 열립니다.", en: "LOG does not store continuous market data; it shows records captured when Crypto Detector detects a symbol over the last seven days. Click the OI value in the detail view to open that symbol's OI FLOW chart." },
             "cd.mobile.title": { ko: "모바일 알림 지원 (TradingView 연동)", en: "Mobile Alerts (TradingView Integration)" },
             "cd.mobile.body": { ko: "본 프로그램은 PC 전용이지만, 외부 이동 시에도 시세를 놓치지 않도록 <strong>동일 로직의 트레이딩뷰(TradingView) 지표</strong>를 함께 제공합니다.", en: "This program is PC-only, but we provide a <strong>TradingView indicator with the same logic</strong> so you won't miss signals when away." },
             "cd.mobile.item1": { ko: "PC를 켜두지 않아도 <strong>24시간 서버 알림</strong>이 작동합니다.", en: "<strong>24/7 server alerts</strong> work even if your PC is off." },
@@ -5579,7 +5706,7 @@
             "cd.screener.card3.body": { ko: "개별 종목의 미체결약정과 시총 대비 OI 비율을 확인하여 선물 포지션 쏠림을 참고할 수 있습니다.", en: "Review each coin's open interest and OI-to-market-cap ratio to gauge futures-position concentration." },
             "cd.screener.tracker.title": { ko: "TRACKER 연동", en: "TRACKER Integration" },
             "cd.screener.tracker.body": { ko: "스크리너에서 관심 종목을 추린 뒤 TRACKER 버튼으로 이동하면, 개별 종목의 상장 현황과 트랜잭션 흐름을 추가로 확인할 수 있습니다.", en: "After narrowing down candidates in the screener, use the TRACKER button to review each coin's listings and transaction flow in more detail." },
-            "cd.trouble.title": { ko: "5) 문제 해결 및 팁", en: "5) Troubleshooting & Tips" },
+            "cd.trouble.title": { ko: "7) 문제 해결 및 팁", en: "7) Troubleshooting & Tips" },
             "cd.trouble.item1.title": { ko: "리스트가 비어 있습니다.", en: "The list is empty." },
             "cd.trouble.item1.body": { ko: "필터 설정값(Change %, Volume)이 현재 장세에 비해 너무 높을 수 있습니다. 설정값을 조금 낮춰보세요.", en: "Your filter settings (Change %, Volume) may be too high for current market conditions. Try lowering them." },
             "cd.trouble.item2.title": { ko: "클립보드 복사가 안 됩니다.", en: "Clipboard copy doesn't work." },
@@ -5832,8 +5959,7 @@
             "tr.ui.top.title": { ko: "가격 / 보조지표 영역 (Price & Indicators)", en: "Price & Indicators" },
             "tr.ui.top.item1": { ko: "<strong>Symbol Info</strong>: 현재 연결된 종목명, 시가총액(Cap), 상단 시간 정보를 표시합니다.", en: "<strong>Symbol Info</strong>: shows the current symbol, market cap, and top time display." },
             "tr.ui.top.item2": { ko: "<strong>Last Price</strong>: 중앙에 현재 체결가와 등락 방향을 크게 표시합니다.", en: "<strong>Last Price</strong>: shows the current traded price and direction prominently in the center." },
-            "tr.ui.top.mark_gap": { ko: "<strong>Mark Gap (괴리율)</strong>: 가격 라벨 우측에 <code>(Mark Price - Last Price) ÷ Last Price × 100</code>으로 계산한 괴리율을 표시합니다. 양수(녹색)는 Mark Price가 Last Price보다 높은 상태, 음수(적색)는 낮은 상태를 의미하며, 데이터가 지연되거나 확인되지 않으면 <code>--</code>로 표시됩니다.", en: "<strong>Mark Gap</strong>: shows the gap calculated as <code>(Mark Price - Last Price) / Last Price × 100</code> to the right of the price label. Positive (green) means Mark Price is above Last Price, while negative (red) means it is below. <code>--</code> is shown when data is delayed or unavailable." },
-            "tr.ui.top.mark_gap_note": { ko: "괴리율 라벨에 마우스를 올리면 Last Price, Mark Price와 괴리율 상세 정보를 확인할 수 있으며, 클릭하면 상세 창을 고정하거나 해제할 수 있습니다. 괴리가 커질수록 경고 표시가 강화되며 현물 모드에서는 표시되지 않습니다.", en: "Hover over the gap label to inspect Last Price, Mark Price, and the detailed gap; click it to pin or unpin the detail popover. Warning emphasis increases as the gap widens, and the label is hidden in Spot mode." },
+            "tr.ui.top.mark_gap": { ko: "<strong>Mark Gap (괴리율)</strong>: Last Price와 Mark Price의 차이를 백분율로 표시합니다. 라벨에 마우스를 올리면 상세 정보를 확인할 수 있으며, 클릭하면 상세 창을 고정하거나 해제할 수 있습니다. 현물 모드에서는 표시되지 않습니다.", en: "<strong>Mark Gap</strong>: shows the percentage difference between Last Price and Mark Price. Hover over the label for details, or click it to pin or unpin the detail popover. It is hidden in Spot mode." },
             "tr.ui.top.item3": { ko: "<strong>Indicators</strong>: <strong>3초 매수/매도 총 체결</strong>, <strong>D1 / D3 / BIG / FLOW</strong>, <strong>1M LIQ</strong>와 <strong>체결 강도 이퀄라이저</strong>를 표시합니다.", en: "<strong>Indicators</strong>: shows <strong>3s buy/sell gross totals</strong>, <strong>D1 / D3 / BIG / FLOW</strong>, plus the <strong>1M LIQ</strong> and <strong>trade-strength equalizer</strong> row." },
             "tr.ui.top.item4": { ko: "<strong>3초 누적 대금</strong>: 하단에 최근 3초 매수/매도 체결대금을 표시합니다.", en: "<strong>3s Notional</strong>: displays the recent 3-second buy/sell traded value at the bottom." },
             "tr.ui.table.title": { ko: "체결 테이블 (Main Table)", en: "Trades Table (Main Table)" },
