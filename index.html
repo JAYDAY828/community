@@ -4737,7 +4737,13 @@
                             </div>
                             <div class="flex items-center justify-between px-4 py-3 bg-black/30 border border-white/10 rounded-md">
                                 <span class="text-xs text-gray-400">이용 금액</span>
-                                <strong id="member-price" class="font-mono text-lg text-brand">-</strong>
+                                <div class="flex flex-wrap items-center justify-end gap-2">
+                                    <span id="member-price-original"
+                                        class="hidden font-mono text-xs text-gray-600 line-through"></span>
+                                    <strong id="member-price" class="font-mono text-lg text-brand">-</strong>
+                                    <span id="member-price-discount"
+                                        class="hidden px-2 py-0.5 rounded-full border border-green-800 bg-green-950/20 text-[10px] font-bold text-green-300"></span>
+                                </div>
                             </div>
                             <button id="member-subscription-submit" type="submit"
                                 class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold">다음 단계</button>
@@ -7545,7 +7551,27 @@
             const planId = document.getElementById('member-plan').value;
             const termId = document.getElementById('member-term').value;
             const term = MEMBER_CATALOG[planId]?.terms?.[termId];
-            document.getElementById('member-price').textContent = term ? (term.amount === 0 ? '무료' : `${term.amount} USDT`) : '-';
+            const price = document.getElementById('member-price');
+            const original = document.getElementById('member-price-original');
+            const discount = document.getElementById('member-price-discount');
+            price.textContent = term ? (term.amount === 0 ? '무료' : `${term.amount} USDT`) : '-';
+            original.textContent = '';
+            discount.textContent = '';
+            original.classList.add('hidden');
+            discount.classList.add('hidden');
+
+            const months = Number(termId);
+            const monthlyAmount = Number(MEMBER_CATALOG[planId]?.terms?.['1']?.amount || 0);
+            const originalAmount = Number.isFinite(months) && months > 1 && monthlyAmount > 0
+                ? monthlyAmount * months
+                : 0;
+            if (term && originalAmount > term.amount && term.amount > 0) {
+                const discountRate = Math.round((1 - (term.amount / originalAmount)) * 100);
+                original.textContent = `${originalAmount} USDT`;
+                discount.textContent = `${discountRate}% OFF`;
+                original.classList.remove('hidden');
+                discount.classList.remove('hidden');
+            }
         }
 
         async function submitSubscriptionRequest(event) {
