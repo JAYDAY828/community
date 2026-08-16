@@ -4707,10 +4707,10 @@
                                 <i class="fa-solid fa-rotate"></i>
                                 구독 관리
                             </button>
-                            <button id="member-download-button" type="button" onclick="openMemberDownload()"
+                            <button id="member-download-button" type="button" onclick="openDownloadCenter()"
                                 class="hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
                                 <i id="member-download-icon" class="fa-solid fa-download"></i>
-                                <span id="member-download-label" aria-live="polite">다운로드</span>
+                                <span id="member-download-label">다운로드</span>
                             </button>
                         </div>
 
@@ -4800,6 +4800,157 @@
                 <div id="member-loading-view" class="hidden p-12 text-center">
                     <i class="fa-solid fa-circle-notch fa-spin text-brand text-2xl mb-4"></i>
                     <p class="text-sm text-gray-400">회원정보를 확인하고 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Center -->
+    <div id="download-center-modal" class="fixed inset-0 z-[90] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="download-center-title">
+        <button type="button" class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-label="Close"
+            onclick="closeDownloadCenter()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-2xl max-h-[calc(100vh-1.5rem)] overflow-y-auto bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-[#11151b]/95 backdrop-blur-xl border-b border-white/10">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-brand tracking-normal">DOWNLOAD CENTER</p>
+                        <h2 id="download-center-title" class="text-base font-bold text-white">다운로드 센터</h2>
+                    </div>
+                    <button id="download-center-close" type="button" onclick="closeDownloadCenter()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="p-5 sm:p-6 space-y-4">
+                    <section class="p-5 border border-white/10 rounded-lg bg-black/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg bg-green-950/30 border border-green-800/50 text-green-400">
+                                <i class="fa-solid fa-table-list text-lg"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-sm font-bold text-white">Google 매매일지</h3>
+                                <p class="mt-1 text-xs leading-relaxed text-gray-400">
+                                    원본에 액세스를 요청하지 마세요. 아래 버튼을 눌러 본인의 Google Drive에 사본을 만든 후 사용해 주세요.
+                                </p>
+                                <a href="https://docs.google.com/spreadsheets/d/16JBtiEoZACmpdBolp4FVn4jfKsCjvjIXCi2seumxMpQ/copy"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md bg-green-700 hover:bg-green-600 text-sm font-bold text-white transition-colors">
+                                    <i class="fa-brands fa-google-drive"></i>
+                                    내 드라이브에 사본 만들기
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="p-5 border border-white/10 rounded-lg bg-black/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg bg-yellow-950/20 border border-yellow-800/40 text-brand">
+                                <i class="fa-solid fa-rocket text-lg"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="text-sm font-bold text-white">Trading API Launcher</h3>
+                                    <span id="launcher-access-badge" class="px-2 py-1 rounded border text-[10px] font-bold"></span>
+                                </div>
+                                <p id="launcher-access-message" class="mt-1 text-xs leading-relaxed text-gray-400"></p>
+                                <button id="launcher-download-button" type="button" onclick="openLauncherDownloadGuide()"
+                                    class="mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-600 hover:border-brand text-sm font-bold text-white transition-colors">
+                                    <i id="launcher-download-icon" class="fa-solid fa-download"></i>
+                                    <span id="launcher-download-label" aria-live="polite">런처 다운로드</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Launcher Download Guide -->
+    <div id="launcher-download-guide-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="launcher-download-guide-title">
+        <button type="button" class="absolute inset-0 bg-black/85 backdrop-blur-sm" aria-label="Close"
+            onclick="closeLauncherDownloadGuide()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-3xl max-h-[calc(100vh-1.5rem)] flex flex-col bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 flex-shrink-0">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-brand tracking-normal">BEFORE DOWNLOAD</p>
+                        <h2 id="launcher-download-guide-title" class="text-base font-bold text-white">다운로드 후 실행 안내</h2>
+                    </div>
+                    <button id="launcher-download-guide-close" type="button" onclick="closeLauncherDownloadGuide()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="overflow-y-auto p-5 sm:p-6 space-y-5">
+                    <p class="text-sm leading-relaxed text-gray-300">
+                        일부 Windows 환경에서는 다운로드한 압축 파일에 보안 확인 항목이 표시될 수 있습니다.
+                        아래 순서를 확인한 후 런처를 실행해 주세요.
+                    </p>
+
+                    <ol class="space-y-5">
+                        <li class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-4 border border-white/10 rounded-lg bg-black/20">
+                            <div class="flex gap-3">
+                                <span class="w-7 h-7 flex-shrink-0 inline-flex items-center justify-center rounded-full bg-brand text-black text-xs font-extrabold">1</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">ZIP 파일 속성 열기</h3>
+                                    <p class="mt-1 text-xs leading-relaxed text-gray-400">
+                                        다운로드한 ZIP 파일을 마우스 오른쪽 버튼으로 클릭하고 <strong class="text-gray-200">속성</strong>을 선택합니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <img src="assets/download/launcher-zip-properties.png"
+                                alt="ZIP 파일 우클릭 메뉴에서 속성을 선택하는 화면"
+                                class="w-full rounded-md border border-white/10" loading="lazy">
+                        </li>
+
+                        <li class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-4 border border-white/10 rounded-lg bg-black/20">
+                            <div class="flex gap-3">
+                                <span class="w-7 h-7 flex-shrink-0 inline-flex items-center justify-center rounded-full bg-brand text-black text-xs font-extrabold">2</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">표시되는 경우 적용</h3>
+                                    <p class="mt-1 text-xs leading-relaxed text-gray-400">
+                                        하단에 <strong class="text-gray-200">차단 해제</strong> 항목이 표시되는 경우에만 체크한 뒤 <strong class="text-gray-200">적용</strong>을 누릅니다. 항목이 없으면 그대로 진행합니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <img src="assets/download/launcher-zip-unblock.png"
+                                alt="ZIP 파일 속성에서 차단 해제를 선택한 화면"
+                                class="w-full rounded-md border border-white/10" loading="lazy">
+                        </li>
+
+                        <li class="flex gap-3 p-4 border border-white/10 rounded-lg bg-black/20">
+                            <span class="w-7 h-7 flex-shrink-0 inline-flex items-center justify-center rounded-full bg-brand text-black text-xs font-extrabold">3</span>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">압축 해제 후 런처 실행</h3>
+                                <p class="mt-1 text-xs leading-relaxed text-gray-400">
+                                    ZIP 파일의 압축을 해제하고 런처를 실행합니다. 정상적으로 실행되지 않는 경우 동봉된 문제 해결 안내 폴더의 설명을 확인해 주세요.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <label for="launcher-download-guide-confirm"
+                        class="flex items-start gap-3 p-4 rounded-lg border border-brand/30 bg-yellow-950/10 cursor-pointer">
+                        <input id="launcher-download-guide-confirm" type="checkbox" onchange="updateLauncherDownloadGuideState()"
+                            class="mt-0.5 w-4 h-4 accent-yellow-400">
+                        <span class="text-sm font-semibold text-gray-200">다운로드 후 실행 방법을 확인했습니다.</span>
+                    </label>
+                </div>
+
+                <div class="px-5 py-4 border-t border-white/10 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 flex-shrink-0">
+                    <button type="button" onclick="closeLauncherDownloadGuide()"
+                        class="h-10 px-5 rounded-md border border-gray-700 text-sm font-bold text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+                        취소
+                    </button>
+                    <button id="launcher-download-guide-submit" type="button" onclick="confirmLauncherDownload()" disabled
+                        class="h-10 px-5 rounded-md bg-brand text-black text-sm font-extrabold transition-opacity opacity-40 cursor-not-allowed">
+                        확인하고 다운로드
+                    </button>
                 </div>
             </div>
         </div>
@@ -6823,10 +6974,9 @@
             newSubscriptionButton.classList.toggle('hidden', !canRequestNew);
 
             const downloadButton = document.getElementById('member-download-button');
-            const canDownload = profile.active && (profile.subscriptions || []).length > 0;
-            downloadButton.classList.toggle('hidden', !canDownload);
-            downloadButton.classList.toggle('flex', canDownload);
-            const visibleMemberActions = [canRequestNew, profile.canRequestRenewal, canDownload].filter(Boolean).length;
+            downloadButton.classList.remove('hidden');
+            downloadButton.classList.add('flex');
+            const visibleMemberActions = [canRequestNew, profile.canRequestRenewal, true].filter(Boolean).length;
             [newSubscriptionButton, renewalButton, downloadButton].forEach(button => {
                 button.classList.toggle('sm:col-span-2', visibleMemberActions === 1);
             });
@@ -7468,8 +7618,80 @@
             }
         }
 
-        async function openMemberDownload() {
-            const button = document.getElementById('member-download-button');
+        function openDownloadCenter() {
+            const modal = document.getElementById('download-center-modal');
+            const profile = memberState.profile;
+            if (!modal || !profile || !memberToken()) return;
+
+            const canDownloadLauncher = profile.active && (profile.subscriptions || []).length > 0;
+            const launcherButton = document.getElementById('launcher-download-button');
+            const badge = document.getElementById('launcher-access-badge');
+            const message = document.getElementById('launcher-access-message');
+            launcherButton.disabled = !canDownloadLauncher;
+            launcherButton.classList.toggle('opacity-40', !canDownloadLauncher);
+            launcherButton.classList.toggle('cursor-not-allowed', !canDownloadLauncher);
+            badge.textContent = canDownloadLauncher ? '이용 가능' : '이용권 필요';
+            badge.className = `px-2 py-1 rounded border text-[10px] font-bold ${canDownloadLauncher
+                ? 'border-green-800 text-green-300 bg-green-950/20'
+                : 'border-gray-700 text-gray-400 bg-black/20'}`;
+            message.textContent = canDownloadLauncher
+                ? '활성 이용권이 확인되었습니다. 전용 런처를 다운로드할 수 있습니다.'
+                : '런처 다운로드에는 활성 이용권이 필요합니다.';
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('download-center-close')?.focus(), 0);
+        }
+
+        function closeDownloadCenter() {
+            closeLauncherDownloadGuide(false);
+            document.getElementById('download-center-modal')?.classList.add('hidden');
+            if (document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+            document.getElementById('member-download-button')?.focus();
+        }
+
+        function openLauncherDownloadGuide() {
+            const launcherButton = document.getElementById('launcher-download-button');
+            const modal = document.getElementById('launcher-download-guide-modal');
+            const checkbox = document.getElementById('launcher-download-guide-confirm');
+            if (!launcherButton || launcherButton.disabled || !modal || !checkbox) return;
+
+            checkbox.checked = false;
+            updateLauncherDownloadGuideState();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('launcher-download-guide-close')?.focus(), 0);
+        }
+
+        function closeLauncherDownloadGuide(restoreFocus = true) {
+            document.getElementById('launcher-download-guide-modal')?.classList.add('hidden');
+            if (document.getElementById('download-center-modal')?.classList.contains('hidden')
+                && document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+            if (restoreFocus) document.getElementById('launcher-download-button')?.focus();
+        }
+
+        function updateLauncherDownloadGuideState() {
+            const checkbox = document.getElementById('launcher-download-guide-confirm');
+            const submit = document.getElementById('launcher-download-guide-submit');
+            if (!checkbox || !submit) return;
+            submit.disabled = !checkbox.checked;
+            submit.classList.toggle('opacity-40', !checkbox.checked);
+            submit.classList.toggle('cursor-not-allowed', !checkbox.checked);
+        }
+
+        function confirmLauncherDownload() {
+            const checkbox = document.getElementById('launcher-download-guide-confirm');
+            if (!checkbox?.checked) return;
+            closeLauncherDownloadGuide(false);
+            downloadMemberLauncher();
+        }
+
+        async function downloadMemberLauncher() {
+            const button = document.getElementById('launcher-download-button');
             if (!button || button.disabled) return;
             const downloadWindow = window.open('about:blank', '_blank');
             if (!downloadWindow) {
@@ -7496,16 +7718,16 @@
         }
 
         function setMemberDownloadBusy(busy) {
-            const button = document.getElementById('member-download-button');
-            const icon = document.getElementById('member-download-icon');
-            const label = document.getElementById('member-download-label');
+            const button = document.getElementById('launcher-download-button');
+            const icon = document.getElementById('launcher-download-icon');
+            const label = document.getElementById('launcher-download-label');
             if (!button || !icon || !label) return;
             button.disabled = busy;
             button.setAttribute('aria-busy', String(busy));
             button.classList.toggle('opacity-60', busy);
             button.classList.toggle('cursor-wait', busy);
             icon.className = busy ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-download';
-            label.textContent = busy ? '준비 중...' : '다운로드';
+            label.textContent = busy ? '준비 중...' : '런처 다운로드';
         }
 
         function renderMemberPayment(result) {
@@ -7655,8 +7877,12 @@
             if (event.key === 'Escape') {
                 if (!document.getElementById('trading-video-modal')?.classList.contains('hidden')) {
                     closeTradingVideoModal();
+                } else if (!document.getElementById('launcher-download-guide-modal')?.classList.contains('hidden')) {
+                    closeLauncherDownloadGuide();
                 } else if (!document.getElementById('member-terms-modal')?.classList.contains('hidden')) {
                     closeMemberTermsModal();
+                } else if (!document.getElementById('download-center-modal')?.classList.contains('hidden')) {
+                    closeDownloadCenter();
                 } else if (!document.getElementById('member-modal')?.classList.contains('hidden')) {
                     closeMemberModal();
                 }
