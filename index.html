@@ -639,19 +639,12 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-2 md:gap-3 flex-shrink-0">
-                <!-- [NEW] Language Toggle -->
-                <button onclick="toggleLanguage()"
-                    class="liquid-card flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-800/20 border border-gray-700 hover:border-gray-500 transition-all text-xs font-bold text-gray-300">
-                    <i class="fa-solid fa-globe"></i>
-                    <span id="lang-text">KR</span>
+                <!-- Language Toggle -->
+                <button id="language-toggle" type="button" onclick="toggleLanguage()" title="Switch to English"
+                    aria-label="Switch to English"
+                    class="liquid-card w-9 h-9 flex items-center justify-center rounded-lg bg-gray-800/20 border border-gray-700 hover:border-gray-500 hover:text-white transition-all text-sm text-gray-300">
+                    <i class="fa-solid fa-globe" aria-hidden="true"></i>
                 </button>
-
-                <!-- Telegram Link (Desktop) -->
-                <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                    class="hidden lg:flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                    <i class="fa-brands fa-telegram text-[#229ED9] text-lg"></i> <span
-                        data-i18n="header.community">Community</span>
-                </a>
 
                 <button id="member-register-button" title="회원가입" onclick="openMemberModal('register')"
                     class="liquid-btn-yellow font-extrabold w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
@@ -5308,7 +5301,6 @@
             "brand.sub": { ko: "금융인", en: "금융인" },
             "brand.desc": { ko: "BUILT FOR TRADERS.", en: "BUILT FOR TRADERS." },
             "header.search": { ko: "Search", en: "Search" },
-            "header.community": { ko: "Community", en: "Community" },
             "header.join": { ko: "회원가입", en: "Register" },
             "header.register": { ko: "회원가입", en: "Register" },
             "header.login": { ko: "로그인", en: "Login" },
@@ -6097,9 +6089,11 @@
         function applyLanguage(lang) {
             currentLang = lang;
             document.documentElement.lang = currentLang;
-            const langBtn = document.getElementById('lang-text');
+            const langBtn = document.getElementById('language-toggle');
             if (langBtn) {
-                langBtn.innerText = currentLang === 'ko' ? 'KR' : 'EN';
+                const label = currentLang === 'ko' ? 'Switch to English' : '한국어로 전환';
+                langBtn.title = label;
+                langBtn.setAttribute('aria-label', label);
             }
             updateText();
         }
