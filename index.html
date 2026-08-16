@@ -44,8 +44,9 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="icon" href="assets/brand/bf-favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="assets/brand/bf-apple-touch-icon.png" sizes="180x180" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/assets/brand/bf-favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/assets/brand/bf-apple-touch-icon.png" sizes="180x180" />
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4535,14 +4536,14 @@
                         <div id="member-admin-panel" class="hidden border-y border-white/10 py-5 space-y-4">
                             <div class="grid grid-cols-2 border border-gray-700 rounded-md overflow-hidden">
                                 <button id="member-admin-tab-requests" type="button" onclick="setMemberAdminTab('requests')"
-                                    class="h-10 text-xs font-bold bg-brand text-black">구독 승인</button>
+                                    class="h-10 text-xs font-bold bg-brand text-black">플랜 승인</button>
                                 <button id="member-admin-tab-users" type="button" onclick="setMemberAdminTab('users')"
                                     class="h-10 text-xs font-bold text-gray-400 hover:text-white border-l border-gray-700">유저 관리</button>
                             </div>
 
                             <div id="member-admin-requests-view" class="space-y-4">
                                 <div class="flex items-center justify-between gap-3">
-                                    <h4 class="text-sm font-bold text-white">구독 승인 관리</h4>
+                                    <h4 class="text-sm font-bold text-white">플랜 승인 관리</h4>
                                     <button id="member-admin-refresh" type="button" onclick="loadAdminRequests(true)" title="새로고침"
                                         class="w-9 h-9 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-rotate"></i>
@@ -4550,11 +4551,11 @@
                                 </div>
                                 <div id="member-admin-loading" class="hidden min-h-24 px-4 py-5 bg-black/20 border border-white/10 rounded-md items-center justify-center gap-2 text-xs text-gray-500" role="status">
                                     <i class="fa-solid fa-spinner fa-spin text-sm" aria-hidden="true"></i>
-                                    <span>구독 신청 내역을 불러오는 중...</span>
+                                    <span>플랜 신청 내역을 불러오는 중...</span>
                                 </div>
                                 <div id="member-admin-empty"
                                     class="hidden px-4 py-6 bg-black/20 border border-white/10 rounded-md text-center text-xs text-gray-500">
-                                    승인 대기 중인 구독 신청이 없습니다.
+                                    승인 대기 중인 플랜 신청이 없습니다.
                                 </div>
                                 <div id="member-admin-list" class="space-y-2"></div>
                                 <form id="member-admin-approval" class="hidden px-4 py-4 bg-black/25 border border-brand/30 rounded-md space-y-4"
@@ -4700,12 +4701,12 @@
                             <button id="member-new-subscription-button" type="button" onclick="openSubscriptionForm('new')"
                                 class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-plus"></i>
-                                신규 구독
+                                신규 플랜
                             </button>
                             <button id="member-renewal-button" type="button" onclick="openSubscriptionForm('renewal')"
                                 class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-rotate"></i>
-                                구독 관리
+                                플랜 관리
                             </button>
                             <button id="member-download-button" type="button" onclick="openDownloadCenter()"
                                 class="hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
@@ -4717,7 +4718,7 @@
                         <form id="member-subscription-form" class="hidden border-t border-white/10 pt-5 space-y-4"
                             onsubmit="submitSubscriptionRequest(event)">
                             <div class="flex items-center justify-between">
-                                <h4 id="member-subscription-title" class="text-sm font-bold text-white">구독 신청</h4>
+                                <h4 id="member-subscription-title" class="text-sm font-bold text-white">플랜 신청</h4>
                                 <button type="button" onclick="closeSubscriptionForm()" title="닫기"
                                     class="w-8 h-8 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
                             </div>
@@ -4832,7 +4833,7 @@
                             <div class="min-w-0 flex-1">
                                 <h3 class="text-sm font-bold text-white">Google 매매일지</h3>
                                 <p class="mt-1 text-xs leading-relaxed text-gray-400">
-                                    원본에 액세스를 요청하지 마세요. 아래 버튼을 눌러 본인의 Google Drive에 사본을 만든 후 사용해 주세요.
+                                    아래 버튼을 눌러 내 Google Drive에 사본을 만든 후 사용해 주세요.
                                 </p>
                                 <a href="https://docs.google.com/spreadsheets/d/16JBtiEoZACmpdBolp4FVn4jfKsCjvjIXCi2seumxMpQ/copy"
                                     target="_blank" rel="noopener noreferrer"
@@ -6599,9 +6600,9 @@
             download_popup_blocked: '다운로드 창이 차단되었습니다. 이 사이트의 팝업을 허용한 후 다시 시도해주세요.',
             invalid_expiration: '만료일은 YYYY/MM/DD 또는 unlimited로 입력해주세요.',
             invalid_period: '신청 기간이 올바르지 않습니다.',
-            invalid_plan: '선택한 구독 상품을 확인해주세요.',
+            invalid_plan: '선택한 플랜을 확인해주세요.',
             invalid_txid: '올바른 Aptos TXID를 입력해주세요.',
-            invalid_request_type: '구독 신청 유형을 확인해주세요.',
+            invalid_request_type: '플랜 신청 유형을 확인해주세요.',
             invalid_serial: '등록되지 않은 시리얼키입니다.',
             invalid_serial_format: '시리얼키는 영문, 숫자, 밑줄 및 하이픈 6~64자로 입력해주세요.',
             invalid_session: '로그인 세션이 만료되었습니다. 다시 로그인해주세요.',
@@ -6614,7 +6615,7 @@
             request_already_applied: '이미 승인 완료된 신청입니다.',
             request_in_progress: '입금 확인 또는 승인 처리 중인 신청이 있습니다. 현재 신청을 먼저 완료해주세요.',
             request_not_approvable: '현재 승인할 수 없는 신청입니다.',
-            request_not_found: '구독 신청을 찾을 수 없습니다.',
+            request_not_found: '플랜 신청을 찾을 수 없습니다.',
             payment_check_disabled: '현재 자동 입금 확인을 사용할 수 없습니다.',
             payment_check_cooldown: '잠시 후 다시 확인해주세요.',
             payment_check_limit: '확인 가능 횟수를 초과했습니다. 운영자에게 문의해주세요.',
@@ -6627,16 +6628,16 @@
             payment_time_mismatch: '신청 이전에 처리된 입금은 사용할 수 없습니다.',
             payment_already_used: '이미 다른 신청에 사용된 TXID입니다.',
             payment_api_error: 'OKX 입금 조회에 실패했습니다. 잠시 후 다시 시도하거나 운영자에게 문의해주세요.',
-            payment_not_required: '무료 이용권은 입금 확인이 필요하지 않습니다.',
-            renewal_not_available: '연장하거나 변경할 기존 구독이 없습니다.',
+            payment_not_required: '무료 플랜은 입금 확인이 필요하지 않습니다.',
+            renewal_not_available: '연장하거나 변경할 기존 플랜이 없습니다.',
             reserved_serial: '복구키는 회원 시리얼로 사용할 수 없습니다.',
             serial_exists: '이미 등록된 시리얼키입니다.',
             server_error: '회원관리 서버 처리 중 오류가 발생했습니다.',
-            subscription_not_required: '이 계정은 별도의 구독 신청이 필요하지 않습니다.',
+            subscription_not_required: '이 계정은 별도의 플랜 신청이 필요하지 않습니다.',
             target_account_not_found: '신청 회원을 User 탭에서 찾을 수 없습니다.',
             too_many_requests: '요청 횟수를 초과했습니다. 잠시 후 다시 시도해주세요.',
             unknown_action: '지원하지 않는 요청입니다.',
-            use_renewal: '기존 구독이 있습니다. 구독 관리를 선택해주세요.',
+            use_renewal: '기존 플랜이 있습니다. 플랜 관리를 선택해주세요.',
             user_update_conflict: '사용자 정보가 다른 곳에서 변경되었습니다. 목록을 새로고침한 후 다시 시도해주세요.',
             username_exists: '이미 사용 중인 유저네임입니다.'
         };
@@ -7151,7 +7152,7 @@
             document.getElementById('member-admin-approval-summary').textContent = `${request.username} · ${plan} · ${period} · ${Number(request.amount || 0) === 0 ? '무료' : `${request.amount} USDT`}`;
             document.getElementById('member-admin-payment-summary').textContent = request.amount > 0
                 ? `TXID: ${request.submittedTxid || '미제출'} · 상태: ${request.paymentStatus || 'TXID_PENDING'}${request.matchedAmount ? ` · ${request.matchedAmount} USDT` : ''}${request.paymentError ? ` · ${request.paymentError}` : ''}`
-                : '무료 이용권 신청';
+                : '무료 플랜 신청';
             const showPaymentCheck = request.amount > 0 && Boolean(request.submittedTxid);
             document.getElementById('member-admin-payment-check').classList.toggle('hidden', !showPaymentCheck);
             const approvalActions = document.getElementById('member-admin-approval-actions');
@@ -7503,13 +7504,13 @@
 
             if (!planIds.length) {
                 setMemberMessage('profile', type === 'renewal'
-                    ? '연장 가능한 구독이 없습니다.'
+                    ? '연장 가능한 플랜이 없습니다.'
                     : '신규로 신청할 수 있는 상품이 없습니다.');
                 return;
             }
 
             document.getElementById('member-subscription-type').value = type;
-            document.getElementById('member-subscription-title').textContent = type === 'renewal' ? '구독 관리' : '신규 구독';
+            document.getElementById('member-subscription-title').textContent = type === 'renewal' ? '플랜 관리' : '신규 플랜';
             planSelect.innerHTML = '';
             planIds.forEach(planId => {
                 const option = document.createElement('option');
@@ -7565,7 +7566,7 @@
                     if (!profileResult.ok) throw new Error(profileResult.error || 'server_error');
                     cacheMemberProfile(profileResult.profile);
                     renderMemberProfile(profileResult.profile);
-                    setMemberMessage('profile', 'Extension 이용권이 즉시 활성화되었습니다.', 'success');
+                    setMemberMessage('profile', 'Extension 무료 플랜이 즉시 활성화되었습니다.', 'success');
                 } else {
                     renderMemberPayment(result);
                 }
@@ -7607,7 +7608,7 @@
                 renderMemberProfile(profileResult.profile);
                 setMemberMessage(
                     'profile',
-                    result.autoApproved ? '입금 확인과 이용권 활성화가 완료되었습니다.' : '입금이 확인되었습니다. 관리자 승인을 기다리고 있습니다.',
+                    result.autoApproved ? '입금 확인과 플랜 활성화가 완료되었습니다.' : '입금이 확인되었습니다. 관리자 승인을 기다리고 있습니다.',
                     'success'
                 );
             } catch (error) {
@@ -7630,13 +7631,13 @@
             launcherButton.disabled = !canDownloadLauncher;
             launcherButton.classList.toggle('opacity-40', !canDownloadLauncher);
             launcherButton.classList.toggle('cursor-not-allowed', !canDownloadLauncher);
-            badge.textContent = canDownloadLauncher ? '이용 가능' : '이용권 필요';
+            badge.textContent = canDownloadLauncher ? '플랜 활성' : '승인 필요';
             badge.className = `px-2 py-1 rounded border text-[10px] font-bold ${canDownloadLauncher
                 ? 'border-green-800 text-green-300 bg-green-950/20'
                 : 'border-gray-700 text-gray-400 bg-black/20'}`;
             message.textContent = canDownloadLauncher
-                ? '활성 이용권이 확인되었습니다. 전용 런처를 다운로드할 수 있습니다.'
-                : '런처 다운로드에는 활성 이용권이 필요합니다.';
+                ? '플랜이 활성화되었습니다. 전용 런처를 다운로드할 수 있습니다.'
+                : '사용 승인 후 런처 다운로드가 활성화됩니다.';
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -7733,7 +7734,7 @@
         function renderMemberPayment(result) {
             const payment = result.payment || {};
             const isFree = Number(result.request?.amount || 0) === 0;
-            document.getElementById('member-payment-title').textContent = isFree ? '무료 이용권 승인 대기 중' : '입금 확인 대기 중';
+            document.getElementById('member-payment-title').textContent = isFree ? '무료 플랜 승인 대기 중' : '입금 확인 대기 중';
             document.getElementById('member-payment-details').classList.toggle('hidden', isFree);
             document.getElementById('member-payment-notice').classList.toggle('hidden', isFree);
             document.getElementById('member-payment-asset').textContent = payment.asset || 'USDT';
@@ -7789,7 +7790,7 @@
                 setMemberMessage(
                     'profile',
                     status === 'APPLIED'
-                        ? '이용권이 활성화되었습니다.'
+                        ? '플랜이 활성화되었습니다.'
                         : (isFree ? '아직 관리자 승인 대기 중입니다.' : '아직 입금 확인 대기 중입니다.'),
                     status === 'APPLIED' ? 'success' : 'info'
                 );
