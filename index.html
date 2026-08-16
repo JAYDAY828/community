@@ -1390,6 +1390,8 @@
                                     class="fa-solid fa-chevron-down text-gray-500 text-xs transition-transform duration-300"></i>
                             </div>
                             <div class="faq-answer text-sm text-gray-400 leading-relaxed pl-2 md:pl-14">
+                                <p class="mb-2" data-i18n="faq.a1.unblock">다운로드한 압축 파일을 풀기 전에 <strong>ZIP 파일 우클릭 → 속성 →
+                                    차단 해제 → 적용</strong>을 선택한 후 압축을 풀어 주세요.</p>
                                 <p class="mb-2" data-i18n="faq.a1.p1">Windows 보안 정책(Smart App Control)에 따라 일부 앱은 실행 전에
                                     추가
                                     확인이 필요할 수 있습니다.</p>
@@ -1440,10 +1442,10 @@
                                     <!-- 수정됨: w-20 text-center 추가 -->
                                     <span
                                         class="w-20 text-center flex-shrink-0 px-2 py-1 rounded text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/20"
-                                        data-i18n="faq.cat.sponsor">결제/후원</span>
+                                        data-i18n="faq.cat.sponsor">플랜/결제</span>
                                     <h3 class="text-sm md:text-base font-medium text-gray-200 truncate !m-0 group-hover:text-white transition-colors"
                                         data-i18n="faq.q3">
-                                        후원 기간이 끝나면 어떻게 되나요?
+                                        플랜 이용 기간이 끝나면 어떻게 되나요?
                                     </h3>
                                 </div>
                                 <i
@@ -1451,8 +1453,9 @@
                             </div>
                             <div class="faq-answer text-sm text-gray-400 leading-relaxed pl-2 md:pl-14">
                                 <p class="mb-0" data-i18n="faq.a3.p1">
-                                    프로그램 로그인 시 <strong>메인 화면에 만료일(Expiration Date)이 항상 표시</strong>됩니다.<br>
-                                    만료일 자정이 지나면 로그인이 즉시 제한되므로, 끊김 없는 사용을 원하시면 날짜를 확인하시고 미리 텔레그램이나 카카오톡으로 연장 문의를 부탁드립니다.
+                                    프로그램과 마이페이지에서 현재 플랜의 만료일을 확인할 수 있습니다.<br>
+                                    만료일 자정이 지나면 로그인이 제한되므로, 끊김 없는 이용을 원하시면 만료 전에 <strong>마이페이지에서 원하는 플랜과 이용 기간을 선택해
+                                        연장</strong>해 주세요.
                                 </p>
                             </div>
                         </div>
@@ -4202,8 +4205,8 @@
                         <span class="badge text-accent-red border-accent-red/50"
                             data-i18n="sponsor.badge">Support</span>
                         <div>
-                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="sponsor.title">후원 및 라이선스</h1>
-                            <p class="text-sm text-gray-400" data-i18n="sponsor.desc">서버 유지 및 기능 개발을 위한 후원 옵션 안내입니다.
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="sponsor.title">후원 플랜</h1>
+                            <p class="text-sm text-gray-400" data-i18n="sponsor.desc">서버 유지 및 기능 개발을 위한 후원 플랜 안내입니다.
                             </p>
                         </div>
                     </div>
@@ -4223,11 +4226,9 @@
                             <ul class="list-disc pl-5 space-y-1.5 text-gray-400 !m-0 !pb-0">
                                 <li data-i18n="sponsor.notice.item1">후원금은 서버 유지보수, 시스템 안정성 향상, 신규 기능 개발 등에 사용됩니다.
                                 </li>
-                                <li data-i18n="sponsor.notice.item2">운영 상황에 따라 후원자에게 감사의 의미로 일부 기능 또는 편의 혜택(이용 기간
-                                    등)이
-                                    제공될 수 있습니다.</li>
-                                <li data-i18n="sponsor.notice.item3">후원 방법과 구체적인 안내는 <strong>가입 신청이 검토·승인된 후 운영자가 개별
-                                        연락</strong>드립니다.</li>
+                                <li data-i18n="sponsor.notice.item2">선택한 후원 플랜에 따라 일부 기능과 이용 기간이 제공됩니다.</li>
+                                <li data-i18n="sponsor.notice.item3">플랜 선택과 결제는 마이페이지에서 진행할 수 있으며, 결제 확인 후 해당 플랜이
+                                    활성화됩니다.</li>
                             </ul>
                         </div>
                     </div>
@@ -4330,31 +4331,34 @@
                     <!-- 3. USDT Notice (Box 3: Flex 리스트로 정렬 완벽 수정) -->
                     <div class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6">
                         <h3 class="text-accent-red font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="sponsor.usdt.title">USDT
-                                후원
+                            <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="sponsor.usdt.title">결제 및 전송
                                 유의사항</span>
                         </h3>
                         <ul class="list-none space-y-2.5 !m-0 !p-0 text-xs text-gray-400">
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item1">국내외 거래소 이용 시 트래블룰 규정에 따라 출금·입금이 제한될 수 있으므로 본인
-                                    계정에서
-                                    정상 절차로 송금해주세요.</span>
+                                <span data-i18n="sponsor.usdt.item1">결제 화면에 표시된 <strong>자산 종류, 네트워크, 입금 주소 및 결제 금액</strong>을
+                                    반드시 확인한 후 전송해 주세요.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item2"><strong>Aptos</strong> 네트워크를 반드시 확인 후
-                                    송금해주시기 바랍니다. 오입금 시 복구가 불가능합니다.</span>
+                                <span data-i18n="sponsor.usdt.item2">잘못된 주소·자산·네트워크로 전송한 경우 거래를 취소하거나 자산을 복구하기
+                                    어려우며, 운영자가 복구를 보장할 수 없습니다.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item3">송금 시 발생하는 수수료는 후원자 부담이며, 수수료 차감으로 금액 미달 시 추가
-                                    송금을
-                                    요청드릴 수 있습니다.</span>
+                                <span data-i18n="sponsor.usdt.item3">국내외 거래소 이용 시 트래블룰 등 거래소 정책에 따라 출금 또는 입금이 제한될 수
+                                    있습니다.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                <span data-i18n="sponsor.usdt.item4">블록체인 특성상 송금 후 거래 취소 및 환불은 불가능합니다.</span>
+                                <span data-i18n="sponsor.usdt.item4">전송 수수료는 결제자 부담이며, 실제 입금액이 결제 금액에 미달하면 플랜 활성화가
+                                    지연되거나 추가 전송이 필요할 수 있습니다.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="text-accent-red mt-1 text-[0.6rem] flex-shrink-0">●</span>
+                                <span data-i18n="sponsor.usdt.item5">블록체인에서 완료된 전송은 일반적으로 취소할 수 없습니다. 환불은 서비스 이용약관과
+                                    관계 법령에 따라 처리됩니다.</span>
                             </li>
                         </ul>
                     </div>
@@ -4787,7 +4791,7 @@
                                 </div>
                             </div>
                             <div id="member-payment-notice" class="px-4 py-3 bg-red-950/20 border border-red-900/40 rounded-md text-xs text-gray-300 leading-relaxed">
-                                반드시 <strong class="text-white">USDT</strong>와 <strong class="text-brand">Aptos 네트워크</strong>를 모두 확인한 후 송금하세요. 입금 확인 후 운영자가 이용기간을 반영합니다. 처리가 지연되면 운영자에게 문의해주세요.
+                                결제 화면에 표시된 자산과 네트워크를 반드시 확인한 후 전송해 주세요. 결제 확인 후 선택한 플랜이 활성화됩니다. 처리가 지연되면 운영자에게 문의해 주세요.
                             </div>
                             <a id="member-support-link" href="#" target="_blank" rel="noopener noreferrer"
                                 class="hidden w-full h-10 border border-gray-700 hover:border-gray-500 rounded-md text-sm font-bold text-gray-300 items-center justify-center gap-2">
@@ -5312,12 +5316,15 @@
             "faq.badge": { ko: "Q&A", en: "Q&A" },
             "faq.cat.features": { ko: "기능", en: "Features" },
             "faq.cat.settings": { ko: "설정", en: "Settings" },
-            "faq.cat.sponsor": { ko: "결제/후원", en: "Payment" },
+            "faq.cat.sponsor": { ko: "플랜/결제", en: "Plan/Payment" },
             "faq.cat.system": { ko: "시스템", en: "System" },
             "faq.cat.update": { ko: "업데이트", en: "Update" },
             "faq.q1": { ko: "프로그램이 실행되지 않거나 바로 꺼집니다.", en: "The program won't start or closes immediately." },
 
-            // [수정됨: 보안 해제 유도 문구 삭제 및 순화]
+            "faq.a1.unblock": {
+                ko: "다운로드한 압축 파일을 풀기 전에 <strong>ZIP 파일 우클릭 → 속성 → 차단 해제 → 적용</strong>을 선택한 후 압축을 풀어 주세요.",
+                en: "Before extracting the downloaded archive, <strong>right-click the ZIP file → Properties → Unblock → Apply</strong>, and then extract it."
+            },
             "faq.a1.p1": {
                 ko: "Windows 보안 정책(Smart App Control)에 따라 일부 앱은 실행 전에 추가 확인이 필요할 수 있습니다.",
                 en: "Depending on Windows security policies (Smart App Control), some apps may require additional verification before launch."
@@ -5332,7 +5339,7 @@
             },
 
             "faq.q2": { ko: "API Key를 입력했는데 작동하지 않아요.", en: "I entered the API key but it doesn't work." },
-            "faq.q3": { ko: "후원 기간이 끝나면 어떻게 되나요?", en: "What happens when the sponsorship period ends?" },
+            "faq.q3": { ko: "플랜 이용 기간이 끝나면 어떻게 되나요?", en: "What happens when my plan period ends?" },
             "faq.q4": { ko: "모바일에서도 사용할 수 있나요?", en: "Can I use it on mobile?" },
             "faq.q5": { ko: "자동 업데이트가 진행되지 않습니다.", en: "Auto updates are not running." },
             "faq.a2.lead": { ko: "다음 체크리스트를 확인해주세요:", en: "Please check the following:" },
@@ -5340,7 +5347,7 @@
             "faq.a2.item2": { ko: "<strong>IP 제한</strong> 설정에 현재 사용 중인 IP가 올바르게 등록되었는지 확인", en: "Check that your current IP is correctly registered under <strong>IP restrictions</strong>." },
             "faq.a2.item3": { ko: "복사 붙여넣기 과정에서 공백(스페이스바)이 들어가지 않았는지 확인", en: "Make sure no extra spaces were inserted during copy/paste." },
             "faq.a2.tail": { ko: "위 사항을 확인 후에도 안 된다면 기존 키를 삭제하고 새로 발급받는 것을 권장합니다.", en: "If it still doesn't work after these checks, delete the existing key and issue a new one." },
-            "faq.a3.p1": { ko: "프로그램 로그인 시 <strong>메인 화면에 만료일(Expiration Date)이 항상 표시</strong>됩니다.<br/>만료일 자정이 지나면 로그인이 즉시 제한되므로, 끊김 없는 사용을 원하시면 날짜를 확인하시고 미리 텔레그램이나 카카오톡으로 연장 문의를 부탁드립니다.", en: "When you log in, the <strong>expiration date is always shown on the main screen</strong>.<br/>Once it passes midnight on the expiration date, login is immediately blocked. For uninterrupted use, please check the date and contact us in advance via Telegram or KakaoTalk to extend." },
+            "faq.a3.p1": { ko: "프로그램과 마이페이지에서 현재 플랜의 만료일을 확인할 수 있습니다.<br/>만료일 자정이 지나면 로그인이 제한되므로, 끊김 없는 이용을 원하시면 만료 전에 <strong>마이페이지에서 원하는 플랜과 이용 기간을 선택해 연장</strong>해 주세요.", en: "You can check your current plan's expiration date in the program and My Page.<br/>Login is restricted after midnight on the expiration date. For uninterrupted access, <strong>select a plan and access period in My Page to extend it</strong> before it expires." },
             "faq.a4.p1": { ko: "본 툴킷은 윈도우 기반의 <strong>PC 전용 프로그램</strong>입니다.", en: "This toolkit is a Windows-based <strong>PC-only program</strong>." },
             "faq.a4.p2": { ko: "단, 후원자분들께는 Crypto Detector와 동일한 로직의 <strong>트레이딩뷰(TradingView) 전용 지표</strong>를 제공해 드립니다.<br/>트레이딩뷰 앱의 '얼러트(Alert)' 기능을 활용하시면, 모바일 환경에서도 동일한 시세 포착 알림을 실시간으로 받아보실 수 있습니다.", en: "However, sponsors receive a <strong>TradingView-only indicator</strong> with the same logic as Crypto Detector.<br/>Using TradingView Alerts, you can receive the same price-capture notifications in real time on mobile." },
             "faq.a5.p1": { ko: "자동 업데이트와 버전 체크는 <strong>전용 런처(Launcher.exe)</strong>를 통해 실행할 때만 작동합니다.<br/>폴더 내의 본 실행파일을 직접 켜지 마시고, 반드시 <strong>Launcher</strong> 아이콘으로 실행해주셔야 최신 기능과 보안 패치가 적용됩니다.", en: "Auto updates and version checks work only when launched via the <strong>dedicated launcher (Launcher.exe)</strong>.<br/>Do not run the main executable directly; always use the <strong>Launcher</strong> icon so the latest features and security patches apply." },
@@ -5911,14 +5918,14 @@
 
             // Sponsorship
             "sponsor.badge": { ko: "Support", en: "Support" },
-            "sponsor.title": { ko: "후원 및 라이선스", en: "Sponsorship & License" },
-            "sponsor.desc": { ko: "서버 유지 및 기능 개발을 위한 후원 옵션 안내입니다.", en: "Support options for server maintenance and feature development." },
+            "sponsor.title": { ko: "후원 플랜", en: "Sponsorship Plans" },
+            "sponsor.desc": { ko: "서버 유지 및 기능 개발을 위한 후원 플랜 안내입니다.", en: "Sponsorship plans for server maintenance and feature development." },
             "sponsor.box.title": { ko: "후원 운영 안내", en: "Sponsorship Policy" },
             "sponsor.box.text": { ko: "본 프로젝트는 <strong>이용자의 후원</strong>으로 운영됩니다.", en: "This project is operated by <strong>user sponsorship</strong>." },
             "sponsor.notice.body1": { ko: "부평구금융인 Trading API 프로젝트는 안정적인 서비스 제공과 지속적인 기능 개선을 위해 <strong>이용자의 후원</strong>으로 운영되고 있습니다.", en: "The 부평구금융인 Trading API project is run through <strong>user sponsorship</strong> to provide stable service and continuous improvements." },
             "sponsor.notice.item1": { ko: "후원금은 서버 유지보수, 시스템 안정성 향상, 신규 기능 개발 등에 사용됩니다.", en: "Sponsorship funds are used for server maintenance, system stability, and new feature development." },
-            "sponsor.notice.item2": { ko: "운영 상황에 따라 후원자에게 감사의 의미로 일부 기능 또는 편의 혜택(이용 기간 등)이 제공될 수 있습니다.", en: "Depending on operations, sponsors may receive certain features or benefits (e.g., access period) as thanks." },
-            "sponsor.notice.item3": { ko: "후원 방법과 구체적인 안내는 <strong>가입 신청이 검토·승인된 후 운영자가 개별 연락</strong>드립니다.", en: "Sponsorship methods and details will be provided individually after your application is reviewed and approved." },
+            "sponsor.notice.item2": { ko: "선택한 후원 플랜에 따라 일부 기능과 이용 기간이 제공됩니다.", en: "Features and access periods are provided according to the selected sponsorship plan." },
+            "sponsor.notice.item3": { ko: "플랜 선택과 결제는 마이페이지에서 진행할 수 있으며, 결제 확인 후 해당 플랜이 활성화됩니다.", en: "You can select and pay for a plan in My Page. The plan is activated after payment is confirmed." },
             "sponsor.card.crypto.title": { ko: "Crypto Detector Lite", en: "Crypto Detector Lite" },
             "sponsor.card.crypto.desc": { ko: "Detector + Binance 자동호가 익스텐션 제공", en: "Includes Detector + Binance BBO extension" },
             "sponsor.card.crypto.enterprise.label": { ko: "Source Code License &amp; 기술 이전", en: "Source Code License &amp; Technology Transfer" },
@@ -5926,11 +5933,12 @@
             "sponsor.card.all.title": { ko: "All-in-One Toolkit", en: "All-in-One Toolkit" },
             "sponsor.card.all.desc": { ko: "전문 트레이더를 위한 모든 핵심 기능이 통합 제공되는 올인원 솔루션", en: "All-in-one solution providing all core features for professional traders" },
             "sponsor.card.popular": { ko: "Most Popular", en: "Most Popular" },
-            "sponsor.usdt.title": { ko: "USDT 후원 유의사항", en: "USDT Sponsorship Notes" },
-            "sponsor.usdt.item1": { ko: "국내외 거래소 이용 시 트래블룰 규정에 따라 출금·입금이 제한될 수 있으므로 본인 계정에서 정상 절차로 송금해주세요.", en: "When using domestic/overseas exchanges, transfer to/from your own account following Travel Rule regulations, as deposits/withdrawals may be restricted." },
-            "sponsor.usdt.item2": { ko: "<strong>Aptos</strong> 네트워크를 반드시 확인 후 송금해주시기 바랍니다. 오입금 시 복구가 불가능합니다.", en: "Be sure to select the <strong>Aptos</strong> network before sending. Transfers on the wrong network may not be recoverable." },
-            "sponsor.usdt.item3": { ko: "송금 시 발생하는 수수료는 후원자 부담이며, 수수료 차감으로 금액 미달 시 추가 송금을 요청드릴 수 있습니다.", en: "Transfer fees are borne by the sponsor; if fees reduce the amount, additional transfer may be requested." },
-            "sponsor.usdt.item4": { ko: "블록체인 특성상 송금 후 거래 취소 및 환불은 불가능합니다.", en: "Due to blockchain characteristics, transfers are irreversible and non-refundable." },
+            "sponsor.usdt.title": { ko: "결제 및 전송 유의사항", en: "Payment and Transfer Notes" },
+            "sponsor.usdt.item1": { ko: "결제 화면에 표시된 <strong>자산 종류, 네트워크, 입금 주소 및 결제 금액</strong>을 반드시 확인한 후 전송해 주세요.", en: "Before sending, verify the <strong>asset, network, deposit address, and payment amount</strong> shown on the payment screen." },
+            "sponsor.usdt.item2": { ko: "잘못된 주소·자산·네트워크로 전송한 경우 거래를 취소하거나 자산을 복구하기 어려우며, 운영자가 복구를 보장할 수 없습니다.", en: "Transfers sent to the wrong address, with the wrong asset, or over the wrong network may be difficult to cancel or recover, and recovery cannot be guaranteed by the operator." },
+            "sponsor.usdt.item3": { ko: "국내외 거래소 이용 시 트래블룰 등 거래소 정책에 따라 출금 또는 입금이 제한될 수 있습니다.", en: "Deposits or withdrawals may be restricted under exchange policies, including Travel Rule requirements." },
+            "sponsor.usdt.item4": { ko: "전송 수수료는 결제자 부담이며, 실제 입금액이 결제 금액에 미달하면 플랜 활성화가 지연되거나 추가 전송이 필요할 수 있습니다.", en: "Transfer fees are paid by the payer. If the received amount is below the payment amount, plan activation may be delayed or an additional transfer may be required." },
+            "sponsor.usdt.item5": { ko: "블록체인에서 완료된 전송은 일반적으로 취소할 수 없습니다. 환불은 서비스 이용약관과 관계 법령에 따라 처리됩니다.", en: "Completed blockchain transfers generally cannot be canceled. Refunds are handled under the Terms of Service and applicable law." },
             "price.30days": { ko: "1개월 이용", en: "1 Month Access" },
             "price.90days": { ko: "3개월 이용", en: "3 Months Access" },
             "price.1year": { ko: "12개월 이용", en: "12 Months Access" },
