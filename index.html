@@ -621,12 +621,12 @@
             <!-- Search (Desktop Only) -->
             <div class="hidden md:flex flex-1 max-w-md mx-8 relative group">
                 <div
-                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-brand">
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-300 group-focus-within:text-brand transition-colors">
                     <i class="fa-solid fa-search"></i>
                 </div>
                 <input id="q" type="text"
-                    class="w-full bg-[#1E2329]/60 backdrop-blur-md border border-gray-700/80 text-sm rounded-xl focus:ring-2 focus:ring-brand/50 focus:border-brand/80 focus:bg-[#1E2329] block pl-10 p-2.5 transition-all duration-300 placeholder-gray-500 text-white shadow-inner"
-                    placeholder="가이드 검색 (단축키 /)">
+                    class="w-full bg-[#1E2329]/60 backdrop-blur-md border border-gray-700/80 text-sm rounded-xl focus:ring-2 focus:ring-brand/50 focus:border-brand/80 focus:bg-[#1E2329] block pl-10 p-2.5 transition-all duration-300 placeholder-gray-400 text-white shadow-inner"
+                    placeholder="Search" aria-label="Search">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <kbd
                         class="px-2 py-0.5 text-xs text-gray-400 bg-gray-800/80 rounded-md border border-gray-700 backdrop-blur-sm">/</kbd>
@@ -5195,7 +5195,7 @@
             // Brand & Header
             "brand.sub": { ko: "금융인", en: "금융인" },
             "brand.desc": { ko: "BUILT FOR TRADERS.", en: "BUILT FOR TRADERS." },
-            "header.search": { ko: "가이드 검색 (단축키 /)", en: "Search Guides (Press /)" },
+            "header.search": { ko: "Search", en: "Search" },
             "header.community": { ko: "Community", en: "Community" },
             "header.join": { ko: "회원가입", en: "Register" },
             "header.register": { ko: "회원가입", en: "Register" },
