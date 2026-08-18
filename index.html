@@ -286,6 +286,33 @@
             transform: translateY(-1px);
         }
 
+        /* Guide action buttons */
+        .guide-action-btn {
+            --guide-action-rgb: 148, 163, 184;
+            background: linear-gradient(145deg, rgba(var(--guide-action-rgb), 0.14), rgba(15, 19, 27, 0.72));
+            border: 1px solid rgba(var(--guide-action-rgb), 0.34);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 8px 22px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            color: #f8fafc;
+            transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+        }
+
+        .guide-action-btn:hover {
+            background: linear-gradient(145deg, rgba(var(--guide-action-rgb), 0.22), rgba(20, 25, 35, 0.82));
+            border-color: rgba(var(--guide-action-rgb), 0.58);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 12px 28px rgba(var(--guide-action-rgb), 0.12);
+            transform: translateY(-1px);
+        }
+
+        .guide-action-btn--red {
+            --guide-action-rgb: 248, 113, 113;
+        }
+
+        .guide-action-btn--blue {
+            --guide-action-rgb: 96, 165, 250;
+        }
+
         /* ✨ Premium Glassmorphism (Web3/Fintech Style) */
         .glass-panel {
             background: linear-gradient(180deg, rgba(23, 25, 36, 0.6) 0%, rgba(18, 20, 28, 0.8) 100%);
@@ -1643,7 +1670,7 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step1.title">2) API 키 발급</h2>
                             <div
-                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step1.item1">바이낸스 로그인 후 <a class="text-brand font-semibold hover:underline" href="https://www.binance.com/en/my/settings/api-management" target="_blank" rel="noopener noreferrer">API Management 바로가기 <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]" aria-hidden="true"></i></a>를 열어 API 관리 페이지로 이동합니다.</li>
@@ -1667,7 +1694,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <!-- Allowed -->
                                 <div
-                                    class="liquid-card bg-[#161b22]/40 border border-green-900/50 rounded-xl p-6 transition-all duration-300 hover:border-green-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card guide-glass-accent guide-glass-green border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                     <h4 class="text-accent-green font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-check-circle"></i> <span
                                             data-i18n="api.step2.allow.title">반드시 체크 (허용)</span>
@@ -1685,7 +1712,7 @@
                                 </div>
                                 <!-- Prohibited -->
                                 <div
-                                    class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                    class="liquid-card guide-glass-accent guide-glass-red border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                     <h4 class="text-accent-red font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-ban text-gray-500"></i> <span
                                             data-i18n="api.step2.deny.title">체크 해제 (금지)</span>
@@ -1703,9 +1730,9 @@
                                 </div>
                             </div>
 
-                            <!-- Note Box (정렬 수정됨) -->
+                            <!-- Permission Note -->
                             <div
-                                class="liquid-card bg-blue-900/10 border border-blue-900/30 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <div class="flex items-start gap-3">
                                     <i class="fa-solid fa-circle-info text-blue-400 mt-0.5 flex-shrink-0"></i>
                                     <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.step2.note">
@@ -1716,7 +1743,7 @@
                             </div>
 
                             <div
-                                class="liquid-card bg-yellow-900/10 border border-yellow-700/30 rounded-xl p-6 mt-4 transition-all duration-300 hover:border-yellow-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-6 mt-4 transition-all duration-300 hover:-translate-y-1">
                                 <h4 class="text-brand font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-circle-exclamation"></i>
                                     <span data-i18n="api.step2.consent.title">권한이 안 보이거나 주문이 실패할 때</span>
@@ -1747,7 +1774,7 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step3.title">4) IP 제한 설정 (보안 필수)</h2>
                             <div
-                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-green border rounded-xl p-6 mb-4 transition-all duration-300 hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step3.item1">API 설정 화면 하단의 <strong>IP Access
@@ -1759,9 +1786,9 @@
                                         상단의 <strong>Save</strong> 버튼을 눌러 저장합니다.</li>
                                 </ol>
                             </div>
-                            <!-- Note Box (정렬 수정됨) -->
+                            <!-- Security Note -->
                             <div
-                                class="liquid-card bg-gray-700/30 border border-gray-600/30 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <div class="flex items-center gap-3">
                                     <i class="fa-solid fa-shield-halved text-gray-400 flex-shrink-0"></i>
                                     <span class="text-sm text-gray-400" data-i18n="api.step3.note">허용된 IP 이외의 환경(다른 PC,
@@ -1775,7 +1802,7 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step4.title">5) Order Toolkit에 입력</h2>
                             <div
-                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 mb-4 transition-all duration-300 hover:-translate-y-1">
                                 <ol
                                     class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-brand !m-0">
                                     <li data-i18n="api.step4.item1">발급 완료 화면에 표시된 <strong>API Key</strong>와
@@ -1787,9 +1814,9 @@
                                 </ol>
                             </div>
 
-                            <!-- Warning Box (정렬 수정됨) -->
+                            <!-- Secret Key Warning -->
                             <div
-                                class="liquid-card bg-red-900/10 border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-red border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <h4 class="text-accent-red font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                     <i class="fa-solid fa-triangle-exclamation"></i> <span
                                         data-i18n="api.step4.warn.title">주의사항</span>
@@ -1833,7 +1860,7 @@
                                     <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.shortcut.body">연동 크롬을 먼저 열고 싶다면 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기를 사용하세요.</p>
                                 </div>
                             </div>
-                            <div class="mt-4 flex items-start gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                            <div class="liquid-card guide-glass-accent guide-glass-neutral mt-4 flex items-start gap-3 rounded-xl border px-4 py-3">
                                 <i class="fa-solid fa-circle-info text-gray-500 mt-0.5 flex-shrink-0"></i>
                                 <p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="api.chrome.path.note">크롬을 별도 경로에 설치한 경우 자동 실행을 위한 경로 설정이 필요할 수 있습니다.</p>
                             </div>
@@ -1844,7 +1871,7 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.step5.title">7) Windows 창 배치 최적화 (선택)</h2>
                             <div
-                                class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                                class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <div class="flex flex-col gap-5">
                                     <div class="flex items-start gap-3">
                                         <i class="fa-brands fa-microsoft text-blue-400 mt-0.5 flex-shrink-0"></i>
@@ -1951,7 +1978,7 @@
                                     </p>
                                 </div>
                                 <button type="button" onclick="activate('preview')"
-                                    class="liquid-card w-full md:w-auto px-4 py-3 md:py-2 bg-[#161b22]/50 hover:bg-[#1f2630]/70 border border-red-500/30 hover:border-red-500/60 text-white text-xs font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2">
+                                    class="guide-action-btn guide-action-btn--red w-full md:w-auto px-4 py-3 md:py-2 text-xs font-bold rounded-lg flex items-center justify-center gap-2">
                                     <span data-i18n="cd.demo.cta">데모 열기</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -1976,7 +2003,7 @@
                                     </div>
                                     <!-- 우측 버튼 (모바일에서는 아래로 배치) -->
                                     <a href="https://kr.tradingview.com/script/2f5pifia/" target="_blank"
-                                        class="flex-shrink-0 w-full md:w-auto px-4 py-3 md:py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20">
+                                        class="guide-action-btn guide-action-btn--blue flex-shrink-0 w-full md:w-auto px-4 py-3 md:py-2 text-xs font-bold rounded-lg flex items-center justify-center gap-2">
                                         <span data-i18n="cd.mobile.cta">TradingView : 지표 소개</span>
                                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
@@ -2825,7 +2852,7 @@
                                     <p class="text-xs text-gray-400 !mt-1 !mb-0" data-i18n="ot.setup.body">시리얼 인증과 크롬 연동 방법은 Getting Started에서 확인할 수 있습니다.</p>
                                 </div>
                             </div>
-                            <a href="#getting-started-auth" class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-400/30 bg-blue-400/10 px-4 py-2.5 text-sm font-bold text-blue-300 hover:bg-blue-400/20 transition-colors flex-shrink-0">
+                            <a href="#getting-started-auth" class="guide-action-btn guide-action-btn--blue inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold flex-shrink-0">
                                 <span data-i18n="ot.setup.link">초기 설정 보기</span>
                                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]" aria-hidden="true"></i>
                             </a>
