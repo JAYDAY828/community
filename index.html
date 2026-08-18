@@ -847,19 +847,19 @@
                             class="fa-solid fa-gavel w-5 text-center text-gray-500 group-hover:text-accent-blue transition-colors"></i>
                         <span data-i18n="nav.toolkit">Order Toolkit</span>
                     </button>
-                    <button onclick="activate('orderbook')"
-                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="orderbook">
-                        <i
-                            class="fa-solid fa-list-ol w-5 text-center text-gray-500 group-hover:text-accent-purple transition-colors"></i>
-                        <span data-i18n="nav.orderbook">Order Book</span>
-                    </button>
                     <button onclick="activate('trades')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="trades">
                         <i
                             class="fa-solid fa-bolt w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
                         <span data-i18n="nav.trades">Trades</span>
+                    </button>
+                    <button onclick="activate('orderbook')"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
+                        data-id="orderbook">
+                        <i
+                            class="fa-solid fa-list-ol w-5 text-center text-gray-500 group-hover:text-accent-purple transition-colors"></i>
+                        <span data-i18n="nav.orderbook">Order Book</span>
                     </button>
                     <button onclick="activate('extensions')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
@@ -4777,6 +4777,26 @@
                 <div class="p-5 sm:p-6 space-y-4">
                     <section class="p-5 border border-white/10 rounded-lg bg-black/20">
                         <div class="flex items-start gap-4">
+                            <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg bg-yellow-950/20 border border-yellow-800/40 text-brand">
+                                <i class="fa-solid fa-rocket text-lg"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="text-sm font-bold text-white">Trading API Launcher</h3>
+                                    <span id="launcher-access-badge" class="px-2 py-1 rounded border text-[10px] font-bold"></span>
+                                </div>
+                                <p id="launcher-access-message" class="mt-1 text-xs leading-relaxed text-gray-400"></p>
+                                <button id="launcher-download-button" type="button" onclick="openLauncherDownloadGuide()"
+                                    class="mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-600 hover:border-brand text-sm font-bold text-white transition-colors">
+                                    <i id="launcher-download-icon" class="fa-solid fa-download"></i>
+                                    <span id="launcher-download-label" aria-live="polite">런처 다운로드</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="p-5 border border-white/10 rounded-lg bg-black/20">
+                        <div class="flex items-start gap-4">
                             <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg bg-green-950/30 border border-green-800/50 text-green-400">
                                 <i class="fa-solid fa-table-list text-lg"></i>
                             </div>
@@ -4795,26 +4815,163 @@
                         </div>
                     </section>
 
-                    <section class="p-5 border border-white/10 rounded-lg bg-black/20">
-                        <div class="flex items-start gap-4">
-                            <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg bg-yellow-950/20 border border-yellow-800/40 text-brand">
-                                <i class="fa-solid fa-rocket text-lg"></i>
+                    <section class="pt-1" aria-labelledby="recommended-utilities-title">
+                        <div class="flex items-end justify-between gap-3 mb-3">
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-wider text-gray-500">OPTIONAL UTILITIES</p>
+                                <h3 id="recommended-utilities-title" class="mt-1 text-sm font-bold text-white">권장 Windows 유틸리티</h3>
                             </div>
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center justify-between gap-3">
-                                    <h3 class="text-sm font-bold text-white">Trading API Launcher</h3>
-                                    <span id="launcher-access-badge" class="px-2 py-1 rounded border text-[10px] font-bold"></span>
+                            <span class="text-[10px] text-gray-500">선택 설치</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <article class="flex flex-col p-4 border border-blue-900/40 rounded-lg bg-blue-950/10">
+                                <div class="flex flex-1 items-start gap-3">
+                                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-blue-950/40 border border-blue-800/50 text-blue-400">
+                                        <i class="fa-brands fa-microsoft"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h4 class="text-sm font-bold text-white">Microsoft PowerToys</h4>
+                                        <span class="mt-2 inline-flex px-1.5 py-0.5 rounded border border-blue-700/50 bg-blue-950/30 text-[9px] font-bold text-blue-300">Microsoft 공식</span>
+                                        <p class="mt-1.5 min-h-10 text-xs leading-relaxed text-gray-400">FancyZones로 여러 툴킷 창을 작업 구역에 맞게 정돈합니다.</p>
+                                        <button id="powertoys-example-link" type="button" onclick="openPowerToysExample()"
+                                            class="mt-2 inline-flex items-center gap-1 font-bold text-xs text-blue-300 hover:text-blue-200 hover:underline underline-offset-2 transition-colors">
+                                            활용 예시 보기
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px]" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <p id="launcher-access-message" class="mt-1 text-xs leading-relaxed text-gray-400"></p>
-                                <button id="launcher-download-button" type="button" onclick="openLauncherDownloadGuide()"
-                                    class="mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-600 hover:border-brand text-sm font-bold text-white transition-colors">
-                                    <i id="launcher-download-icon" class="fa-solid fa-download"></i>
-                                    <span id="launcher-download-label" aria-live="polite">런처 다운로드</span>
-                                </button>
-                            </div>
+                                <a href="https://aka.ms/getPowertoys" target="_blank" rel="noopener noreferrer"
+                                    class="mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-blue-800/60 hover:border-blue-500 text-xs font-bold text-blue-300 hover:text-blue-200 transition-colors">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    공식 다운로드
+                                </a>
+                            </article>
+
+                            <article class="flex flex-col p-4 border border-emerald-900/40 rounded-lg bg-emerald-950/10">
+                                <div class="flex flex-1 items-start gap-3">
+                                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-emerald-950/40 border border-emerald-800/50 text-emerald-400">
+                                        <i class="fa-solid fa-memory"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h4 class="text-sm font-bold text-white">Mem Reduct</h4>
+                                        <span class="mt-2 inline-flex px-1.5 py-0.5 rounded border border-emerald-700/50 bg-emerald-950/30 text-[9px] font-bold text-emerald-300">외부 유틸리티</span>
+                                        <p class="mt-1.5 min-h-10 text-xs leading-relaxed text-gray-400">장시간 크롬 운용 시 증가하는 메모리 사용 부담을 관리하는 데 도움을 줍니다.</p>
+                                        <button id="memreduct-example-link" type="button" onclick="openMemReductExample()"
+                                            class="mt-2 inline-flex items-center gap-1 font-bold text-xs text-emerald-300 hover:text-emerald-200 hover:underline underline-offset-2 transition-colors">
+                                            세팅 예시 보기
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px]" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <a href="https://memreduct.org/mem-reduct-download/" target="_blank" rel="noopener noreferrer"
+                                    class="mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-emerald-800/60 hover:border-emerald-500 text-xs font-bold text-emerald-300 hover:text-emerald-200 transition-colors">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    다운로드 안내
+                                </a>
+                            </article>
                         </div>
                     </section>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mem Reduct Example -->
+    <div id="memreduct-example-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="memreduct-example-title">
+        <button type="button" class="absolute inset-0 bg-black/85 backdrop-blur-sm" aria-label="Close"
+            onclick="closeMemReductExample()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-3xl max-h-[calc(100vh-1.5rem)] flex flex-col bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 flex-shrink-0">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-emerald-300 tracking-normal">RECOMMENDED SETTINGS</p>
+                        <h2 id="memreduct-example-title" class="text-base font-bold text-white">Mem Reduct 세팅 예시</h2>
+                    </div>
+                    <button id="memreduct-example-close" type="button" onclick="closeMemReductExample()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="overflow-y-auto p-5 sm:p-6 space-y-5">
+                    <p class="text-sm leading-relaxed text-gray-300">
+                        장시간 크롬 운용을 위한 보수적인 예시입니다. PC 메모리 용량과 사용 패턴에 맞게 정리 주기를 조절해 주세요.
+                    </p>
+
+                    <section class="grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-4 items-center rounded-xl border border-emerald-900/40 bg-emerald-950/10 p-4">
+                        <figure class="overflow-hidden rounded-lg border border-white/10 bg-black/20">
+                            <img src="./assets/setup/memreduct-startup-settings-example.png" alt="Mem Reduct 시스템 시작 및 최소화 실행 설정 예시"
+                                loading="lazy" class="w-full h-auto object-contain">
+                        </figure>
+                        <div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-white">
+                                <i class="fa-solid fa-power-off text-emerald-400"></i>
+                                상시 실행 권장
+                            </div>
+                            <p class="mt-2 text-xs leading-relaxed text-gray-300">자동 정리가 계속 작동하도록 다음 항목을 체크해 주세요.</p>
+                            <ul class="mt-3 space-y-2 text-xs text-gray-400">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i><span>시스템 시작 시 자동 실행</span></li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i><span>최소화로 시작</span></li>
+                            </ul>
+                            <p class="mt-3 text-[11px] leading-relaxed text-gray-500">프로그램을 종료하지 않고 백그라운드에서 실행해 두어야 예약된 정리가 작동합니다.</p>
+                        </div>
+                    </section>
+
+                    <figure class="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                        <img src="./assets/setup/memreduct-settings-example.png" alt="Mem Reduct 메모리 정리 권장 설정 예시"
+                            loading="lazy" class="w-full h-auto object-contain">
+                        <figcaption class="px-4 py-3 border-t border-white/10 text-xs text-gray-400">
+                            Working set만 선택하고 90분마다 정리하도록 설정한 예시입니다.
+                        </figcaption>
+                    </figure>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="rounded-lg border border-emerald-900/40 bg-emerald-950/10 p-4">
+                            <div class="text-[10px] font-bold text-emerald-300">정리 영역</div>
+                            <div class="mt-1 text-sm font-bold text-white">Working set</div>
+                            <p class="mt-1 text-xs leading-relaxed text-gray-400">다른 캐시 영역은 기본적으로 선택하지 않습니다.</p>
+                        </div>
+                        <div class="rounded-lg border border-white/10 bg-black/20 p-4">
+                            <div class="text-[10px] font-bold text-gray-400">정리 주기</div>
+                            <div class="mt-1 text-sm font-bold text-white">90분 예시</div>
+                            <p class="mt-1 text-xs leading-relaxed text-gray-400">사용 환경에 따라 주기를 늘리거나 줄일 수 있습니다.</p>
+                        </div>
+                        <div class="rounded-lg border border-white/10 bg-black/20 p-4">
+                            <div class="text-[10px] font-bold text-gray-400">대안 설정</div>
+                            <div class="mt-1 text-sm font-bold text-white">85~90% 임계값</div>
+                            <p class="mt-1 text-xs leading-relaxed text-gray-400">임계값 방식을 쓰면 주기 정리는 해제해 주세요.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-2.5 rounded-lg border border-amber-900/40 bg-amber-950/10 px-4 py-3 text-xs leading-relaxed text-gray-400">
+                        <i class="fa-solid fa-circle-info mt-0.5 text-amber-400"></i>
+                        <span>정리 직후 일시적인 지연이 느껴지면 정리 간격을 늘리거나 자동 정리를 해제해 주세요.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PowerToys Example -->
+    <div id="powertoys-example-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true"
+        aria-labelledby="powertoys-example-title">
+        <button type="button" class="absolute inset-0 bg-black/85 backdrop-blur-sm" aria-label="Close"
+            onclick="closePowerToysExample()"></button>
+        <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6 pointer-events-none">
+            <div class="pointer-events-auto relative w-full max-w-4xl max-h-[calc(100vh-1.5rem)] flex flex-col bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 flex-shrink-0">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase text-blue-300 tracking-normal">FANCYZONES GUIDE</p>
+                        <h2 id="powertoys-example-title" class="text-base font-bold text-white">PowerToys 활용 예시</h2>
+                    </div>
+                    <button id="powertoys-example-close" type="button" onclick="closePowerToysExample()" title="닫기"
+                        class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="powertoys-example-content" class="overflow-y-auto p-5 sm:p-6"></div>
             </div>
         </div>
     </div>
@@ -7595,12 +7752,59 @@
         }
 
         function closeDownloadCenter() {
+            closeMemReductExample(false);
+            closePowerToysExample(false);
             closeLauncherDownloadGuide(false);
             document.getElementById('download-center-modal')?.classList.add('hidden');
             if (document.getElementById('member-modal')?.classList.contains('hidden')) {
                 document.body.style.overflow = '';
             }
             document.getElementById('member-download-button')?.focus();
+        }
+
+        function openMemReductExample() {
+            const modal = document.getElementById('memreduct-example-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('memreduct-example-close')?.focus(), 0);
+        }
+
+        function closeMemReductExample(restoreFocus = true) {
+            const modal = document.getElementById('memreduct-example-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            if (document.getElementById('download-center-modal')?.classList.contains('hidden')
+                && document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+            if (restoreFocus) document.getElementById('memreduct-example-link')?.focus();
+        }
+
+        function openPowerToysExample() {
+            const modal = document.getElementById('powertoys-example-modal');
+            const content = document.getElementById('powertoys-example-content');
+            const guide = document.querySelector('#windows-layout .liquid-card');
+            if (!modal || !content || !guide) return;
+
+            const guideCopy = guide.cloneNode(true);
+            guideCopy.classList.remove('hover:-translate-y-1', 'hover:shadow-lg');
+            content.replaceChildren(guideCopy);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('powertoys-example-close')?.focus(), 0);
+        }
+
+        function closePowerToysExample(restoreFocus = true) {
+            const modal = document.getElementById('powertoys-example-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            document.getElementById('powertoys-example-content')?.replaceChildren();
+            if (document.getElementById('download-center-modal')?.classList.contains('hidden')
+                && document.getElementById('member-modal')?.classList.contains('hidden')) {
+                document.body.style.overflow = '';
+            }
+            if (restoreFocus) document.getElementById('powertoys-example-link')?.focus();
         }
 
         function openLauncherDownloadGuide() {
@@ -7828,6 +8032,10 @@
             if (event.key === 'Escape') {
                 if (!document.getElementById('trading-video-modal')?.classList.contains('hidden')) {
                     closeTradingVideoModal();
+                } else if (!document.getElementById('memreduct-example-modal')?.classList.contains('hidden')) {
+                    closeMemReductExample();
+                } else if (!document.getElementById('powertoys-example-modal')?.classList.contains('hidden')) {
+                    closePowerToysExample();
                 } else if (!document.getElementById('launcher-download-guide-modal')?.classList.contains('hidden')) {
                     closeLauncherDownloadGuide();
                 } else if (!document.getElementById('member-terms-modal')?.classList.contains('hidden')) {
