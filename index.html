@@ -1948,13 +1948,11 @@
                                 <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
                                     <li class="flex items-start gap-2.5">
                                         <span class="text-accent-green mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="cd.security.item1">발급된 <strong>시리얼 키</strong>를 입력하여 로그인합니다. (무단
-                                            공유 적발 시 즉시 비활성화)</span>
+                                        <span data-i18n="cd.security.item1">발급된 <strong>시리얼 키</strong>를 입력하여 로그인합니다. 시리얼 키는 본인만 사용할 수 있으며, 비정상적인 사용이 확인되면 이용이 제한될 수 있습니다.</span>
                                     </li>
                                     <li class="flex items-start gap-2.5">
                                         <span class="text-accent-green mt-1 text-[0.6rem] flex-shrink-0">●</span>
-                                        <span data-i18n="cd.security.item2">로그인 연속 실패 시 보안을 위해 IP가 차단될 수 있으며, 이 경우 운영자에게
-                                            문의해야 합니다.</span>
+                                        <span data-i18n="cd.security.item2">로그인에 연속으로 실패하면 보안을 위해 접속이 일시적으로 제한될 수 있습니다. 문제가 계속되면 운영자에게 문의해 주세요.</span>
                                     </li>
                                 </ul>
                             </div>
@@ -2783,8 +2781,7 @@
                             <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
                                 <li data-i18n="ot.serial.item1">발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.</li>
                                 <li data-i18n="ot.serial.item2"><strong>REMEMBER ME</strong> 체크 시 키가 암호화되어 저장됩니다.</li>
-                                <li data-i18n="ot.serial.item3">3회 인증 실패 시 프로그램이 종료되며, 부정 사용 적발 시 경고 없이 키가 삭제될 수 있습니다.
-                                </li>
+                                <li data-i18n="ot.serial.item3">인증에 연속으로 실패하면 프로그램이 종료될 수 있습니다. 시리얼 키는 본인만 사용해 주세요.</li>
                             </ul>
                         </div>
 
@@ -5389,8 +5386,8 @@
             "cd.demo.cta": { ko: "데모 열기", en: "Open Demo" },
 
             "cd.security.title": { ko: "보안 및 로그인 정책", en: "Security & Login Policy" },
-            "cd.security.item1": { ko: "발급된 <strong>시리얼 키</strong>를 입력하여 로그인합니다. (무단 공유 적발 시 즉시 비활성화)", en: "Log in with your issued <strong>Serial Key</strong>. (Keys are disabled immediately if unauthorized sharing is detected.)" },
-            "cd.security.item2": { ko: "로그인 연속 실패 시 보안을 위해 IP가 차단될 수 있으며, 이 경우 운영자에게 문의해야 합니다.", en: "Repeated login failures may block your IP for security; contact the operator in that case." },
+            "cd.security.item1": { ko: "발급된 <strong>시리얼 키</strong>를 입력하여 로그인합니다. 시리얼 키는 본인만 사용할 수 있으며, 비정상적인 사용이 확인되면 이용이 제한될 수 있습니다.", en: "Log in with your issued <strong>Serial Key</strong>. Serial keys are for individual use, and access may be restricted if unusual usage is detected." },
+            "cd.security.item2": { ko: "로그인에 연속으로 실패하면 보안을 위해 접속이 일시적으로 제한될 수 있습니다. 문제가 계속되면 운영자에게 문의해 주세요.", en: "Repeated login failures may temporarily restrict access for security. Contact the operator if the issue continues." },
 
             // Logic & Filters (새로운 레이아웃 대응)
             "cd.logic.title": { ko: "2) 감지 로직 &amp; 필터", en: "2) Detection Logic & Filters" },
@@ -5597,7 +5594,7 @@
             "ot.serial.title": { ko: "2) 시리얼 키 인증", en: "2) Serial Key Verification" },
             "ot.serial.item1": { ko: "발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.", en: "Log in by entering your issued <strong>Serial Key</strong>." },
             "ot.serial.item2": { ko: "<strong>REMEMBER ME</strong> 체크 시 키가 암호화되어 저장됩니다.", en: "With <strong>REMEMBER ME</strong> checked, the key is stored encrypted." },
-            "ot.serial.item3": { ko: "3회 인증 실패 시 프로그램이 종료되며, 부정 사용 적발 시 경고 없이 키가 삭제될 수 있습니다.", en: "After 3 failed attempts the program exits, and keys may be deleted without warning if misuse is detected." },
+            "ot.serial.item3": { ko: "인증에 연속으로 실패하면 프로그램이 종료될 수 있습니다. 시리얼 키는 본인만 사용해 주세요.", en: "The program may close after repeated authentication failures. Please use your serial key only for your own access." },
             "ot.chrome.title": { ko: "3) 크롬 연동 (Auto - Manual)", en: "3) Chrome Integration (Auto - Manual)" },
             "ot.chrome.body": { ko: "툴킷과 종목 연동을 위해, 크롬이 <strong>디버깅 모드</strong>로 실행되어야 심볼이 자동 동기화됩니다. (AUTO 버튼)", en: "To sync symbols with the toolkit, Chrome must run in <strong>debugging mode</strong> so symbols auto-sync (AUTO button)." },
             "ot.chrome.easy.title": { ko: "간편 실행 방법 (권장)", en: "Easy Launch (Recommended)" },
