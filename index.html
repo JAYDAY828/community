@@ -1620,15 +1620,28 @@
                         <span class="badge text-brand border-brand/50" data-i18n="api.badge">Guide</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="api.title">Getting Started</h1>
-                            <p class="text-sm text-gray-400" data-i18n="api.desc">바이낸스 오더툴킷 사용을 위한 API 키 발급 및 등록 방법을 안내합니다.</p>
+                            <p class="text-sm text-gray-400" data-i18n="api.desc">오더툴킷 최초 실행부터 크롬 연동, API 설정까지 안내합니다.</p>
                         </div>
                     </div>
 
                     <div class="space-y-10">
+                        <!-- Step 1: Launch & Authentication -->
+                        <div id="getting-started-auth">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
+                                data-i18n="api.auth.title">1) 프로그램 실행 및 시리얼 인증</h2>
+                            <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
+                                <ol class="list-decimal pl-5 space-y-2 text-gray-300 text-sm leading-relaxed marker:text-accent-blue !m-0">
+                                    <li data-i18n="api.auth.item1"><strong>Trading API Launcher</strong>에서 Order Toolkit을 실행합니다.</li>
+                                    <li data-i18n="api.auth.item2">발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.</li>
+                                    <li data-i18n="api.auth.item3"><strong>REMEMBER ME</strong>를 선택하면 시리얼 키가 암호화되어 저장됩니다.</li>
+                                </ol>
+                            </div>
+                        </div>
+
                         <!-- Step 1 -->
                         <div id="api-quick">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.step1.title">1) 발급 절차</h2>
+                                data-i18n="api.step1.title">2) API 키 발급</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
@@ -1648,7 +1661,7 @@
                         <!-- Step 2 -->
                         <div id="api-restrict">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.step2.title">2) API 권한 설정 (Restrictions)</h2>
+                                data-i18n="api.step2.title">3) API 권한 설정 (Restrictions)</h2>
 
                             <!-- Permissions Grid -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -1732,7 +1745,7 @@
                         <!-- Step 3 -->
                         <div id="ip-restrict">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.step3.title">3) IP 제한 설정 (보안 필수)</h2>
+                                data-i18n="api.step3.title">4) IP 제한 설정 (보안 필수)</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
@@ -1760,7 +1773,7 @@
                         <!-- Step 4 -->
                         <div id="apply-toolkit">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.step4.title">4) Order Toolkit에 입력</h2>
+                                data-i18n="api.step4.title">5) Order Toolkit에 입력</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 mb-4 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <ol
@@ -1796,10 +1809,40 @@
                             </div>
                         </div>
 
+                        <!-- Step 6: Chrome Integration -->
+                        <div id="getting-started-chrome">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
+                                data-i18n="api.chrome.title">6) 크롬 자동 연동</h2>
+                            <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n="api.chrome.intro">
+                                이 설정은 바이낸스에서 선택한 종목을 Order Toolkit에 자동으로 연동하기 위한 과정입니다. 개별 종목을 직접 지정해 매매하는 경우에는 <strong>Manual Mode</strong>로 사용할 수 있습니다.
+                            </p>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
+                                    <h4 class="text-purple-300 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <span data-i18n="api.chrome.auto.title">AUTO 버튼으로 바로 시작 (권장)</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.auto.body"><strong>AUTO</strong> 버튼을 누르면 연동 모드 크롬이 자동 실행되고, 바이낸스에서 선택한 종목이 툴킷에 동기화됩니다.</p>
+                                    <p class="text-xs text-gray-400 !mt-3 !mb-0 leading-relaxed" data-i18n="api.chrome.auto.note">크롬이 기본 경로에 설치되어 있다면 별도 설정 없이 사용할 수 있습니다.</p>
+                                </div>
+                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
+                                    <h4 class="text-gray-200 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-accent-blue"></i>
+                                        <span data-i18n="api.chrome.shortcut.title">실행 폴더 바로가기</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.shortcut.body">연동 크롬을 먼저 열고 싶다면 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기를 사용하세요.</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-start gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                                <i class="fa-solid fa-circle-info text-gray-500 mt-0.5 flex-shrink-0"></i>
+                                <p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="api.chrome.path.note">크롬을 별도 경로에 설치한 경우 자동 실행을 위한 경로 설정이 필요할 수 있습니다.</p>
+                            </div>
+                        </div>
+
                         <!-- Step 5 -->
                         <div id="windows-layout">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.step5.title">5) Windows 창 배치 최적화 (선택)</h2>
+                                data-i18n="api.step5.title">7) Windows 창 배치 최적화 (선택)</h2>
                             <div
                                 class="liquid-card bg-gray-800/20 border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                                 <div class="flex flex-col gap-5">
@@ -2774,59 +2817,24 @@
                             </div>
                         </div>
 
-                        <!-- 2. Login (Serial) -->
-                        <div id="ot-serial">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                data-i18n="ot.serial.title">2) 시리얼 키 인증</h2>
-                            <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                <li data-i18n="ot.serial.item1">발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.</li>
-                                <li data-i18n="ot.serial.item2"><strong>REMEMBER ME</strong> 체크 시 키가 암호화되어 저장됩니다.</li>
-                                <li data-i18n="ot.serial.item3">인증에 연속으로 실패하면 프로그램이 종료될 수 있습니다. 시리얼 키는 본인만 사용해 주세요.</li>
-                            </ul>
-                        </div>
-
-                        <!-- 3. Chrome Sync (Updated) -->
-                        <div id="ot-chrome">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                data-i18n="ot.chrome.title">3) 크롬 연동 (Auto - Manual)</h2>
-                            <p class="text-gray-400 mb-4" data-i18n="ot.chrome.body">
-                                툴킷과 종목 연동을 위해, 크롬이 <strong>디버깅 모드</strong>로 실행되어야 심볼이 자동 동기화됩니다. (AUTO 버튼)
-                            </p>
-
-                            <!-- Easy Method -->
-                            <div
-                                class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-6 mb-4 transition-all duration-300 hover:-translate-y-1">
-                                <h4 class="text-purple-400 font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
-                                    <i class="fa-solid fa-check-circle"></i> <span data-i18n="ot.chrome.easy.title">간편
-                                        실행 방법 (권장)</span>
-                                </h4>
-                                <p class="text-sm text-gray-300 !m-0" data-i18n="ot.chrome.easy.body">
-                                    툴킷 설치 폴더 내에 있는 <strong>[Chrome Debug Mode] 바로가기 아이콘</strong>을 실행하면, 별도의 설정 없이 즉시 연동
-                                    모드로 브라우저가 열립니다.
-                                </p>
-                            </div>
-
-                            <!-- Manual Method -->
-                            <div
-                                class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
-                                <div class="text-xs text-gray-500 mb-2" data-i18n="ot.chrome.manual.label">수동 바로가기 생성 시
-                                    대상(Target) 경로 예시:</div>
-                                <code class="text-xs md:text-sm text-gray-400 font-mono break-all block mb-3">
-                                    "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:/ChromeDebugProfile"
-                                </code>
-                                <div
-                                    class="text-xs text-accent-blue border-t border-gray-800 pt-2 flex items-center gap-2">
-                                    <i class="fa-solid fa-bolt"></i>
-                                    <span data-i18n="ot.chrome.manual.tip">Tip: 툴킷 상단의 <strong>Auto</strong> 버튼을 클릭해도 크롬
-                                        디버깅 모드가 자동으로 실행됩니다.</span>
+                        <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-info text-accent-blue mt-0.5 flex-shrink-0"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm !m-0" data-i18n="ot.setup.title">처음 사용하시나요?</h4>
+                                    <p class="text-xs text-gray-400 !mt-1 !mb-0" data-i18n="ot.setup.body">시리얼 인증과 크롬 연동 방법은 Getting Started에서 확인할 수 있습니다.</p>
                                 </div>
                             </div>
+                            <a href="#getting-started-auth" class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-400/30 bg-blue-400/10 px-4 py-2.5 text-sm font-bold text-blue-300 hover:bg-blue-400/20 transition-colors flex-shrink-0">
+                                <span data-i18n="ot.setup.link">초기 설정 보기</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]" aria-hidden="true"></i>
+                            </a>
                         </div>
 
                         <!-- 4. Top Menu & Setup -->
                         <div id="ot-topbar">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                data-i18n="ot.topbar.title">4) 상단 메뉴 설정</h2>
+                                data-i18n="ot.topbar.title">2) 상단 메뉴 설정</h2>
                             <div
                                 class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                 <ul class="list-none space-y-3 !m-0 !p-0 text-sm text-gray-300">
@@ -2859,7 +2867,7 @@
                         <!-- 5. Order UI & Settings (Expanded) -->
                         <div id="ot-order-ui">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                data-i18n="ot.order.title">5) 주문 UI 및 설정</h2>
+                                data-i18n="ot.order.title">3) 주문 UI 및 설정</h2>
 
                             <!-- Inputs & Modes -->
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -3039,7 +3047,7 @@
                             <!-- 6. Risk & Actions -->
                             <div id="ot-actions">
                                 <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                    data-i18n="ot.actions.title">6) 리스크 관리 및 실행</h2>
+                                    data-i18n="ot.actions.title">4) 리스크 관리 및 실행</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                     <div class="liquid-card guide-glass-accent guide-glass-red p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1">
@@ -3218,7 +3226,7 @@
                                 <!-- 7. Balance & Etc -->
                                 <div id="ot-balance">
                                     <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                        data-i18n="ot.balance.title">7) 잔고 및 기타 설정</h2>
+                                        data-i18n="ot.balance.title">5) 잔고 및 기타 설정</h2>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
                                         <li data-i18n="ot.balance.item1"><strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL)
                                             표시. 클릭 시 표시 항목 전환.</li>
@@ -3233,7 +3241,7 @@
                                 <!-- 8. Shortcuts -->
                                 <div id="ot-shortcuts">
                                     <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                        data-i18n="ot.shortcuts.title">8) 단축키 (Shortcuts)</h2>
+                                        data-i18n="ot.shortcuts.title">6) 단축키 (Shortcuts)</h2>
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
@@ -3285,14 +3293,16 @@
                                 <!-- 9. Troubleshooting -->
                                 <div id="ot-troubleshoot">
                                     <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-gray-500"
-                                        data-i18n="ot.trouble.title">9) 문제 해결</h2>
+                                        data-i18n="ot.trouble.title">7) 문제 해결</h2>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li data-i18n="ot.trouble.item1"><strong>실행 불가</strong>: 전체 삭제 후 런처를 재실행하거나 관리자
-                                            권한으로 실행해보세요.</li>
+                                        <li data-i18n="ot.trouble.item1"><strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련
+                                            프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된
+                                            <strong>보안 경고 해결 안내</strong>를 따라 주세요.</li>
                                         <li data-i18n="ot.trouble.item2"><strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이
                                             (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.</li>
-                                        <li data-i18n="ot.trouble.item3"><strong>연동 불가</strong>: 크롬 디버깅 포트(9222)가 다른
-                                            프로그램과 충돌하는지 확인하거나 프로필 경로를 점검하세요.</li>
+                                        <li data-i18n="ot.trouble.item3"><strong>연동 불가</strong>: 일반 크롬이 아닌 연동 모드 크롬으로
+                                            실행했는지 확인하세요. <strong>AUTO</strong> 버튼을 누르거나 실행 폴더의 <strong>Chrome Debug
+                                                Mode</strong> 바로가기로 다시 실행할 수 있습니다.</li>
                                         <!-- 추가된 항목 -->
                                         <li data-i18n="ot.trouble.item4"><strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면
                                             API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.
@@ -5453,13 +5463,25 @@
             // API Key
             "api.badge": { ko: "Guide", en: "Guide" },
             "api.title": { ko: "Getting Started", en: "Getting Started" },
-            "api.desc": { ko: "바이낸스 오더툴킷 사용을 위한 API 키 발급 및 등록 방법을 안내합니다.", en: "Learn how to create and register an API key for the Binance Order Toolkit." },
-            "api.step1.title": { ko: "1) 발급 절차", en: "1) Issuance Steps" },
+            "api.desc": { ko: "오더툴킷 최초 실행부터 크롬 연동, API 설정까지 안내합니다.", en: "Set up Order Toolkit from first launch through Chrome integration and API configuration." },
+            "api.auth.title": { ko: "1) 프로그램 실행 및 시리얼 인증", en: "1) Launch & Serial Verification" },
+            "api.auth.item1": { ko: "<strong>Trading API Launcher</strong>에서 Order Toolkit을 실행합니다.", en: "Launch Order Toolkit from <strong>Trading API Launcher</strong>." },
+            "api.auth.item2": { ko: "발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.", en: "Sign in with your issued <strong>Serial Key</strong>." },
+            "api.auth.item3": { ko: "<strong>REMEMBER ME</strong>를 선택하면 시리얼 키가 암호화되어 저장됩니다.", en: "Select <strong>REMEMBER ME</strong> to store the serial key encrypted." },
+            "api.chrome.title": { ko: "6) 크롬 자동 연동", en: "6) Automatic Chrome Integration" },
+            "api.chrome.intro": { ko: "이 설정은 바이낸스에서 선택한 종목을 Order Toolkit에 자동으로 연동하기 위한 과정입니다. 개별 종목을 직접 지정해 매매하는 경우에는 <strong>Manual Mode</strong>로 사용할 수 있습니다.", en: "This setup automatically syncs the symbol selected on Binance with Order Toolkit. To trade a symbol selected directly in the toolkit, use <strong>Manual Mode</strong>." },
+            "api.chrome.auto.title": { ko: "AUTO 버튼으로 바로 시작 (권장)", en: "Start with AUTO (Recommended)" },
+            "api.chrome.auto.body": { ko: "<strong>AUTO</strong> 버튼을 누르면 연동 모드 크롬이 자동 실행되고, 바이낸스에서 선택한 종목이 툴킷에 동기화됩니다.", en: "Click <strong>AUTO</strong> to launch Chrome in integration mode and sync the selected Binance symbol with the toolkit." },
+            "api.chrome.auto.note": { ko: "크롬이 기본 경로에 설치되어 있다면 별도 설정 없이 사용할 수 있습니다.", en: "No extra setup is needed when Chrome is installed in its default location." },
+            "api.chrome.shortcut.title": { ko: "실행 폴더 바로가기", en: "Shortcut in the App Folder" },
+            "api.chrome.shortcut.body": { ko: "연동 크롬을 먼저 열고 싶다면 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기를 사용하세요.", en: "To open the integration browser first, use the <strong>Chrome Debug Mode</strong> shortcut in the app folder." },
+            "api.chrome.path.note": { ko: "크롬을 별도 경로에 설치한 경우 자동 실행을 위한 경로 설정이 필요할 수 있습니다.", en: "If Chrome is installed in a custom location, its launch path may need to be configured separately." },
+            "api.step1.title": { ko: "2) API 키 발급", en: "2) Create an API Key" },
             "api.step1.item1": { ko: "바이낸스 로그인 후 <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>API Management 바로가기 <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>를 열어 API 관리 페이지로 이동합니다.", en: "After signing in to Binance, open <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>Binance API Management <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>." },
             "api.step1.item2": { ko: "<strong>[Create API]</strong> 클릭 후 <strong>System generated</strong> 방식을 선택합니다.", en: "Click <strong>[Create API]</strong> and choose <strong>System generated</strong>." },
             "api.step1.item3": { ko: "<strong>Label</strong>(이름)을 입력합니다. (예: <code>futures-toolkit</code>)", en: "Enter a <strong>Label</strong> (e.g., <code>futures-toolkit</code>)." },
             "api.step1.item4": { ko: "이메일 및 OTP 인증(Security Verification)을 완료하여 키를 생성합니다.", en: "Complete email and OTP verification (Security Verification) to create the key." },
-            "api.step2.title": { ko: "2) API 권한 설정 (Restrictions)", en: "2) API Permission Settings (Restrictions)" },
+            "api.step2.title": { ko: "3) API 권한 설정 (Restrictions)", en: "3) API Permission Settings (Restrictions)" },
             "api.step2.allow.title": { ko: "반드시 체크 (허용)", en: "Must enable (Allow)" },
             "api.step2.allow.item1": { ko: "Enable Reading", en: "Enable Reading" },
             "api.step2.allow.item2": { ko: "Enable Futures", en: "Enable Futures" },
@@ -5471,20 +5493,20 @@
             "api.step2.consent.item1": { ko: "신규 계정은 Futures 거래 동의를 먼저 완료해야 API 설정 화면에 <strong>Enable Futures</strong> 항목이 표시됩니다.", en: "New accounts must complete Futures trading consent first before <strong>Enable Futures</strong> appears in the API settings." },
             "api.step2.consent.item2": { ko: "<strong>TradFi</strong> 상품은 일반 선물 거래 동의와 별도로 TradFi 거래 동의가 필요합니다.", en: "<strong>TradFi</strong> products require separate TradFi trading consent in addition to regular Futures consent." },
             "api.step2.consent.item3": { ko: "<strong>Order Toolkit</strong> 제목 표시줄에 <strong>ERROR</strong>가 한 번이라도 표시됐다면, <strong>Ctrl + Shift + Esc</strong> → 작업 관리자에서 Order Toolkit을 강제 종료한 뒤 다시 실행하세요.", en: "If <strong>ERROR</strong> appeared even once in the <strong>Order Toolkit</strong> title bar, press <strong>Ctrl + Shift + Esc</strong>, force close Order Toolkit in Task Manager, then run it again." },
-            "api.step3.title": { ko: "3) IP 제한 설정 (보안 필수)", en: "3) IP Restriction (Security Required)" },
+            "api.step3.title": { ko: "4) IP 제한 설정 (보안 필수)", en: "4) IP Restriction (Security Required)" },
             "api.step3.item1": { ko: "API 설정 화면 하단의 <strong>IP Access Restrictions</strong> 항목을 확인합니다.", en: "Check the <strong>IP Access Restrictions</strong> section at the bottom of the API settings page." },
             "api.step3.item2": { ko: "<strong>Restrict access to trusted IPs only</strong>(권장) 옵션을 선택합니다.", en: "Select <strong>Restrict access to trusted IPs only</strong> (recommended)." },
             "api.step3.item3": { ko: "네이버 <a class='text-brand font-semibold hover:underline' href='https://search.naver.com/search.naver?query=%EB%82%B4%20IP' target='_blank' rel='noopener noreferrer'>내 IP 확인 바로가기 <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>에서 현재 사용 중인 공인 IP 주소를 확인합니다.", en: "Use <a class='text-brand font-semibold hover:underline' href='https://search.naver.com/search.naver?query=%EB%82%B4%20IP' target='_blank' rel='noopener noreferrer'>Naver IP search <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a> to check your current public IP address." },
             "api.step3.item4": { ko: "확인된 IP 주소를 입력란에 붙여넣고 <strong>Confirm</strong>을 누른 뒤, 상단의 <strong>Save</strong> 버튼을 눌러 저장합니다.", en: "Paste the IP address, click <strong>Confirm</strong>, then click <strong>Save</strong> at the top." },
             "api.step3.note": { ko: "허용된 IP 이외의 환경(다른 PC, 외부 네트워크 등)에서는 API가 동작하지 않아 안전합니다.", en: "For security, the API will not work outside the allowed IPs." },
-            "api.step4.title": { ko: "4) Order Toolkit에 입력", en: "4) Enter into Order Toolkit" },
+            "api.step4.title": { ko: "5) Order Toolkit에 입력", en: "5) Enter into Order Toolkit" },
             "api.step4.item1": { ko: "발급 완료 화면에 표시된 <strong>API Key</strong>와 <strong>Secret Key</strong>를 복사합니다.", en: "Copy the <strong>API Key</strong> and <strong>Secret Key</strong> shown on the completion screen." },
             "api.step4.item2": { ko: "<strong>Order Toolkit</strong> 프로그램을 실행합니다.", en: "Run the <strong>Order Toolkit</strong> program." },
             "api.step4.item3": { ko: "상단 메뉴의 <strong>[API]</strong> 버튼을 클릭하여 복사한 키를 입력하고 저장합니다.", en: "Click the <strong>[API]</strong> button in the top menu, paste the keys, and save." },
             "api.step4.warn.title": { ko: "주의사항", en: "Warnings" },
             "api.step4.warn.item1": { ko: "<strong>Secret Key</strong>는 생성 직후 1회만 표시되며, 페이지를 벗어나면 다시 확인할 수 없습니다.", en: "<strong>Secret Key</strong> is shown only once at creation and cannot be viewed again after leaving the page." },
             "api.step4.warn.item2": { ko: "Secret Key를 분실한 경우 API를 삭제하고 새로 생성해야 합니다.", en: "If the Secret Key is lost, you must delete and re-create the API." },
-            "api.step5.title": { ko: "5) Windows 창 배치 최적화 (선택)", en: "5) Optimize Windows Layout (Optional)" },
+            "api.step5.title": { ko: "7) Windows 창 배치 최적화 (선택)", en: "7) Optimize Windows Layout (Optional)" },
             "api.step5.card.title": { ko: "Microsoft 공식 Windows 유틸리티", en: "Official Microsoft Windows utility" },
             "api.step5.card.body": { ko: "Microsoft PowerToys는 Microsoft에서 제공하는 공식 Windows 유틸리티입니다. Microsoft Store에서 PowerToys를 설치하고 FancyZones를 활성화하면 여러 툴킷의 창 크기와 위치를 작업 스타일에 맞게 배치할 수 있습니다.", en: "Microsoft PowerToys is an official Windows utility provided by Microsoft. Install PowerToys from the Microsoft Store and enable FancyZones to arrange multiple toolkit windows by size and position for your workflow." },
             "api.step5.card.body2": { ko: "Order Toolkit, Crypto Detector, Trades, Order Book을 각 구역에 고정해두면 매번 창을 다시 정리하지 않아도 되어 운영 화면을 빠르게 복구할 수 있습니다.", en: "Pinning Order Toolkit, Crypto Detector, Trades, and Order Book into zones helps restore your operating screen quickly without rearranging windows each time." },
@@ -5748,23 +5770,16 @@
             "ot.video.card1.desc": { ko: "Order Toolkit을 활용한 실전 운용 예시입니다.", en: "Practical operation example using Order Toolkit." },
             "ot.video.card2.title": { ko: "STOUSDT 실전 스캘핑", en: "STOUSDT live scalping" },
             "ot.video.card2.desc": { ko: "Order Toolkit을 활용한 실전 운용 예시입니다.", en: "Practical operation example using Order Toolkit." },
-            "ot.serial.title": { ko: "2) 시리얼 키 인증", en: "2) Serial Key Verification" },
-            "ot.serial.item1": { ko: "발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.", en: "Log in by entering your issued <strong>Serial Key</strong>." },
-            "ot.serial.item2": { ko: "<strong>REMEMBER ME</strong> 체크 시 키가 암호화되어 저장됩니다.", en: "With <strong>REMEMBER ME</strong> checked, the key is stored encrypted." },
-            "ot.serial.item3": { ko: "인증에 연속으로 실패하면 프로그램이 종료될 수 있습니다. 시리얼 키는 본인만 사용해 주세요.", en: "The program may close after repeated authentication failures. Please use your serial key only for your own access." },
-            "ot.chrome.title": { ko: "3) 크롬 연동 (Auto - Manual)", en: "3) Chrome Integration (Auto - Manual)" },
-            "ot.chrome.body": { ko: "툴킷과 종목 연동을 위해, 크롬이 <strong>디버깅 모드</strong>로 실행되어야 심볼이 자동 동기화됩니다. (AUTO 버튼)", en: "To sync symbols with the toolkit, Chrome must run in <strong>debugging mode</strong> so symbols auto-sync (AUTO button)." },
-            "ot.chrome.easy.title": { ko: "간편 실행 방법 (권장)", en: "Easy Launch (Recommended)" },
-            "ot.chrome.easy.body": { ko: "툴킷 설치 폴더 내에 있는 <strong>[Chrome Debug Mode] 바로가기 아이콘</strong>을 실행하면, 별도의 설정 없이 즉시 연동 모드로 브라우저가 열립니다.", en: "Run the <strong>[Chrome Debug Mode] shortcut</strong> in the toolkit folder to open Chrome in integration mode without extra setup." },
-            "ot.chrome.manual.label": { ko: "수동 바로가기 생성 시 대상(Target) 경로 예시:", en: "Target path example for manual shortcut creation:" },
-            "ot.chrome.manual.tip": { ko: "Tip: 툴킷 상단의 <strong>Auto</strong> 버튼을 클릭해도 크롬 디버깅 모드가 자동으로 실행됩니다.", en: "Tip: Clicking the <strong>Auto</strong> button in the toolkit top bar will also launch Chrome in debugging mode automatically." },
-            "ot.topbar.title": { ko: "4) 상단 메뉴 설정", en: "4) Top Bar Settings" },
+            "ot.setup.title": { ko: "처음 사용하시나요?", en: "New to Order Toolkit?" },
+            "ot.setup.body": { ko: "시리얼 인증과 크롬 연동 방법은 Getting Started에서 확인할 수 있습니다.", en: "See Getting Started for serial verification and Chrome integration." },
+            "ot.setup.link": { ko: "초기 설정 보기", en: "View Initial Setup" },
+            "ot.topbar.title": { ko: "2) 상단 메뉴 설정", en: "2) Top Bar Settings" },
             "ot.topbar.item1": { ko: "1x ~ 125x 배율 선택 (현재 포지션 정보와 실시간 동기화)", en: "Select leverage 1x-125x (syncs in real time with current position info)." },
             "ot.topbar.item2": { ko: "<strong>Cross</strong>(교차) / <strong>Isolated</strong>(격리) 모드 토글", en: "Toggle <strong>Cross</strong> / <strong>Isolated</strong> margin mode." },
             "ot.topbar.item3": { ko: "현재 종목 표시. 입력창 클릭 시 수동 입력(예: <code>BTC</code>) 가능하며 자동완성 지원", en: "Shows current symbol. Click the input to type manually (e.g., <code>BTC</code>) with autocomplete." },
             "ot.topbar.item4": { ko: "발급받은 API Key 리스트 관리 및 저장", en: "Manage and save your issued API key list." },
             "ot.topbar.note": { ko: "* <strong>Add/Remove</strong>: 즐겨찾기 리스트 관리 / <strong>Auto/Manual</strong>: 크롬 자동 연동 여부 토글", en: "* <strong>Add/Remove</strong>: manage favorites list / <strong>Auto/Manual</strong>: toggle Chrome auto-link." },
-            "ot.order.title": { ko: "5) 주문 UI 및 설정", en: "5) Order UI & Settings" },
+            "ot.order.title": { ko: "3) 주문 UI 및 설정", en: "3) Order UI & Settings" },
             "ot.order.inputs.title": { ko: "주문 옵션 (Inputs)", en: "Order Options (Inputs)" },
             "ot.order.inputs.order.label": { ko: "ORDER (주문 타입)", en: "ORDER (Order Type)" },
             "ot.order.inputs.order.desc": { ko: "Limit (지정가), Market (시장가), Stop Market 지원", en: "Supports Limit, Market, and Stop Market." },
@@ -5795,7 +5810,7 @@
             "ot.amount.cost.title": { ko: "Cost Value (예상 소요 금액, 자동 갱신)", en: "Cost Value (Estimated Cost, Auto Update)" },
             "ot.amount.cost.left": { ko: "자동 갱신 : 예상 소요 금액 실시간 반영", en: "Auto update: estimated cost is reflected in real time." },
             "ot.amount.cost.right": { ko: "클릭 : 청산가/수수료 안내 팝업", en: "Click: liquidation price/fee info popup" },
-            "ot.actions.title": { ko: "6) 리스크 관리 및 실행", en: "6) Risk Management & Execution" },
+            "ot.actions.title": { ko: "4) 리스크 관리 및 실행", en: "4) Risk Management & Execution" },
             "ot.actions.buttons.title": { ko: "주문 실행 및 포지션 관리", en: "Order Execution & Position Management" },
             "ot.actions.buttons.buy": { ko: "Buy/Long", en: "Buy/Long" },
             "ot.actions.buttons.sell": { ko: "Sell/Short", en: "Sell/Short" },
@@ -5836,12 +5851,12 @@
             "ot.actions.risk.sp.exec.desc": { ko: "OFF는 기존 시장가, 0.3% 이상은 BBO 기준 LIMIT IOC로 가능한 수량만 즉시 처리합니다.", en: "OFF keeps the normal market flow; 0.3% or higher uses BBO-based LIMIT IOC and fills only immediately available quantity." },
             "ot.actions.note.reduce": { ko: "<strong>Reduce-Only</strong>: 포지션 감소만 허용", en: "<strong>Reduce-Only</strong>: only reduce positions" },
             "ot.actions.note.auto": { ko: "<strong>Auto-Reduce</strong>: 포지션 종료 주문 시 Reduce-Only 자동 적용", en: "<strong>Auto-Reduce</strong>: auto applies Reduce-Only on close orders" },
-            "ot.balance.title": { ko: "7) 잔고 및 기타 설정", en: "7) Balance & Other Settings" },
+            "ot.balance.title": { ko: "5) 잔고 및 기타 설정", en: "5) Balance & Other Settings" },
             "ot.balance.item1": { ko: "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 클릭 시 표시 항목 전환.", en: "<strong>BALANCE</strong>: shows account balance and unrealized PnL; click to cycle display." },
             "ot.balance.item2": { ko: "<strong>PIN</strong>: 창을 항상 위에 고정", en: "<strong>PIN</strong>: keep window always on top." },
             "ot.balance.item3": { ko: "<strong>SETTING (Default)</strong>: 테마(Theme), 사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업", en: "<strong>SETTING (Default)</strong>: opens general settings for theme, SFX, auto-stop ratio, SP ratio, etc." },
             "ot.balance.item4": { ko: "<strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을 커스터마이징하거나 선택할 수 있습니다.", en: "<strong>SFX/THEME</strong>: customize or choose sound packs and theme skins." },
-            "ot.shortcuts.title": { ko: "8) 단축키 (Shortcuts)", en: "8) Shortcuts" },
+            "ot.shortcuts.title": { ko: "6) 단축키 (Shortcuts)", en: "6) Shortcuts" },
             "ot.shortcuts.fixed.title": { ko: "고정 단축키", en: "Fixed Shortcuts" },
             "ot.shortcuts.fixed.item1": { ko: "(Hold): 수량(AMOUNT) 절반으로 임시 변경", en: "(Hold): temporarily halve the amount (AMOUNT)" },
             "ot.shortcuts.fixed.item2": { ko: ": Reduce-Only 토글", en: ": Toggle Reduce-Only" },
@@ -5852,10 +5867,10 @@
             "ot.shortcuts.custom.item2": { ko: "<strong>Use</strong> 체크 해제 시 해당 키는 비활성화(<code>None</code>)로 저장", en: "Turn <strong>Use</strong> off to save that key as disabled (<code>None</code>)." },
             "ot.shortcuts.custom.item3": { ko: "지원 액션: BBO 선택, Buy/Sell, Close Position, Halve/Double Amount, ATSL", en: "Supported actions: BBO selection, Buy/Sell, Close Position, Halve/Double Amount, ATSL." },
             "ot.shortcuts.custom.item4": { ko: "설정은 <code>toolkit_settings_shortcut.json</code>에 UTF-8로 자동 저장", en: "Settings are saved automatically as UTF-8 in <code>toolkit_settings_shortcut.json</code>." },
-            "ot.trouble.title": { ko: "9) 문제 해결", en: "9) Troubleshooting" },
-            "ot.trouble.item1": { ko: "<strong>실행 불가</strong>: 전체 삭제 후 런처를 재실행하거나 관리자 권한으로 실행해보세요.", en: "<strong>Won't launch</strong>: remove all files, then rerun the launcher or run as administrator." },
+            "ot.trouble.title": { ko: "7) 문제 해결", en: "7) Troubleshooting" },
+            "ot.trouble.item1": { ko: "<strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련 프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된 <strong>보안 경고 해결 안내</strong>를 따라 주세요.", en: "<strong>Won't launch</strong>: open Task Manager and close any remaining Order Toolkit processes, then try again. If the app does not start at all, follow the bundled <strong>security warning troubleshooting guide</strong>." },
             "ot.trouble.item2": { ko: "<strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이 (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.", en: "<strong>Order failed checklist</strong>: API permission/IP restriction → One-way mode → web trading consent. <strong>TradFi consent is separate from main trading consent</strong>." },
-            "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: 크롬 디버깅 포트(9222)가 다른 프로그램과 충돌하는지 확인하거나 프로필 경로를 점검하세요.", en: "<strong>Link failed</strong>: check if Chrome debugging port (9222) conflicts or verify the profile path." },
+            "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: 일반 크롬이 아닌 연동 모드 크롬으로 실행했는지 확인하세요. <strong>AUTO</strong> 버튼을 누르거나 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기로 다시 실행할 수 있습니다.", en: "<strong>Link failed</strong>: make sure Chrome is running in integration mode rather than as a regular browser. Click <strong>AUTO</strong> or relaunch it with the <strong>Chrome Debug Mode</strong> shortcut in the app folder." },
             "ot.trouble.item4": { ko: "<strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면 API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.", en: "<strong>Time sync</strong>: if PC time differs from server time, API requests are rejected. Sync time via Windows [Date & Time settings] → <strong>'Sync now'</strong>." },
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
 
