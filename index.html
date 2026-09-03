@@ -2650,7 +2650,7 @@
                                         <span data-i18n="ext.lightning.title">Lightning Candle</span>
                                     </h3>
                                     <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.desc">
-                                        현재 종목의 실시간 체결 가격을 플로팅 캔들 차트로 보여줍니다. 원본 차트를 가리거나 다른 영역을 확인하는 동안에도 최근 가격 흐름을 빠르게 살펴볼 수 있습니다.
+                                        실시간 체결 가격을 독립 플로팅 차트로 보여줍니다. 최대 4개 차트에서 현재 Binance 종목을 연동하거나 원하는 종목과 타임프레임을 고정해 여러 흐름을 빠르게 비교할 수 있습니다.
                                     </p>
                                 </div>
 
@@ -2666,7 +2666,7 @@
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                     <div class="liquid-card guide-glass-accent guide-glass-green rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
                                         <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-chart-line text-brand"></i>
@@ -2674,20 +2674,32 @@
                                         </h4>
                                         <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
                                             <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item1">최종 체결가와 현재 봉이 끝날 때까지 남은 시간을 표시합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item2">1·3·5·15분 차트를 선택할 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item3">마우스 휠로 확대·축소하고 좌우로 이동해 과거 캔들을 확인할 수 있습니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item2">1·3·5·15·30분, 1·4시간, 1일 차트를 선택할 수 있습니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item3">LIVE는 모든 차트의 캔들 간격과 우측 여백을 맞추고 최신 위치로 즉시 정렬합니다.</span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="liquid-card guide-glass-accent guide-glass-yellow rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
+                                        <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
+                                            <i class="fa-solid fa-table-cells-large text-brand"></i>
+                                            <span data-i18n="ext.lightning.multi.title">멀티차트와 종목 연동</span>
+                                        </h4>
+                                        <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
+                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item1">1개, 좌우·상하 2개, 4개 차트 레이아웃을 선택할 수 있습니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item2">각 차트를 현재 Binance 종목과 연동하거나 원하는 종목으로 고정할 수 있습니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item3">같은 종목을 여러 타임프레임으로 보거나 서로 다른 종목을 한 화면에서 비교할 수 있습니다.</span></li>
                                         </ul>
                                     </div>
 
                                     <div class="liquid-card guide-glass-accent guide-glass-blue rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
                                         <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-ruler-combined text-accent-blue"></i>
-                                            <span data-i18n="ext.lightning.tools.title">측정과 수평선</span>
+                                            <span data-i18n="ext.lightning.tools.title">측정과 그리기 도구</span>
                                         </h4>
                                         <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
                                             <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item1">Shift+클릭으로 가격·등락률·봉 수·경과 시간을 측정합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item2">상단 수평선 도구 또는 Alt+클릭으로 원하는 가격에 수평선을 추가합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item3">선택한 선은 Delete로 삭제하고, CLR로 모든 수평선을 지웁니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item2">수평선과 두 지점을 잇는 추세선을 차트 위에 직접 그릴 수 있습니다.</span></li>
+                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item3">우클릭으로 그리기·선택을 취소하고, Delete로 선택한 선을 삭제하거나 CLR로 수평선을 모두 지웁니다.</span></li>
                                         </ul>
                                     </div>
 
@@ -2792,16 +2804,16 @@
                                         class="group block lg:col-span-2 rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-brand/60 hover:shadow-[0_0_25px_rgba(240,185,11,0.15)] hover:-translate-y-1">
                                         <div class="aspect-[16/10] overflow-hidden bg-black/30">
                                             <img src="./assets/extensions/lightning-candle-full.png"
-                                                alt="Expanded Lightning Candle overlay with ISO transparency"
+                                                alt="Lightning Candle two-chart layout with synchronized live controls"
                                                 loading="lazy"
                                                 class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]">
                                         </div>
                                         <div class="p-4 border-t border-gray-800">
                                             <h4 class="text-white font-bold text-sm !mt-0 mb-1 flex items-center gap-2">
                                                 <i class="fa-solid fa-expand text-brand"></i>
-                                                <span data-i18n="ext.lightning.image.full.title">전체 화면 사용 예시</span>
+                                                <span data-i18n="ext.lightning.image.full.title">멀티차트 사용 예시</span>
                                             </h4>
-                                            <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.image.full.desc">원본 차트 위에서 투명도와 크기를 조절해 두 가격 흐름을 함께 비교할 수 있습니다.</p>
+                                            <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.image.full.desc">같은 종목의 1분·1일 차트를 함께 배치하고 투명도를 조절해 단기 체결 흐름과 큰 추세를 동시에 확인한 예시입니다.</p>
                                         </div>
                                     </a>
                                 </div>
@@ -5886,25 +5898,29 @@
             "ext.binance.feature.item3": { ko: "주문 취소와 포지션 종료 버튼을 주문 영역 가까이에서 바로 사용할 수 있습니다.", en: "Places cancel-order and close-position buttons close to the order area for quick access." },
             "ext.binance.feature.item4": { ko: "주문 생성과 취소 결과를 소리로 바로 알려줍니다.", en: "Provides an immediate sound cue when orders are created or canceled." },
             "ext.lightning.title": { ko: "Lightning Candle", en: "Lightning Candle" },
-            "ext.lightning.desc": { ko: "현재 종목의 실시간 체결 가격을 플로팅 캔들 차트로 보여줍니다. 원본 차트를 가리거나 다른 영역을 확인하는 동안에도 최근 가격 흐름을 빠르게 살펴볼 수 있습니다.", en: "Shows the current symbol's live traded price in a floating candlestick chart, so recent price action remains easy to follow while other parts of the page are in use." },
+            "ext.lightning.desc": { ko: "실시간 체결 가격을 독립 플로팅 차트로 보여줍니다. 최대 4개 차트에서 현재 Binance 종목을 연동하거나 원하는 종목과 타임프레임을 고정해 여러 흐름을 빠르게 비교할 수 있습니다.", en: "Shows live traded prices in an independent floating chart. Use up to four charts linked to the current Binance symbol, or lock each chart to a chosen symbol and timeframe for quick comparison." },
             "ext.lightning.why.title": { ko: "왜 별도의 실시간 차트가 필요한가요?", en: "Why a Separate Real-time Chart?" },
             "ext.lightning.why.desc": { ko: "빠른 변동 구간에서는 Binance 기본 차트가 스캘핑 타점을 확인하기에 다소 느리게 느껴질 수 있습니다. Lightning Candle은 최근 체결 흐름을 빠르게 보여주어 현재 가격 움직임과 진입 시점을 더 날렵하게 확인할 수 있도록 돕습니다.", en: "During fast moves, the default Binance chart can feel slow when judging scalping entries. Lightning Candle presents recent trades quickly, making current price movement and entry timing easier to follow." },
             "ext.lightning.chart.title": { ko: "차트 보기", en: "Viewing the Chart" },
             "ext.lightning.chart.item1": { ko: "최종 체결가와 현재 봉이 끝날 때까지 남은 시간을 표시합니다.", en: "Shows the latest traded price and the time remaining in the current candle." },
-            "ext.lightning.chart.item2": { ko: "1·3·5·15분 차트를 선택할 수 있습니다.", en: "Choose a 1, 3, 5, or 15-minute chart." },
-            "ext.lightning.chart.item3": { ko: "마우스 휠로 확대·축소하고 좌우로 이동해 과거 캔들을 확인할 수 있습니다.", en: "Zoom with the mouse wheel and move left or right to view earlier candles." },
-            "ext.lightning.tools.title": { ko: "측정과 수평선", en: "Measurement & Horizontal Lines" },
+            "ext.lightning.chart.item2": { ko: "1·3·5·15·30분, 1·4시간, 1일 차트를 선택할 수 있습니다.", en: "Choose 1, 3, 5, 15, or 30 minutes, 1 or 4 hours, or 1 day." },
+            "ext.lightning.chart.item3": { ko: "LIVE는 모든 차트의 캔들 간격과 우측 여백을 맞추고 최신 위치로 즉시 정렬합니다.", en: "LIVE restores candle spacing and the right margin across every chart, then aligns them to the latest position immediately." },
+            "ext.lightning.multi.title": { ko: "멀티차트와 종목 연동", en: "Multi-chart & Symbol Linking" },
+            "ext.lightning.multi.item1": { ko: "1개, 좌우·상하 2개, 4개 차트 레이아웃을 선택할 수 있습니다.", en: "Choose a single chart, two charts side by side or stacked, or a four-chart layout." },
+            "ext.lightning.multi.item2": { ko: "각 차트를 현재 Binance 종목과 연동하거나 원하는 종목으로 고정할 수 있습니다.", en: "Link each chart to the current Binance symbol or lock it to a symbol of your choice." },
+            "ext.lightning.multi.item3": { ko: "같은 종목을 여러 타임프레임으로 보거나 서로 다른 종목을 한 화면에서 비교할 수 있습니다.", en: "View one symbol across multiple timeframes or compare different symbols on one screen." },
+            "ext.lightning.tools.title": { ko: "측정과 그리기 도구", en: "Measurement & Drawing Tools" },
             "ext.lightning.tools.item1": { ko: "Shift+클릭으로 가격·등락률·봉 수·경과 시간을 측정합니다.", en: "Use Shift+click to measure price, percentage change, candle count, and elapsed time." },
-            "ext.lightning.tools.item2": { ko: "상단 수평선 도구 또는 Alt+클릭으로 원하는 가격에 수평선을 추가합니다.", en: "Add a horizontal line at a target price with the top-bar line tool or Alt+click." },
-            "ext.lightning.tools.item3": { ko: "선택한 선은 Delete로 삭제하고, CLR로 모든 수평선을 지웁니다.", en: "Press Delete to remove the selected line, or use CLR to remove all horizontal lines." },
+            "ext.lightning.tools.item2": { ko: "수평선과 두 지점을 잇는 추세선을 차트 위에 직접 그릴 수 있습니다.", en: "Draw horizontal levels and trend lines connecting two points directly on the chart." },
+            "ext.lightning.tools.item3": { ko: "우클릭으로 그리기·선택을 취소하고, Delete로 선택한 선을 삭제하거나 CLR로 수평선을 모두 지웁니다.", en: "Right-click to cancel drawing or selection, use Delete to remove the selected line, or CLR to clear all horizontal lines." },
             "ext.lightning.window.title": { ko: "위치·크기·투명도", en: "Position, Size & Opacity" },
             "ext.lightning.window.item1": { ko: "접힌 버튼과 펼친 차트를 각각 원하는 위치로 옮기고, 차트 크기와 최대화 상태를 조절할 수 있습니다.", en: "Move the collapsed button and expanded chart separately, then adjust the chart size or maximize it." },
             "ext.lightning.window.item2": { ko: "ISO는 차트 배경을, ALL은 상단바를 제외한 차트 전체를 투명하게 조절합니다.", en: "ISO adjusts chart-background transparency; ALL adjusts the entire chart except the top bar." },
             "ext.lightning.window.item3": { ko: "설정의 RESET LIGHTNING POSITION은 버튼과 차트 위치·크기·접힘 상태를 함께 초기화합니다.", en: "RESET LIGHTNING POSITION in Settings resets the button and chart positions, size, and collapsed state together." },
             "ext.lightning.image.entry.title": { ko: "LIGHTNING 버튼으로 실행", en: "Launch with the LIGHTNING Button" },
             "ext.lightning.image.entry.desc": { ko: "Binance Futures 차트 상단의 버튼을 눌러 플로팅 차트를 열고 접습니다.", en: "Use the button above the Binance Futures chart to open or collapse the floating chart." },
-            "ext.lightning.image.full.title": { ko: "전체 화면 사용 예시", en: "Expanded Chart Example" },
-            "ext.lightning.image.full.desc": { ko: "원본 차트 위에서 투명도와 크기를 조절해 두 가격 흐름을 함께 비교할 수 있습니다.", en: "Adjust opacity and size over the original chart to compare both price views together." },
+            "ext.lightning.image.full.title": { ko: "멀티차트 사용 예시", en: "Multi-chart Example" },
+            "ext.lightning.image.full.desc": { ko: "같은 종목의 1분·1일 차트를 함께 배치하고 투명도를 조절해 단기 체결 흐름과 큰 추세를 동시에 확인한 예시입니다.", en: "This example places 1-minute and 1-day charts for the same symbol together, using transparency to monitor short-term trades and the broader trend at once." },
             "ext.lightning.note": { ko: "Lightning Candle은 빠른 시세 확인을 위한 보조 차트이며 주문 실행, 포지션 및 오픈오더 표시는 제공하지 않습니다. 실제 주문과 계정 정보는 Binance 공식 화면에서 확인하세요.", en: "Lightning Candle is a companion chart for fast market monitoring. It does not execute orders or display positions and open orders. Confirm actual orders and account information on the official Binance screen." },
             "ext.install.title": { ko: "설치 및 활성화", en: "Install & Activate" },
             "ext.install.desc": { ko: "Trading API Launcher에서 받은 Binance Manager를 Chrome에 추가해 사용합니다.", en: "Add Binance Manager from Trading API Launcher to Chrome to begin using it." },
