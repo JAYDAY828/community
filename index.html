@@ -270,7 +270,8 @@
         }
 
         /* 🎇 White Liquid Button */
-        .liquid-btn-white {
+        .liquid-btn-white,
+        .bm-tabs button[aria-selected="true"] {
             background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.9) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -280,7 +281,8 @@
             color: #000 !important;
         }
 
-        .liquid-btn-white:hover {
+        .liquid-btn-white:hover,
+        .bm-tabs button[aria-selected="true"]:hover {
             background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 1) 100%);
             box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9);
             transform: translateY(-1px);
@@ -1947,8 +1949,7 @@
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
-                        <span class="badge text-accent-green border-accent-green/50" data-i18n="cd.badge">Signal
-                            Tool</span>
+                        <span class="badge text-accent-green border-accent-green/50" data-i18n="cd.badge">Alerts</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="cd.title">Crypto Detector</h1>
                             <p class="text-sm text-gray-400" data-i18n="cd.desc">실시간 변동성 감지 및 시세 포착 툴킷 가이드입니다.</p>
@@ -2590,278 +2591,77 @@
 
             <!-- SECTION: EXTENSIONS -->
             <section id="extensions" class="guide-section hidden content-body">
+                <style>
+                    .bm-showcase{overflow:hidden}
+                    .bm-showcase h1,.bm-showcase h2,.bm-showcase p{margin-top:0}
+                    .bm-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0}
+                    .bm-tabs button{position:relative;padding:13px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;font:inherit;font-weight:700;cursor:pointer;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:border-color .2s,transform .2s,box-shadow .2s}
+                    .bm-tabs button[aria-selected="false"]{color:#eaecef;background:linear-gradient(135deg,rgba(22,24,31,.88),rgba(15,17,23,.92));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+                    .bm-tabs button[aria-selected="false"]:hover{border-color:rgba(255,255,255,.24);color:#fff;transform:translateY(-1px)}
+                    .bm-tabs button:focus-visible{outline:2px solid #eaecef;outline-offset:3px}
+                    .bm-slide[hidden]{display:none}
+                    .bm-slide-layout{--bm-frame-height:500px;display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:24px;align-items:stretch}
+                    .bm-slide-layout>div:first-child{height:var(--bm-frame-height);box-sizing:border-box}
+                    .bm-slide h2{font-size:21px;line-height:1.4;color:#f4f5f7;margin-bottom:8px}
+                    .bm-slide p{font-size:13px;line-height:1.7;color:#a6afbc}
+                    .bm-kicker{display:block;margin-bottom:7px;color:#f0b90b;font-size:10px;font-weight:700;letter-spacing:.08em}
+                    .bm-points{display:grid;gap:0;margin:18px 0 0!important;padding:0!important;list-style:none!important;border-top:1px solid #303743}
+                    .bm-points li{position:relative;padding:10px 0 10px 15px!important;border-bottom:1px solid #303743;color:#b8c0cb;font-size:12px;line-height:1.55;list-style:none!important}
+                    .bm-points li::marker{content:""}
+                    .bm-points li::before{position:absolute;left:1px;top:16px;width:4px;height:4px;border-radius:50%;background:#f0b90b;content:""}
+                    .bm-shot{display:block;height:var(--bm-frame-height);border:1px solid #343c48;border-radius:12px;overflow:hidden;background:#0b0e11}
+                    .bm-shot img{display:block;width:100%;height:100%;object-fit:contain}
+                    .bm-note-shots{display:grid!important;grid-template-rows:minmax(0,1fr) 150px;gap:10px;height:var(--bm-frame-height)!important}
+                    .bm-note-shots .bm-shot{height:auto;min-height:0}
+                    .bm-note-shots .bm-shot:last-child img{object-fit:cover;object-position:top}
+                    .bm-setup{margin-top:24px;border-top:1px solid #343c48;padding-top:18px;color:#a6afbc;font-size:14px}
+                    .bm-setup summary{cursor:pointer;color:#eaecef;padding:6px 0}
+                    .bm-setup ol{line-height:1.9;margin:14px 0}
+                    @media(max-width:800px){.bm-slide-layout{grid-template-columns:1fr;--bm-frame-height:auto}.bm-slide-layout>div:first-child,.bm-shot,.bm-note-shots{height:auto!important}.bm-shot img{height:auto;max-height:500px}.bm-note-shots{grid-template-rows:auto auto}.bm-note-shots .bm-shot:last-child img{height:170px}}
+                    @media(max-width:520px){.bm-tabs button{font-size:11px;padding:11px 4px}}
+                </style>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
-                        <span class="badge text-brand border-brand/50" data-i18n="ext.badge">거래 보조 기능</span>
-                        <div>
-                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="ext.title">Extensions</h1>
-                            <p class="text-sm text-gray-400" data-i18n="ext.desc">바이낸스 선물 화면에서 주문과 차트 확인을 더 빠르고 편리하게 돕는 Chrome 확장 기능입니다.</p>
-                        </div>
+                        <span class="badge text-brand border-brand/50" data-i18n="ext.badge">Extension</span>
+                        <div><h1 class="text-2xl font-bold text-white mb-1">Binance Manager</h1><p class="text-sm text-gray-400 !m-0" data-i18n="ext.showcase.intro">Binance Futures에 간편주문, 실시간 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다.</p></div>
                     </div>
-
-                    <div class="space-y-12">
-                        <div id="ext-binance">
-                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="ext.binance.title">Binance Manager</h2>
-                            <p class="text-sm text-gray-400 mb-6 leading-relaxed" data-i18n="ext.binance.body">
-                                Binance Manager는 바이낸스 선물 화면에서 자주 쓰는 주문 기능과 보조 차트를 편리하게 사용할 수 있도록 돕습니다.
-                                주문 수량 유지, 금액별 수량 계산, 예상 주문 금액 확인, 주문 취소와 포지션 종료 바로가기, Lightning Candle을 한곳에서 제공합니다.
-                            </p>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                <div
-                                    class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-4 transition-all duration-300 hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
-                                        <i class="fa-solid fa-rotate-right text-brand"></i>
-                                        <span data-i18n="ext.binance.feature.title1">주문 수량 유지</span>
-                                    </h4>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item1">주문 수량을 유지해 같은 규모의 반복 진입 흐름을 빠르게 이어갑니다.</p>
-                                </div>
-                                <div
-                                    class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-4 transition-all duration-300 hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
-                                        <i class="fa-solid fa-calculator text-brand"></i>
-                                        <span data-i18n="ext.binance.feature.title2">금액별 수량 계산</span>
-                                    </h4>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item2">1K, 5K, 10K, 50K, 100K 금액 버튼으로 종목별 가격에 맞는 수량을 계산합니다.</p>
-                                </div>
-                                <div
-                                    class="liquid-card guide-glass-accent guide-glass-red border rounded-xl p-4 transition-all duration-300 hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
-                                        <i class="fa-solid fa-keyboard text-accent-green"></i>
-                                        <span data-i18n="ext.binance.feature.title3">빠른 주문 취소·종료</span>
-                                    </h4>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item3">주문 취소와 포지션 종료 버튼을 주문 영역 가까이에서 바로 사용할 수 있습니다.</p>
-                                </div>
-                                <div
-                                    class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-4 transition-all duration-300 hover:-translate-y-1">
-                                    <h4 class="text-white font-bold text-sm mb-2 !mt-0 flex items-center gap-2">
-                                        <i class="fa-solid fa-volume-high text-accent-purple"></i>
-                                        <span data-i18n="ext.binance.feature.title4">주문 알림음</span>
-                                    </h4>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.binance.feature.item4">주문 생성과 취소 결과를 소리로 바로 알려줍니다.</p>
-                                </div>
-                            </div>
-
-                            <div class="mb-8">
-                                <div class="mb-5 pl-3 border-l-4 border-brand">
-                                    <h3 class="text-lg font-bold text-white !mt-0 mb-2 flex items-center gap-2">
-                                        <i class="fa-solid fa-bolt text-brand"></i>
-                                        <span data-i18n="ext.lightning.title">Lightning Candle</span>
-                                    </h3>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.desc">
-                                        실시간 체결 가격을 독립 플로팅 차트로 보여줍니다. 최대 4개 차트에서 현재 Binance 종목을 연동하거나 원하는 종목과 타임프레임을 고정해 여러 흐름을 빠르게 비교할 수 있습니다.
-                                    </p>
-                                </div>
-
-                                <div class="liquid-card guide-glass-accent guide-glass-yellow mb-4 flex items-start gap-3 rounded-xl border px-4 py-4 transition-all duration-300 hover:-translate-y-1">
-                                    <div class="w-9 h-9 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center flex-shrink-0">
-                                        <i class="fa-solid fa-gauge-high text-brand"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.lightning.why.title">왜 별도의 실시간 차트가 필요한가요?</h4>
-                                        <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.why.desc">
-                                            빠른 변동 구간에서는 Binance 기본 차트가 스캘핑 타점을 확인하기에 다소 느리게 느껴질 수 있습니다. Lightning Candle은 최근 체결 흐름을 빠르게 보여주어 현재 가격 움직임과 진입 시점을 더 날렵하게 확인할 수 있도록 돕습니다.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <div class="liquid-card guide-glass-accent guide-glass-green rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-                                        <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-chart-line text-brand"></i>
-                                            <span data-i18n="ext.lightning.chart.title">차트 보기</span>
-                                        </h4>
-                                        <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item1">최종 체결가와 현재 봉이 끝날 때까지 남은 시간을 표시합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item2">1·3·5·15·30분, 1·4시간, 1일 차트를 선택할 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.chart.item3">LIVE는 모든 차트의 캔들 간격과 우측 여백을 맞추고 최신 위치로 즉시 정렬합니다.</span></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="liquid-card guide-glass-accent guide-glass-yellow rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-                                        <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-table-cells-large text-brand"></i>
-                                            <span data-i18n="ext.lightning.multi.title">멀티차트와 종목 연동</span>
-                                        </h4>
-                                        <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item1">1개, 좌우·상하 2개, 4개 차트 레이아웃을 선택할 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item2">각 차트를 현재 Binance 종목과 연동하거나 원하는 종목으로 고정할 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-brand">•</span><span data-i18n="ext.lightning.multi.item3">같은 종목을 여러 타임프레임으로 보거나 서로 다른 종목을 한 화면에서 비교할 수 있습니다.</span></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="liquid-card guide-glass-accent guide-glass-blue rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-                                        <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-ruler-combined text-accent-blue"></i>
-                                            <span data-i18n="ext.lightning.tools.title">측정과 그리기 도구</span>
-                                        </h4>
-                                        <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item1">Shift+클릭으로 가격·등락률·봉 수·경과 시간을 측정합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item2">수평선과 두 지점을 잇는 추세선을 차트 위에 직접 그릴 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-blue">•</span><span data-i18n="ext.lightning.tools.item3">우클릭으로 그리기·선택을 취소하고, Delete로 선택한 선을 삭제하거나 CLR로 수평선을 모두 지웁니다.</span></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="liquid-card guide-glass-accent guide-glass-purple rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-                                        <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-layer-group text-accent-purple"></i>
-                                            <span data-i18n="ext.lightning.window.title">위치·크기·투명도</span>
-                                        </h4>
-                                        <ul class="!pl-0 !mb-0 list-none space-y-2 text-sm text-gray-400 leading-relaxed">
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-purple">•</span><span data-i18n="ext.lightning.window.item1">접힌 버튼과 펼친 차트를 각각 원하는 위치로 옮기고, 차트 크기와 최대화 상태를 조절할 수 있습니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-purple">•</span><span data-i18n="ext.lightning.window.item2">ISO는 차트 배경을, ALL은 상단바를 제외한 차트 전체를 투명하게 조절합니다.</span></li>
-                                            <li class="!pl-0 flex gap-2"><span class="text-accent-purple">•</span><span data-i18n="ext.lightning.window.item3">설정의 RESET LIGHTNING POSITION은 버튼과 차트 위치·크기·접힘 상태를 함께 초기화합니다.</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="liquid-card guide-glass-accent guide-glass-neutral mt-4 flex items-start gap-3 rounded-xl border px-4 py-3">
-                                    <i class="fa-solid fa-circle-info text-brand mt-0.5"></i>
-                                    <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.note">
-                                        Lightning Candle은 빠른 시세 확인을 위한 보조 차트이며 주문 실행, 포지션 및 오픈오더 표시는 제공하지 않습니다. 실제 주문과 계정 정보는 Binance 공식 화면에서 확인하세요.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6 mb-8 transition-all duration-300 hover:-translate-y-1">
-                                <h3 class="text-lg font-bold text-white !mt-0 mb-2 flex items-center gap-2">
-                                    <i class="fa-solid fa-puzzle-piece text-brand"></i>
-                                    <span data-i18n="ext.install.title">설치 및 활성화</span>
-                                </h3>
-                                <p class="text-sm text-gray-400 leading-relaxed !mt-0 mb-5" data-i18n="ext.install.desc">
-                                    Trading API Launcher에서 받은 Binance Manager를 Chrome에 추가해 사용합니다.
-                                </p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
-                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">1</span>
-                                        <div>
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step1.title">런처 업데이트 실행</h4>
-                                            <p class="text-sm text-gray-400 !m-0" data-i18n="ext.install.step1.body">Trading API Launcher에서 업데이트를 실행해 Binance Manager 확장 폴더를 내려받습니다.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
-                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">2</span>
-                                        <div>
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step2.title">Chrome 확장 프로그램 열기</h4>
-                                            <p class="text-sm text-gray-400 !m-0"><code>chrome://extensions</code> <span data-i18n="ext.install.step2.body">로 이동한 뒤 개발자 모드를 켭니다.</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
-                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">3</span>
-                                        <div>
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step3.title">압축해제된 확장 로드</h4>
-                                            <p class="text-sm text-gray-400 !m-0"><code>extensions/binance-manager</code> <span data-i18n="ext.install.step3.body">폴더를 선택해 로드합니다.</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-3 rounded-lg bg-black/20 border border-gray-800 p-4">
-                                        <span class="w-7 h-7 rounded-lg bg-brand text-black text-xs font-black flex items-center justify-center flex-shrink-0">4</span>
-                                        <div>
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1" data-i18n="ext.install.step4.title">Binance 화면 새로고침</h4>
-                                            <p class="text-sm text-gray-400 !m-0" data-i18n="ext.install.step4.body">Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-                                <h3 class="text-lg font-bold text-white !m-0 flex items-center gap-2">
-                                    <i class="fa-solid fa-display text-brand"></i>
-                                    <span data-i18n="ext.screens.title">화면 구성</span>
-                                </h3>
-                                <a href="https://youtu.be/VS_cTJY7ZXI" target="_blank" rel="noopener noreferrer"
-                                    class="liquid-card inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/30 bg-[#161b22]/50 px-4 py-2.5 text-sm font-bold text-white hover:border-red-500/60 hover:bg-[#1f2630]/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                    <i class="fa-brands fa-youtube text-[#FF0000]"></i>
-                                    <span data-i18n="ext.video.title">실행 영상 보기</span>
-                                </a>
-                            </div>
-
-                            <div class="mb-6">
-                                <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                    <i class="fa-solid fa-bolt text-brand"></i>
-                                    <span data-i18n="ext.lightning.screens.title">Lightning Candle 화면</span>
-                                </h4>
-                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                    <a href="./assets/extensions/lightning-candle-entry.png" target="_blank"
-                                        class="group block rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-brand/60 hover:shadow-[0_0_25px_rgba(240,185,11,0.12)] hover:-translate-y-1">
-                                        <div class="aspect-[16/10] overflow-hidden bg-black/30">
-                                            <img src="./assets/extensions/lightning-candle-entry.png"
-                                                alt="Lightning button on the Binance Futures chart"
-                                                loading="lazy"
-                                                class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]">
-                                        </div>
-                                        <div class="p-4 border-t border-gray-800">
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1 flex items-center gap-2">
-                                                <i class="fa-solid fa-bolt text-brand"></i>
-                                                <span data-i18n="ext.lightning.image.entry.title">LIGHTNING 버튼으로 실행</span>
-                                            </h4>
-                                            <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.image.entry.desc">Binance Futures 차트 상단의 버튼을 눌러 플로팅 차트를 열고 접습니다.</p>
-                                        </div>
-                                    </a>
-
-                                    <a href="./assets/extensions/lightning-candle-full.png" target="_blank"
-                                        class="group block lg:col-span-2 rounded-xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-brand/60 hover:shadow-[0_0_25px_rgba(240,185,11,0.15)] hover:-translate-y-1">
-                                        <div class="aspect-[16/10] overflow-hidden bg-black/30">
-                                            <img src="./assets/extensions/lightning-candle-full.png"
-                                                alt="Lightning Candle two-chart layout with synchronized live controls"
-                                                loading="lazy"
-                                                class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]">
-                                        </div>
-                                        <div class="p-4 border-t border-gray-800">
-                                            <h4 class="text-white font-bold text-sm !mt-0 mb-1 flex items-center gap-2">
-                                                <i class="fa-solid fa-expand text-brand"></i>
-                                                <span data-i18n="ext.lightning.image.full.title">멀티차트 사용 예시</span>
-                                            </h4>
-                                            <p class="text-sm text-gray-400 leading-relaxed !m-0" data-i18n="ext.lightning.image.full.desc">같은 종목의 1분·1일 차트를 함께 배치하고 투명도를 조절해 단기 체결 흐름과 큰 추세를 동시에 확인한 예시입니다.</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <h4 class="text-white font-bold text-sm !mt-0 mb-3 flex items-center gap-2">
-                                <i class="fa-solid fa-cart-shopping text-brand"></i>
-                                <span data-i18n="ext.order.screens.title">주문 보조 화면</span>
-                            </h4>
-                            <a href="./assets/extensions/bm%201.png" target="_blank"
-                                class="group block rounded-2xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-brand/60 hover:shadow-[0_0_25px_rgba(240,185,11,0.15)] hover:-translate-y-1 mb-4">
-                                <img src="./assets/extensions/bm%201.png" alt="Binance Manager active trading layout"
-                                    loading="lazy" class="w-full aspect-[16/9] object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]">
-                                <div class="p-4 border-t border-gray-800">
-                                    <h3 class="text-white font-bold text-sm !mt-0 mb-1"
-                                        data-i18n="ext.image.bm1.title">주문 보조 화면</h3>
-                                    <p class="text-sm text-gray-400 !m-0" data-i18n="ext.image.bm1.desc">금액 버튼, 예상 주문 금액, 취소·종료 버튼이 주문 영역에 추가됩니다.</p>
-                                </div>
-                            </a>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <a href="./assets/extensions/off%201.png" target="_blank"
-                                    class="group block rounded-2xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-gray-500 hover:shadow-[0_0_25px_rgba(255,255,255,0.05)] hover:-translate-y-1">
-                                    <div class="aspect-[3/4] bg-black/20 flex items-center justify-center">
-                                        <img src="./assets/extensions/off%201.png" alt="Binance default order panel"
-                                            loading="lazy" class="h-full w-auto max-w-full object-contain transition-transform duration-700 group-hover:scale-[1.02]">
-                                    </div>
-                                    <div class="p-4 border-t border-gray-800">
-                                        <h3 class="text-white font-bold text-sm !mt-0 mb-1"
-                                            data-i18n="ext.image.off.title">기본 화면</h3>
-                                        <p class="text-sm text-gray-400 !m-0" data-i18n="ext.image.off.desc">Binance Manager를 사용하기 전의 기본 주문 화면입니다.</p>
-                                    </div>
-                                </a>
-                                <a href="./assets/extensions/bm%202.png" target="_blank"
-                                    class="group block rounded-2xl overflow-hidden border border-gray-700 bg-[#0b0e11] transition-all duration-500 hover:border-brand/60 hover:shadow-[0_0_25px_rgba(240,185,11,0.15)] hover:-translate-y-1">
-                                    <div class="aspect-[3/4] bg-black/20 overflow-hidden">
-                                        <img src="./assets/extensions/bm%202.png" alt="Binance Manager popup panel"
-                                            loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]">
-                                    </div>
-                                    <div class="p-4 border-t border-gray-800">
-                                        <h3 class="text-white font-bold text-sm !mt-0 mb-1"
-                                            data-i18n="ext.image.bm2.title">확장 프로그램 메뉴</h3>
-                                        <p class="text-sm text-gray-400 !m-0" data-i18n="ext.image.bm2.desc">이용 상태, 업데이트, 커뮤니티 링크와 초기 설정 안내를 한 곳에서 확인합니다.</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
+                    <div class="bm-showcase" id="ext-binance">
+                    <div class="bm-tabs" role="tablist" aria-label="Binance Manager features">
+                        <button type="button" id="bm-tab-0" role="tab" aria-controls="bm-slide-0" aria-selected="true" tabindex="0" onclick="showBinanceFeature(0)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(0+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.orders.tab">Order Toolkit</span></button>
+                        <button type="button" id="bm-tab-1" role="tab" aria-controls="bm-slide-1" aria-selected="false" tabindex="-1" onclick="showBinanceFeature(1)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(1+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.chart.tab">Lightning Candle</span></button>
+                        <button type="button" id="bm-tab-2" role="tab" aria-controls="bm-slide-2" aria-selected="false" tabindex="-1" onclick="showBinanceFeature(2)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(2+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.notes.tab">NOTES</span></button>
+                    </div>
+                    <article class="bm-slide" id="bm-slide-0" role="tabpanel" aria-labelledby="bm-tab-0" tabindex="0">
+                        <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-5"><span class="bm-kicker">ORDER TOOLKIT</span>
+                            <h2 data-i18n="ext.showcase.orders.title">스캘핑 간편주문</h2>
+                            <p data-i18n="ext.showcase.orders.body">바이낸스 주문창에서 반복적으로 사용하는 수량 계산과 주문 관리 기능을 바로 실행합니다.</p>
+                            <ul class="bm-points"><li data-i18n="ext.showcase.orders.item1">편집 가능한 금액 프리셋으로 주문 수량 간편 계산</li><li data-i18n="ext.showcase.orders.item2">주문 후에도 입력 수량을 유지하고 예상 주문 금액 표시</li><li data-i18n="ext.showcase.orders.item3">주문·취소·포지션 종료 동선을 보강하고 결과 사운드 제공</li></ul>
+                        </div><a class="bm-shot liquid-card" href="./assets/extensions/bm%201.png" target="_blank" rel="noopener noreferrer" aria-label="Open 간편주문 screenshot"><img src="./assets/extensions/bm%201.png" alt="간편주문 on Binance Futures" loading="lazy" decoding="async"></a></div>
+                    </article>
+                    <article class="bm-slide" id="bm-slide-1" role="tabpanel" aria-labelledby="bm-tab-1" tabindex="0" hidden>
+                        <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5"><span class="bm-kicker">LIGHTNING CANDLE</span>
+                            <h2 data-i18n="ext.showcase.chart.title">Lightning Candle</h2>
+                            <p data-i18n="ext.showcase.chart.body">Binance 웹 차트의 캔들 반응과 멀티차트 사용성을 보완하는 실시간 보조 차트입니다.</p>
+                            <ul class="bm-points"><li data-i18n="ext.showcase.chart.item1">최근 체결 가격을 빠르게 반영하는 실시간 캔들</li><li data-i18n="ext.showcase.chart.item2">최대 4개 멀티차트로 여러 시간대와 종목을 한 화면에 구성</li><li data-i18n="ext.showcase.chart.item3">현재 종목 연동 또는 차트별 종목·타임프레임 고정</li><li data-i18n="ext.showcase.chart.item4">투명도, High·Low, 수평선·Ray 등 차트 보조 기능 제공</li></ul>
+                        </div><a class="bm-shot liquid-card" href="./assets/extensions/lightning-candle-full.png" target="_blank" rel="noopener noreferrer" aria-label="Open Lightning Candle screenshot"><img src="./assets/extensions/lightning-candle-full.png" alt="Lightning Candle on Binance Futures" loading="lazy" decoding="async"></a></div>
+                    </article>
+                    <article class="bm-slide" id="bm-slide-2" role="tabpanel" aria-labelledby="bm-tab-2" tabindex="0" hidden>
+                        <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-5"><span class="bm-kicker">TRADING NOTES</span>
+                            <h2 data-i18n="ext.showcase.notes.title">종목별 매매노트</h2>
+                            <p data-i18n="ext.showcase.notes.body">종목별 메모와 차트 캡처를 간편하게 남기고, 기록을 공유하거나 내 폴더에 계속 보관합니다.</p>
+                            <ul class="bm-points"><li data-i18n="ext.showcase.notes.item1">현재 종목 빠른 기록과 본문·종목 검색</li><li data-i18n="ext.showcase.notes.item2">일·주·월·전체 기간 조회와 기록 일괄 복사</li><li data-i18n="ext.showcase.notes.item3">이미지 붙여넣기·수정·크게 보기 및 텍스트·이미지 공유</li><li data-i18n="ext.showcase.notes.item4">로컬 폴더에 종목·날짜별로 누적 보관하고 복원·이동</li></ul>
+                        </div><div class="bm-note-shots"><a class="bm-shot liquid-card" href="./assets/extensions/notes-workspace.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES screenshot"><img src="./assets/extensions/notes-workspace.png" alt="NOTES on Binance Futures" loading="lazy" decoding="async"></a><a class="bm-shot liquid-card" href="./assets/extensions/notes-history.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES history screenshot"><img src="./assets/extensions/notes-history.png" alt="NOTES period filters" width="882" height="903" loading="lazy" decoding="async"></a></div></div>
+                    </article>
+                    <details class="bm-setup liquid-card guide-glass-accent guide-glass-neutral rounded-xl border p-4">
+                        <summary data-i18n="ext.showcase.setup">처음 사용하시나요? 설치 안내</summary>
+                        <ol>
+                            <li data-i18n="ext.install.step1.body">Trading API Launcher에서 업데이트를 실행해 Binance Manager 확장 폴더를 내려받습니다.</li>
+                            <li><code>chrome://extensions</code> — <span data-i18n="ext.install.step2.body">로 이동한 뒤 개발자 모드를 켭니다.</span></li>
+                            <li><code>extensions/binance-manager</code> <span data-i18n="ext.install.step3.body">폴더를 선택해 로드합니다.</span></li>
+                            <li data-i18n="ext.install.step4.body">Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.</li>
+                        </ol>
+                        <a href="https://youtu.be/VS_cTJY7ZXI" target="_blank" rel="noopener noreferrer" class="text-brand" data-i18n="ext.video.title">실행 영상 보기</a>
+                    </details>
                     </div>
                 </div>
             </section>
@@ -2871,7 +2671,7 @@
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
-                        <span class="badge text-accent-blue border-accent-blue/50" data-i18n="ot.badge">Execution</span>
+                        <span class="badge text-accent-blue border-accent-blue/50" data-i18n="ot.badge">Orders</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="ot.title">Order Toolkit</h1>
                             <p class="text-sm text-gray-400" data-i18n="ot.desc">바이낸스 USDⓂ 선물을 위한 고성능 주문 실행 툴킷입니다.</p>
@@ -3480,7 +3280,7 @@
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-accent-purple border-accent-purple/50"
-                            data-i18n="ob.badge">Visual</span>
+                            data-i18n="ob.badge">Order Book</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="ob.title">Real-time Order Book
                             </h1>
@@ -3657,8 +3457,7 @@
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
-                        <span class="badge text-yellow-400 border-yellow-400/50" data-i18n="tr.badge">Tape
-                            Reading</span>
+                        <span class="badge text-yellow-400 border-yellow-400/50" data-i18n="tr.badge">Trades</span>
                         <div>
                             <h1 class="text-2xl font-bold text-white mb-1" data-i18n="tr.title">Trades & Liquidation
                             </h1>
@@ -5707,7 +5506,7 @@
             "preview.modal.close": { ko: "닫기", en: "Close" },
 
             // Crypto Detector (업데이트 완료)
-            "cd.badge": { ko: "Signal Tool", en: "Signal Tool" },
+            "cd.badge": { ko: "Alerts", en: "Alerts" },
             "cd.title": { ko: "Crypto Detector", en: "Crypto Detector" },
             "cd.desc": { ko: "실시간 변동성 감지 및 시세 포착 툴킷 가이드입니다.", en: "Guide to the real-time volatility detection and price-capture toolkit." },
 
@@ -5879,11 +5678,50 @@
 
 
             // Extensions
-            "ext.badge": { ko: "거래 보조 기능", en: "Trading Helpers" },
+            "ext.badge": { ko: "Extension", en: "Extension" },
             "ext.title": { ko: "Extensions", en: "Extensions" },
-            "ext.desc": { ko: "바이낸스 선물 화면에서 주문과 차트 확인을 더 빠르고 편리하게 돕는 Chrome 확장 기능입니다.", en: "A Chrome extension that makes ordering and chart monitoring faster and easier on Binance Futures." },
+            "ext.desc": { ko: "주문 보조, 실시간 차트, 종목별 기록을 Binance Futures 화면 한곳에서 사용하세요.", en: "Order helpers, live charts, and symbol-based notes together on Binance Futures." },
+            "ext.showcase.intro": { ko: "Binance Futures에 간편주문, 실시간 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다.", en: "A Chrome extension that adds quick order controls, real-time multi-charts, and trading notes to Binance Futures." },
+            "ext.showcase.hint": { ko: "이미지를 누르면 크게 볼 수 있습니다.", en: "Click an image to view it at full size." },
+            "ext.showcase.setup": { ko: "처음 사용하시나요? 설치 안내", en: "Getting started · Installation" },
+            "ext.showcase.notes.detail": { ko: "기간별 조회 화면 보기", en: "View the journal and period filters" },
+            "ext.showcase.orders.tab": { ko: "Order Toolkit", en: "Order Toolkit" },
+            "ext.showcase.orders.title": { ko: "스캘핑 간편주문", en: "Quick scalping orders" },
+            "ext.showcase.orders.body": { ko: "바이낸스 주문창에서 반복적으로 사용하는 수량 계산과 주문 관리 기능을 바로 실행합니다.", en: "Use frequently needed sizing and order-management controls directly from the Binance order panel." },
+            "ext.showcase.orders.features": { ko: "금액별 수량 계산 · 주문 수량 유지 · 빠른 취소와 종료", en: "Value-based sizing · Saved quantity · Quick cancel and close" },
+            "ext.showcase.orders.item1": { ko: "편집 가능한 금액 프리셋으로 주문 수량 간편 계산", en: "Calculate order quantity with editable value presets" },
+            "ext.showcase.orders.item2": { ko: "주문 후에도 입력 수량을 유지하고 예상 주문 금액 표시", en: "Keep the entered quantity after an order and show its estimated value" },
+            "ext.showcase.orders.item3": { ko: "주문·취소·포지션 종료 동선을 보강하고 결과 사운드 제공", en: "Streamline order, cancel, and close-position actions with result sounds" },
+            "ext.showcase.chart.tab": { ko: "Lightning Candle", en: "Lightning Candle" },
+            "ext.showcase.chart.title": { ko: "Lightning Candle", en: "Lightning Candle" },
+            "ext.showcase.chart.body": { ko: "Binance 웹 차트의 캔들 반응과 멀티차트 사용성을 보완하는 실시간 보조 차트입니다.", en: "A real-time companion chart that improves candle responsiveness and multi-chart usability on Binance Web." },
+            "ext.showcase.chart.features": { ko: "멀티차트 · 자석 드로잉 · High/Low · 투명도 조절", en: "Multi-chart layouts · Magnet drawings · High/Low · Transparency" },
+            "ext.showcase.chart.item1": { ko: "최근 체결 가격을 빠르게 반영하는 실시간 캔들", en: "Real-time candles that promptly reflect the latest traded prices" },
+            "ext.showcase.chart.item2": { ko: "최대 4개 멀티차트로 여러 시간대와 종목을 한 화면에 구성", en: "Arrange multiple timeframes and symbols across up to four charts" },
+            "ext.showcase.chart.item3": { ko: "현재 종목 연동 또는 차트별 종목·타임프레임 고정", en: "Follow the current symbol or fix a symbol and timeframe per chart" },
+            "ext.showcase.chart.item4": { ko: "투명도, High·Low, 수평선·Ray 등 차트 보조 기능 제공", en: "Use chart aids including opacity, High/Low, horizontal lines, and rays" },
+            "ext.showcase.notes.tab": { ko: "NOTES", en: "NOTES" },
+            "ext.showcase.notes.title": { ko: "종목별 매매노트", en: "Trading notes by symbol" },
+            "ext.showcase.notes.body": { ko: "종목별 메모와 차트 캡처를 간편하게 남기고, 기록을 공유하거나 내 폴더에 계속 보관합니다.", en: "Quickly capture symbol-based notes and charts, then share them or keep the growing archive in your own folder." },
+            "ext.showcase.notes.features": { ko: "이미지 붙여넣기 · 기간별 조회 · 복사 · 내 폴더 보관", en: "Paste screenshots · Period filters · Copy · Folder storage" },
+            "ext.showcase.notes.item1": { ko: "현재 종목 빠른 기록과 본문·종목 검색", en: "Quick notes for the current symbol with text and symbol search" },
+            "ext.showcase.notes.item2": { ko: "일·주·월·전체 기간 조회와 기록 일괄 복사", en: "Browse day, week, month, or all records and copy results together" },
+            "ext.showcase.notes.item3": { ko: "이미지 붙여넣기·수정·크게 보기 및 텍스트·이미지 공유", en: "Paste, edit, enlarge, and share note text and images" },
+            "ext.showcase.notes.item4": { ko: "로컬 폴더에 종목·날짜별로 누적 보관하고 복원·이동", en: "Build an archive by symbol and date in a local folder for recovery or migration" },
+            "ext.nav.orders": { ko: "주문 보조", en: "Order helpers" },
+            "ext.notes.desc": { ko: "차트를 보며 떠오른 생각과 캡처를 종목별로 기록합니다. 빠른 메모부터 기간별 매매 복기까지, Lightning 차트를 열지 않아도 독립적으로 사용할 수 있습니다.", en: "Save thoughts and screenshots by symbol while watching the market. From quick notes to reviewing a trading period, NOTES works independently of the Lightning chart." },
+            "ext.notes.quick.title": { ko: "현재 종목에 바로 메모", en: "Quick notes for the current symbol" },
+            "ext.notes.quick.body": { ko: "NOTES는 현재 종목을 따라갑니다. 목록 버튼을 누르면 종목 연동을 잠시 멈추고 여러 종목의 기록을 살펴볼 수 있습니다.", en: "NOTES follows the current symbol. Open the list to pause symbol tracking and browse records across symbols." },
+            "ext.notes.images.title": { ko: "캡처와 내용을 함께 보관", en: "Keep screenshots with your notes" },
+            "ext.notes.images.body": { ko: "Ctrl+V로 이미지를 붙여 넣고 저장한 메모와 첨부를 수정합니다. 이미지는 크게 열어보거나 복사하고, 메모 내용도 복사해 공유할 수 있습니다.", en: "Paste images with Ctrl+V and edit saved notes and attachments. Open images in the viewer or copy them, and copy note text for sharing." },
+            "ext.notes.history.title": { ko: "일·주·월 단위로 복기", en: "Review by day, week, or month" },
+            "ext.notes.history.body": { ko: "종목·본문 검색과 일·주·월·전체 조회를 조합합니다. 주간 범위는 선택한 달 안에서 표시하며, 결과 복사로 조회한 기록의 텍스트를 한 번에 모읍니다.", en: "Combine symbol or text search with day, week, month, or all-record filters. Weeks stay within the selected month. Copy results collects the matching notes as text." },
+            "ext.notes.folder.title": { ko: "내 폴더에 정리하는 매매일지", en: "A trading journal in your own folder" },
+            "ext.notes.folder.body": { ko: "보관 폴더를 연결하면 메모와 이미지를 종목·날짜별로 정리합니다. PC를 옮길 때는 폴더 전체를 복사하고, 새 PC에서 연결 후 복원·병합하세요.", en: "Connect a storage folder to organize notes and images by symbol and date. To move PCs, copy the entire folder, reconnect it, and restore and merge its records." },
+            "ext.notes.screen.workspace": { ko: "차트 확인과 기록을 한 화면에서. 이미지를 누르면 원본 크기로 볼 수 있습니다.", en: "Charts and notes in one workspace. Click the image to view it at full size." },
+            "ext.notes.screen.history": { ko: "기간별 조회부터 기존 메모 수정까지 이어지는 기록 화면.", en: "Browse a trading period and edit an existing note in the same panel." },
             "ext.binance.title": { ko: "Binance Manager", en: "Binance Manager" },
-            "ext.binance.body": { ko: "Binance Manager는 바이낸스 선물 화면에서 자주 쓰는 주문 기능과 보조 차트를 편리하게 사용할 수 있도록 돕습니다. 주문 수량 유지, 금액별 수량 계산, 예상 주문 금액 확인, 주문 취소와 포지션 종료 바로가기, Lightning Candle을 한곳에서 제공합니다.", en: "Binance Manager brings frequently used order helpers and a companion chart together on Binance Futures. It includes saved order quantity, value-based quantity calculation, estimated order value, cancel and close-position shortcuts, and Lightning Candle." },
+            "ext.binance.body": { ko: "반복 주문을 돕는 주문 보조, 흐름을 비교하는 Lightning Candle, 생각과 캡처를 남기는 NOTES. 거래 전 확인부터 거래 후 기록까지 한 화면에서 이어갑니다.", en: "Order helpers for repeated trades, Lightning Candle for comparing price action, and NOTES for thoughts and screenshots. Follow the workflow from preparation to review in one screen." },
             "ext.image.off.title": { ko: "기본 화면", en: "Default Screen" },
             "ext.image.off.desc": { ko: "Binance Manager를 사용하기 전의 기본 주문 화면입니다.", en: "The default Binance order screen before Binance Manager is enabled." },
             "ext.image.bm1.title": { ko: "주문 보조 화면", en: "Order Helper Screen" },
@@ -5911,8 +5749,8 @@
             "ext.lightning.multi.item3": { ko: "같은 종목을 여러 타임프레임으로 보거나 서로 다른 종목을 한 화면에서 비교할 수 있습니다.", en: "View one symbol across multiple timeframes or compare different symbols on one screen." },
             "ext.lightning.tools.title": { ko: "측정과 그리기 도구", en: "Measurement & Drawing Tools" },
             "ext.lightning.tools.item1": { ko: "Shift+클릭으로 가격·등락률·봉 수·경과 시간을 측정합니다.", en: "Use Shift+click to measure price, percentage change, candle count, and elapsed time." },
-            "ext.lightning.tools.item2": { ko: "수평선과 두 지점을 잇는 추세선을 차트 위에 직접 그릴 수 있습니다.", en: "Draw horizontal levels and trend lines connecting two points directly on the chart." },
-            "ext.lightning.tools.item3": { ko: "우클릭으로 그리기·선택을 취소하고, Delete로 선택한 선을 삭제하거나 CLR로 수평선을 모두 지웁니다.", en: "Right-click to cancel drawing or selection, use Delete to remove the selected line, or CLR to clear all horizontal lines." },
+            "ext.lightning.tools.item2": { ko: "수평선과 Ray를 그리고 Ctrl로 캔들에 맞춥니다. 같은 종목의 차트끼리 드로잉을 동기화하며 눈 버튼으로 숨기거나 표시합니다.", en: "Draw horizontal lines and rays, and hold Ctrl to snap to candles. Drawings sync across charts of the same symbol; the eye button hides or shows them." },
+            "ext.lightning.tools.item3": { ko: "우클릭으로 그리기·선택을 취소하고 Delete로 선택한 선을 삭제합니다. CLR은 선택한 종목의 수평선과 Ray만 지웁니다.", en: "Right-click to cancel drawing or selection, and use Delete to remove the selected line. CLR clears horizontal lines and rays for the selected symbol only." },
             "ext.lightning.window.title": { ko: "위치·크기·투명도", en: "Position, Size & Opacity" },
             "ext.lightning.window.item1": { ko: "접힌 버튼과 펼친 차트를 각각 원하는 위치로 옮기고, 차트 크기와 최대화 상태를 조절할 수 있습니다.", en: "Move the collapsed button and expanded chart separately, then adjust the chart size or maximize it." },
             "ext.lightning.window.item2": { ko: "ISO는 차트 배경을, ALL은 상단바를 제외한 차트 전체를 투명하게 조절합니다.", en: "ISO adjusts chart-background transparency; ALL adjusts the entire chart except the top bar." },
@@ -5940,7 +5778,7 @@
             "ext.image.bm2.title": { ko: "확장 프로그램 메뉴", en: "Extension Menu" },
             "ext.image.bm2.desc": { ko: "이용 상태, 업데이트, 커뮤니티 링크와 초기 설정 안내를 한 곳에서 확인합니다.", en: "Check access status, updates, community links, and setup guidance in one place." },
             // Order Toolkit
-            "ot.badge": { ko: "Execution", en: "Execution" },
+            "ot.badge": { ko: "Orders", en: "Orders" },
             "ot.title": { ko: "Order Toolkit", en: "Order Toolkit" },
             "ot.desc": { ko: "바이낸스 USDⓂ 선물을 위한 고성능 주문 실행 툴킷입니다.", en: "High-performance order execution toolkit for Binance USDⓂ Futures." },
             "ot.intro.title": { ko: "1) 소개 및 주요 특징", en: "1) Overview & Key Features" },
@@ -6055,7 +5893,7 @@
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
 
             // Order Book
-            "ob.badge": { ko: "Visual", en: "Visual" },
+            "ob.badge": { ko: "Order Book", en: "Order Book" },
             "ob.title": { ko: "Real-time Order Book", en: "Real-time Order Book" },
             "ob.desc": { ko: "빠른 실시간 호가와 매물대 분석을 제공하는 전문 트레이딩 뷰어입니다.", en: "A professional trading viewer for fast real-time order book and liquidity analysis." },
             "ob.intro.title": { ko: "1) 소개 및 주요 특징", en: "1) Overview & Key Features" },
@@ -6088,7 +5926,7 @@
             "ob.trouble.item4": { ko: "<strong>오류 로그</strong>: 프로그램 폴더 내 <code>log_orderbook.log</code> 파일을 확인하면 원인 파악에 도움이 됩니다.", en: "<strong>Error log</strong>: check <code>log_orderbook.log</code> in the program folder for troubleshooting." },
 
             // Trades
-            "tr.badge": { ko: "Tape Reading", en: "Tape Reading" },
+            "tr.badge": { ko: "Trades", en: "Trades" },
             "tr.title": { ko: "Trades &amp; Liquidation", en: "Trades &amp; Liquidation" },
             "tr.desc": { ko: "실시간 체결 내역 필터링 및 청산(Force Order) 감지 뷰어입니다.", en: "Real-time trade filter and liquidation (Force Order) detection viewer." },
             "tr.intro.title": { ko: "1) 소개 및 주요 특징", en: "1) Overview & Key Features" },
@@ -6355,6 +6193,17 @@
                     document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }
+        }
+
+        function showBinanceFeature(index, focusTab = false) {
+            const selected = ((index % 3) + 3) % 3;
+            for (let i = 0; i < 3; i++) {
+                const tab = document.getElementById(`bm-tab-${i}`);
+                tab.setAttribute('aria-selected', String(i === selected));
+                tab.tabIndex = i === selected ? 0 : -1;
+                document.getElementById(`bm-slide-${i}`).hidden = i !== selected;
+            }
+            if (focusTab) document.getElementById(`bm-tab-${selected}`).focus();
         }
 
         function activate(id, options = {}) {
