@@ -68,6 +68,12 @@
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
+                        gray: {
+                            50: '#fafafa', 100: '#f5f5f5', 200: '#e5e5e5',
+                            300: '#d4d4d4', 400: '#a3a3a3', 500: '#737373',
+                            600: '#525252', 700: '#404040', 800: '#262626',
+                            900: '#171717', 950: '#0a0a0a'
+                        },
                         brand: {
                             DEFAULT: '#FCD535',
                             dim: '#b5971a',
@@ -114,29 +120,27 @@
 
         /* Premium Base Layer */
         body {
-            background-color: #07090b;
+            background-color: #090909;
             /* Even darker, richer black */
             color: #EAECEF;
             overflow-x: hidden;
             font-family: 'Inter', -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
+            isolation: isolate;
         }
 
 
 
-        /* 3D Canvas Background (Reduced Opacity & Filter for depth) */
-        #bg3d {
+        /* Quiet charcoal backdrop; no illustrative chart or continuous motion. */
+        .market-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.6;
-            mix-blend-mode: screen;
+            background:
+                radial-gradient(ellipse at 72% 0%, rgba(142, 142, 142, 0.045), transparent 58%),
+                #0b0b0b;
         }
-
 
         /* 💧 Liquid Card (Inner Glassmorphism) */
         .liquid-card {
@@ -159,7 +163,7 @@
 
         /* Section-level glass: retain depth without turning each content item into a card. */
         .section-glass-panel {
-            background-color: rgba(11, 14, 17, 0.76);
+            background-color: rgba(14, 14, 14, 0.76);
             background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 42%, rgba(14, 203, 129, 0.025) 100%);
             border-color: rgba(255, 255, 255, 0.08) !important;
             border-top-color: rgba(255, 255, 255, 0.18) !important;
@@ -168,7 +172,7 @@
         }
 
         .section-glass-panel:hover {
-            background-color: rgba(11, 14, 17, 0.76);
+            background-color: rgba(14, 14, 14, 0.76);
             background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(255, 255, 255, 0.014) 42%, rgba(14, 203, 129, 0.03) 100%);
             border-color: rgba(255, 255, 255, 0.1) !important;
             border-top-color: rgba(255, 255, 255, 0.2) !important;
@@ -178,8 +182,8 @@
 
         /* Shared guide-card color hierarchy: one glass depth, semantic accent washes. */
         .guide-glass-accent {
-            --guide-accent-rgb: 148, 163, 184;
-            background-color: rgba(11, 14, 17, 0.7);
+            --guide-accent-rgb: 166, 166, 166;
+            background-color: rgba(14, 14, 14, 0.7);
             background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.052) 0%, rgba(var(--guide-accent-rgb), 0.035) 58%, rgba(var(--guide-accent-rgb), 0.065) 100%);
             border-color: rgba(255, 255, 255, 0.065) !important;
             border-top-color: rgba(255, 255, 255, 0.14) !important;
@@ -193,7 +197,7 @@
             box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--guide-accent-rgb), 0.025), inset 0 1px 0 rgba(255, 255, 255, 0.055), inset 0 -1px 0 rgba(var(--guide-accent-rgb), 0.035);
         }
 
-        .guide-glass-neutral { --guide-accent-rgb: 148, 163, 184; }
+        .guide-glass-neutral { --guide-accent-rgb: 166, 166, 166; }
         .guide-glass-green { --guide-accent-rgb: 14, 203, 129; }
         .guide-glass-blue { --guide-accent-rgb: 59, 130, 246; }
         .guide-glass-yellow { --guide-accent-rgb: 252, 213, 53; }
@@ -252,72 +256,135 @@
             box-shadow: none;
         }
 
-        /* 🎇 Yellow Liquid Button */
+        /* Thin glass controls. Translucent fills sit directly over the backdrop. */
+        .liquid-btn-yellow,
+        .liquid-btn-white,
+        .liquid-btn-smoke,
+        .guide-action-btn,
+        .bm-tabs button[aria-selected="true"] {
+            --control-top: rgba(255, 255, 255, 0.15);
+            --control-middle: rgba(255, 255, 255, 0.08);
+            --control-bottom: rgba(255, 255, 255, 0.11);
+            --control-edge: rgba(255, 255, 255, 0.14);
+            --control-edge-top: rgba(255, 255, 255, 0.25);
+            --control-edge-bottom: rgba(255, 255, 255, 0.09);
+            --control-reflection: rgba(255, 255, 255, 0.07);
+            --control-sheen: rgba(255, 255, 255, 0.075);
+            --control-ink: #eceef0;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            /* An opaque background-color under these fills would flatten the glass. */
+            background-color: transparent;
+            background-image:
+                radial-gradient(ellipse at 30% -70%, var(--control-reflection), transparent 78%),
+                linear-gradient(165deg, var(--control-top), var(--control-middle) 55%, var(--control-bottom));
+            background-clip: padding-box;
+            border: 1px solid var(--control-edge) !important;
+            border-top-color: var(--control-edge-top) !important;
+            border-bottom-color: var(--control-edge-bottom) !important;
+            box-shadow: 0 4px 12px -7px rgba(0, 0, 0, 0.45);
+            -webkit-backdrop-filter: blur(18px) saturate(110%);
+            backdrop-filter: blur(18px) saturate(110%);
+            color: var(--control-ink) !important;
+            font-weight: 600 !important;
+            transition: transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 280ms ease, border-color 280ms ease !important;
+        }
+
+        /* A broad, low-contrast reflection passes behind the label on pointer entry. */
+        :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .bm-tabs button[aria-selected="true"])::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            pointer-events: none;
+            background: linear-gradient(110deg, transparent 15%, var(--control-sheen) 48%, transparent 82%);
+            transform: translateX(-115%);
+            transition: none;
+        }
+
         .liquid-btn-yellow {
-            background-image: linear-gradient(135deg, rgba(252, 213, 53, 0.8) 0%, rgba(252, 213, 53, 0.95) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(252, 213, 53, 0.3) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
-            box-shadow: 0 8px 24px rgba(252, 213, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            color: #000 !important;
+            --control-top: rgba(252, 221, 103, 0.95);
+            --control-middle: rgba(244, 205, 70, 0.9);
+            --control-bottom: rgba(249, 214, 88, 0.93);
+            --control-edge: rgba(255, 231, 151, 0.32);
+            --control-edge-top: rgba(255, 241, 191, 0.52);
+            --control-edge-bottom: rgba(244, 212, 113, 0.18);
+            --control-reflection: rgba(255, 250, 227, 0.15);
+            --control-sheen: rgba(255, 255, 244, 0.16);
+            --control-ink: #231e11;
         }
 
-        .liquid-btn-yellow:hover {
-            background-image: linear-gradient(135deg, rgba(252, 213, 53, 0.9) 0%, rgba(252, 213, 53, 1) 100%);
-            box-shadow: 0 12px 32px rgba(252, 213, 53, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transform: translateY(-1px);
-        }
-
-        /* 🎇 White Liquid Button */
         .liquid-btn-white,
         .bm-tabs button[aria-selected="true"] {
-            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.9) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            color: #000 !important;
+            --control-top: rgba(255, 255, 255, 0.88);
+            --control-middle: rgba(243, 247, 250, 0.7);
+            --control-bottom: rgba(249, 251, 253, 0.78);
+            --control-edge: rgba(255, 255, 255, 0.34);
+            --control-edge-top: rgba(255, 255, 255, 0.65);
+            --control-edge-bottom: rgba(255, 255, 255, 0.2);
+            --control-reflection: rgba(255, 255, 255, 0.24);
+            --control-sheen: rgba(255, 255, 255, 0.25);
+            --control-ink: #14191d;
         }
 
-        .liquid-btn-white:hover,
-        .bm-tabs button[aria-selected="true"]:hover {
-            background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 1) 100%);
-            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            transform: translateY(-1px);
-        }
-
-        /* Guide action buttons */
         .guide-action-btn {
             --guide-action-rgb: 148, 163, 184;
-            background: linear-gradient(145deg, rgba(var(--guide-action-rgb), 0.14), rgba(15, 19, 27, 0.72));
-            border: 1px solid rgba(var(--guide-action-rgb), 0.34);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 8px 22px rgba(0, 0, 0, 0.18);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            color: #f8fafc;
-            transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+            --control-top: rgba(var(--guide-action-rgb), 0.13);
+            --control-middle: rgba(var(--guide-action-rgb), 0.055);
+            --control-bottom: rgba(var(--guide-action-rgb), 0.085);
+            --control-edge: rgba(var(--guide-action-rgb), 0.2);
+            --control-edge-top: rgba(var(--guide-action-rgb), 0.34);
+            --control-edge-bottom: rgba(var(--guide-action-rgb), 0.12);
         }
 
-        .guide-action-btn:hover {
-            background: linear-gradient(145deg, rgba(var(--guide-action-rgb), 0.22), rgba(20, 25, 35, 0.82));
-            border-color: rgba(var(--guide-action-rgb), 0.58);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 12px 28px rgba(var(--guide-action-rgb), 0.12);
-            transform: translateY(-1px);
+        .guide-action-btn--red { --guide-action-rgb: 248, 113, 113; }
+        .guide-action-btn--blue { --guide-action-rgb: 96, 165, 250; }
+
+        @media (hover: hover) and (pointer: fine) {
+            :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .bm-tabs button[aria-selected="true"]):not(:disabled):not([aria-disabled="true"]):hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 18px -9px rgba(0, 0, 0, 0.5);
+            }
+
+            :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .bm-tabs button[aria-selected="true"]):not(:disabled):not([aria-disabled="true"]):hover::after {
+                transform: translateX(115%);
+                transition: transform 850ms cubic-bezier(0.2, 0.6, 0.3, 1);
+            }
         }
 
-        .guide-action-btn--red {
-            --guide-action-rgb: 248, 113, 113;
+        :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .bm-tabs button[aria-selected="true"]):not(:disabled):not([aria-disabled="true"]):active {
+            transform: translateY(0) scale(0.985);
+            box-shadow: 0 1px 4px -2px rgba(0, 0, 0, 0.3);
+            transition-duration: 100ms !important;
         }
 
-        .guide-action-btn--blue {
-            --guide-action-rgb: 96, 165, 250;
+        :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .nav-btn):focus-visible {
+            outline: 2px solid #f5d768;
+            outline-offset: 3px;
+        }
+
+        :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn):is(:disabled, [aria-disabled="true"]) {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .nav-btn, .nav-icon, .bm-tabs button) {
+                transition: none !important;
+                transform: none !important;
+            }
+
+            :is(.liquid-btn-yellow, .liquid-btn-white, .liquid-btn-smoke, .guide-action-btn, .bm-tabs button)::after {
+                content: none;
+                transition: none !important;
+            }
         }
 
         /* ✨ Premium Glassmorphism (Web3/Fintech Style) */
         .glass-panel {
-            background: linear-gradient(180deg, rgba(23, 25, 36, 0.6) 0%, rgba(18, 20, 28, 0.8) 100%);
+            background: linear-gradient(180deg, rgba(27, 27, 27, 0.6) 0%, rgba(22, 22, 22, 0.8) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -331,7 +398,7 @@
 
         /* Header specific glass (no scale on hover) */
         .glass-header {
-            background: linear-gradient(180deg, rgba(23, 25, 36, 0.8) 0%, rgba(18, 20, 28, 0.9) 100%);
+            background: linear-gradient(180deg, rgba(27, 27, 27, 0.8) 0%, rgba(22, 22, 22, 0.9) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -342,7 +409,7 @@
         }
 
         .glass-panel:hover {
-            background: linear-gradient(180deg, rgba(35, 38, 50, 0.65) 0%, rgba(20, 23, 31, 0.85) 100%);
+            background: linear-gradient(180deg, rgba(40, 40, 40, 0.65) 0%, rgba(25, 25, 25, 0.85) 100%);
             transform: translateY(-1px);
             /* Much softer lift, no scale */
             box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.8),
@@ -350,6 +417,14 @@
                 inset 0 -1px 0 rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.15);
             border-top-color: rgba(255, 255, 255, 0.3);
+        }
+
+        #home .glass-panel {
+            background: linear-gradient(180deg, rgba(27, 27, 27, 0.6), rgba(22, 22, 22, 0.8));
+        }
+
+        #home .glass-panel:hover {
+            background: linear-gradient(180deg, rgba(40, 40, 40, 0.65), rgba(25, 25, 25, 0.85));
         }
 
         /* 🚀 High-end Animations */
@@ -383,44 +458,53 @@
             }
         }
 
-        /* Button & Icon Micro-interactions */
+        /* Quiet navigation: stable alignment and one selected-state marker. */
         .nav-btn {
-            transition: all 0.2s ease;
+            transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
             position: relative;
             overflow: hidden;
             border: 1px solid transparent;
         }
 
         .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.035);
+            border-color: rgba(255, 255, 255, 0.045);
+            color: #f0f2f4;
         }
 
         .nav-btn.active {
-            background: linear-gradient(90deg, rgba(252, 213, 53, 0.15) 0%, rgba(252, 213, 53, 0.02) 100%);
-            border: 1px solid rgba(252, 213, 53, 0.2);
-            border-left: 3px solid #FCD535;
-            color: white;
-            box-shadow: inset 0 0 10px rgba(252, 213, 53, 0.05);
+            background: linear-gradient(110deg, rgba(205, 211, 217, 0.085), rgba(205, 211, 217, 0.025));
+            border-color: rgba(225, 232, 238, 0.075);
+            color: #f0f2f4;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
         }
 
-        .nav-btn span {
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: inline-block;
+        .nav-btn.active::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 26%;
+            bottom: 26%;
+            width: 2px;
+            border-radius: 2px;
+            background: #e7c75f;
         }
 
-        .nav-btn i {
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.65;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            color: #89939f;
+            transition: color 180ms ease;
         }
 
-        .nav-btn:hover span {
-            transform: translateX(3px);
-            color: white;
-        }
-
-        .nav-btn:hover i {
-            transform: scale(1.15) rotate(5deg);
-        }
+        .nav-btn:hover .nav-icon { color: #c2cad2; }
+        .nav-btn.active .nav-icon { color: #e0cd8c; }
 
         /* Content Typography */
         .content-body h2 {
@@ -465,7 +549,7 @@
         }
 
         .content-body code {
-            background-color: #1f2937;
+            background-color: #262626;
             color: #FCD535;
             padding: 0.125rem 0.375rem;
             border-radius: 0.25rem;
@@ -481,7 +565,7 @@
             font-size: 0.875rem;
             font-family: 'JetBrains Mono', monospace;
             color: #d1d5db;
-            border: 1px solid #374151;
+            border: 1px solid #404040;
             margin-bottom: 1rem;
         }
 
@@ -490,8 +574,8 @@
             padding: 0.125rem 0.5rem;
             font-size: 0.75rem;
             border-radius: 0.25rem;
-            border: 1px solid #4b5563;
-            background-color: #1f2937;
+            border: 1px solid #525252;
+            background-color: #262626;
             color: #d1d5db;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
@@ -524,13 +608,13 @@
 
         .custom-table th,
         .custom-table td {
-            border: 1px solid #374151;
+            border: 1px solid #404040;
             padding: 0.75rem;
             text-align: left;
         }
 
         .custom-table th {
-            background-color: #1f2937;
+            background-color: #262626;
             color: white;
             font-weight: 600;
         }
@@ -707,15 +791,14 @@
             background: #6b7280;
         }
     </style>
+    <link rel="stylesheet" href="./assets/toolkit-overview.css">
 </head>
 
 <body class="antialiased selection:bg-brand selection:text-black">
 
 
-    <!-- 🌌 Dynamic Background Design C -->
-
-    <!-- 3D Background (Subtle layer) -->
-    <canvas id="bg3d"></canvas>
+    <!-- Restrained neutral backdrop. -->
+    <div class="market-backdrop" aria-hidden="true"></div>
 
     <!-- === Header === -->
     <header class="fixed top-0 w-full z-50 glass-header border-b-0 border-white/5 h-16 transition-all duration-300">
@@ -743,21 +826,19 @@
             </div>
 
             <!-- Search (Desktop Only) -->
-            <div class="hidden md:flex flex-1 max-w-md mx-8 relative group">
-                <div
-                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-300 group-focus-within:text-brand transition-colors">
-                    <i class="fa-solid fa-search"></i>
+            <div class="site-search hidden md:flex flex-1 max-w-md mx-8 relative">
+                <div class="site-search-icon" aria-hidden="true">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                        <circle cx="10.8" cy="10.8" r="6.8" />
+                        <path d="m16 16 4.5 4.5" />
+                    </svg>
                 </div>
                 <input id="q" type="text"
-                    class="w-full bg-[#1E2329]/60 backdrop-blur-md border border-gray-700/80 text-sm rounded-xl focus:ring-2 focus:ring-brand/50 focus:border-brand/80 focus:bg-[#1E2329] block pl-10 p-2.5 transition-all duration-300 placeholder-gray-400 text-white shadow-inner"
+                    class="site-search-input" autocomplete="off" spellcheck="false"
                     placeholder="Search" aria-label="Search">
-                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <kbd
-                        class="px-2 py-0.5 text-xs text-gray-400 bg-gray-800/80 rounded-md border border-gray-700 backdrop-blur-sm">/</kbd>
-                </div>
                 <!-- Search Results -->
                 <div id="searchResults"
-                    class="absolute top-full left-0 w-full mt-2 bg-[#1E2329] border border-gray-700 rounded-lg shadow-2xl overflow-hidden hidden z-50">
+                    class="site-search-results absolute top-full left-0 w-full mt-2 overflow-hidden hidden z-50">
                 </div>
             </div>
 
@@ -766,7 +847,7 @@
                 <!-- Language Toggle -->
                 <button id="language-toggle" type="button" onclick="toggleLanguage()" title="Switch to English"
                     aria-label="Switch to English"
-                    class="liquid-card w-9 h-9 flex items-center justify-center rounded-lg bg-gray-800/20 border border-gray-700 hover:border-gray-500 hover:text-white transition-all text-sm text-gray-300">
+                    class="liquid-btn-smoke w-9 h-9 flex items-center justify-center rounded-lg transition-all text-sm text-gray-300">
                     <i class="fa-solid fa-globe" aria-hidden="true"></i>
                 </button>
 
@@ -777,7 +858,7 @@
                 </button>
 
                 <button id="member-login-button" title="로그인" onclick="openMemberModal('login')"
-                    class="liquid-card w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm font-bold text-gray-200 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
+                    class="liquid-btn-smoke w-9 h-9 md:w-auto md:h-auto md:py-2 md:px-4 rounded-lg text-xs md:text-sm font-bold text-gray-200 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-right-to-bracket text-xs"></i>
                     <span class="hidden md:inline" data-i18n="header.login">로그인</span>
                 </button>
@@ -818,89 +899,80 @@
                     <button onclick="activate('home')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="home">
-                        <i
-                            class="fa-solid fa-house w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                         <span data-i18n="nav.home">Home</span>
                     </button>
                     <button onclick="activate('links')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="links">
-                        <i
-                            class="fa-solid fa-link w-5 text-center text-gray-500 group-hover:text-white transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m10 13 4-4m-5 6-2 2a3.5 3.5 0 0 1-5-5l4-4a3.5 3.5 0 0 1 5 0m2 1 2-2a3.5 3.5 0 0 1 5 5l-4 4a3.5 3.5 0 0 1-5 0"/></svg>
                         <span data-i18n="nav.shortcuts">바로가기</span>
                     </button>
 
                     <button onclick="activate('sponsorship')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="sponsorship">
-                        <i
-                            class="fa-solid fa-heart w-5 text-center text-gray-500 group-hover:text-accent-red transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4m5 0h1"/></svg>
                         <span data-i18n="nav.sponsor">후원 플랜</span>
                     </button>
                     <button onclick="activate('terms')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="terms">
-                        <i
-                            class="fa-solid fa-scale-balanced w-5 text-center text-gray-500 group-hover:text-white transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8Zm0 0v5h5M8 12h8m-8 4h6"/></svg>
                         <span data-i18n="nav.terms">이용약관</span>
                     </button>
                     <!-- 기존 이용약관 버튼 아래에 추가 -->
                     <button onclick="activate('faq')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
                         data-id="faq">
-                        <i
-                            class="fa-solid fa-circle-question w-5 text-center text-gray-500 group-hover:text-white transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z"/><path d="M10 9a2 2 0 1 1 3 1.7c-.8.4-1 1-1 1.8m0 2.5h.01"/></svg>
                         <span data-i18n="nav.faq">자주 묻는 질문</span>
                     </button>
 
                     <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6"
                         data-i18n="nav.tools">Setup & Tools</p>
-                    <button onclick="activate('apikey')"
+                    <button type="button" onclick="activate('overview')" class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 group" data-id="overview">
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg><span data-i18n="overview.nav">소개</span></button>
+                    <button onclick="requestToolkitGuide('apikey')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="apikey">
-                        <i
-                            class="fa-solid fa-key w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        data-id="apikey" data-guide-section="apikey" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m7 8 1 1 2-2m3 1h4m-10 7 1 1 2-2m3 1h4"/></svg>
                         <span data-i18n="nav.apikey">Getting Started</span>
                     </button>
-                    <button onclick="activate('detector')"
+                    <button onclick="requestToolkitGuide('detector')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="detector">
-                        <i
-                            class="fa-solid fa-satellite-dish w-5 text-center text-gray-500 group-hover:text-accent-green transition-colors"></i>
+                        data-id="detector" data-guide-section="detector" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 17V7m18 10V7M6 12h3l2-6 3 12 2-6h2"/></svg>
                         <span data-i18n="nav.detector">Crypto Detector</span>
                     </button>
-                    <button onclick="activate('toolkit')"
+                    <button onclick="requestToolkitGuide('toolkit')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="toolkit">
-                        <i
-                            class="fa-solid fa-gavel w-5 text-center text-gray-500 group-hover:text-accent-blue transition-colors"></i>
+                        data-id="toolkit" data-guide-section="toolkit" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3v7m0 4v7m7-18v12m0 4v2m7-18v3m0 4v11M2 10h6m1 5h6m1-9h6"/></svg>
                         <span data-i18n="nav.toolkit">Order Toolkit</span>
                     </button>
-                    <button onclick="activate('trades')"
+                    <button onclick="requestToolkitGuide('trades')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="trades">
-                        <i
-                            class="fa-solid fa-bolt w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        data-id="trades" data-guide-section="trades" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4"/></svg>
                         <span data-i18n="nav.trades">Trades</span>
                     </button>
-                    <button onclick="activate('orderbook')"
+                    <button onclick="requestToolkitGuide('orderbook')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="orderbook">
-                        <i
-                            class="fa-solid fa-list-ol w-5 text-center text-gray-500 group-hover:text-accent-purple transition-colors"></i>
+                        data-id="orderbook" data-guide-section="orderbook" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18M3 6h6m-4 4h4m-6 4h6m-4 4h4m6-12h4m-4 4h6m-6 4h4m-4 4h6"/></svg>
                         <span data-i18n="nav.orderbook">Order Book</span>
                     </button>
-                    <button onclick="activate('extensions')"
+                    <button onclick="requestToolkitGuide('extensions')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
-                        data-id="extensions">
-                        <i
-                            class="fa-solid fa-puzzle-piece w-5 text-center text-gray-500 group-hover:text-brand transition-colors"></i>
+                        data-id="extensions" data-guide-section="extensions" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h12V9m-6 3v3"/></svg>
                         <span data-i18n="nav.extensions">Extensions</span>
                     </button>
                     <!-- [NEW] On-Chain Tracker 링크 버튼 -->
                     <button onclick="window.location.href='/tracker'"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group">
-                        <i class="fa-solid fa-wallet w-5 text-center text-gray-500 group-hover:text-amber-400 transition-colors"></i>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m8 7 8 3m-8 7 8-5"/><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="16" y="8" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/></svg>
                         <span>On-Chain Tracker</span>
                     </button>
                 </div>
@@ -954,7 +1026,7 @@
                             <span data-i18n="btn.explore">알아보기</span>
                         </button>
                         <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
-                            class="px-8 py-3.5 glass-panel text-white font-bold rounded-xl transition-colors border border-white/10 flex items-center gap-2">
+                            class="liquid-btn-smoke px-8 py-3.5 text-white font-bold rounded-xl transition-colors flex items-center gap-2">
                             <i class="fa-brands fa-telegram text-xl"></i> <span data-i18n="btn.telegram">텔레그램</span>
                         </a>
                     </div>
@@ -1208,7 +1280,7 @@
             </section>
 
             <!-- SECTION: DETECTOR PREVIEW (NEW) -->
-            <section id="preview" class="guide-section hidden fade-in">
+            <section id="preview" class="guide-section hidden fade-in" data-guide-section="preview">
                 <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8">
                     <div class="flex items-center justify-between mb-8 border-b border-gray-800 pb-6">
                         <div class="flex items-center gap-3">
@@ -1642,7 +1714,28 @@
             </section>
 
             <!-- SECTION: API KEY -->
-            <section id="apikey" class="guide-section hidden content-body">
+            <section id="overview" class="guide-section hidden fade-in toolkit-overview" aria-labelledby="overview-title">
+<div id="guide-access-notice" class="guide-access-notice hidden" role="status"><p id="guide-access-message"></p><button type="button" class="overview-text-link" onclick="openPendingToolkitGuide()"><span data-i18n="overview.access">로그인 · 이용 권한 확인</span></button></div>
+<header class="overview-header"><p data-i18n="overview.eyebrow" class="overview-eyebrow">TRADING API · TOOLKIT</p><h1 id="overview-title" data-i18n="overview.title">실전 매매를 위한 트레이딩 툴킷</h1><p data-i18n="overview.lead">종목 감지, 실시간 체결내역과 호가창, 주문 실행, 멀티차트와 매매노트를 제공합니다. 필요한 도구를 선택해 함께 사용할 수 있습니다.</p><div class="overview-actions"><button type="button" class="liquid-btn-smoke" onclick="openTradingVideoModal()"><span data-i18n="overview.watch">실전 매매 영상</span></button><a class="overview-text-link" href="#sponsorship"><span data-i18n="overview.plans">플랜 · 이용 안내</span><span aria-hidden="true">↗</span></a></div></header>
+<figure class="overview-hero"><a class="overview-shot " href="./assets/overview/lightning.png" target="_blank" rel="noopener noreferrer" aria-label="Binance Futures에서 사용하는 Lightning Candle 멀티차트 — 전체 화면"><img src="./assets/overview/lightning.png" width="2371" height="1176" alt="Binance Futures에서 사용하는 Lightning Candle 멀티차트" loading="lazy" decoding="async"></a><figcaption data-i18n="overview.hero.caption" class="overview-caption">Binance Futures에 Lightning Candle을 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.</figcaption></figure><article class="overview-product" id="overview-detector">
+    <div><p data-i18n="overview.detector.label" class="overview-eyebrow">CRYPTO DETECTOR</p><h2 data-i18n="overview.detector.title">실시간 종목 감지</h2><p data-i18n="overview.detector.desc">설정한 변동률과 거래대금 조건에 맞는 종목을 감지합니다. 감지 목록에서 등락률·거래대금·미결제약정(OI)을 확인하고, 최근 감지 이력도 조회할 수 있습니다.</p><ul><li data-i18n="overview.detector.point0">변동률·거래대금 기준 설정</li><li data-i18n="overview.detector.point1">종목 감지 팝업 알림과 감지 이력 조회</li><li data-i18n="overview.detector.point2">미결제약정(OI)·거래대금 차트 제공</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('detector')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
+    <div><div class="overview-media-stack"><a class="overview-shot " href="./assets/overview/detector.png" target="_blank" rel="noopener noreferrer" aria-label="Crypto Detector 감지 목록 — 전체 화면"><img src="./assets/overview/detector.png" width="783" height="441" alt="Crypto Detector 감지 목록" loading="lazy" decoding="async"></a><a class="overview-shot " href="./assets/overview/open-interest.png" target="_blank" rel="noopener noreferrer" aria-label="미결제약정 및 거래대금 차트 — 전체 화면"><img src="./assets/overview/open-interest.png" width="1077" height="567" alt="미결제약정 및 거래대금 차트" loading="lazy" decoding="async"></a></div></div>
+</article><article class="overview-product" id="overview-toolkit">
+    <div><p data-i18n="overview.toolkit.label" class="overview-eyebrow">ORDER TOOLKIT</p><h2 data-i18n="overview.toolkit.title">주문 실행과 포지션 관리</h2><p data-i18n="overview.toolkit.desc">바이낸스 USDⓂ 선물 주문을 실행하는 데스크톱 툴킷입니다. 크롬 연동 또는 수동 모드로 사용하며, 주문 입력부터 미체결 주문 취소·포지션 종료까지 한 화면에서 처리합니다.</p><ul><li data-i18n="overview.toolkit.point0">금액 프리셋과 주문 수량 자동 계산</li><li data-i18n="overview.toolkit.point1">수동 주문과 다중 지정가 주문 지원</li><li data-i18n="overview.toolkit.point2">미체결 주문 취소·포지션 종료·스탑 주문</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('toolkit')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><button type="button" class="overview-text-link" onclick="openTradingVideoModal('scalping1')"><span data-i18n="overview.toolkit.video1">실전 스캘핑 1</span><span aria-hidden="true">▷</span></button><button type="button" class="overview-text-link" onclick="openTradingVideoModal('scalping2')"><span data-i18n="overview.toolkit.video2">실전 스캘핑 2</span><span aria-hidden="true">▷</span></button></div></div>
+    <div><a class="overview-shot overview-crop overview-crop--orders" href="./assets/overview/order-toolkit.png" target="_blank" rel="noopener noreferrer" aria-label="Order Toolkit 주문 컨트롤 — 전체 화면"><img src="./assets/overview/order-toolkit.png" width="481" height="982" alt="Order Toolkit 주문 컨트롤" loading="lazy" decoding="async"></a><p data-i18n="overview.toolkit.caption" class="overview-caption">주문 화면 일부입니다. 전체 구성은 이미지를 눌러 확인할 수 있습니다.</p></div>
+</article><article class="overview-product" id="overview-trades">
+    <div><p data-i18n="overview.trades.label" class="overview-eyebrow">TRADES</p><h2 data-i18n="overview.trades.title">실시간 체결내역과 보조지표</h2><p data-i18n="overview.trades.desc">실시간 체결내역과 청산내역에 순델타, 마크가격 괴리율, 체결 강도 등 보조지표를 함께 표시합니다. 매수·매도 우세와 실제 가격 반응을 비교하고, 현재 체결가와 마크가격의 차이를 확인할 수 있습니다.</p><ul><li data-i18n="overview.trades.point0">거래대금 기준 체결 필터링과 대량 체결 강조</li><li data-i18n="overview.trades.point1">순델타·대량 체결 비중·가격 반응(FLOW) 표시</li><li data-i18n="overview.trades.point2">마크가격 괴리율(선물)과 체결 강도 표시</li><li data-i18n="overview.trades.point3">강제청산 내역·누적 청산대금·팝업 및 소리 알림</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('trades')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
+    <div><div class="overview-media-stack"><a class="overview-shot overview-crop overview-crop--trades" href="./assets/overview/trades.png" target="_blank" rel="noopener noreferrer" aria-label="Trades 실시간 체결 목록 — 전체 화면"><img src="./assets/overview/trades.png" width="487" height="1101" alt="Trades 실시간 체결 목록" loading="lazy" decoding="async"></a><a class="overview-shot " href="./assets/overview/liquidations.png" target="_blank" rel="noopener noreferrer" aria-label="강제청산 내역 — 전체 화면"><img src="./assets/overview/liquidations.png" width="823" height="483" alt="강제청산 내역" loading="lazy" decoding="async"></a></div></div>
+</article><article class="overview-product" id="overview-orderbook">
+    <div><p data-i18n="overview.orderbook.label" class="overview-eyebrow">ORDER BOOK</p><h2 data-i18n="overview.orderbook.title">실시간 호가와 매수·매도 잔량</h2><p data-i18n="overview.orderbook.desc">가격별 매수·매도 호가 잔량을 실시간으로 표시합니다. 호가를 원하는 단위로 모아 보고, 잔량을 USDT 금액으로 환산해 확인할 수 있습니다.</p><ul><li data-i18n="overview.orderbook.point0">가격별 호가 잔량과 대량 주문 표시</li><li data-i18n="overview.orderbook.point1">호가 모아보기와 USDT 금액 환산</li><li data-i18n="overview.orderbook.point2">호가 클릭 시 Order Toolkit 주문 가격 연동</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('orderbook')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
+    <div><a class="overview-shot overview-crop" href="./assets/overview/order-book.png" target="_blank" rel="noopener noreferrer" aria-label="Order Book 매수·매도 호가 — 전체 화면"><img src="./assets/overview/order-book.png" width="486" height="2082" alt="Order Book 매수·매도 호가" loading="lazy" decoding="async"></a><p data-i18n="overview.orderbook.caption" class="overview-caption">현재가 주변을 확대한 화면입니다. 전체 호가창도 열어볼 수 있습니다.</p></div>
+</article><article class="overview-product" id="overview-extensions">
+    <div><p data-i18n="overview.extensions.label" class="overview-eyebrow">EXTENSIONS · BINANCE MANAGER</p><h2 data-i18n="overview.extensions.title">간편주문·멀티차트·매매노트</h2><p data-i18n="overview.extensions.desc">바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, Lightning Candle 멀티차트와 종목별 매매노트를 추가합니다.</p><ul><li data-i18n="overview.extensions.point0">주문 수량 계산과 주문·취소 기능 제공</li><li data-i18n="overview.extensions.point1">Lightning Candle 멀티차트 제공</li><li data-i18n="overview.extensions.point2">NOTES에 종목별 매매노트와 스크린샷 저장</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('extensions')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><a class="overview-text-link" href="https://youtu.be/VS_cTJY7ZXI" rel="noopener noreferrer"><span data-i18n="overview.extensions.video">확장 기능 시연</span><span aria-hidden="true">↗</span></a></div></div>
+    <div><a class="overview-shot " href="./assets/overview/notes.png" target="_blank" rel="noopener noreferrer" aria-label="NOTES 종목별 메모와 이미지 기록 — 전체 화면"><img src="./assets/overview/notes.png" width="919" height="886" alt="NOTES 종목별 메모와 이미지 기록" loading="lazy" decoding="async"></a></div>
+</article><footer class="overview-foot"><h2 data-i18n="overview.start.title">사용을 시작하려면</h2><p data-i18n="overview.start.desc">로그인 후 이용 권한이 있는 도구의 가이드가 사이드바에 표시됩니다. Getting Started에서 실행·인증·기본 설정을 확인하고, 각 도구의 상세 사용법을 이어서 볼 수 있습니다.</p><p data-i18n="overview.scope">데스크톱 도구와 Chrome 확장 기능은 지원 환경과 제공 기능이 다릅니다. 도구별 지원 거래소·설치 환경·주문 전 확인 사항은 사용 가이드에서 확인해 주세요.</p><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('apikey')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><a class="overview-text-link" href="#sponsorship"><span data-i18n="overview.plans">플랜 · 이용 안내</span></a></div></footer></section>
+
+            <section id="apikey" class="guide-section hidden content-body" data-guide-section="apikey">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
@@ -1945,7 +2038,8 @@
             </section>
 
             <!-- SECTION: CRYPTO DETECTOR -->
-            <section id="detector" class="guide-section hidden content-body">
+            <section id="detector" class="guide-section hidden content-body" data-guide-section="detector">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
@@ -2051,7 +2145,7 @@
                                     <div class="flex-1 flex flex-col justify-start items-start w-full gap-10">
                                         <!-- Visual Operator (AND Box) -->
                                         <div
-                                            class="w-full bg-[#0b0e11] p-5 rounded-xl border border-gray-800 text-center relative overflow-hidden">
+                                            class="w-full bg-[#0e0e0e] p-5 rounded-xl border border-gray-800 text-center relative overflow-hidden">
                                             <!-- 그룹 호버 효과 연동: 메인 카드에 마우스 올리면 배경색 은은하게 변경 -->
                                             <div
                                                 class="absolute inset-0 bg-accent-green/5 group-hover:bg-accent-green/10 transition-colors duration-300">
@@ -2264,17 +2358,17 @@
                                         감지된 종목을 클릭하면 설정된 포맷으로 클립보드에 자동 복사하여, 웹 브라우저나 타 툴킷으로 즉시 이동할 수 있습니다.
                                     </p>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                        <div class="bg-[#0b0e11] p-3 rounded border border-gray-700 text-center">
+                                        <div class="bg-[#0e0e0e] p-3 rounded border border-gray-700 text-center">
                                             <div class="text-xs text-gray-500 mb-1" data-i18n="cd.ui.clipboard.card1">
                                                 URL (Default)</div>
                                             <code class="text-accent-green text-xs">binance.com/.../BTCUSDT</code>
                                         </div>
-                                        <div class="bg-[#0b0e11] p-3 rounded border border-gray-700 text-center">
+                                        <div class="bg-[#0e0e0e] p-3 rounded border border-gray-700 text-center">
                                             <div class="text-xs text-gray-500 mb-1" data-i18n="cd.ui.clipboard.card2">
                                                 Symbol Only</div>
                                             <code class="text-accent-green text-xs">BTC</code>
                                         </div>
-                                        <div class="bg-[#0b0e11] p-3 rounded border border-gray-700 text-center">
+                                        <div class="bg-[#0e0e0e] p-3 rounded border border-gray-700 text-center">
                                             <div class="text-xs text-gray-500 mb-1" data-i18n="cd.ui.clipboard.card3">
                                                 Custom Format</div>
                                             <code class="text-accent-green text-xs">{SYMBOL}</code>
@@ -2590,13 +2684,14 @@
             </section>
 
             <!-- SECTION: EXTENSIONS -->
-            <section id="extensions" class="guide-section hidden content-body">
+            <section id="extensions" class="guide-section hidden content-body" data-guide-section="extensions">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <style>
                     .bm-showcase{overflow:hidden}
                     .bm-showcase h1,.bm-showcase h2,.bm-showcase p{margin-top:0}
                     .bm-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0}
                     .bm-tabs button{position:relative;padding:13px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;font:inherit;font-weight:700;cursor:pointer;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:border-color .2s,transform .2s,box-shadow .2s}
-                    .bm-tabs button[aria-selected="false"]{color:#eaecef;background:linear-gradient(135deg,rgba(22,24,31,.88),rgba(15,17,23,.92));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+                    .bm-tabs button[aria-selected="false"]{color:#eaecef;background:linear-gradient(135deg,rgba(25,25,25,.88),rgba(18,18,18,.92));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
                     .bm-tabs button[aria-selected="false"]:hover{border-color:rgba(255,255,255,.24);color:#fff;transform:translateY(-1px)}
                     .bm-tabs button:focus-visible{outline:2px solid #eaecef;outline-offset:3px}
                     .bm-slide[hidden]{display:none}
@@ -2609,7 +2704,7 @@
                     .bm-points li{position:relative;padding:10px 0 10px 15px!important;border-bottom:1px solid #303743;color:#b8c0cb;font-size:12px;line-height:1.55;list-style:none!important}
                     .bm-points li::marker{content:""}
                     .bm-points li::before{position:absolute;left:1px;top:16px;width:4px;height:4px;border-radius:50%;background:#f0b90b;content:""}
-                    .bm-shot{display:block;height:var(--bm-frame-height);border:1px solid #343c48;border-radius:12px;overflow:hidden;background:#0b0e11}
+                    .bm-shot{display:block;height:var(--bm-frame-height);border:1px solid #3c3c3c;border-radius:12px;overflow:hidden;background:#0e0e0e}
                     .bm-shot img{display:block;width:100%;height:100%;object-fit:contain}
                     .bm-note-shots{display:grid!important;grid-template-rows:minmax(0,1fr) 150px;gap:10px;height:var(--bm-frame-height)!important}
                     .bm-note-shots .bm-shot{height:auto;min-height:0}
@@ -2660,14 +2755,15 @@
                             <li><code>extensions/binance-manager</code> <span data-i18n="ext.install.step3.body">폴더를 선택해 로드합니다.</span></li>
                             <li data-i18n="ext.install.step4.body">Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.</li>
                         </ol>
-                        <a href="https://youtu.be/VS_cTJY7ZXI" target="_blank" rel="noopener noreferrer" class="text-brand" data-i18n="ext.video.title">실행 영상 보기</a>
+                        <a href="https://youtu.be/VS_cTJY7ZXI" rel="noopener noreferrer" class="text-brand" data-i18n="ext.video.title">실행 영상 보기</a>
                     </details>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION: ORDER TOOLKIT -->
-            <section id="toolkit" class="guide-section hidden content-body">
+            <section id="toolkit" class="guide-section hidden content-body" data-guide-section="toolkit">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
@@ -2720,7 +2816,7 @@
                                     <span data-i18n="ot.video.title">영상으로 빠르게 보기</span>
                                 </h3>
                                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                    <a href="https://youtu.be/visBmiZRDXU?si=jaeLKjNOYUbneu91" target="_blank"
+                                    <a href="https://youtu.be/visBmiZRDXU?si=jaeLKjNOYUbneu91"
                                         rel="noopener noreferrer"
                                         class="block rounded-xl overflow-hidden border border-gray-700 bg-black/20 hover:border-accent-blue/60 transition-colors">
                                         <div class="relative">
@@ -2743,7 +2839,7 @@
                                             </p>
                                         </div>
                                     </a>
-                                    <a href="https://youtu.be/ZcWO84Mexpo?si=_Br_8-dt9lyzgbyn" target="_blank"
+                                    <a href="https://youtu.be/ZcWO84Mexpo?si=_Br_8-dt9lyzgbyn"
                                         rel="noopener noreferrer"
                                         class="block rounded-xl overflow-hidden border border-gray-700 bg-black/20 hover:border-accent-blue/60 transition-colors">
                                         <div class="relative">
@@ -2938,7 +3034,7 @@
 
                                         <!-- 검은색 박스 -->
                                         <div
-                                            class="flex flex-col h-full bg-[#0b0e11] px-5 py-2 rounded border border-gray-700 min-h-[100px]">
+                                            class="flex flex-col h-full bg-[#0e0e0e] px-5 py-2 rounded border border-gray-700 min-h-[100px]">
 
                                             <!-- 상단 행: 좌클릭 (브랜드 컬러) -->
                                             <div class="flex-1 flex items-center gap-3">
@@ -2971,7 +3067,7 @@
 
                                         <!-- 검은색 박스 -->
                                         <div
-                                            class="flex flex-col h-full bg-[#0b0e11] px-5 py-2 rounded border border-gray-700 min-h-[100px]">
+                                            class="flex flex-col h-full bg-[#0e0e0e] px-5 py-2 rounded border border-gray-700 min-h-[100px]">
                                             <!-- 상단 행 -->
                                             <div class="flex-1 flex items-center gap-3">
                                                 <i
@@ -3077,10 +3173,10 @@
                                                 class="liquid-card h-11 flex items-center justify-center rounded-lg border border-accent-red/30 bg-accent-red/10 text-accent-red font-bold"
                                                 data-i18n="ot.actions.buttons.sell">Sell/Short</span>
                                             <span
-                                                class="liquid-card h-11 flex items-center justify-center rounded-lg border border-gray-700 bg-[#161b22]/40 text-gray-200 font-bold"
+                                                class="liquid-card h-11 flex items-center justify-center rounded-lg border border-gray-700 bg-[#1b1b1b]/40 text-gray-200 font-bold"
                                                 data-i18n="ot.actions.buttons.cancel">Cancel Orders</span>
                                             <span
-                                                class="liquid-card h-11 flex items-center justify-center rounded-lg border border-gray-700 bg-[#161b22]/40 text-gray-200 font-bold"
+                                                class="liquid-card h-11 flex items-center justify-center rounded-lg border border-gray-700 bg-[#1b1b1b]/40 text-gray-200 font-bold"
                                                 data-i18n="ot.actions.buttons.close">Close Position</span>
                                         </div>
 
@@ -3104,7 +3200,7 @@
                                                         data-i18n="ot.actions.buttons.left.entry.desc">선택한 주문 타입으로 진입합니다.</p>
                                                 </div>
                                                 <div
-                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#161b22]/30 text-gray-100 font-bold">
+                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#1b1b1b]/30 text-gray-100 font-bold">
                                                     <span data-i18n="ot.actions.buttons.row.entry">Buy/Sell</span>
                                                 </div>
                                                 <div class="order-3 md:order-none flex flex-col items-center justify-center text-center">
@@ -3124,7 +3220,7 @@
                                                         data-i18n="ot.actions.buttons.left.cancel.desc">미체결 주문을 취소합니다.</p>
                                                 </div>
                                                 <div
-                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#161b22]/30 text-gray-100 font-bold">
+                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#1b1b1b]/30 text-gray-100 font-bold">
                                                     <span data-i18n="ot.actions.buttons.row.cancel">Cancel Orders</span>
                                                 </div>
                                                 <div class="order-3 md:order-none flex flex-col items-center justify-center text-center">
@@ -3144,7 +3240,7 @@
                                                         data-i18n="ot.actions.buttons.left.close.desc">기존 방식으로 즉시 청산합니다.</p>
                                                 </div>
                                                 <div
-                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#161b22]/30 text-gray-100 font-bold">
+                                                    class="liquid-card order-1 md:order-none mx-auto h-9 w-full max-w-[132px] flex items-center justify-center rounded-md border border-gray-700 bg-[#1b1b1b]/30 text-gray-100 font-bold">
                                                     <span data-i18n="ot.actions.buttons.row.close">Close Position</span>
                                                 </div>
                                                 <div class="order-3 md:order-none flex flex-col items-center justify-center text-center">
@@ -3275,7 +3371,8 @@
             </section>
 
             <!-- SECTION: ORDER BOOK -->
-            <section id="orderbook" class="guide-section hidden content-body">
+            <section id="orderbook" class="guide-section hidden content-body" data-guide-section="orderbook">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
@@ -3453,7 +3550,8 @@
             </section>
 
             <!-- SECTION: TRADES -->
-            <section id="trades" class="guide-section hidden content-body">
+            <section id="trades" class="guide-section hidden content-body" data-guide-section="trades">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
                 <div class="glass-panel rounded-2xl p-6 md:p-10">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
@@ -3598,7 +3696,7 @@
                                     패널을 <strong>더블클릭</strong>하면 동일한 보조지표를 플로팅 위젯으로 따로 띄울 수 있습니다.
                                 </p>
 
-                                <div class="trades-metrics-demo bg-[#0b0e11] rounded-xl border border-gray-700 p-4 mb-6">
+                                <div class="trades-metrics-demo bg-[#0e0e0e] rounded-xl border border-gray-700 p-4 mb-6">
                                     <div class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-3"
                                         data-i18n="tr.ui.metrics.layout.title">패널 레이아웃</div>
                                     <div class="trades-metrics-demo__top grid grid-cols-5 gap-3">
@@ -4114,7 +4212,7 @@
                     </div>
 
                     <!-- 0. Sponsorship Disclaimer (Box 1: 여백 및 정렬 수정) -->
-                    <div class="liquid-card bg-[#1e2329]/60 border border-gray-600/30 rounded-lg p-6 mb-8">
+                    <div class="liquid-card bg-[#232323]/60 border border-gray-600/30 rounded-lg p-6 mb-8">
                         <h2 class="text-white font-bold text-sm mb-4 !mt-0 flex items-center gap-2">
                             <i class="fa-solid fa-circle-info text-blue-400"></i> <span data-i18n="sponsor.box.title">후원
                                 운영 안내</span>
@@ -4140,7 +4238,7 @@
 
                         <!-- Left Card: Crypto Detector Lite -->
                         <div
-                            class="liquid-card bg-[#161b22]/40 rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
+                            class="liquid-card bg-[#1b1b1b]/40 rounded-xl border border-gray-700 p-6 flex flex-col relative transition-all duration-300 hover:border-gray-500 hover:shadow-lg hover:-translate-y-1">
                             <div class="mb-6">
                                 <h3 class="text-xl font-bold text-white !mt-0 mb-1"
                                     data-i18n="sponsor.card.crypto.title">Crypto Detector Lite</h3>
@@ -4183,7 +4281,7 @@
 
                         <!-- Right Card: All-in-One Toolkit -->
                         <div
-                            class="liquid-card bg-[#161b22]/40 rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(252,213,53,0.3)] hover:-translate-y-1">
+                            class="liquid-card bg-[#1b1b1b]/40 rounded-xl border border-brand/60 p-6 flex flex-col relative shadow-[0_0_25px_rgba(252,213,53,0.08)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(252,213,53,0.3)] hover:-translate-y-1">
                             <!-- Badge -->
                             <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wide shadow-lg shadow-brand/20"
                                 data-i18n="sponsor.card.popular">
@@ -4301,8 +4399,8 @@
 
         <div class="relative min-h-full flex items-center justify-center p-3 sm:p-6">
             <div
-                class="relative w-full max-w-xl max-h-[calc(100vh-1.5rem)] overflow-y-auto bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
-                <div class="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-[#11151b]/95 backdrop-blur-xl border-b border-white/10">
+                class="member-dialog-surface relative w-full max-w-xl max-h-[calc(100vh-1.5rem)] overflow-y-auto bg-[#11151b] border border-white/10 rounded-lg shadow-2xl">
+                <div class="member-dialog-header sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-[#11151b]/95 backdrop-blur-xl border-b border-white/10">
                     <div class="min-w-0">
                         <p class="text-[10px] font-bold uppercase text-brand tracking-normal">MEMBER ACCESS</p>
                         <h2 id="member-modal-title" class="text-base font-bold text-white truncate">회원 관리</h2>
@@ -4358,7 +4456,7 @@
                         </div>
                         <div id="member-turnstile-slot"></div>
                         <button id="member-register-submit" type="submit" disabled
-                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:saturate-0">
+                            class="liquid-btn-white w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:saturate-0">
                             <i class="fa-solid fa-user-plus"></i>
                             회원가입
                         </button>
@@ -4373,7 +4471,7 @@
                                 placeholder="등록한 시리얼키를 입력하세요">
                         </div>
                         <button id="member-login-submit" type="submit"
-                            class="liquid-btn-yellow w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2">
+                            class="liquid-btn-white w-full h-11 rounded-md text-sm font-extrabold flex items-center justify-center gap-2">
                             <i class="fa-solid fa-right-to-bracket"></i>
                             로그인
                         </button>
@@ -4418,7 +4516,7 @@
                                     <span id="member-request-badge" class="text-[10px] font-bold text-brand">-</span>
                                     <button id="member-request-refresh" type="button"
                                         onclick="refreshMemberRequestStatus(this)" title="신청 상태 새로고침"
-                                        class="hidden w-8 h-8 items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
+                                        class="liquid-btn-smoke hidden w-8 h-8 items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
                                 </div>
@@ -4434,7 +4532,7 @@
                                     class="min-w-0 flex-1 h-10 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-xs font-mono text-white focus:outline-none focus:border-brand"
                                     placeholder="전송 완료 후 TXID를 입력하세요">
                                 <button id="member-payment-check-submit" type="submit"
-                                    class="h-10 px-4 border border-brand/60 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors">입금 확인</button>
+                                    class="liquid-btn-smoke h-10 px-4 border border-brand/60 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors">입금 확인</button>
                             </div>
                             <p id="member-payment-check-status" class="text-[11px] text-gray-500">확인 요청은 60초 간격으로 가능합니다.</p>
                         </form>
@@ -4442,7 +4540,7 @@
                         <div id="member-admin-panel" class="hidden border-y border-white/10 py-5 space-y-4">
                             <div class="grid grid-cols-2 border border-gray-700 rounded-md overflow-hidden">
                                 <button id="member-admin-tab-requests" type="button" onclick="setMemberAdminTab('requests')"
-                                    class="h-10 text-xs font-bold bg-brand text-black">플랜 승인</button>
+                                    class="liquid-btn-smoke h-10 text-xs font-bold">플랜 승인</button>
                                 <button id="member-admin-tab-users" type="button" onclick="setMemberAdminTab('users')"
                                     class="h-10 text-xs font-bold text-gray-400 hover:text-white border-l border-gray-700">유저 관리</button>
                             </div>
@@ -4451,7 +4549,7 @@
                                 <div class="flex items-center justify-between gap-3">
                                     <h4 class="text-sm font-bold text-white">플랜 승인 관리</h4>
                                     <button id="member-admin-refresh" type="button" onclick="loadAdminRequests(true)" title="새로고침"
-                                        class="w-9 h-9 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
+                                        class="liquid-btn-smoke w-9 h-9 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
                                 </div>
@@ -4480,9 +4578,9 @@
                                     </div>
                                     <div id="member-admin-approval-actions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <button type="button" onclick="cancelAdminApproval()"
-                                            class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-400 hover:text-white">취소</button>
+                                            class="liquid-btn-smoke h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-400 hover:text-white">취소</button>
                                         <button id="member-admin-payment-check" type="button" onclick="adminCheckSelectedPayment()"
-                                            class="h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-300 hover:border-brand">입금 재확인</button>
+                                            class="liquid-btn-smoke h-10 border border-gray-700 rounded-md text-xs font-bold text-gray-300 hover:border-brand">입금 재확인</button>
                                         <button id="member-admin-approve-submit" type="submit"
                                             class="liquid-btn-yellow h-10 rounded-md text-xs font-extrabold">수동 승인</button>
                                     </div>
@@ -4504,15 +4602,15 @@
                                         class="min-w-0 flex-1 h-10 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm text-white focus:outline-none focus:border-brand"
                                         placeholder="유저네임, 메모, 권한 검색">
                                     <button type="submit" title="검색"
-                                        class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-white">
+                                        class="liquid-btn-smoke w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                     </button>
                                     <button id="member-admin-users-refresh" type="button" onclick="loadAdminUsers(true)" title="새로고침"
-                                        class="w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
+                                        class="liquid-btn-smoke w-10 h-10 flex items-center justify-center border border-gray-700 hover:border-gray-500 rounded-md text-gray-400 hover:text-white">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
                                     <a id="member-admin-sheet-link" href="#" target="_blank" rel="noopener noreferrer" title="Google Sheets에서 상세 편집"
-                                        class="hidden w-10 h-10 items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand">
+                                        class="liquid-btn-smoke hidden w-10 h-10 items-center justify-center border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand">
                                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
                                 </form>
@@ -4527,10 +4625,10 @@
                                 <div id="member-admin-users-list" class="space-y-2"></div>
                                 <div id="member-admin-users-pagination" class="hidden items-center justify-between gap-3">
                                     <button id="member-admin-users-prev" type="button" onclick="changeAdminUsersPage(-1)" title="이전 페이지"
-                                        class="w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-left"></i></button>
+                                        class="liquid-btn-smoke w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-left"></i></button>
                                     <span id="member-admin-users-page" class="text-xs text-gray-500">1 / 1</span>
                                     <button id="member-admin-users-next" type="button" onclick="changeAdminUsersPage(1)" title="다음 페이지"
-                                        class="w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-right"></i></button>
+                                        class="liquid-btn-smoke w-9 h-9 border border-gray-700 rounded-md text-gray-400 disabled:opacity-30"><i class="fa-solid fa-chevron-right"></i></button>
                                 </div>
                                 <form id="member-admin-user-editor" class="hidden px-4 py-4 bg-black/25 border border-brand/30 rounded-md space-y-4"
                                     onsubmit="submitAdminUserUpdate(event)">
@@ -4581,10 +4679,10 @@
                                                     class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand [color-scheme:dark]">
                                             </div>
                                             <div class="grid grid-cols-4 gap-2" aria-label="만료일 빠른 연장">
-                                                <button type="button" onclick="extendAdminExpiration(1)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+1개월</button>
-                                                <button type="button" onclick="extendAdminExpiration(3)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+3개월</button>
-                                                <button type="button" onclick="extendAdminExpiration(6)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+6개월</button>
-                                                <button type="button" onclick="extendAdminExpiration(12)" class="h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+12개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(1)" class="liquid-btn-smoke h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+1개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(3)" class="liquid-btn-smoke h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+3개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(6)" class="liquid-btn-smoke h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+6개월</button>
+                                                <button type="button" onclick="extendAdminExpiration(12)" class="liquid-btn-smoke h-9 border border-gray-700 hover:border-brand rounded-md text-xs font-bold text-gray-400 hover:text-brand transition-colors">+12개월</button>
                                             </div>
                                         </div>
                                     </div>
@@ -4605,17 +4703,17 @@
 
                         <div id="member-subscription-actions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <button id="member-new-subscription-button" type="button" onclick="openSubscriptionForm('new')"
-                                class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
+                                class="liquid-btn-smoke sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-plus"></i>
                                 신규 플랜
                             </button>
                             <button id="member-renewal-button" type="button" onclick="openSubscriptionForm('renewal')"
-                                class="sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
+                                class="liquid-btn-smoke sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-rotate"></i>
                                 플랜 관리
                             </button>
                             <button id="member-download-button" type="button" onclick="openDownloadCenter()"
-                                class="hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
+                                class="liquid-btn-smoke hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
                                 <i id="member-download-icon" class="fa-solid fa-download"></i>
                                 <span id="member-download-label">다운로드</span>
                             </button>
@@ -4663,7 +4761,7 @@
                                 </div>
                                 <button type="button" onclick="refreshMemberRequestStatus(this)"
                                     title="신청 상태 새로고침"
-                                    class="w-8 h-8 flex items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
+                                    class="liquid-btn-smoke w-8 h-8 flex items-center justify-center border border-gray-700 rounded-md text-gray-400 hover:text-white hover:border-gray-500 disabled:opacity-50">
                                     <i class="fa-solid fa-rotate"></i>
                                 </button>
                             </div>
@@ -4696,7 +4794,7 @@
                                 결제 화면에 표시된 자산과 네트워크를 반드시 확인한 후 전송해 주세요. 결제 확인 후 선택한 플랜이 활성화됩니다. 처리가 지연되면 운영자에게 문의해 주세요.
                             </div>
                             <a id="member-support-link" href="#" target="_blank" rel="noopener noreferrer"
-                                class="hidden w-full h-10 border border-gray-700 hover:border-gray-500 rounded-md text-sm font-bold text-gray-300 items-center justify-center gap-2">
+                                class="liquid-btn-smoke hidden w-full h-10 border border-gray-700 hover:border-gray-500 rounded-md text-sm font-bold text-gray-300 items-center justify-center gap-2">
                                 <i class="fa-solid fa-headset"></i> 운영자 문의
                             </a>
                         </div>
@@ -4749,7 +4847,7 @@
                                 </div>
                                 <p id="launcher-access-message" class="mt-1 text-xs leading-relaxed text-gray-400"></p>
                                 <button id="launcher-download-button" type="button" onclick="openLauncherDownloadGuide()"
-                                    class="mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-600 hover:border-brand text-sm font-bold text-white transition-colors">
+                                    class="liquid-btn-smoke mt-4 w-full h-10 px-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-600 hover:border-brand text-sm font-bold text-white transition-colors">
                                     <i id="launcher-download-icon" class="fa-solid fa-download"></i>
                                     <span id="launcher-download-label" aria-live="polite">런처 다운로드</span>
                                 </button>
@@ -4804,7 +4902,7 @@
                                     </div>
                                 </div>
                                 <a href="https://aka.ms/getPowertoys" target="_blank" rel="noopener noreferrer"
-                                    class="mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-blue-800/60 hover:border-blue-500 text-xs font-bold text-blue-300 hover:text-blue-200 transition-colors">
+                                    class="liquid-btn-smoke mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-blue-800/60 hover:border-blue-500 text-xs font-bold text-blue-300 hover:text-blue-200 transition-colors">
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     공식 다운로드
                                 </a>
@@ -4827,7 +4925,7 @@
                                     </div>
                                 </div>
                                 <a href="https://memreduct.org/mem-reduct-download/" target="_blank" rel="noopener noreferrer"
-                                    class="mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-emerald-800/60 hover:border-emerald-500 text-xs font-bold text-emerald-300 hover:text-emerald-200 transition-colors">
+                                    class="liquid-btn-smoke mt-4 h-9 px-3 inline-flex items-center justify-center gap-2 rounded-md border border-emerald-800/60 hover:border-emerald-500 text-xs font-bold text-emerald-300 hover:text-emerald-200 transition-colors">
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     다운로드 안내
                                 </a>
@@ -5014,7 +5112,7 @@
 
                 <div class="px-5 py-4 border-t border-white/10 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 flex-shrink-0">
                     <button type="button" onclick="closeLauncherDownloadGuide()"
-                        class="h-10 px-5 rounded-md border border-gray-700 text-sm font-bold text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+                        class="liquid-btn-smoke h-10 px-5 rounded-md border border-gray-700 text-sm font-bold text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
                         취소
                     </button>
                     <button id="launcher-download-guide-submit" type="button" onclick="confirmLauncherDownload()" disabled
@@ -5035,12 +5133,8 @@
             <div class="pointer-events-auto relative w-full max-w-5xl overflow-hidden bg-[#0b0e11] border border-white/10 rounded-xl shadow-2xl">
                 <div class="flex items-center justify-between gap-4 px-4 sm:px-5 py-3 border-b border-white/10">
                     <h2 id="trading-video-modal-title" class="text-sm sm:text-base font-bold text-white"
-                        data-i18n="video.title">실전 트레이딩 영상</h2>
+                        data-i18n="video.title">실전 매매 영상</h2>
                     <div class="flex items-center gap-1">
-                        <a href="https://youtu.be/pZvWV3hUT-I?si=AYIi40rF-TCUtZVX" target="_blank"
-                            rel="noopener noreferrer"
-                            class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors"
-                            data-i18n="video.youtube">YouTube에서 보기</a>
                         <button id="trading-video-close" type="button" onclick="closeTradingVideoModal()" title="닫기"
                             class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
                             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -5084,166 +5178,7 @@
         </div>
     </div>
 
-    <!-- Three.js (Final: Wide & Subtle Universe) -->
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <script>
-            (function () {
-                const canvas = document.getElementById('bg3d');
-                if (!canvas || !window.THREE) return;
 
-                // --- 1. 씬 설정 ---
-                const scene = new THREE.Scene();
-                scene.fog = new THREE.FogExp2(0x0b0e11, 0.002); // 짙은 안개 유지
-
-                const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 60; // 카메라를 더 뒤로 빼서 전체적인 시야 확보
-
-                const renderer = new THREE.WebGLRenderer({
-                    canvas,
-                    antialias: true,
-                    alpha: true
-                });
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                renderer.setSize(window.innerWidth, window.innerHeight);
-
-                // --- 2. 텍스처 (High-Quality Glow) ---
-                function createPulseTexture() {
-                    const size = 64;
-                    const cvs = document.createElement('canvas');
-                    cvs.width = size;
-                    cvs.height = size;
-                    const ctx = cvs.getContext('2d');
-
-                    const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-                    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                    gradient.addColorStop(0.2, 'rgba(252, 213, 53, 0.8)');
-                    gradient.addColorStop(0.5, 'rgba(252, 213, 53, 0.1)');
-                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, size, size);
-                    return new THREE.CanvasTexture(cvs);
-                }
-                const glowTexture = createPulseTexture();
-
-
-                // --- 3. 입자 시스템 생성 (분산 배치 로직 적용) ---
-                function createParticleSystem(count, baseSize, type) {
-                    const geo = new THREE.BufferGeometry();
-                    const pos = new Float32Array(count * 3);
-                    const sizes = new Float32Array(count);
-                    const phases = new Float32Array(count);
-
-                    for (let i = 0; i < count; i++) {
-                        // [핵심 수정] 가로(X)를 세로(Y)보다 훨씬 넓게 퍼트림 (Wide Ratio)
-                        // 중앙 집중을 막기 위해 범위를 대폭 늘림
-                        const spreadX = 160;
-                        const spreadY = 90;
-                        const spreadZ = 60;
-
-                        pos[i * 3] = (Math.random() - 0.5) * spreadX;     // 가로로 넓게
-                        pos[i * 3 + 1] = (Math.random() - 0.5) * spreadY;   // 세로는 적당히
-
-                        // [핵심 수정] 너무 가까이 오지 못하게 Z축 깊이 조절
-                        // type이 'main'이면 카메라 바로 앞(-10 ~ 10 구간)은 피하도록 설정
-                        let z = (Math.random() - 0.5) * spreadZ;
-                        if (type === 'main' && z > 20) z -= 40; // 너무 앞이면 뒤로 보냄
-                        pos[i * 3 + 2] = z;
-
-                        // 크기: 아까보다 전반적으로 줄임
-                        sizes[i] = baseSize * (0.6 + Math.random() * 0.8);
-
-                        phases[i] = Math.random() * Math.PI * 2;
-                    }
-
-                    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-                    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-                    geo.setAttribute('phase', new THREE.BufferAttribute(phases, 1));
-
-                    const mat = new THREE.PointsMaterial({
-                        color: 0xFFFFFF,
-                        size: baseSize, // 셰이더용 베이스 사이즈
-                        map: glowTexture,
-                        transparent: true,
-                        opacity: 0.9,
-                        blending: THREE.AdditiveBlending,
-                        depthWrite: false,
-                        sizeAttenuation: true
-                    });
-
-                    const mesh = new THREE.Points(geo, mat);
-                    return mesh;
-                }
-
-                // --- 4. 레이어 구성 (넓고 은은하게) ---
-
-                // Layer 1: Main Stars (주요 노드)
-                // 개수는 늘리고(80), 크기는 줄임(1.8) -> 넓게 퍼진 별밭
-                const mainStars = createParticleSystem(80, 1.6, 'main');
-                scene.add(mainStars);
-
-                // Layer 2: Background Dust (배경 먼지)
-                // 아주 작고 많은 먼지들로 공간감 채움
-                const bgDust = createParticleSystem(300, 0.6, 'dust');
-                bgDust.material.opacity = 0.5; // 배경은 더 흐리게
-                scene.add(bgDust);
-
-                // Layer 3: Distant Sparks (생동감)
-                // 아주 가끔 반짝이는 작은 입자
-                const sparks = createParticleSystem(50, 0.4, 'spark');
-                scene.add(sparks);
-
-
-                // --- 5. 인터랙션 ---
-                let mouseX = 0;
-                let mouseY = 0;
-                const windowHalfX = window.innerWidth / 2;
-                const windowHalfY = window.innerHeight / 2;
-
-                document.addEventListener('mousemove', (event) => {
-                    mouseX = (event.clientX - windowHalfX) * 0.05;
-                    mouseY = (event.clientY - windowHalfY) * 0.05;
-                });
-
-                // --- 6. 애니메이션 ---
-                const clock = new THREE.Clock();
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    const time = clock.getElapsedTime();
-
-                    // 전체적인 회전 속도를 더 천천히 (차분함 유지)
-                    mainStars.rotation.y = time * 0.03;
-                    bgDust.rotation.y = -time * 0.01;
-                    sparks.rotation.y = time * 0.05;
-
-                    // 마우스 Parallax (반응은 하되 과하지 않게)
-                    const targetX = mouseX * 0.05;
-                    const targetY = -mouseY * 0.05;
-
-                    // 부드러운 감속 이동
-                    mainStars.position.x += (targetX - mainStars.position.x) * 0.03;
-                    mainStars.position.y += (targetY - mainStars.position.y) * 0.03;
-
-                    bgDust.position.x += (targetX * 0.5 - bgDust.position.x) * 0.03;
-                    bgDust.position.y += (targetY * 0.5 - bgDust.position.y) * 0.03;
-
-                    // 펄싱 효과 (깜빡임)
-                    // 너무 심하게 깜빡이지 않도록 범위 조절 (0.6 ~ 1.0)
-                    const pulse = 0.8 + Math.sin(time * 1.0) * 0.2;
-                    mainStars.material.opacity = pulse;
-
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
-            })();
-    </script>
 
     <!-- App Logic & I18n -->
     <script>
@@ -5251,6 +5186,55 @@
         let currentLang = 'ko';
 
         const translations = {
+            "overview.access": {"ko": "로그인 · 이용 권한 확인", "en": "Sign in · Check access"},
+            "overview.eyebrow": {"ko": "TRADING API · TOOLKIT", "en": "TRADING API · TOOLKIT"},
+            "overview.title": {"ko": "실전 매매를 위한 트레이딩 툴킷", "en": "Trading tools for live markets"},
+            "overview.lead": {"ko": "종목 감지, 실시간 체결내역과 호가창, 주문 실행, 멀티차트와 매매노트를 제공합니다. 필요한 도구를 선택해 함께 사용할 수 있습니다.", "en": "Symbol alerts, live trades, order books, order execution, multiple charts and trading notes. Choose the tools you need and use them together."},
+            "overview.watch": {"ko": "실전 매매 영상", "en": "Live trading video"},
+            "overview.plans": {"ko": "플랜 · 이용 안내", "en": "Plans & access"},
+            "overview.hero.caption": {"ko": "Binance Futures에 Lightning Candle을 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.", "en": "Lightning Candle alongside Binance Futures. Select an image to open the full screenshot."},
+            "overview.detector.point0": {"ko": "변동률·거래대금 기준 설정", "en": "Set price-change and trading-volume thresholds"},
+            "overview.detector.point1": {"ko": "종목 감지 팝업 알림과 감지 이력 조회", "en": "Popup alerts and detection history"},
+            "overview.detector.point2": {"ko": "미결제약정(OI)·거래대금 차트 제공", "en": "Open-interest and trading-volume charts"},
+            "overview.detector.label": {"ko": "CRYPTO DETECTOR", "en": "CRYPTO DETECTOR"},
+            "overview.detector.title": {"ko": "실시간 종목 감지", "en": "Real-time symbol alerts"},
+            "overview.detector.desc": {"ko": "설정한 변동률과 거래대금 조건에 맞는 종목을 감지합니다. 감지 목록에서 등락률·거래대금·미결제약정(OI)을 확인하고, 최근 감지 이력도 조회할 수 있습니다.", "en": "Detect symbols that meet your price-change and trading-volume criteria. View price changes, volume and open interest (OI), and review recent detections."},
+            "overview.guide": {"ko": "사용 가이드", "en": "User guide"},
+            "overview.toolkit.caption": {"ko": "주문 화면 일부입니다. 전체 구성은 이미지를 눌러 확인할 수 있습니다.", "en": "A detail of the order controls. Open the image to see the complete layout."},
+            "overview.toolkit.video1": {"ko": "실전 스캘핑 1", "en": "Live scalping 1"},
+            "overview.toolkit.video2": {"ko": "실전 스캘핑 2", "en": "Live scalping 2"},
+            "overview.toolkit.point0": {"ko": "금액 프리셋과 주문 수량 자동 계산", "en": "Amount presets and automatic order-quantity calculation"},
+            "overview.toolkit.point1": {"ko": "수동 주문과 다중 지정가 주문 지원", "en": "Manual orders and multiple limit orders"},
+            "overview.toolkit.point2": {"ko": "미체결 주문 취소·포지션 종료·스탑 주문", "en": "Cancel open orders, close positions and place stop orders"},
+            "overview.toolkit.label": {"ko": "ORDER TOOLKIT", "en": "ORDER TOOLKIT"},
+            "overview.toolkit.title": {"ko": "주문 실행과 포지션 관리", "en": "Order execution and position management"},
+            "overview.toolkit.desc": {"ko": "바이낸스 USDⓂ 선물 주문을 실행하는 데스크톱 툴킷입니다. 크롬 연동 또는 수동 모드로 사용하며, 주문 입력부터 미체결 주문 취소·포지션 종료까지 한 화면에서 처리합니다.", "en": "A desktop order-entry toolkit for Binance USDⓂ futures. Use Chrome integration or manual mode to place orders, cancel open orders and close positions in one window."},
+            "overview.trades.point0": {"ko": "거래대금 기준 체결 필터링과 대량 체결 강조", "en": "Filter trades by value and highlight large executions"},
+            "overview.trades.point1": {"ko": "순델타·대량 체결 비중·가격 반응(FLOW) 표시", "en": "Net delta, large-trade share and price reaction (FLOW)"},
+            "overview.trades.point2": {"ko": "마크가격 괴리율(선물)과 체결 강도 표시", "en": "Mark-price deviation for futures and trade intensity"},
+            "overview.trades.point3": {"ko": "강제청산 내역·누적 청산대금·팝업 및 소리 알림", "en": "Liquidation history, cumulative liquidation value, popup and sound alerts"},
+            "overview.trades.label": {"ko": "TRADES", "en": "TRADES"},
+            "overview.trades.title": {"ko": "실시간 체결내역과 보조지표", "en": "Live trades and market indicators"},
+            "overview.trades.desc": {"ko": "실시간 체결내역과 청산내역에 순델타, 마크가격 괴리율, 체결 강도 등 보조지표를 함께 표시합니다. 매수·매도 우세와 실제 가격 반응을 비교하고, 현재 체결가와 마크가격의 차이를 확인할 수 있습니다.", "en": "View live trades and liquidations alongside net delta, mark-price deviation and trade intensity. Compare buy/sell pressure with price reaction, and check the difference between the last traded price and mark price."},
+            "overview.orderbook.caption": {"ko": "현재가 주변을 확대한 화면입니다. 전체 호가창도 열어볼 수 있습니다.", "en": "A closer view around the current price. Open the image to see the full depth window."},
+            "overview.orderbook.point0": {"ko": "가격별 호가 잔량과 대량 주문 표시", "en": "Depth at each price level and large-order markers"},
+            "overview.orderbook.point1": {"ko": "호가 모아보기와 USDT 금액 환산", "en": "Price-level aggregation and USDT values"},
+            "overview.orderbook.point2": {"ko": "호가 클릭 시 Order Toolkit 주문 가격 연동", "en": "Click a price to use it in Order Toolkit"},
+            "overview.orderbook.label": {"ko": "ORDER BOOK", "en": "ORDER BOOK"},
+            "overview.orderbook.title": {"ko": "실시간 호가와 매수·매도 잔량", "en": "Live order book and bid/ask depth"},
+            "overview.orderbook.desc": {"ko": "가격별 매수·매도 호가 잔량을 실시간으로 표시합니다. 호가를 원하는 단위로 모아 보고, 잔량을 USDT 금액으로 환산해 확인할 수 있습니다.", "en": "View bid and ask sizes at each price in real time. Group price levels by the selected interval and display order sizes in USDT."},
+            "overview.extensions.video": {"ko": "확장 기능 시연", "en": "Extension demo"},
+            "overview.extensions.point0": {"ko": "주문 수량 계산과 주문·취소 기능 제공", "en": "Order-quantity calculation, order entry and cancellation"},
+            "overview.extensions.point1": {"ko": "Lightning Candle 멀티차트 제공", "en": "Multiple charts with Lightning Candle"},
+            "overview.extensions.point2": {"ko": "NOTES에 종목별 매매노트와 스크린샷 저장", "en": "Save symbol-specific trading notes and screenshots in NOTES"},
+            "overview.extensions.label": {"ko": "EXTENSIONS · BINANCE MANAGER", "en": "EXTENSIONS · BINANCE MANAGER"},
+            "overview.extensions.title": {"ko": "간편주문·멀티차트·매매노트", "en": "Order shortcuts, multiple charts and trading notes"},
+            "overview.extensions.desc": {"ko": "바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, Lightning Candle 멀티차트와 종목별 매매노트를 추가합니다.", "en": "A Chrome extension for the Binance Futures website. Add order shortcuts, Lightning Candle charts and symbol-specific trading notes to the trading screen."},
+            "overview.start.title": {"ko": "사용을 시작하려면", "en": "Getting started"},
+            "overview.start.desc": {"ko": "로그인 후 이용 권한이 있는 도구의 가이드가 사이드바에 표시됩니다. Getting Started에서 실행·인증·기본 설정을 확인하고, 각 도구의 상세 사용법을 이어서 볼 수 있습니다.", "en": "After signing in, guides for the tools included in your access appear in the sidebar. Getting Started covers setup and authentication, followed by each tool’s detailed instructions."},
+            "overview.scope": {"ko": "데스크톱 도구와 Chrome 확장 기능은 지원 환경과 제공 기능이 다릅니다. 도구별 지원 거래소·설치 환경·주문 전 확인 사항은 사용 가이드에서 확인해 주세요.", "en": "Desktop tools and the Chrome extension differ in their supported environments and features. See each guide for supported markets, setup requirements and pre-order checks."},
+            "overview.back": {"ko": "소개", "en": "Overview"},
+            "overview.nav": {"ko": "소개", "en": "Overview"},
             // Brand & Header
             "brand.sub": { ko: "금융인", en: "금융인" },
             "brand.desc": { ko: "BUILT FOR TRADERS.", en: "BUILT FOR TRADERS." },
@@ -5297,8 +5281,7 @@
             },
             "btn.explore": { ko: "알아보기", en: "Explore" },
             "btn.telegram": { ko: "텔레그램", en: "Telegram" },
-            "video.title": { ko: "실전 트레이딩 영상", en: "Live Trading Video" },
-            "video.youtube": { ko: "YouTube에서 보기", en: "Watch on YouTube" },
+            "video.title": { ko: "실전 매매 영상", en: "Live trading video" },
 
             // Grid Items
             "grid.tele.title": { ko: "공식 텔레그램 채널", en: "Official Telegram" },
@@ -6152,7 +6135,9 @@
         }
 
         function getRouteTargetFromHash() {
-            const rawHash = decodeURIComponent((window.location.hash || '').replace(/^#/, '').trim());
+            let rawHash;
+            try { rawHash = decodeURIComponent((window.location.hash || '').replace(/^#/, '').trim()); }
+            catch (error) { return { sectionId: DEFAULT_SECTION_ID, anchorId: '' }; }
             const normalizedHash = SECTION_HASH_ALIASES[rawHash] || rawHash;
 
             if (!rawHash) {
@@ -6178,7 +6163,7 @@
 
         function syncSectionFromHash() {
             const { sectionId, anchorId } = getRouteTargetFromHash();
-            activate(sectionId, { syncHash: false, scrollTop: !anchorId });
+            if (activate(sectionId, { syncHash: false, scrollTop: !anchorId }) === false) return;
 
             const canonicalHash = getCanonicalHash(sectionId);
             if (!anchorId) {
@@ -6212,6 +6197,11 @@
             const sectionId = targetSection && targetSection.classList.contains('guide-section')
                 ? id
                 : DEFAULT_SECTION_ID;
+            if (targetSection?.dataset.guideSection && !window.canViewToolkitGuide?.(sectionId)) {
+                if (window.blockToolkitGuideRoute) blockToolkitGuideRoute(sectionId);
+                else activate('overview');
+                return false;
+            }
             const canonicalHash = getCanonicalHash(sectionId);
 
             if (syncHash) {
@@ -6237,12 +6227,11 @@
             // 2. Sidebar Active State
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const isActive = btn.dataset.id === sectionId;
+                btn.classList.toggle('active', isActive);
                 if (isActive) {
-                    btn.classList.add('bg-white/10', 'text-white', 'border-l-4', 'border-brand');
-                    btn.classList.remove('text-gray-300', 'border-l-0');
+                    btn.setAttribute('aria-current', 'page');
                 } else {
-                    btn.classList.remove('bg-white/10', 'text-white', 'border-l-4', 'border-brand');
-                    btn.classList.add('text-gray-300', 'border-l-0');
+                    btn.removeAttribute('aria-current');
                 }
             });
 
@@ -6265,6 +6254,7 @@
 
             // 4. Mobile handling
             toggleMobileMenu(false);
+            if (!document.getElementById('member-modal')?.classList.contains('hidden')) document.body.style.overflow = 'hidden';
             if (scrollTop) {
                 window.scrollTo(0, 0);
             }
@@ -6350,7 +6340,8 @@
                     return;
                 }
 
-                const hits = searchable.filter(item => item.text.toLowerCase().includes(query)).slice(0, 5);
+                const hits = searchable.filter(item => !document.getElementById(item.id)?.dataset.guideSection || window.canViewToolkitGuide?.(item.id))
+                    .filter(item => item.text.toLowerCase().includes(query)).slice(0, 5);
 
                 if (hits.length > 0) {
                     resultBox.classList.remove('hidden');
@@ -6705,11 +6696,13 @@
         function cacheMemberProfile(profile) {
             memberState.profile = profile;
             memberState.profileLoadedAt = Date.now();
+            window.acceptToolkitGuideProfile?.();
         }
 
         function clearMemberProfileCache() {
             memberState.profile = null;
             memberState.profileLoadedAt = 0;
+            window.resetToolkitGuideAccess?.();
         }
 
         function memberProfileCacheIsFresh() {
@@ -6792,7 +6785,7 @@
                 throw new Error('member_api_unavailable');
             }
             const result = await response.json();
-            if (memberToken() && ['invalid_session', 'account_not_found'].includes(result?.error)) {
+            if (memberToken() && payload.token === memberToken() && ['invalid_session', 'account_not_found'].includes(result?.error)) {
                 expireMemberSession(result.error);
             }
             return result;
@@ -6850,6 +6843,7 @@
         }
 
         function closeMemberModal() {
+            window.cancelPendingToolkitGuide?.();
             closeMemberTermsModal();
             document.getElementById('member-modal')?.classList.add('hidden');
             document.body.style.overflow = '';
@@ -6857,18 +6851,58 @@
             document.getElementById('member-payment-panel')?.classList.add('hidden');
         }
 
-        function openTradingVideoModal() {
+        let tradingVideoReturnFocus = null;
+        const tradingVideos = Object.freeze({
+            trading: { id: 'pZvWV3hUT-I', titleKey: 'video.title' },
+            scalping1: { id: 'visBmiZRDXU', titleKey: 'overview.toolkit.video1' },
+            scalping2: { id: 'ZcWO84Mexpo', titleKey: 'overview.toolkit.video2' },
+            extensions: { id: 'VS_cTJY7ZXI', titleKey: 'overview.extensions.video' }
+        });
+
+        // Handle video links centrally, including links rebuilt by translation updates.
+        function youtubeVideoId(href) {
+            try {
+                const url = new URL(href, window.location.href);
+                if (!['https:', 'http:'].includes(url.protocol)) return null;
+                const host = url.hostname.toLowerCase();
+                let id = null;
+                if (host === 'youtu.be') id = url.pathname.split('/')[1];
+                else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtube-nocookie.com', 'www.youtube-nocookie.com'].includes(host)) {
+                    const parts = url.pathname.split('/');
+                    if (url.pathname === '/watch') id = url.searchParams.get('v');
+                    else if (['embed', 'shorts', 'live'].includes(parts[1])) id = parts[2];
+                }
+                return /^[A-Za-z0-9_-]{11}$/.test(id || '') ? id : null;
+            } catch { return null; }
+        }
+
+        document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href]');
+            if (!link || event.defaultPrevented) return;
+            const id = youtubeVideoId(link.href);
+            if (!id) return;
+            event.preventDefault();
+            const preset = Object.keys(tradingVideos).find(key => tradingVideos[key].id === id);
+            openTradingVideoModal(preset || id);
+        });
+
+        function openTradingVideoModal(videoKey = 'trading') {
+            const video = Object.hasOwn(tradingVideos, videoKey) ? tradingVideos[videoKey]
+                : (/^[A-Za-z0-9_-]{11}$/.test(videoKey) ? { id: videoKey, titleKey: 'video.title' } : null);
             const modal = document.getElementById('trading-video-modal');
             const frame = document.getElementById('trading-video-frame');
-            if (!modal || !frame) return;
+            const title = document.getElementById('trading-video-modal-title');
+            if (!video || !modal || !frame || !title) return;
 
-            if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') {
-                window.open('https://youtu.be/pZvWV3hUT-I?si=AYIi40rF-TCUtZVX', '_blank', 'noopener,noreferrer');
-                return;
+            tradingVideoReturnFocus = document.activeElement;
+            title.dataset.i18n = video.titleKey;
+            title.textContent = translations[video.titleKey][currentLang];
+            frame.title = title.textContent;
+            const params = new URLSearchParams({ autoplay: '1', playsinline: '1', rel: '0' });
+            if (['http:', 'https:'].includes(window.location.protocol)) {
+                params.set('origin', window.location.origin);
             }
-
-            const siteOrigin = encodeURIComponent(window.location.origin);
-            frame.src = `https://www.youtube-nocookie.com/embed/pZvWV3hUT-I?autoplay=1&playsinline=1&rel=0&origin=${siteOrigin}`;
+            frame.src = `https://www.youtube-nocookie.com/embed/${video.id}?${params}`;
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             setTimeout(() => document.getElementById('trading-video-close')?.focus(), 0);
@@ -6882,7 +6916,8 @@
             if (document.getElementById('member-modal')?.classList.contains('hidden')) {
                 document.body.style.overflow = '';
             }
-            document.getElementById('trading-video-trigger')?.focus();
+            if (tradingVideoReturnFocus?.isConnected) tradingVideoReturnFocus.focus({ preventScroll: true });
+            tradingVideoReturnFocus = null;
         }
 
         function openMemberTermsModal() {
@@ -6925,6 +6960,7 @@
             if (title) {
                 title.textContent = view === 'profile' ? '마이페이지' : '회원 관리';
             }
+            if (view === 'profile') window.resumePendingToolkitGuide?.();
         }
 
         function setMemberAuthTab(tab) {
@@ -6935,11 +6971,10 @@
 
             const registerTab = document.getElementById('member-tab-register');
             const loginTab = document.getElementById('member-tab-login');
-            [registerTab, loginTab].forEach(button => {
-                button?.classList.remove('bg-brand', 'text-black', 'text-gray-400');
-            });
-            registerTab?.classList.add(...(isRegister ? ['bg-brand', 'text-black'] : ['text-gray-400']));
-            loginTab?.classList.add(...(!isRegister ? ['bg-brand', 'text-black'] : ['text-gray-400']));
+            registerTab?.setAttribute('aria-pressed', String(isRegister));
+            loginTab?.setAttribute('aria-pressed', String(!isRegister));
+            registerTab?.classList.toggle('liquid-btn-smoke', isRegister);
+            loginTab?.classList.toggle('liquid-btn-smoke', !isRegister);
             setMemberMessage('auth', '', 'info');
         }
 
@@ -7246,7 +7281,7 @@
 
                 const approve = document.createElement('button');
                 approve.type = 'button';
-                approve.className = 'flex-shrink-0 h-9 px-3 border border-brand/50 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors';
+                approve.className = 'liquid-btn-smoke flex-shrink-0 h-9 px-3 border border-brand/50 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors';
                 approve.textContent = request.status === 'PROCESSING' ? '승인 재개' : '승인';
                 approve.addEventListener('click', () => selectAdminRequest(request.id));
                 card.append(info, approve);
@@ -7367,8 +7402,10 @@
             document.getElementById('member-admin-users-view').classList.toggle('hidden', !isUsers);
             const requestsTab = document.getElementById('member-admin-tab-requests');
             const usersTab = document.getElementById('member-admin-tab-users');
-            requestsTab.className = `h-10 text-xs font-bold ${isUsers ? 'text-gray-400 hover:text-white' : 'bg-brand text-black'}`;
-            usersTab.className = `h-10 text-xs font-bold border-l border-gray-700 ${isUsers ? 'bg-brand text-black' : 'text-gray-400 hover:text-white'}`;
+            requestsTab.className = `h-10 text-xs font-bold ${isUsers ? 'text-gray-400 hover:text-white' : 'liquid-btn-smoke'}`;
+            requestsTab.setAttribute('aria-pressed', String(!isUsers));
+            usersTab.className = `h-10 text-xs font-bold ${isUsers ? 'liquid-btn-smoke' : 'text-gray-400 hover:text-white'}`;
+            usersTab.setAttribute('aria-pressed', String(isUsers));
             if (isUsers) loadAdminUsers();
             else loadAdminRequests();
         }
@@ -7460,7 +7497,7 @@
                 const edit = document.createElement('button');
                 edit.type = 'button';
                 edit.title = '사용자 편집';
-                edit.className = 'flex-shrink-0 w-9 h-9 border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand';
+                edit.className = 'liquid-btn-smoke flex-shrink-0 w-9 h-9 border border-gray-700 hover:border-brand rounded-md text-gray-400 hover:text-brand';
                 edit.innerHTML = '<i class="fa-solid fa-pen"></i>';
                 edit.addEventListener('click', () => selectAdminUser(user.id));
                 row.append(info, edit);
@@ -8020,6 +8057,7 @@
         }
 
         async function logoutMember() {
+            window.cancelPendingToolkitGuide?.();
             const token = memberToken();
             resetMemberSessionState();
             storeMemberToken('');
@@ -8032,6 +8070,7 @@
         }
 
         function expireMemberSession(errorCode = 'invalid_session') {
+            window.cancelPendingToolkitGuide?.();
             resetMemberSessionState();
             storeMemberToken('');
             showMemberView('auth');
@@ -8098,6 +8137,7 @@
             updateMemberConsentState();
         });
     </script>
+    <script src="./assets/guide-access.js"></script>
 </body>
 
 </html>
