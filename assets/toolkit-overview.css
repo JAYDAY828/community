@@ -80,8 +80,8 @@
 #member-modal :is(#member-tab-register, #member-tab-login, #member-admin-tab-requests, #member-admin-tab-users, [id^="member-admin-expiration-mode-"]) { border-radius: 8px; font-weight: 500; }
 #member-modal :is(#member-auth-view > div:first-child, #member-admin-panel > div:first-child, [role="group"][aria-label="만료 유형"]) { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,.075); border-radius: 12px; background: rgba(6,9,14,.25); box-shadow: inset 0 1px 4px rgba(0,0,0,.12); }
 #member-modal :is(.liquid-btn-smoke, .liquid-btn-yellow, .liquid-btn-white) { border-radius: 9px; }
-:is(#member-auth-view, #member-admin-user-editor) :is(button, a, input[type="checkbox"]):focus-visible { outline: 2px solid rgba(225,225,225,.7); outline-offset: 3px; }
-#member-auth-view .liquid-btn-white, #member-admin-user-save {
+:is(#member-modal, #download-center-modal, #launcher-download-guide-modal, #powertoys-example-modal, #memreduct-example-modal) :is(button, a, input[type="checkbox"]):focus-visible { outline: 2px solid rgba(225,225,225,.7); outline-offset: 3px; }
+#member-auth-view .liquid-btn-white, #member-admin-user-save, #member-subscription-submit, #launcher-download-guide-submit {
     --control-top: rgba(255,255,255,.82);
     --control-middle: rgba(242,242,242,.6);
     --control-bottom: rgba(250,250,250,.72);
@@ -91,6 +91,12 @@
 #member-auth-view [data-i18n="member.register.terms.open"] { color: #d8d8d8; }
 #member-auth-view [data-i18n="member.register.terms.open"]:hover { color: #fff; }
 #member-register-consent { accent-color: #d5d5d5; }
+#launcher-download-guide-confirm { accent-color: #d5d5d5; }
+#download-center-modal :is(section.border, article) { border-color: rgba(255,255,255,.09); border-top-color: rgba(255,255,255,.15); border-radius: 11px; background: linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.01)); box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
+#download-center-modal .liquid-btn-smoke { border-radius: 9px; }
+#download-center-modal .bg-yellow-950\/20 { background: rgba(255,255,255,.035); border-color: rgba(255,255,255,.12); color: #d8d8d8; }
+#member-payment-panel button[onclick^="copyMemberValue"] { color: #c7c7c7; }
+#member-payment-panel button[onclick^="copyMemberValue"]:hover { color: #fff; }
 #member-modal button[aria-pressed="true"]:hover { transform: none; }
 #member-profile-view > div:first-child { border-bottom: 0; padding-bottom: 12px; }
 #member-profile-view > .grid { padding: 0 24px 22px; gap: 8px; border-bottom-color: rgba(255,255,255,.065); }
