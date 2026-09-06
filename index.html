@@ -4696,7 +4696,7 @@
                                         <input id="member-admin-user-serial" type="password" autocomplete="current-password" required
                                             class="w-full h-11 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-sm font-mono text-white focus:outline-none focus:border-brand">
                                     </div>
-                                    <button id="member-admin-user-save" type="submit" class="liquid-btn-yellow w-full h-10 rounded-md text-xs font-extrabold">변경사항 저장</button>
+                                    <button id="member-admin-user-save" type="submit" class="liquid-btn-white w-full h-10 rounded-md text-xs font-extrabold">변경사항 저장</button>
                                 </form>
                             </div>
                         </div>
@@ -7651,8 +7651,7 @@
             modes.forEach(item => {
                 const button = document.getElementById(`member-admin-expiration-mode-${item}`);
                 const active = item === mode;
-                button.classList.toggle('bg-brand', active);
-                button.classList.toggle('text-black', active);
+                button.classList.toggle('liquid-btn-smoke', active);
                 button.classList.toggle('text-gray-400', !active);
                 button.setAttribute('aria-pressed', String(active));
             });
