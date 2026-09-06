@@ -124,10 +124,11 @@
 .member-user-memo { margin-top: 3px; font-size: 12px; line-height: 1.6; color: #8e8e8e; overflow-wrap: anywhere; }
 @media (max-width: 600px) { #member-profile-view > .grid { padding: 0 20px 18px; } }
 @media (prefers-reduced-motion: reduce) { .site-search-input, #member-modal :is(input, select, textarea) { transition: none; } }
-.guide-section[data-guide-section] > .glass-panel { background: rgba(21,21,21,.7); box-shadow: none; }
-.guide-section[data-guide-section] > .glass-panel:hover { transform: none; border-color: rgba(255,255,255,.06); }
-.guide-section[data-guide-section] div.liquid-card { box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
-.guide-section[data-guide-section] div.liquid-card:hover { transform: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
+/* Guides and public information sections share the same surface and hover rules. */
+:is(.guide-section[data-guide-section], #links, #sponsorship, #terms, #faq) > .glass-panel { background: rgba(21,21,21,.7); box-shadow: none; }
+:is(.guide-section[data-guide-section], #links, #sponsorship, #terms, #faq) > .glass-panel:hover { transform: none; border-color: rgba(255,255,255,.06); }
+:is(.guide-section[data-guide-section] div.liquid-card, :is(#links, #sponsorship, #terms, #faq) .liquid-card) { box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
+:is(.guide-section[data-guide-section] div.liquid-card, :is(#links, #sponsorship, #terms, #faq) .liquid-card):hover { transform: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
 .guide-section[data-guide-section] h2[class*="border-l-4"] { border-left-width: 2px; border-left-color: #68737e; }
 .guide-section[data-guide-section] .guide-return { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; color: #aab3bf; font-size: 12px; }
 .guide-return:hover { color: #e8d495; }
