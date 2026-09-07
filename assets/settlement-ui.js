@@ -16,7 +16,7 @@
     <div class="settlement-toolbar"><label>연도 <select id="settlement-year"></select></label><label id="settlement-month-label">월 <select id="settlement-month"></select></label><button id="settlement-export" class="liquid-btn-smoke" type="button" disabled>Excel 내보내기</button></div>
     <div id="settlement-modes" class="settlement-modes" role="group" aria-label="정산 조회 방식"><button data-mode="calendar" type="button">캘린더</button><button data-mode="monthly" type="button">월간</button><button data-mode="annual" type="button">연간</button></div>
     <p id="settlement-message" role="status" class="settlement-help"></p><div id="settlement-summary" class="settlement-summary"></div>
-    <div id="settlement-calendar" class="settlement-calendar"></div><div id="settlement-breakdown"></div><div id="settlement-list"></div>
+    <section id="settlement-calendar-panel" class="settlement-calendar-panel"><div class="settlement-toolbar"><h4 id="settlement-calendar-title"></h4><span class="settlement-help">일별 순수납 · USDT</span></div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">날짜를 누르면 해당일 내역을 확인할 수 있습니다.</p></section><div id="settlement-breakdown"></div><div id="settlement-list"></div>
     <details id="settlement-exceptions"><summary>미확인·무상 기록</summary><p class="settlement-help">선택 연도 승인 기록 및 승인일 미확인 기록입니다. 월 필터와 별도로 표시하며 합계에 포함하지 않습니다.</p><div id="settlement-exception-list"></div></details>
     <form id="settlement-adjust" hidden class="settlement-adjust"><h4 id="settlement-adjust-title"></h4><p class="settlement-help">실제 송금 기능이 아닙니다. 이미 처리한 환불이나 증빙에 따른 정정만 기록하세요.</p>
     <label>기록 유형<select id="settlement-kind"><option value="refund">환불 기록</option><option value="refund_reversal">환불 기록 정정 (+)</option><option value="receipt_date">과거 입금일 보완</option></select></label>
@@ -46,7 +46,8 @@
   function table(headers,rows){const wrap=el('div',undefined,'settlement-table-wrap'),t=el('table');const head=el('tr');headers.forEach(v=>head.append(el('th',v)));const thead=el('thead');thead.append(head);t.append(thead);const body=el('tbody');rows.forEach(row=>{const tr=el('tr');row.forEach(v=>tr.append(el('td',v)));body.append(tr);});t.append(body);wrap.append(t);return wrap;}
   function render(){
     if(!host)return;for(const id of ['summary','calendar','breakdown','list','exception-list'])$(id).replaceChildren();
-    $('month-label').hidden=mode==='annual';$('calendar').hidden=mode!=='calendar';$('export').disabled=!report;
+    $('month-label').hidden=mode==='annual';$('calendar-panel').hidden=mode!=='calendar';$('export').disabled=!report;
+    $('calendar-title').textContent=`${year}년 ${month}월`;
     $('export').textContent=mode==='annual'?'연간 Excel 내보내기':'월간 Excel 내보내기';
     host.querySelectorAll('[data-mode]').forEach(b=>{const on=b.dataset.mode===mode;b.className=on?'liquid-btn-smoke':'';b.setAttribute('aria-pressed',String(on));});
     if(!report)return;
@@ -56,18 +57,29 @@
       if(mode==='calendar'){
         for(const name of ['일','월','화','수','목','금','토'])$('calendar').append(el('span',name,'settlement-weekday'));
         const offset=new Date(Date.UTC(year,month-1,1)).getUTCDay(),days=new Date(Date.UTC(year,month,0)).getUTCDate();
-        for(let i=0;i<offset;i++)$('calendar').append(el('span'));
-        for(let d=1;d<=days;d++){const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,items=events.filter(e=>e.day===date),sum=C.total(items),b=el('button');b.type='button';b.setAttribute('aria-label',`${date}, ${items.length}건, 순수납 ${sum.net} USDT`);b.setAttribute('aria-pressed',String(day===date));b.append(el('span',String(d)));if(items.length){b.append(el('strong',sum.net),el('small',`${items.length}건`));}b.onclick=()=>{day=day===date?'':date;render();};$('calendar').append(b);}
+        for(let i=0;i<offset;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
+        const today=new Date(Date.now()+9*3600000).toISOString().slice(0,10);
+        for(let d=1;d<=days;d++){const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,items=events.filter(e=>e.day===date),sum=C.total(items),b=el('button');b.type='button';b.setAttribute('aria-label',`${date}, ${items.length}건, 순수납 ${sum.net} USDT`);b.setAttribute('aria-pressed',String(day===date));if(date===today)b.setAttribute('aria-current','date');b.append(el('span',String(d)));if(items.length){b.classList.add('has-transactions');b.append(el('strong',sum.net),el('small',`${items.length}건`));}b.onclick=()=>{day=day===date?'':date;render();};$('calendar').append(b);}
+        for(let i=0;i<(7-(offset+days)%7)%7;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
       } else if(mode==='annual'){
         const rows=[];for(let m=1;m<=12;m++){const s=C.total(C.selected(report,m));rows.push([`${m}월`,s.paid,s.refund,s.reversal,s.net,String(s.count)]);}$('breakdown').append(table(['월','입금','환불','정정','순수납','건수'],rows));
       }
-      const plans=[...new Set(events.map(e=>e.plan))];if(plans.length)$('breakdown').append(table(['플랜','입금 USDT','순수납 USDT','결제 건수'],plans.map(p=>{const s=C.total(events.filter(e=>e.plan===p));return [plan(p),s.paid,s.net,String(s.count)];})));
+      const plans=[...new Set(events.map(e=>e.plan))];$('breakdown').append(el('h4','플랜별 정산'),table(['플랜','입금 USDT','순수납 USDT','결제 건수'],plans.length?plans.map(p=>{const s=C.total(events.filter(e=>e.plan===p));return [plan(p),s.paid,s.net,String(s.count)];}):[['해당 기간 내역 없음','—','—','0']]));
       $('list').append(el('h4',day?`${day} 상세 내역`:'결제 상세'));
       const shown=events.filter(e=>!day||e.day===day).sort((a,b)=>b.occurredAt.localeCompare(a.occurredAt));
-      if(!shown.length)$('list').append(el('p','해당 기간의 확인된 거래가 없습니다.','settlement-help'));
+      const transactions=table(['거래일 (KST)','유저 · 플랜','유형','금액 USDT','상세'],[]);
+      transactions.classList.add('settlement-transactions');$('list').append(transactions);const rows=transactions.querySelector('tbody');
+      if(!shown.length){const row=el('tr'),cell=el('td','해당 기간의 확인된 거래가 없습니다.','settlement-empty');cell.colSpan=5;row.append(cell);rows.append(row);}
       // Render in batches so long years do not freeze the member dialog.
       let count=0;const more=el('button','더 보기','liquid-btn-smoke');more.type='button';
-      const append=()=>{for(const r of shown.slice(count,count+100))$('list').insertBefore(recordCard(r),more);count+=100;more.hidden=count>=shown.length;};
+      const append=()=>{for(const r of shown.slice(count,count+100)){
+        const row=el('tr'),who=el('td'),date=el('td',C.kst(r.occurredAt).slice(0,16));who.append(el('strong',r.username),el('small',`${plan(r.plan)} · ${C.period(r.months)}`));
+        const kind=el('td');kind.append(el('span',C.labels[r.eventType],`settlement-event settlement-event--${r.eventType}`));
+        const action=el('td'),button=el('button','보기');button.type='button';button.setAttribute('aria-expanded','false');button.setAttribute('aria-label',`${r.username} 거래 상세 보기`);action.append(button);
+        const detailRow=el('tr'),detailCell=el('td');detailRow.hidden=true;detailCell.colSpan=5;detailCell.append(recordCard(r));detailRow.append(detailCell);
+        button.onclick=()=>{detailRow.hidden=!detailRow.hidden;button.setAttribute('aria-expanded',String(!detailRow.hidden));};
+        row.append(date,who,kind,el('td',r.amount,'settlement-number'),action);rows.append(row,detailRow);
+      }count+=100;more.hidden=count>=shown.length;};
       $('list').append(more);more.onclick=append;append();
       $('exceptions').querySelector('summary').textContent=`미확인·무상 기록 (${report.exceptions.length}건)`;
       let exCount=0;const exMore=el('button','더 보기','liquid-btn-smoke');exMore.type='button';const appendEx=()=>{for(const r of report.exceptions.slice(exCount,exCount+100))$('exception-list').insertBefore(recordCard(r,true),exMore);exCount+=100;exMore.hidden=exCount>=report.exceptions.length;};$('exception-list').append(exMore);exMore.onclick=appendEx;appendEx();

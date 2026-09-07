@@ -792,6 +792,93 @@
         }
     </style>
     <link rel="stylesheet" href="./assets/toolkit-overview.css">
+    <style id="settlement-styles">
+#member-admin-settlement-view { font-size: 12px; }
+#member-admin-tab-settlement { border-radius: 8px; }
+.settlement-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.settlement-toolbar label { display:flex; align-items:center; gap:6px; }
+#member-admin-settlement-view button { padding:7px 10px; border-radius:8px; }
+#member-admin-settlement-view select, #member-admin-settlement-view input { padding:7px 9px; min-width:0; }
+.settlement-help { color:#999; font-size:11px; line-height:1.65; }
+.settlement-modes { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; background:rgba(0,0,0,.2); border:1px solid #292929; border-radius:10px; }
+.settlement-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.settlement-summary > div, .settlement-record, .settlement-adjust { padding:12px; border:1px solid #303030; border-radius:10px; background:linear-gradient(145deg,#ffffff08,transparent); }
+.settlement-summary span { display:block; color:#999; font-size:11px; }
+.settlement-summary strong { display:block; color:#e2cc82; font-size:15px; overflow-wrap:anywhere; }
+.settlement-calendar { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; }
+.settlement-calendar[hidden], .settlement-adjust[hidden] { display:none; }
+.settlement-weekday { text-align:center; color:#888; }
+#member-admin-settlement-view .settlement-calendar button { padding:5px 2px; min-height:64px; border:1px solid #282828; background:#ffffff03; text-align:center; font-size:11px; }
+.settlement-calendar button strong, .settlement-calendar button small { display:block; overflow-wrap:anywhere; font-size:10px; font-variant-numeric:tabular-nums; }
+.settlement-calendar button[aria-pressed="true"] { border-color:#a0a0a0 !important; background:#ffffff0d !important; }
+.settlement-table-wrap { max-width:100%; overflow-x:auto; margin:12px 0; }
+.settlement-table-wrap table { width:100%; border-collapse:collapse; white-space:nowrap; }
+.settlement-table-wrap :is(th,td) { padding:8px; border-bottom:1px solid #303030; text-align:right; }
+.settlement-table-wrap :is(th,td):first-child { text-align:left; }
+.settlement-record { margin-top:8px; overflow-wrap:anywhere; }
+.settlement-record p { margin-top:3px; }
+.settlement-record details, #settlement-exceptions { margin-top:8px; color:#aaa; }
+.settlement-record summary, #settlement-exceptions > summary { cursor:pointer; }
+.settlement-record > button { margin-top:8px; }
+.settlement-amount { color:#e2cc82; }
+.settlement-adjust { display:grid; gap:10px; }
+.settlement-adjust label { display:grid; gap:4px; }
+#member-admin-settlement-view [hidden] { display:none !important; }
+.settlement-adjust textarea { min-height:70px; padding:8px; }
+/* Keep settlement layout with the page, independent of the overview stylesheet cache. */
+#member-admin-settlement-view { font-size:12px; color:#c8c8c8; line-height:1.6; min-width:0; }
+#member-admin-settlement-view h4 { color:#ededed; font-size:14px; font-weight:600; }
+#member-admin-settlement-view .settlement-toolbar { gap:12px; }
+#member-admin-settlement-view > .settlement-toolbar:nth-of-type(2) { padding:12px; border:1px solid #292929; border-radius:12px; background:#ffffff03; }
+#member-admin-settlement-view button { min-height:34px; font:inherit; cursor:pointer; transition:background .18s,border-color .18s; }
+#member-admin-settlement-view button:hover { background-color:#ffffff09; }
+#member-admin-settlement-view button:focus-visible { outline:2px solid #a9a9a9; outline-offset:2px; }
+#member-admin-settlement-view button:disabled { cursor:wait; opacity:.5; }
+#member-admin-settlement-view :is(select,input,textarea) { border:1px solid #333; border-radius:8px; background:#111; color:#ddd; font:inherit; }
+#member-admin-settlement-view .settlement-modes button { color:#a5a5a5; }
+#member-admin-settlement-view .settlement-modes button[aria-pressed="true"] { color:#fff; }
+#member-admin-settlement-view .settlement-summary { gap:10px; }
+#member-admin-settlement-view .settlement-summary > div { padding:14px 16px; }
+#member-admin-settlement-view .settlement-summary strong { color:#e7e7e7; font-size:19px; margin-top:4px; font-variant-numeric:tabular-nums; }
+#member-admin-settlement-view .settlement-summary > div:nth-child(4) { grid-column:1/-1; order:-1; display:flex; align-items:center; justify-content:space-between; border-color:#434036; background:linear-gradient(120deg,#b5a5770b,transparent); }
+#member-admin-settlement-view .settlement-summary > div:nth-child(4) strong { color:#e2cc82; font-size:24px; margin:0; }
+.settlement-calendar-panel { border:1px solid #303030; border-radius:12px; overflow:hidden; background:#ffffff02; }
+.settlement-calendar-panel > .settlement-toolbar { padding:14px; }
+.settlement-calendar-panel > p { padding:10px 14px; }
+#member-admin-settlement-view .settlement-calendar { gap:1px; background:#292929; border-top:1px solid #292929; border-bottom:1px solid #292929; }
+.settlement-calendar .settlement-weekday { background:#141414; padding:8px 2px; font-size:11px; }
+.settlement-calendar .settlement-weekday:first-child { color:#bb9090; }
+.settlement-calendar .settlement-calendar-blank { background:#111; }
+#member-admin-settlement-view .settlement-calendar button { min-height:76px; border:0; border-radius:0; background:#161616; padding:7px 4px; text-align:left; display:flex; flex-direction:column; align-items:flex-start; }
+#member-admin-settlement-view .settlement-calendar button > span { display:inline-flex; justify-content:center; align-items:center; width:22px; height:22px; border-radius:50%; }
+#member-admin-settlement-view .settlement-calendar button[aria-current="date"] > span { background:#d5d5d5; color:#111; }
+#member-admin-settlement-view .settlement-calendar button strong { color:#dfcc90; margin-top:5px; font-size:12px; }
+#member-admin-settlement-view .settlement-calendar button small { color:#969696; }
+#member-admin-settlement-view .settlement-calendar button[aria-pressed="true"] { box-shadow:inset 0 0 0 1px #969696; background:#252525 !important; }
+#member-admin-settlement-view .settlement-table-wrap { border:1px solid #303030; border-radius:10px; background:#ffffff02; }
+#member-admin-settlement-view .settlement-table-wrap :is(th,td) { padding:11px 12px; vertical-align:middle; }
+#member-admin-settlement-view .settlement-table-wrap th { background:#ffffff05; color:#999; font-size:11px; font-weight:500; }
+#member-admin-settlement-view .settlement-table-wrap tbody tr:last-child > td { border-bottom:0; }
+#member-admin-settlement-view .settlement-transactions td:nth-child(2) { text-align:left; min-width:130px; white-space:normal; overflow-wrap:anywhere; max-width:220px; }
+.settlement-transactions small { display:block; color:#888; font-size:10px; }
+.settlement-number { font-variant-numeric:tabular-nums; color:#e6d59b; }
+.settlement-event { display:inline-block; padding:2px 6px; border-radius:5px; background:#ffffff07; color:#bfbfbf; font-size:11px; }
+.settlement-event--receipt { background:#76b69912; color:#8ac4a7; }
+.settlement-event--refund { background:#cf8b8b12; color:#d19b9b; }
+#member-admin-settlement-view .settlement-transactions button { min-height:28px; padding:2px 7px; border:1px solid #3b3b3b; }
+#member-admin-settlement-view .settlement-empty { text-align:center; color:#888; padding:28px 12px; }
+#settlement-exceptions { padding:14px; border:1px solid #2c2c2c; border-radius:10px; }
+#settlement-exceptions > summary { color:#b9b9b9; }
+.settlement-transactions .settlement-record { white-space:normal; text-align:left; }
+@media (max-width:600px) {
+  #member-admin-settlement-view .settlement-toolbar { gap:8px; }
+  #member-admin-settlement-view .settlement-calendar button { min-height:66px; padding:5px 2px; }
+  #member-admin-settlement-view .settlement-calendar button strong { font-size:10px; }
+  #member-admin-settlement-view .settlement-summary strong { font-size:16px; }
+  #member-admin-settlement-view .settlement-summary > div { padding:11px; }
+}
+@media (prefers-reduced-motion:reduce) { #member-admin-settlement-view button { transition:none; } }
+    </style>
 </head>
 
 <body class="antialiased selection:bg-brand selection:text-black">
@@ -8223,7 +8310,7 @@
         });
     </script>
     <script src="./assets/settlement-core.js"></script>
-    <script src="./assets/settlement-ui.js"></script>
+    <script src="./assets/settlement-ui.js?v=6.11.1"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
