@@ -40,7 +40,12 @@
     try{const result=await bridge.api('admin_settlement',{token,year:String(year)});
       if(current!==epoch||token!==bridge.token()||generation!==bridge.generation()||!permitted())return;
       if(!result.ok)throw Error(result.error==='unknown_action'?'Apps Script에 정산 패치를 배포한 뒤 다시 조회해 주세요.':`정산 조회 실패: ${result.error}`);
-      C.total(result.events);report=result;for(const y of result.years)if(![...$('year').options].some(o=>o.value===y))$('year').add(new Option(y,y));render();notice(`조회 시각 ${C.kst(result.generatedAt)} · 원화 환산·세액 계산 미포함`);
+      C.total(result.events);report=result;for(const y of result.years)if(![...$('year').options].some(o=>o.value===y))$('year').add(new Option(y,y));render();
+      const unresolved=result.exceptions.filter(r=>r.kind==='receipt'&&!r.day);
+      const linked=result.recovery?.recovered?` · 기존 입금 ${result.recovery.recovered}건 연결`:'';
+      const undatedAmount=C.amount(unresolved.reduce((sum,r)=>sum+C.units(r.amount),0));
+      notice(`조회 시각 ${C.kst(result.generatedAt)}${linked}${unresolved.length?` · 입금 확인 ${unresolved.length}건 (${undatedAmount} USDT)은 입금일 미확인으로 합계에서 제외되었습니다. 아래 기록에서 확인해 주세요.`:''}${result.recovery?.pending?` · 다음 조회에서 연결할 기록 ${result.recovery.pending}건`:''}`);
+      if(unresolved.length)$('exceptions').open=true;
     }catch(e){if(current===epoch&&host){notice(e.message||'정산 조회에 실패했습니다.');}}
   }
   function table(headers,rows){const wrap=el('div',undefined,'settlement-table-wrap'),t=el('table');const head=el('tr');headers.forEach(v=>head.append(el('th',v)));const thead=el('thead');thead.append(head);t.append(thead);const body=el('tbody');rows.forEach(row=>{const tr=el('tr');row.forEach(v=>tr.append(el('td',v)));body.append(tr);});t.append(body);wrap.append(t);return wrap;}
