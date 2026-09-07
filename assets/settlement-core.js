@@ -65,7 +65,7 @@
   }
   function sheets(report,month,planLabel){
     const events=selected(report,month),sum=total(events),label=month?`${report.year}-${String(month).padStart(2,'0')}`:report.year;
-    const summary=[['정산 기간',label],['기준','실제 입출금일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments / SettlementHistory'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수','운영자 분배 USDT','수수료 USDT','분배·수수료 차감 후 USDT']];
+    const summary=[['정산 기간',label],['기준','입금일 / 출금 기록일 · KST · USDT (OKX 출금은 완료 상태의 요청 시각)'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments / SettlementHistory / SettlementWithdrawals'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수','운영자 분배 USDT','수수료 USDT','분배·수수료 차감 후 USDT']];
     const transfers=events.filter(e=>['distribution','owner_withdrawal'].includes(e.eventType));
     if(transfers.length || sum.fees!=='0') summary.splice(10,0,['운영자 분배 USDT',Number(sum.distribution)],['출금 수수료 USDT',Number(sum.fees)],['분배·수수료 차감 후 USDT',Number(sum.afterCosts)],['본인 인출 USDT (수납액 차감 제외)',Number(sum.ownerWithdrawals)],['집계 범위','본인 인출은 자금 이동으로 별도 표시. 차감 후 금액은 계좌 잔액이 아닙니다. 환불 수령액과 출금 수수료를 분리합니다.']);
     for(let m=1;m<=12;m++){if(month&&m!==Number(month))continue;const t=total(selected(report,m));summary.push([`${report.year}-${String(m).padStart(2,'0')}`,Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count,Number(t.distribution),Number(t.fees),Number(t.afterCosts)]);}
@@ -78,8 +78,8 @@
     for(const r of report.exceptions)exceptions.push([r.id,r.username,planLabel(r.plan),period(r.months,r.notes),r.kind==='receipt'?'입금일 미확인':labels[r.kind],r.requestedAmount===null?'':Number(r.requestedAmount),r.amount===null?'':Number(r.amount),kst(r.approvedAt),r.txid,r.depositId,(r.notes||[]).join(' / ')]);
     const audit=[['범위','선택 연도 거래 및 관련 정정 기록'],['Event ID','Request ID','Type','Amount USDT','Occurred At UTC','Evidence','Reason','Actor','Recorded At UTC']];
     for(const a of report.adjustments||[])audit.push(audit[1].map(k=>a[k]||''));
-    const result=[{name:'정산 요약',rows:summary},{name:'거래 상세',rows:detail},{name:'미확인 및 무료 이용권',rows:exceptions},{name:'환불 정정 이력',rows:audit}];
-    if(transfers.length) result.push({name:'과거 분배 및 본인 인출',rows:[['범위','선택 기간 내 실제 출금. 본인 인출은 순수납·분배 후 금액에서 차감하지 않습니다.'],['시각 KST','유형','수령인','출금 USDT','수수료 USDT','정확한 금액 원문','TXID','OKX 참조번호','증빙','메모'],...transfers.map(e=>[kst(e.occurredAt),labels[e.eventType],e.username,-Number(e.amount),Number(e.feeAmount||'0'),e.amount,e.txid,e.referenceId,e.evidence,e.reason])]});
+    const result=[{name:'정산 요약',rows:summary},{name:'거래 상세',rows:detail},{name:'미확인 및 무료 이용권',rows:exceptions},{name:'기록 및 정정 이력',rows:audit}];
+    if(transfers.length) result.push({name:'분배 및 본인 인출',rows:[['범위','선택 기간 내 실제 출금. 본인 인출은 순수납·분배 후 금액에서 차감하지 않습니다.'],['시각 KST','유형','수령인','출금 USDT','수수료 USDT','정확한 금액 원문','TXID','OKX 참조번호','증빙','메모'],...transfers.map(e=>[kst(e.occurredAt),labels[e.eventType],e.username,-Number(e.amount),Number(e.feeAmount||'0'),e.amount,e.txid,e.referenceId,e.evidence,e.reason])]});
     return result;
   }
   const xml=v=>String(v??'').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');

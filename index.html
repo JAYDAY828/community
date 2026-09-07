@@ -922,6 +922,19 @@
 .settlement-record details,.settlement-record > button { margin-top:10px; }
 .settlement-amount { color:#e2cc82; }
 .settlement-adjust { display:grid; gap:12px; }.settlement-adjust label { display:grid; gap:4px; }.settlement-adjust textarea { min-height:75px; }
+.settlement-actions { flex-wrap:wrap; }
+.settlement-withdrawals { margin:18px 0; padding:18px; border:1px solid #383838; border-radius:14px; background:linear-gradient(135deg,#191919,#101010); }
+.settlement-withdrawals[hidden],.settlement-withdrawals [hidden] { display:none!important; }
+.settlement-withdrawal-workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; margin:14px 0; align-items:start; }
+.settlement-withdrawal-workspace > div:only-child { grid-column:1/-1; }
+.settlement-withdrawal-row { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; padding:12px; border:1px solid #303030; border-radius:9px; background:#141414; text-align:left; transition:background .18s,border-color .18s; }
+.settlement-withdrawal-row:hover { background:#202020; border-color:#555; }.settlement-withdrawal-row:disabled { opacity:.55; cursor:default; }
+.settlement-withdrawal-row strong { font-size:14px; font-variant-numeric:tabular-nums; }.settlement-withdrawal-row small { display:block; color:#929292; font-size:11px; margin-top:4px; overflow-wrap:anywhere; }
+.settlement-withdrawal-items { display:grid; gap:7px; }.settlement-withdrawal-row .settlement-cashflow-tag { flex-shrink:0; }
+.settlement-withdrawals select,.settlement-withdrawals input,.settlement-withdrawals textarea { width:100%; min-width:0; box-sizing:border-box; }
+.settlement-withdrawals .settlement-toolbar { flex-wrap:wrap; justify-content:flex-start; }
+.settlement-manual-link { color:#999; font-size:12px; margin:12px; text-decoration:underline; text-underline-offset:3px; }
+@container (max-width:700px) { .settlement-withdrawal-workspace { grid-template-columns:minmax(0,1fr); }.settlement-withdrawals { padding:12px; }.settlement-withdrawals .settlement-heading { align-items:flex-start; } }
 @container (max-width:760px) {
  .settlement-workspace.is-calendar { grid-template-columns:minmax(0,1fr); }
  .settlement-transaction-header,.settlement-transaction > summary { grid-template-columns:110px minmax(0,1fr) 75px 100px 30px; gap:8px; }
@@ -8385,8 +8398,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.12.3"></script>
-    <script src="./assets/settlement-ui.js?v=6.12.3"></script>
+    <script src="./assets/settlement-core.js?v=6.13.0"></script>
+    <script src="./assets/settlement-ui.js?v=6.13.0"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
