@@ -18,12 +18,20 @@
         return Object.prototype.hasOwnProperty.call(sections, id);
     }
 
+    function normalize(value) {
+        return typeof value === 'string' ? value.trim().toLowerCase() : '';
+    }
+
     function canView(id, profile, authenticated) {
         if (!isProtected(id)) return true;
-        if (!authenticated || !profile || profile.active !== true || profile.status !== 'active') return false;
-        if (profile.grade === 'admin') return true;
-        if (!Array.isArray(profile.subscriptions)) return false;
-        return profile.subscriptions.some(plan => sections[id].includes(plan));
+        if (!authenticated || !profile || profile.active !== true || normalize(profile.status) !== 'active') return false;
+        if (normalize(profile.grade) === 'admin') return true;
+        // Prefer the explicit entitlement list, including an explicitly empty list.
+        // Older profile responses expose only the singular subscription field.
+        const plans = Array.isArray(profile.subscriptions) ? profile.subscriptions
+            : profile.subscriptions == null && typeof profile.subscription === 'string'
+                ? profile.subscription.split(/[,;\/\s]+/) : [];
+        return plans.some(plan => sections[id].includes(normalize(plan)));
     }
 
     const policy = Object.freeze({ isProtected, canView, sections });
