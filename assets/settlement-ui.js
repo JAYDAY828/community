@@ -13,11 +13,11 @@
   function mount(){
     host=document.getElementById('member-admin-settlement-view');
     host.innerHTML=`<div class="settlement-toolbar"><h4>정산 내역</h4><button id="settlement-refresh" type="button" class="liquid-btn-smoke">새로고침</button></div>
-    <p class="settlement-help">실제 입금일 기준 · KST · USDT</p>
+    <p class="settlement-help">실제 입출금일 기준 · KST · USDT</p>
     <div class="settlement-toolbar"><label>연도 <select id="settlement-year"></select></label><label id="settlement-month-label">월 <select id="settlement-month"></select></label><button id="settlement-export" class="liquid-btn-smoke" type="button" disabled>Excel 내보내기</button></div>
     <div id="settlement-modes" class="settlement-modes" role="group" aria-label="정산 조회 방식"><button data-mode="calendar" type="button">캘린더</button><button data-mode="monthly" type="button">월간</button><button data-mode="annual" type="button">연간</button></div>
     <p id="settlement-message" role="status" class="settlement-help"></p><div id="settlement-summary" class="settlement-summary"></div>
-    <section id="settlement-calendar-panel" class="settlement-calendar-panel"><div class="settlement-toolbar"><h4 id="settlement-calendar-title"></h4><span class="settlement-help">일별 순수납 · USDT</span></div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">날짜를 누르면 해당일 내역을 확인할 수 있습니다.</p></section><div id="settlement-breakdown"></div><div id="settlement-list"></div>
+    <section id="settlement-calendar-panel" class="settlement-calendar-panel"><div class="settlement-toolbar"><h4 id="settlement-calendar-title"></h4><span class="settlement-help">일별 분배·수수료 차감 후 · USDT</span></div><div class="settlement-calendar-scroll"><div id="settlement-calendar" class="settlement-calendar"></div></div><p class="settlement-help">날짜를 누르면 해당일 내역을 확인할 수 있습니다. 본인 인출은 수납액에서 차감하지 않습니다. 좁은 화면에서는 달력을 좌우로 움직여 보세요.</p></section><div id="settlement-breakdown"></div><div id="settlement-list"></div>
     <details id="settlement-exceptions"><summary>미확인·무료 이용권</summary><p class="settlement-help">선택 연도 승인 기록 및 승인일 미확인 기록입니다. 월 필터와 별도로 표시하며 합계에 포함하지 않습니다.</p><div id="settlement-exception-list"></div></details>
     <form id="settlement-adjust" hidden class="settlement-adjust"><h4 id="settlement-adjust-title"></h4><p class="settlement-help">실제 송금 기능이 아닙니다. 이미 처리한 환불이나 증빙에 따른 정정만 기록하세요.</p>
     <label>기록 유형<select id="settlement-kind"><option value="refund">환불 기록</option><option value="refund_reversal">환불 기록 정정 (+)</option><option value="receipt_date">과거 입금일 보완</option></select></label>
@@ -75,18 +75,25 @@
     try{
       const events=C.selected(report,mode==='annual'?0:month),t=C.total(events);
       for(const [name,value] of [['입금',money(t.paid)],['환불',money(t.refund)],['환불 정정',money(t.reversal)],['순수납',money(t.net)],['결제 건수',`${t.count}건`]]){const card=el('div');card.append(el('span',name),el('strong',value));$('summary').append(card);}
+      if(t.distribution!=='0'||t.fees!=='0'){
+        for(const [name,value] of [['과거 운영자 분배',money(t.distribution)],['출금 수수료',money(t.fees)],['분배·수수료 차감 후',money(t.afterCosts)]]){const card=el('div');if(name==='분배·수수료 차감 후')card.className='settlement-after-costs';card.append(el('span',name),el('strong',value));$('summary').append(card);}
+        $('breakdown').append(el('p','환불은 수령액 기준이며 출금 수수료는 별도 집계합니다. 본인 인출은 자금 이동으로 구분합니다. 차감 후 금액은 계좌 잔액이 아닙니다.','settlement-help'));
+      }
       if(mode==='calendar'){
         for(const name of ['일','월','화','수','목','금','토'])$('calendar').append(el('span',name,'settlement-weekday'));
         const offset=new Date(Date.UTC(year,month-1,1)).getUTCDay(),days=new Date(Date.UTC(year,month,0)).getUTCDate();
         for(let i=0;i<offset;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
         const today=new Date(Date.now()+9*3600000).toISOString().slice(0,10);
-        for(let d=1;d<=days;d++){const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,items=events.filter(e=>e.day===date),sum=C.total(items),b=el('button');b.type='button';b.setAttribute('aria-label',`${date}, ${items.length}건, 순수납 ${sum.net} USDT`);b.setAttribute('aria-pressed',String(day===date));if(date===today)b.setAttribute('aria-current','date');b.append(el('span',String(d)));if(items.length){b.classList.add('has-transactions');b.append(el('strong',sum.net),el('small',`${items.length}건`));}b.onclick=()=>{day=day===date?'':date;render();};$('calendar').append(b);}
+        for(let d=1;d<=days;d++){const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,items=events.filter(e=>e.day===date),sum=C.total(items),b=el('button');b.type='button';b.setAttribute('aria-label',`${date}, ${items.length}건, 분배·수수료 차감 후 ${sum.afterCosts} USDT`);b.setAttribute('aria-pressed',String(day===date));if(date===today)b.setAttribute('aria-current','date');b.append(el('span',String(d)));if(items.length){b.classList.add('has-transactions');b.append(el('strong',sum.afterCosts),el('small',`${items.length}건`));if(sum.distribution!=='0')b.append(el('small',`분배 −${sum.distribution}`));if(sum.ownerWithdrawals!=='0')b.append(el('small',`본인 인출 ${sum.ownerWithdrawals}`));}b.onclick=()=>{day=day===date?'':date;render();};$('calendar').append(b);}
         for(let i=0;i<(7-(offset+days)%7)%7;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
       } else if(mode==='annual'){
-        const rows=[];for(let m=1;m<=12;m++){const s=C.total(C.selected(report,m));rows.push([`${m}월`,s.paid,s.refund,s.reversal,s.net,String(s.count)]);}$('breakdown').append(table(['월','입금','환불','정정','순수납','건수'],rows));
+        const rows=[];for(let m=1;m<=12;m++){const s=C.total(C.selected(report,m));rows.push([`${m}월`,s.paid,s.refund,s.reversal,s.net,String(s.count),s.distribution,s.fees,s.afterCosts]);}$('breakdown').append(table(['월','입금','환불','정정','순수납','건수','분배','수수료','차감 후'],rows));
       }
-      const plans=[...new Set(events.map(e=>e.plan))];$('breakdown').append(el('h4','플랜별 정산'),table(['플랜','입금 USDT','순수납 USDT','결제 건수'],plans.length?plans.map(p=>{const s=C.total(events.filter(e=>e.plan===p));return [plan(p),s.paid,s.net,String(s.count)];}):[['해당 기간 내역 없음','—','—','0']]));
-      $('list').append(el('h4',day?`${day} 상세 내역`:'결제 상세'));
+      const customerEvents=events.filter(e=>!['distribution','owner_withdrawal'].includes(e.eventType));
+      const plans=[...new Set(customerEvents.map(e=>e.plan))];$('breakdown').append(el('h4','플랜별 정산'),table(['플랜','입금 USDT','순수납 USDT','결제 건수'],plans.length?plans.map(p=>{const s=C.total(customerEvents.filter(e=>e.plan===p));return [plan(p),s.paid,s.net,String(s.count)];}):[['해당 기간 내역 없음','—','—','0']]));
+      const transfers=events.filter(e=>['distribution','owner_withdrawal'].includes(e.eventType));
+      if(transfers.length){const archive=el('details');archive.append(el('summary',`과거 분배·본인 인출 (${transfers.length}건)`),el('p',`운영자 분배 ${money(t.distribution)} · 본인 인출 ${money(t.ownerWithdrawals)}`,'settlement-help'),table(['날짜(KST)','유형','수령인','출금 USDT','수수료'],transfers.map(e=>[C.kst(e.occurredAt).slice(0,16),C.labels[e.eventType],e.username,C.amount(-C.units(e.amount)),e.feeAmount||'0'])));$('breakdown').append(archive);}
+      $('list').append(el('h4',day?`${day} 상세 내역`:'거래 상세'));
       const shown=events.filter(e=>!day||e.day===day).sort((a,b)=>b.occurredAt.localeCompare(a.occurredAt));
       const transactions=table(['거래일 (KST)','유저 · 플랜','유형','금액 USDT','상세'],[]);
       transactions.classList.add('settlement-transactions');$('list').append(transactions);const rows=transactions.querySelector('tbody');
@@ -94,7 +101,7 @@
       // Render in batches so long years do not freeze the member dialog.
       let count=0;const more=el('button','더 보기','liquid-btn-smoke');more.type='button';
       const append=()=>{for(const r of shown.slice(count,count+100)){
-        const row=el('tr'),who=el('td'),date=el('td',C.kst(r.occurredAt).slice(0,16));who.append(el('strong',r.username),el('small',`${plan(r.plan)} · ${C.period(r.months)}`));
+        const row=el('tr'),who=el('td'),date=el('td',C.kst(r.occurredAt).slice(0,16));who.append(el('strong',r.username),el('small',r.kind==='transfer'?'과거 출금':`${plan(r.plan)} · ${C.period(r.months)}`));
         const kind=el('td');kind.append(el('span',C.labels[r.eventType],`settlement-event settlement-event--${r.eventType}`));
         const action=el('td'),button=el('button','보기');button.type='button';button.setAttribute('aria-expanded','false');button.setAttribute('aria-label',`${r.username} 거래 상세 보기`);action.append(button);
         const detailRow=el('tr'),detailCell=el('td');detailRow.hidden=true;detailCell.colSpan=5;detailCell.append(recordCard(r));detailRow.append(detailCell);
@@ -106,10 +113,11 @@
       let exCount=0;const exMore=el('button','더 보기','liquid-btn-smoke');exMore.type='button';const appendEx=()=>{for(const r of report.exceptions.slice(exCount,exCount+100))$('exception-list').insertBefore(recordCard(r,true),exMore);exCount+=100;exMore.hidden=exCount>=report.exceptions.length;};$('exception-list').append(exMore);exMore.onclick=appendEx;appendEx();
     }catch(e){report=null;$('export').disabled=true;notice(e.message);}
   }
-  function recordCard(r,exception=false){const card=el('article',undefined,'settlement-record');card.append(el('strong',`${r.username} · ${plan(r.plan)}`));
-    card.append(el('p',`${C.period(r.months)} · ${exception?(r.kind==='receipt'?'입금일 미확인':C.labels[r.kind]):C.labels[r.eventType]} · ${r.amount===null?'신청 '+money(r.requestedAmount??'미확인'):money(r.amount)}`,'settlement-amount'));
+  function recordCard(r,exception=false){const card=el('article',undefined,'settlement-record');card.append(el('strong',r.kind==='transfer'?r.username:`${r.username} · ${plan(r.plan)}`));
+    card.append(el('p',`${r.kind==='transfer'?'':C.period(r.months)+' · '}${exception?(r.kind==='receipt'?'입금일 미확인':C.labels[r.kind]):C.labels[r.eventType]} · ${r.amount===null?'신청 '+money(r.requestedAmount??'미확인'):money(r.amount)}`,'settlement-amount'));
     card.append(el('p',exception?`승인 ${C.kst(r.approvedAt)||'미확인'}`:C.kst(r.occurredAt),'settlement-help'));
-    const details=el('details');details.append(el('summary','거래 정보'));for(const [k,v] of [['신청 ID',r.id],['신청 금액',r.requestedAmount],['입금 ID',r.depositId],['TXID',r.txid],['네트워크',r.chain],['승인',C.kst(r.approvedAt)],['처리',r.source],['증빙',r.evidence],['사유',r.reason],['비고',(r.notes||[]).join(' / ')]])if(v)details.append(el('p',`${k}: ${v}`));card.append(details);
+    if(r.feeAmount&&r.feeAmount!=='0')card.append(el('p',`출금 수수료 ${money(r.feeAmount)}`,'settlement-help'));
+    const details=el('details');details.append(el('summary','거래 정보'));for(const [k,v] of [['신청 ID',r.id],['신청 금액',r.requestedAmount],['입금 ID',r.depositId],['출금 참조번호',r.referenceId],['TXID',r.txid],['네트워크',r.chain],['승인',C.kst(r.approvedAt)],['처리',r.source],['증빙',r.evidence],['사유',r.reason],['비고',(r.notes||[]).join(' / ')]])if(v)details.append(el('p',`${k}: ${v}`));card.append(details);
     if(r.kind==='receipt'&&(!r.eventType||r.eventType==='receipt')){const b=el('button',exception?'입금일·환불 기록':'환불·정정 기록','liquid-btn-smoke');b.type='button';b.onclick=()=>edit(r);card.append(b);}return card;}
   function closeEditor(){editing=null;if(host){$('adjust').hidden=true;$('serial').value='';$('adjust-message').textContent='';}}
   function edit(r){if(busy)return;editing={record:r,eventId:crypto.randomUUID(),signature:null};$('adjust').reset();$('adjust-title').textContent=`${r.username} · ${plan(r.plan)}`;$('adjust').hidden=false;$('kind').value=r.day?'refund':'receipt_date';$('kind').onchange();$('adjust-message').textContent='';$('occurred').focus();}

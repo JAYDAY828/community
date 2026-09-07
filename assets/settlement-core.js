@@ -7,24 +7,45 @@
     const n=sign*(Number(a)*1e8+Number(b.padEnd(8,'0')));if(!Number.isSafeInteger(n))throw Error('집계 가능한 금액 범위를 초과했습니다.');return n;
   }
   function amount(n){if(!Number.isSafeInteger(n))throw Error('합계 범위 초과');return `${n<0?'-':''}${Math.floor(Math.abs(n)/1e8)}.${String(Math.abs(n)%1e8).padStart(8,'0')}`.replace(/\.?0+$/,'');}
-  function total(events){let paid=0,refund=0,reversal=0,count=0;const seen=new Set();for(const e of events){if(seen.has(e.eventId))throw Error('중복 거래가 있습니다.');seen.add(e.eventId);const n=units(e.amount);if(e.eventType==='receipt'){if(n<=0)throw Error('입금액 오류');paid+=n;count++;}else if(e.eventType==='refund'){if(n>=0)throw Error('환불액 오류');refund-=n;}else if(e.eventType==='refund_reversal'){if(n<=0)throw Error('환불 정정액 오류');reversal+=n;}else throw Error('알 수 없는 거래 유형');for(const v of [paid,refund,reversal])if(!Number.isSafeInteger(v))throw Error('합계 범위 초과');}return {paid:amount(paid),refund:amount(refund),reversal:amount(reversal),net:amount(paid-refund+reversal),count};}
+  function total(events){
+    let paid=0,refund=0,reversal=0,distribution=0,owner=0,fees=0,count=0;const seen=new Set();
+    for(const e of events){
+      if(seen.has(e.eventId))throw Error('중복 거래가 있습니다.');seen.add(e.eventId);
+      const n=units(e.amount),fee=units(e.feeAmount??'0');if(fee<0)throw Error('수수료 오류');fees+=fee;
+      if(e.eventType==='receipt'){if(n<=0)throw Error('입금액 오류');paid+=n;count++;}
+      else if(e.eventType==='refund'){if(n>=0)throw Error('환불액 오류');refund-=n;}
+      else if(e.eventType==='refund_reversal'){if(n<=0)throw Error('환불 정정액 오류');reversal+=n;}
+      else if(e.eventType==='distribution'){if(n>=0)throw Error('분배액 오류');distribution-=n;}
+      else if(e.eventType==='owner_withdrawal'){if(n>=0)throw Error('본인 인출액 오류');owner-=n;}
+      else throw Error('알 수 없는 거래 유형');
+      for(const v of [paid,refund,reversal,distribution,owner,fees])if(!Number.isSafeInteger(v))throw Error('합계 범위 초과');
+    }
+    const net=paid-refund+reversal;
+    return {paid:amount(paid),refund:amount(refund),reversal:amount(reversal),net:amount(net),count,
+      distribution:amount(distribution),ownerWithdrawals:amount(owner),fees:amount(fees),afterDistribution:amount(net-distribution),afterCosts:amount(net-distribution-fees)};
+  }
   function kst(iso){return iso ? new Date(Date.parse(iso)+9*3600000).toISOString().slice(0,19).replace('T',' ')+' KST' : '';}
-  const labels={receipt:'입금',refund:'환불',refund_reversal:'환불 정정',free:'무료 이용권',unverified:'입금 미확인',conflict:'확인 필요'};
+  const labels={receipt:'입금',refund:'환불',refund_reversal:'환불 정정',distribution:'운영자 분배',owner_withdrawal:'본인 인출',free:'무료 이용권',unverified:'입금 미확인',conflict:'확인 필요'};
   function period(months){return months===null||months===undefined?'미확인':months===0?'무제한':`${months}개월`;}
   function selected(report,month){return report.events.filter(e=>!month||e.day.slice(5,7)===String(month).padStart(2,'0'));}
   function sheets(report,month,planLabel){
     const events=selected(report,month),sum=total(events),label=month?`${report.year}-${String(month).padStart(2,'0')}`:report.year;
-    const summary=[['정산 기간',label],['기준','실제 입금일 / 환불일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수']];
-    for(let m=1;m<=12;m++){if(month&&m!==Number(month))continue;const t=total(selected(report,m));summary.push([`${report.year}-${String(m).padStart(2,'0')}`,Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count]);}
+    const summary=[['정산 기간',label],['기준','실제 입출금일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments / SettlementHistory'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수','운영자 분배 USDT','수수료 USDT','분배·수수료 차감 후 USDT']];
+    const transfers=events.filter(e=>['distribution','owner_withdrawal'].includes(e.eventType));
+    if(transfers.length || sum.fees!=='0') summary.splice(10,0,['운영자 분배 USDT',Number(sum.distribution)],['출금 수수료 USDT',Number(sum.fees)],['분배·수수료 차감 후 USDT',Number(sum.afterCosts)],['본인 인출 USDT (수납액 차감 제외)',Number(sum.ownerWithdrawals)],['집계 범위','본인 인출은 자금 이동으로 별도 표시. 차감 후 금액은 계좌 잔액이 아닙니다. 환불 수령액과 출금 수수료를 분리합니다.']);
+    for(let m=1;m<=12;m++){if(month&&m!==Number(month))continue;const t=total(selected(report,m));summary.push([`${report.year}-${String(m).padStart(2,'0')}`,Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count,Number(t.distribution),Number(t.fees),Number(t.afterCosts)]);}
     summary.push([],['플랜','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수']);
-    for(const p of [...new Set(events.map(e=>e.plan))]){const t=total(events.filter(e=>e.plan===p));summary.push([planLabel(p),Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count]);}
-    const detail=[['거래 ID','신청 ID','유저','플랜','이용기간','유형','거래 시각 KST','거래 시각 UTC','승인 시각 KST','신청 USDT','입출금 USDT','정확한 금액 원문','TXID','입금 ID','네트워크','처리 경로','근거','증빙','사유','정정자','기록 UTC','비고']];
-    for(const e of events)detail.push([e.eventId,e.id,e.username,planLabel(e.plan),period(e.months),labels[e.eventType],kst(e.occurredAt),e.occurredAt,kst(e.approvedAt),e.requestedAmount===null?'':Number(e.requestedAmount),Number(e.amount),e.amount,e.txid,e.depositId,e.chain,e.source,e.basis,e.evidence||'',e.reason||'',e.actor||'',e.recordedAt||'',(e.notes||[]).join(' / ')]);
+    const customerEvents=events.filter(e=>!['distribution','owner_withdrawal'].includes(e.eventType));
+    for(const p of [...new Set(customerEvents.map(e=>e.plan))]){const t=total(customerEvents.filter(e=>e.plan===p));summary.push([planLabel(p),Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count]);}
+    const detail=[['거래 ID','신청 ID','유저','플랜','이용기간','유형','거래 시각 KST','거래 시각 UTC','승인 시각 KST','신청 USDT','입출금 USDT','정확한 금액 원문','TXID','입금 ID','네트워크','처리 경로','근거','증빙','사유','정정자','기록 UTC','비고','출금 수수료 USDT','수수료 원문','OKX 출금 참조번호']];
+    for(const e of events)detail.push([e.eventId,e.id,e.username,e.kind==='transfer'?'—':planLabel(e.plan),e.kind==='transfer'?'—':period(e.months),labels[e.eventType],kst(e.occurredAt),e.occurredAt,kst(e.approvedAt),e.requestedAmount===null?'':Number(e.requestedAmount),Number(e.amount),e.amount,e.txid,e.depositId,e.chain,e.source,e.basis,e.evidence||'',e.reason||'',e.actor||'',e.recordedAt||'',(e.notes||[]).join(' / '),Number(e.feeAmount||'0'),e.feeAmount||'0',e.referenceId||'']);
     const exceptions=[['범위','선택 연도 승인 기록 및 승인일 미확인 기록. 월 선택과 무관하게 연도 전체를 포함.'],['신청 ID','유저','플랜','기간','분류','신청 USDT','확인 입금 USDT','승인 KST','TXID','입금 ID','비고']];
     for(const r of report.exceptions)exceptions.push([r.id,r.username,planLabel(r.plan),period(r.months),r.kind==='receipt'?'입금일 미확인':labels[r.kind],r.requestedAmount===null?'':Number(r.requestedAmount),r.amount===null?'':Number(r.amount),kst(r.approvedAt),r.txid,r.depositId,(r.notes||[]).join(' / ')]);
     const audit=[['범위','선택 연도 거래 및 관련 정정 기록'],['Event ID','Request ID','Type','Amount USDT','Occurred At UTC','Evidence','Reason','Actor','Recorded At UTC']];
     for(const a of report.adjustments||[])audit.push(audit[1].map(k=>a[k]||''));
-    return [{name:'정산 요약',rows:summary},{name:'결제 상세',rows:detail},{name:'미확인 및 무료 이용권',rows:exceptions},{name:'환불 정정 이력',rows:audit}];
+    const result=[{name:'정산 요약',rows:summary},{name:'거래 상세',rows:detail},{name:'미확인 및 무료 이용권',rows:exceptions},{name:'환불 정정 이력',rows:audit}];
+    if(transfers.length) result.push({name:'과거 분배 및 본인 인출',rows:[['범위','선택 기간 내 실제 출금. 본인 인출은 순수납·분배 후 금액에서 차감하지 않습니다.'],['시각 KST','유형','수령인','출금 USDT','수수료 USDT','정확한 금액 원문','TXID','OKX 참조번호','증빙','메모'],...transfers.map(e=>[kst(e.occurredAt),labels[e.eventType],e.username,-Number(e.amount),Number(e.feeAmount||'0'),e.amount,e.txid,e.referenceId,e.evidence,e.reason])]});
+    return result;
   }
   const xml=v=>String(v??'').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
   function column(i){let s='';for(i++;i;i=Math.floor((i-1)/26))s=String.fromCharCode(65+(i-1)%26)+s;return s;}
