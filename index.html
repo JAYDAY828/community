@@ -7396,7 +7396,7 @@
                 const payment = document.createElement('p');
                 payment.className = 'mt-1 text-xs text-brand';
                 const verified = request.paymentStatus === 'VERIFIED' && Number(request.matchedAmount) > 0;
-                const amount = verified ? `${request.matchedAmount} USDT` : Number(request.amount) === 0 ? '무상 제공' : `신청 금액 ${request.amount} USDT · 입금 미확인`;
+                const amount = verified ? `${request.matchedAmount} USDT` : Number(request.amount) === 0 ? '무료 이용권' : `신청 금액 ${request.amount} USDT · 입금 미확인`;
                 payment.textContent = `${request.months === 0 ? '무제한' : `${request.months}개월`} · ${verified ? '결제 ' : ''}${amount}`;
                 item.querySelector('div').after(payment);
                 item.querySelector('p.text-gray-600').textContent = request.completedAt || '-';

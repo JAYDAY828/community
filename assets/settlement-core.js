@@ -9,12 +9,12 @@
   function amount(n){if(!Number.isSafeInteger(n))throw Error('합계 범위 초과');return `${n<0?'-':''}${Math.floor(Math.abs(n)/1e8)}.${String(Math.abs(n)%1e8).padStart(8,'0')}`.replace(/\.?0+$/,'');}
   function total(events){let paid=0,refund=0,reversal=0,count=0;const seen=new Set();for(const e of events){if(seen.has(e.eventId))throw Error('중복 거래가 있습니다.');seen.add(e.eventId);const n=units(e.amount);if(e.eventType==='receipt'){if(n<=0)throw Error('입금액 오류');paid+=n;count++;}else if(e.eventType==='refund'){if(n>=0)throw Error('환불액 오류');refund-=n;}else if(e.eventType==='refund_reversal'){if(n<=0)throw Error('환불 정정액 오류');reversal+=n;}else throw Error('알 수 없는 거래 유형');for(const v of [paid,refund,reversal])if(!Number.isSafeInteger(v))throw Error('합계 범위 초과');}return {paid:amount(paid),refund:amount(refund),reversal:amount(reversal),net:amount(paid-refund+reversal),count};}
   function kst(iso){return iso ? new Date(Date.parse(iso)+9*3600000).toISOString().slice(0,19).replace('T',' ')+' KST' : '';}
-  const labels={receipt:'입금',refund:'환불',refund_reversal:'환불 정정',free:'무상 제공',unverified:'입금 미확인',conflict:'확인 필요'};
+  const labels={receipt:'입금',refund:'환불',refund_reversal:'환불 정정',free:'무료 이용권',unverified:'입금 미확인',conflict:'확인 필요'};
   function period(months){return months===null||months===undefined?'미확인':months===0?'무제한':`${months}개월`;}
   function selected(report,month){return report.events.filter(e=>!month||e.day.slice(5,7)===String(month).padStart(2,'0'));}
   function sheets(report,month,planLabel){
     const events=selected(report,month),sum=total(events),label=month?`${report.year}-${String(month).padStart(2,'0')}`:report.year;
-    const summary=[['정산 기간',label],['기준','실제 입금일 / 환불일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments'],['안내','입금일 미확인·무상·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수']];
+    const summary=[['정산 기간',label],['기준','실제 입금일 / 환불일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수']];
     for(let m=1;m<=12;m++){if(month&&m!==Number(month))continue;const t=total(selected(report,m));summary.push([`${report.year}-${String(m).padStart(2,'0')}`,Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count]);}
     summary.push([],['플랜','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수']);
     for(const p of [...new Set(events.map(e=>e.plan))]){const t=total(events.filter(e=>e.plan===p));summary.push([planLabel(p),Number(t.paid),Number(t.refund),Number(t.reversal),Number(t.net),t.count]);}
@@ -24,7 +24,7 @@
     for(const r of report.exceptions)exceptions.push([r.id,r.username,planLabel(r.plan),period(r.months),r.kind==='receipt'?'입금일 미확인':labels[r.kind],r.requestedAmount===null?'':Number(r.requestedAmount),r.amount===null?'':Number(r.amount),kst(r.approvedAt),r.txid,r.depositId,(r.notes||[]).join(' / ')]);
     const audit=[['범위','선택 연도 거래 및 관련 정정 기록'],['Event ID','Request ID','Type','Amount USDT','Occurred At UTC','Evidence','Reason','Actor','Recorded At UTC']];
     for(const a of report.adjustments||[])audit.push(audit[1].map(k=>a[k]||''));
-    return [{name:'정산 요약',rows:summary},{name:'결제 상세',rows:detail},{name:'미확인 및 무상',rows:exceptions},{name:'환불 정정 이력',rows:audit}];
+    return [{name:'정산 요약',rows:summary},{name:'결제 상세',rows:detail},{name:'미확인 및 무료 이용권',rows:exceptions},{name:'환불 정정 이력',rows:audit}];
   }
   const xml=v=>String(v??'').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
   function column(i){let s='';for(i++;i;i=Math.floor((i-1)/26))s=String.fromCharCode(65+(i-1)%26)+s;return s;}

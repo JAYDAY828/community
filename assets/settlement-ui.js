@@ -17,7 +17,7 @@
     <div id="settlement-modes" class="settlement-modes" role="group" aria-label="정산 조회 방식"><button data-mode="calendar" type="button">캘린더</button><button data-mode="monthly" type="button">월간</button><button data-mode="annual" type="button">연간</button></div>
     <p id="settlement-message" role="status" class="settlement-help"></p><div id="settlement-summary" class="settlement-summary"></div>
     <section id="settlement-calendar-panel" class="settlement-calendar-panel"><div class="settlement-toolbar"><h4 id="settlement-calendar-title"></h4><span class="settlement-help">일별 순수납 · USDT</span></div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">날짜를 누르면 해당일 내역을 확인할 수 있습니다.</p></section><div id="settlement-breakdown"></div><div id="settlement-list"></div>
-    <details id="settlement-exceptions"><summary>미확인·무상 기록</summary><p class="settlement-help">선택 연도 승인 기록 및 승인일 미확인 기록입니다. 월 필터와 별도로 표시하며 합계에 포함하지 않습니다.</p><div id="settlement-exception-list"></div></details>
+    <details id="settlement-exceptions"><summary>미확인·무료 이용권</summary><p class="settlement-help">선택 연도 승인 기록 및 승인일 미확인 기록입니다. 월 필터와 별도로 표시하며 합계에 포함하지 않습니다.</p><div id="settlement-exception-list"></div></details>
     <form id="settlement-adjust" hidden class="settlement-adjust"><h4 id="settlement-adjust-title"></h4><p class="settlement-help">실제 송금 기능이 아닙니다. 이미 처리한 환불이나 증빙에 따른 정정만 기록하세요.</p>
     <label>기록 유형<select id="settlement-kind"><option value="refund">환불 기록</option><option value="refund_reversal">환불 기록 정정 (+)</option><option value="receipt_date">과거 입금일 보완</option></select></label>
     <label id="settlement-amount-label">금액 USDT<input id="settlement-amount" inputmode="decimal" type="text" autocomplete="off"></label>
@@ -86,7 +86,7 @@
         row.append(date,who,kind,el('td',r.amount,'settlement-number'),action);rows.append(row,detailRow);
       }count+=100;more.hidden=count>=shown.length;};
       $('list').append(more);more.onclick=append;append();
-      $('exceptions').querySelector('summary').textContent=`미확인·무상 기록 (${report.exceptions.length}건)`;
+      $('exceptions').querySelector('summary').textContent=`미확인·무료 이용권 (${report.exceptions.length}건)`;
       let exCount=0;const exMore=el('button','더 보기','liquid-btn-smoke');exMore.type='button';const appendEx=()=>{for(const r of report.exceptions.slice(exCount,exCount+100))$('exception-list').insertBefore(recordCard(r,true),exMore);exCount+=100;exMore.hidden=exCount>=report.exceptions.length;};$('exception-list').append(exMore);exMore.onclick=appendEx;appendEx();
     }catch(e){report=null;$('export').disabled=true;notice(e.message);}
   }
