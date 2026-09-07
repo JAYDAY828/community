@@ -1,6 +1,7 @@
 (function(){
   'use strict';
   const C=SettlementCore;
+  let inFlight=null;
   let host,bridge,report=null,epoch=0,year=new Date(Date.now()+9*3600000).getUTCFullYear(),month=new Date(Date.now()+9*3600000).getUTCMonth()+1,mode='calendar',day='',editing=null,busy=false;
   const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   const $=id=>host.querySelector('#settlement-'+id);
@@ -8,7 +9,7 @@
   const money=v=>`${v} USDT`;
   function notice(text){$('message').textContent=text;}
   function permitted(){return bridge&&bridge.profile()?.grade==='admin';}
-  function reset(){epoch++;report=null;editing=null;busy=false;if(host){host.replaceChildren();host=null;}}
+  function reset(){epoch++;report=null;editing=null;busy=false;inFlight=null;if(host){host.replaceChildren();host=null;}}
   function mount(){
     host=document.getElementById('member-admin-settlement-view');
     host.innerHTML=`<div class="settlement-toolbar"><h4>정산 내역</h4><button id="settlement-refresh" type="button" class="liquid-btn-smoke">새로고침</button></div>
@@ -35,10 +36,24 @@
     $('kind').onchange=()=>{$('amount-label').hidden=$('kind').value==='receipt_date';$('amount').required=$('kind').value!=='receipt_date';};
     $('cancel').onclick=closeEditor;$('adjust').onsubmit=save;
   }
-  async function load(){
+  function load(){
+    if(busy||!permitted())return Promise.resolve();
+    if(inFlight)return inFlight.promise;
+    const job={year,token:bridge.token(),generation:bridge.generation(),promise:null};
+    inFlight=job;$('refresh').disabled=true;
+    job.promise=performLoad(job.year).finally(()=>{
+      if(inFlight!==job)return;
+      inFlight=null;if(!host)return;$('refresh').disabled=busy;
+      // A year change while waiting queues only the latest selected year.
+      if(year!==job.year && job.token===bridge.token() && job.generation===bridge.generation())return load();
+    });
+    return job.promise;
+  }
+  async function performLoad(requestedYear){
     if(busy||!permitted())return;const current=++epoch,token=bridge.token(),generation=bridge.generation();report=null;closeEditor();render();notice('정산 기록을 불러오는 중…');$('export').disabled=true;
-    try{const result=await bridge.api('admin_settlement',{token,year:String(year)});
+    try{const result=await bridge.api('admin_settlement',{token,year:String(requestedYear)});
       if(current!==epoch||token!==bridge.token()||generation!==bridge.generation()||!permitted())return;
+      if(year!==requestedYear)return;
       if(!result.ok)throw Error(result.error==='unknown_action'?'Apps Script에 정산 패치를 배포한 뒤 다시 조회해 주세요.':`정산 조회 실패: ${result.error}`);
       C.total(result.events);report=result;for(const y of result.years)if(![...$('year').options].some(o=>o.value===y))$('year').add(new Option(y,y));render();
       const unresolved=result.exceptions.filter(r=>r.kind==='receipt'&&!r.day);
@@ -46,6 +61,7 @@
       const undatedAmount=C.amount(unresolved.reduce((sum,r)=>sum+C.units(r.amount),0));
       notice(`조회 시각 ${C.kst(result.generatedAt)}${linked}${unresolved.length?` · 입금 확인 ${unresolved.length}건 (${undatedAmount} USDT)은 입금일 미확인으로 합계에서 제외되었습니다. 아래 기록에서 확인해 주세요.`:''}${result.recovery?.pending?` · 다음 조회에서 연결할 기록 ${result.recovery.pending}건`:''}`);
       if(unresolved.length)$('exceptions').open=true;
+      if(result.recovery?.deferred)$('message').textContent+=` · 재시도 대기 ${result.recovery.deferred}건`;
     }catch(e){if(current===epoch&&host){notice(e.message||'정산 조회에 실패했습니다.');}}
   }
   function table(headers,rows){const wrap=el('div',undefined,'settlement-table-wrap'),t=el('table');const head=el('tr');headers.forEach(v=>head.append(el('th',v)));const thead=el('thead');thead.append(head);t.append(thead);const body=el('tbody');rows.forEach(row=>{const tr=el('tr');row.forEach(v=>tr.append(el('td',v)));body.append(tr);});t.append(body);wrap.append(t);return wrap;}
