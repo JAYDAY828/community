@@ -409,6 +409,9 @@
         /* Content cards remain stationary; overlays retain their separate blur. */
         #main-content .liquid-card:hover { transform: none; }
 
+        /* Open section layout; retain the individual content cards. */
+        .section-document { min-width: 0; padding: 22px 0 32px; }
+
         /* 🚀 High-end Animations */
         .fade-in {
             opacity: 0;
@@ -1287,7 +1290,7 @@
 
             <!-- SECTION: LINK TREE -->
             <section id="links" class="guide-section hidden fade-in">
-                <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8">
+                <div class="section-document mb-8">
                     <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
                         <span class="px-2 py-0.5 rounded border bg-gray-800 border-gray-600 text-xs text-gray-300"
                             data-i18n="quick.badge">바로가기</span>
@@ -1458,7 +1461,7 @@
 
             <!-- SECTION: DETECTOR PREVIEW (NEW) -->
             <section id="preview" class="guide-section hidden fade-in" data-guide-section="preview">
-                <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8">
+                <div class="section-document mb-8">
                     <div class="flex items-center justify-between mb-8 border-b border-gray-800 pb-6">
                         <div class="flex items-center gap-3">
                             <div
@@ -1634,7 +1637,7 @@
 
             <!-- SECTION: TERMS OF SERVICE -->
             <section id="terms" class="guide-section hidden content-body">
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-gray-300 border-gray-500/50" data-i18n="terms.badge">Policy</span>
                         <div>
@@ -1721,7 +1724,7 @@
 
             <!-- SECTION: FAQ -->
             <section id="faq" class="guide-section hidden content-body">
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-gray-300 border-gray-500/50" data-i18n="faq.badge">Q&A</span>
@@ -1913,7 +1916,7 @@
 
             <section id="apikey" class="guide-section hidden content-body" data-guide-section="apikey">
                 <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-brand border-brand/50" data-i18n="api.badge">Guide</span>
@@ -2217,7 +2220,7 @@
             <!-- SECTION: CRYPTO DETECTOR -->
             <section id="detector" class="guide-section hidden content-body" data-guide-section="detector">
                 <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-accent-green border-accent-green/50" data-i18n="cd.badge">Alerts</span>
@@ -2892,7 +2895,7 @@
                     @media(max-width:800px){.bm-slide-layout{grid-template-columns:1fr;--bm-frame-height:auto}.bm-slide-layout>div:first-child,.bm-shot,.bm-note-shots{height:auto!important}.bm-shot img{height:auto;max-height:500px}.bm-note-shots{grid-template-rows:auto auto}.bm-note-shots .bm-shot:last-child img{height:170px}}
                     @media(max-width:520px){.bm-tabs button{font-size:11px;padding:11px 4px}}
                 </style>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-brand border-brand/50" data-i18n="ext.badge">Extension</span>
                         <div><h1 class="text-2xl font-bold text-white mb-1">Binance Manager</h1><p class="text-sm text-gray-400 !m-0" data-i18n="ext.showcase.intro">Binance Futures에 간편주문, 실시간 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다.</p></div>
@@ -2941,7 +2944,7 @@
             <!-- SECTION: ORDER TOOLKIT -->
             <section id="toolkit" class="guide-section hidden content-body" data-guide-section="toolkit">
                 <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-accent-blue border-accent-blue/50" data-i18n="ot.badge">Orders</span>
@@ -3550,7 +3553,7 @@
             <!-- SECTION: ORDER BOOK -->
             <section id="orderbook" class="guide-section hidden content-body" data-guide-section="orderbook">
                 <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-accent-purple border-accent-purple/50"
@@ -3729,7 +3732,7 @@
             <!-- SECTION: TRADES -->
             <section id="trades" class="guide-section hidden content-body" data-guide-section="trades">
                 <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-yellow-400 border-yellow-400/50" data-i18n="tr.badge">Trades</span>
@@ -4376,7 +4379,7 @@
 
             <!-- SECTION: SPONSORSHIP -->
             <section id="sponsorship" class="guide-section hidden content-body">
-                <div class="glass-panel rounded-2xl p-6 md:p-10">
+                <div class="section-document">
                     <!-- Title Header -->
                     <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-6">
                         <span class="badge text-accent-red border-accent-red/50"
@@ -8399,8 +8402,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.14.5"></script>
-    <script src="./assets/settlement-ui.js?v=6.14.5"></script>
+    <script src="./assets/settlement-core.js?v=6.14.6"></script>
+    <script src="./assets/settlement-ui.js?v=6.14.6"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
