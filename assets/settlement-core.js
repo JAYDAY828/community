@@ -33,6 +33,36 @@
     return event?`이벤트 · ${event[1]}까지`:'미확인';
   }
   function selected(report,month){return report.events.filter(e=>!month||e.day.slice(5,7)===String(month).padStart(2,'0'));}
+  // A report is a snapshot: discard this index whenever a fresh response arrives.
+  function prepare(report){
+    const all=report.events.slice().sort((a,b)=>b.occurredAt.localeCompare(a.occurredAt));
+    const months=new Map(),days=new Map(),periods=new Map(),daily=new Map();
+    for(const e of all){
+      const m=Number(e.day.slice(5,7));
+      if(!months.has(m))months.set(m,[]);months.get(m).push(e);
+      if(!days.has(e.day))days.set(e.day,[]);days.get(e.day).push(e);
+    }
+    // Validate the whole response, including duplicates across different months.
+    const annualTotal=total(all);
+    return {
+      period(month){
+        if(!periods.has(month)){
+          const events=month?(months.get(month)||[]):all,byPlan=new Map(),flows=[];
+          for(const e of events){
+            if(['distribution','owner_withdrawal'].includes(e.eventType)){flows.push(e);continue;}
+            if(!byPlan.has(e.plan))byPlan.set(e.plan,[]);byPlan.get(e.plan).push(e);
+          }
+          periods.set(month,{events,total:month?total(events):annualTotal,flows,
+            plans:[...byPlan].map(([plan,items])=>({plan,total:total(items)}))});
+        }
+        return periods.get(month);
+      },
+      day(date){
+        if(!daily.has(date)){const events=days.get(date)||[];daily.set(date,{events,total:total(events)});}
+        return daily.get(date);
+      }
+    };
+  }
   function sheets(report,month,planLabel){
     const events=selected(report,month),sum=total(events),label=month?`${report.year}-${String(month).padStart(2,'0')}`:report.year;
     const summary=[['정산 기간',label],['기준','실제 입출금일 · KST · USDT'],['추출 시각',kst(report.generatedAt)],['출처','SubscriptionRequests / SettlementReceipts / PaymentLedger / SettlementAdjustments / SettlementHistory'],['안내','입금일 미확인·무료 이용권·미검증 건은 금액 합계에서 제외. 원화 환산·세액 계산 미포함.'],['입금 합계 USDT',Number(sum.paid)],['환불 USDT',Number(sum.refund)],['환불 정정 USDT',Number(sum.reversal)],['순수납 USDT',Number(sum.net)],['결제 건수',sum.count],[],['월','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수','운영자 분배 USDT','수수료 USDT','분배·수수료 차감 후 USDT']];
@@ -72,5 +102,5 @@
       const rowHeight=(row,r)=>Math.min(150,Math.max(30,...row.map((v,c)=> Math.ceil(String(v??'').length/(i===0&&r>=1&&r<=4&&c===1?105:widths[c]/1.5))*15+8)));
       files.push([`xl/worksheets/sheet${i+1}.xml`,`<worksheet xmlns="${ns}"><sheetViews><sheetView workbookViewId="0"><pane ySplit="${headerRow+1}" topLeftCell="A${headerRow+2}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>${widths.map((w,c)=>`<col min="${c+1}" max="${c+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${s.rows.map((row,r)=>`<row r="${r+1}" ht="${rowHeight(row,r)}" customHeight="1">${row.map((v,c)=>{const ref=column(c)+(r+1);return typeof v==='number'&&Number.isFinite(v)?`<c r="${ref}" s="2"><v>${v}</v></c>`:`<c r="${ref}" s="${r===headerRow||(i===0&&['월','플랜'].includes(row[0]))?1:0}" t="inlineStr"><is><t xml:space="preserve">${xml(v)}</t></is></c>`;}).join('')}</row>`).join('')}</sheetData>${i>0?`<autoFilter ref="A${headerRow+1}:${column(cols-1)}${s.rows.length}"/>`:''}${merges}</worksheet>`]);});return zip(files);
   }
-  return {units,amount,total,kst,labels,period,selected,sheets,xlsx};
+  return {units,amount,total,kst,labels,period,selected,prepare,sheets,xlsx};
 });

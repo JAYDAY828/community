@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   const C=SettlementCore;
-  let inFlight=null;
+  let inFlight=null,prepared=null;
   let host,bridge,report=null,epoch=0,year=new Date(Date.now()+9*3600000).getUTCFullYear(),month=new Date(Date.now()+9*3600000).getUTCMonth()+1,mode='calendar',scope='monthly',page=1,day='',editing=null,busy=false;
   const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   const $=id=>host.querySelector('#settlement-'+id);
@@ -9,7 +9,7 @@
   const money=v=>`${v} USDT`;
   function notice(text){$('message').textContent=text;}
   function permitted(){return bridge&&bridge.profile()?.grade==='admin';}
-  function reset(){epoch++;report=null;day='';page=1;editing=null;busy=false;inFlight=null;if(host){host.replaceChildren();host=null;}}
+  function reset(){epoch++;report=null;prepared=null;day='';page=1;editing=null;busy=false;inFlight=null;if(host){host.replaceChildren();host=null;}}
   function mount(){
     host=document.getElementById('member-admin-settlement-view');
     host.innerHTML=`<div class="settlement-heading"><div><h4>정산 내역</h4><p class="settlement-help">실제 입출금일 · KST · USDT</p></div><span id="settlement-count" class="settlement-count"></span></div>
@@ -52,12 +52,12 @@
     return job.promise;
   }
   async function performLoad(requestedYear){
-    if(busy||!permitted())return;const current=++epoch,token=bridge.token(),generation=bridge.generation();report=null;closeEditor();render();notice('정산 기록을 불러오는 중…');$('export').disabled=true;
+    if(busy||!permitted())return;const current=++epoch,token=bridge.token(),generation=bridge.generation();report=null;prepared=null;closeEditor();render();notice('정산 기록을 불러오는 중…');$('export').disabled=true;
     try{const result=await bridge.api('admin_settlement',{token,year:String(requestedYear)});
       if(current!==epoch||token!==bridge.token()||generation!==bridge.generation()||!permitted())return;
       if(year!==requestedYear)return;
       if(!result.ok)throw Error(result.error==='unknown_action'?'Apps Script에 정산 패치를 배포한 뒤 다시 조회해 주세요.':`정산 조회 실패: ${result.error}`);
-      C.total(result.events);report=result;for(const y of result.years)if(![...$('year').options].some(o=>o.value===y))$('year').add(new Option(y,y));render();
+      prepared=C.prepare(result);report=result;for(const y of result.years)if(![...$('year').options].some(o=>o.value===y))$('year').add(new Option(y,y));render();
       const unresolved=result.exceptions.filter(r=>r.kind==='receipt'&&!r.day);
       const linked=result.recovery?.recovered?` · 기존 입금 ${result.recovery.recovered}건 연결`:'';
       const undatedAmount=C.amount(unresolved.reduce((sum,r)=>sum+C.units(r.amount),0));
@@ -87,7 +87,7 @@
     host.querySelectorAll('[data-mode]').forEach(b=>{const on=b.dataset.mode===mode;b.className=on?'liquid-btn-smoke':'';b.setAttribute('aria-pressed',String(on));});
     if(!report){$('count').textContent='';return;}
     try{
-      const events=C.selected(report,annual?0:month),t=C.total(events);
+      const period=prepared.period(annual?0:month),events=period.events,t=period.total;
       $('count').textContent=`결제 ${t.count}건`;
       for(const [name,value,cls] of [['입금',t.paid,''],['환불',t.refund,''],['순수납',t.net,'is-primary']]){
         const card=el('div',undefined,cls),valueLine=el('strong',value);valueLine.append(el('small','USDT'));
@@ -98,7 +98,7 @@
         const dl=el('dl',undefined,'settlement-cost-grid');
         for(const [label,value] of [['운영자 분배',t.distribution],['출금 수수료',t.fees],['차감 후',t.afterCosts],['본인 인출 · 자금 이동',t.ownerWithdrawals]]){dl.append(el('dt',label),el('dd',money(value)));}
         $('cost-details').append(dl,el('p','순수납은 입금 − 환불 + 환불 정정입니다. 본인 인출은 다시 차감하지 않습니다. 차감 후 금액은 계좌 잔액이 아닙니다.','settlement-help'));
-        const flows=events.filter(e=>['distribution','owner_withdrawal'].includes(e.eventType));
+        const flows=period.flows;
         if(flows.length)$('cost-details').append(table(['날짜(KST)','구분','수령인','금액 USDT','수수료'],flows.map(e=>[C.kst(e.occurredAt).slice(0,16),C.labels[e.eventType],e.username,C.amount(-C.units(e.amount)),e.feeAmount||'0'])));
       }
       if(calendar){
@@ -107,32 +107,41 @@
         for(let i=0;i<offset;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
         const today=new Date(Date.now()+9*3600000).toISOString().slice(0,10);
         for(let d=1;d<=days;d++){
-          const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,items=events.filter(e=>e.day===date),sum=C.total(items),b=el('button');b.type='button';
+          const date=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`,daily=prepared.day(date),items=daily.events,sum=daily.total,b=el('button');b.dataset.day=date;b.type='button';
           b.setAttribute('aria-label',`${date}, 거래 ${items.length}건, 순수납 ${sum.net} USDT, 분배·수수료 차감 후 ${sum.afterCosts} USDT`);b.title=b.getAttribute('aria-label');b.setAttribute('aria-pressed',String(day===date));if(date===today)b.setAttribute('aria-current','date');
           b.append(el('span',String(d)));if(items.length){b.classList.add('has-transactions');const amount=el('strong',undefined);amount.append(el('span',sum.net,'settlement-amount-full'),el('span',compact(sum.net),'settlement-amount-short'));b.append(amount,el('small',`${items.length}건`));}
-          b.onclick=()=>{if(busy)return;day=day===date?'':date;page=1;closeEditor();render();$('list').focus({preventScroll:true});};$('calendar').append(b);
+          b.onclick=()=>{if(busy)return;day=day===date?'':date;page=1;closeEditor();renderSelection();$('list').focus({preventScroll:true});};$('calendar').append(b);
         }
         for(let i=0;i<(7-(offset+days)%7)%7;i++)$('calendar').append(el('span',undefined,'settlement-calendar-blank'));
       }
       if(annual&&mode!=='list'){
-        const rows=[];for(let m=1;m<=12;m++){const sum=C.total(C.selected(report,m));rows.push([`${m}월`,sum.paid,sum.refund,sum.net,String(sum.count)]);}
+        const rows=[];for(let m=1;m<=12;m++){const sum=prepared.period(m).total;rows.push([`${m}월`,sum.paid,sum.refund,sum.net,String(sum.count)]);}
         const grid=table(['월','입금 USDT','환불 USDT','순수납 USDT','결제'],rows);grid.classList.add('settlement-annual-table');
         [...grid.querySelectorAll('tbody tr')].forEach((tr,i)=>{const cell=tr.firstElementChild,button=el('button',`${i+1}월`);button.type='button';button.setAttribute('aria-label',`${year}년 ${i+1}월 상세 보기`);button.onclick=()=>{scope='monthly';month=i+1;mode='list';day='';page=1;$('scope').value=scope;$('month').value=month;closeEditor();render();host.closest('.member-dialog-surface')?.scrollTo({top:0});};cell.replaceChildren(button);});
         $('annual').append(grid,el('p','월을 선택하면 해당 월의 거래 목록을 확인할 수 있습니다.','settlement-help'));
       }
-      const customers=events.filter(e=>!['distribution','owner_withdrawal'].includes(e.eventType)),plans=[...new Set(customers.map(e=>e.plan))];
-      $('breakdown').append(table(['플랜','입금 USDT','순수납 USDT','결제'],plans.length?plans.map(p=>{const sum=C.total(customers.filter(e=>e.plan===p));return [plan(p),sum.paid,sum.net,String(sum.count)];}):[['해당 기간 내역 없음','—','—','0']]));
+      $('breakdown').append(table(['플랜','입금 USDT','순수납 USDT','결제'],period.plans.length?period.plans.map(p=>[plan(p.plan),p.total.paid,p.total.net,String(p.total.count)]):[['해당 기간 내역 없음','—','—','0']]));
+      renderList(events,calendar,annual);
+      $('exceptions').querySelector('summary').textContent=`미확인·무료 이용권 (${report.exceptions.length}건)`;
+      let exCount=0;const exMore=el('button','더 보기','liquid-btn-smoke');exMore.type='button';const appendEx=()=>{for(const r of report.exceptions.slice(exCount,exCount+20))$('exception-list').insertBefore(recordCard(r,true),exMore);exCount+=20;exMore.hidden=exCount>=report.exceptions.length;};$('exception-list').append(exMore);exMore.onclick=appendEx;appendEx();
+    }catch(e){report=null;prepared=null;$('export').disabled=true;notice(e.message);}
+  }
+  function renderSelection(){
+    if(!host||!report||!prepared)return;
+    $('list').replaceChildren();
+    for(const b of $('calendar').querySelectorAll('[data-day]'))b.setAttribute('aria-pressed',String(b.dataset.day===day));
+    const annual=scope==='annual';
+    renderList(prepared.period(annual?0:month).events,!annual&&mode==='calendar',annual);
+  }
+  function renderList(events,calendar,annual){
       $('list').hidden=annual&&mode!=='list';$('list').tabIndex=-1;
       if(calendar&&!day){$('list').append(el('div','날짜를 선택해 주세요','settlement-day-prompt'),el('p','선택한 날짜의 정확한 금액과 거래 정보를 이곳에서 확인할 수 있습니다.','settlement-help'));}
       else if(!$('list').hidden){
-        const shown=events.filter(e=>!day||e.day===day).sort((a,b)=>b.occurredAt.localeCompare(a.occurredAt));
+        const shown=day?prepared.day(day).events:events;
         const heading=el('div',undefined,'settlement-list-heading');heading.append(el('h4',day?`${month}월 ${Number(day.slice(-2))}일`:'거래 목록'),el('span',`${shown.length}건`,'settlement-help'));$('list').append(heading);
-        if(calendar){const sum=C.total(shown);$('list').append(el('p',`순수납 ${money(sum.net)}${sum.distribution!=='0'||sum.fees!=='0'?` · 차감 후 ${money(sum.afterCosts)}`:''}`,'settlement-day-total'));}
+        if(calendar){const sum=prepared.day(day).total;$('list').append(el('p',`순수납 ${money(sum.net)}${sum.distribution!=='0'||sum.fees!=='0'?` · 차감 후 ${money(sum.afterCosts)}`:''}`,'settlement-day-total'));}
         renderTransactions(shown,calendar);
       }
-      $('exceptions').querySelector('summary').textContent=`미확인·무료 이용권 (${report.exceptions.length}건)`;
-      let exCount=0;const exMore=el('button','더 보기','liquid-btn-smoke');exMore.type='button';const appendEx=()=>{for(const r of report.exceptions.slice(exCount,exCount+20))$('exception-list').insertBefore(recordCard(r,true),exMore);exCount+=20;exMore.hidden=exCount>=report.exceptions.length;};$('exception-list').append(exMore);exMore.onclick=appendEx;appendEx();
-    }catch(e){report=null;$('export').disabled=true;notice(e.message);}
   }
   function renderTransactions(shown,calendar){
     const pages=Math.max(1,Math.ceil(shown.length/10));page=Math.max(1,Math.min(page,pages));
@@ -149,7 +158,7 @@
     $('list').append(collection);
     if(pages>1){const nav=el('nav',undefined,'settlement-pagination');nav.setAttribute('aria-label','거래 목록 페이지');
       const prev=el('button','이전'),next=el('button','다음');prev.type=next.type='button';prev.disabled=page===1;next.disabled=page===pages;
-      prev.onclick=()=>{if(busy)return;page--;closeEditor();render();$('list').focus({preventScroll:true});$('list').scrollIntoView({block:'start'});};next.onclick=()=>{if(busy)return;page++;closeEditor();render();$('list').focus({preventScroll:true});$('list').scrollIntoView({block:'start'});};
+      prev.onclick=()=>{if(busy)return;page--;closeEditor();renderSelection();$('list').focus({preventScroll:true});$('list').scrollIntoView({block:'start'});};next.onclick=()=>{if(busy)return;page++;closeEditor();renderSelection();$('list').focus({preventScroll:true});$('list').scrollIntoView({block:'start'});};
       nav.append(prev,el('span',`${page} / ${pages} · ${shown.length}건`),next);$('list').append(nav);
     }
   }
