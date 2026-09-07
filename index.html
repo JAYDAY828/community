@@ -4538,11 +4538,12 @@
                         </form>
 
                         <div id="member-admin-panel" class="hidden border-y border-white/10 py-5 space-y-4">
-                            <div class="grid grid-cols-2 border border-gray-700 rounded-md overflow-hidden">
+                            <div class="grid grid-cols-3 border border-gray-700 rounded-md overflow-hidden">
                                 <button id="member-admin-tab-requests" type="button" onclick="setMemberAdminTab('requests')"
                                     class="liquid-btn-smoke h-10 text-xs font-bold">플랜 승인</button>
                                 <button id="member-admin-tab-users" type="button" onclick="setMemberAdminTab('users')"
                                     class="h-10 text-xs font-bold text-gray-400 hover:text-white border-l border-gray-700">유저 관리</button>
+                                <button id="member-admin-tab-settlement" type="button" onclick="setMemberAdminTab('settlement')" class="h-10 text-xs font-bold text-gray-400 hover:text-white">정산 내역</button>
                             </div>
 
                             <div id="member-admin-requests-view" class="space-y-4">
@@ -4699,6 +4700,7 @@
                                     <button id="member-admin-user-save" type="submit" class="liquid-btn-white w-full h-10 rounded-md text-xs font-extrabold">변경사항 저장</button>
                                 </form>
                             </div>
+                            <div id="member-admin-settlement-view" class="hidden space-y-4"></div>
                         </div>
 
                         <div id="member-subscription-actions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -7304,7 +7306,20 @@
                 item.innerHTML = `<div class="flex justify-between gap-3 text-xs"><strong class="text-gray-300"></strong><span class="text-accent-green"></span></div><p class="mt-1 text-[10px] text-gray-600"></p>`;
                 item.querySelector('strong').textContent = `${request.username} · ${plan}`;
                 item.querySelector('span').textContent = request.approvalSource || 'APPLIED';
-                item.querySelector('p').textContent = `${request.completedAt || '-'}${request.submittedTxid ? ` · ${request.submittedTxid}` : ''}`;
+                const payment = document.createElement('p');
+                payment.className = 'mt-1 text-xs text-brand';
+                const verified = request.paymentStatus === 'VERIFIED' && Number(request.matchedAmount) > 0;
+                const amount = verified ? `${request.matchedAmount} USDT` : Number(request.amount) === 0 ? '무상 제공' : `신청 금액 ${request.amount} USDT · 입금 미확인`;
+                payment.textContent = `${request.months === 0 ? '무제한' : `${request.months}개월`} · ${verified ? '결제 ' : ''}${amount}`;
+                item.querySelector('div').after(payment);
+                item.querySelector('p.text-gray-600').textContent = request.completedAt || '-';
+                if (request.submittedTxid) {
+                    const details = document.createElement('details');
+                    details.className = 'mt-1 text-xs text-gray-500 break-all';
+                    const summary = document.createElement('summary'); summary.textContent = '거래내역 확인';
+                    const tx = document.createElement('p'); tx.textContent = request.submittedTxid;
+                    details.append(summary, tx); item.append(details);
+                }
                 historyContainer.appendChild(item);
             });
         }
@@ -7397,17 +7412,16 @@
 
         function setMemberAdminTab(tab) {
             if (memberState.profile?.grade !== 'admin') return;
-            memberState.adminTab = tab === 'users' ? 'users' : 'requests';
-            const isUsers = memberState.adminTab === 'users';
-            document.getElementById('member-admin-requests-view').classList.toggle('hidden', isUsers);
-            document.getElementById('member-admin-users-view').classList.toggle('hidden', !isUsers);
-            const requestsTab = document.getElementById('member-admin-tab-requests');
-            const usersTab = document.getElementById('member-admin-tab-users');
-            requestsTab.className = `h-10 text-xs font-bold ${isUsers ? 'text-gray-400 hover:text-white' : 'liquid-btn-smoke'}`;
-            requestsTab.setAttribute('aria-pressed', String(!isUsers));
-            usersTab.className = `h-10 text-xs font-bold ${isUsers ? 'liquid-btn-smoke' : 'text-gray-400 hover:text-white'}`;
-            usersTab.setAttribute('aria-pressed', String(isUsers));
-            if (isUsers) loadAdminUsers();
+            memberState.adminTab = ['requests','users','settlement'].includes(tab) ? tab : 'requests';
+            for (const id of ['requests','users','settlement']) {
+                const active = id === memberState.adminTab;
+                document.getElementById(`member-admin-${id}-view`).classList.toggle('hidden', !active);
+                const button = document.getElementById(`member-admin-tab-${id}`);
+                button.className = `h-10 text-xs font-bold ${active ? 'liquid-btn-smoke' : 'text-gray-400 hover:text-white'}`;
+                button.setAttribute('aria-pressed', String(active));
+            }
+            if (memberState.adminTab === 'users') loadAdminUsers();
+            else if (memberState.adminTab === 'settlement') SettlementUI.open({api:memberApi, token:memberToken, profile:()=>memberState.profile, generation:()=>memberState.sessionGeneration, plan:p=>MEMBER_CATALOG[p]?.label || p});
             else loadAdminRequests();
         }
 
@@ -8167,6 +8181,7 @@
             memberState.adminUsersPage = 1;
             memberState.adminUsersPages = 1;
             memberState.adminUsersQuery = '';
+            window.SettlementUI?.reset();
             memberState.adminTab = 'requests';
             memberState.adminRequestsLoaded = false;
             memberState.adminUsersLoaded = false;
@@ -8207,6 +8222,8 @@
             updateMemberConsentState();
         });
     </script>
+    <script src="./assets/settlement-core.js"></script>
+    <script src="./assets/settlement-ui.js"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
