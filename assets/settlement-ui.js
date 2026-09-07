@@ -19,9 +19,9 @@
       <div class="settlement-heading"><div><h4>출금 기록 관리</h4><p class="settlement-help">완료된 USDT 출금을 분류해 기록합니다. 실제 송금 기능은 없습니다.</p></div><button id="settlement-w-close" type="button" class="liquid-btn-smoke">닫기</button></div>
       <div class="settlement-toolbar"><button id="settlement-w-fetch" type="button" class="liquid-btn-white">OKX 출금 불러오기</button><button id="settlement-w-saved" type="button" class="liquid-btn-smoke">저장된 기록</button></div>
       <p id="settlement-w-message" role="status" class="settlement-help"></p>
-      <div class="settlement-withdrawal-workspace"><div><div id="settlement-w-items" class="settlement-withdrawal-items"></div><div class="settlement-pagination"><button id="settlement-w-prev" type="button" class="liquid-btn-smoke">이전</button><span id="settlement-w-page"></span><button id="settlement-w-next" type="button" class="liquid-btn-smoke">다음</button></div><button id="settlement-w-more" type="button" class="liquid-btn-smoke" hidden>이전 출금 더 불러오기</button></div>
+      <div id="settlement-w-workspace" class="settlement-withdrawal-workspace"><div><div id="settlement-w-items" class="settlement-withdrawal-items"></div><div id="settlement-w-pagination" class="settlement-pagination"><button id="settlement-w-prev" type="button" class="liquid-btn-smoke">이전</button><span id="settlement-w-page"></span><button id="settlement-w-next" type="button" class="liquid-btn-smoke">다음</button></div><button id="settlement-w-more" type="button" class="liquid-btn-smoke" hidden>이전 출금 더 불러오기</button></div>
       <form id="settlement-w-form" class="settlement-adjust" hidden>
-        <h4 id="settlement-w-title"></h4><p id="settlement-w-evidence" class="settlement-help"></p>
+        <div class="settlement-heading"><h4 id="settlement-w-title"></h4><button id="settlement-w-edit-close" type="button" class="liquid-btn-smoke">편집 닫기</button></div><p id="settlement-w-evidence" class="settlement-help"></p>
         <label>기록 분류<select id="settlement-w-kind" required><option value="">분류를 선택하세요</option><option value="owner_withdrawal">본인 인출</option><option value="refund">고객 환불</option><option value="expense">기타 지출 · 직접 입력</option><option value="excluded">테스트 · 정산 제외</option></select></label>
         <label id="settlement-w-category-label" hidden>지출 분류명<input id="settlement-w-category" maxlength="40" placeholder="예: 서버 이용료"><span class="settlement-help">이 분류의 출금액은 최종 정산에서 차감됩니다. 수수료는 별도로 집계합니다.</span></label><label id="settlement-w-receipt-label">환불할 결제<select id="settlement-w-receipt"></select></label>
         <label>기존 기록 연결<select id="settlement-w-link"></select><span class="settlement-help">이미 기록한 환불·인출이라면 해당 기록을 선택하세요. 중복 차감 없이 출금 증빙을 연결합니다.</span></label>
@@ -49,6 +49,7 @@
     $('scope').onchange=()=>{if(busy)return;scope=$('scope').value;day='';page=1;closeEditor();if(report?.year!==requestYear()){report=null;prepared=null;render();load();}else render();};
     $('refresh').onclick=load;
     $('withdrawals-open').onclick=()=>openWithdrawals();$('w-close').onclick=closeWithdrawals;
+    $('w-edit-close').onclick=()=>{if(busy)return;withdrawalState.selected=null;withdrawalState.target={};$('w-form').hidden=true;$('w-serial').value='';renderWithdrawals();};
     $('w-fetch').onclick=()=>fetchWithdrawals(false);$('w-saved').onclick=()=>fetchWithdrawals(true);$('w-more').onclick=()=>fetchWithdrawals(false,true);
     $('w-prev').onclick=()=>{withdrawalState.page--;renderWithdrawals();};$('w-next').onclick=()=>{withdrawalState.page++;renderWithdrawals();};
     $('w-kind').onchange=()=>{$('w-receipt-label').hidden=$('w-kind').value!=='refund';$('w-receipt').required=$('w-kind').value==='refund';$('w-category-label').hidden=$('w-kind').value!=='expense';$('w-category').required=$('w-kind').value==='expense';};$('w-form').onsubmit=saveWithdrawal;
@@ -251,14 +252,16 @@
   }
   function renderWithdrawals(){
     const state=withdrawalState;if(!state)return;
+    $('w-workspace').classList.toggle('is-editing',Boolean(state.selected));
     const pages=Math.max(1,Math.ceil(state.items.length/8));state.page=Math.max(1,Math.min(state.page,pages));$('w-items').replaceChildren();
     for(const item of state.items.slice((state.page-1)*8,state.page*8)){
       const s=item.snapshot,b=el('button',undefined,'settlement-withdrawal-row');b.type='button';
       const info=el('span');info.append(el('strong',`${s.amt} USDT`),el('small',`${C.kst(new Date(Number(s.ts)).toISOString())} · ${s.chain||'내부 이체'}`),el('small',`출금 ID ${s.wdId} · 수수료 ${s.fee} USDT`));
       b.append(info,el('span',item.error?(item.state==='2'?'확인 필요':'미완료'):(item.kind==='expense'?item.category:withdrawalLabels[item.kind])||(item.matches.length?'기존 기록 있음':'미분류'),'settlement-cashflow-tag'));
-      b.disabled=Boolean(item.error);b.title=item.error?withdrawalError(item.error):'분류 및 기록';b.onclick=()=>selectWithdrawal(item);$('w-items').append(b);
+      b.setAttribute('aria-pressed',String(state.selected?.item.snapshot.wdId===s.wdId));b.disabled=Boolean(item.error);b.title=item.error?withdrawalError(item.error):'분류 및 기록';b.onclick=()=>selectWithdrawal(item);$('w-items').append(b);
     }
     if(!state.items.length)$('w-items').append(el('p','표시할 기록이 없습니다. OKX 출금 불러오기로 최근 내역을 확인하세요.','settlement-empty'));
+    $('w-pagination').hidden=pages===1;
     $('w-page').textContent=`${state.page} / ${pages}`;$('w-prev').disabled=state.page===1;$('w-next').disabled=state.page===pages;$('w-more').hidden=!state.cursor;
   }
   function selectWithdrawal(item){
@@ -271,7 +274,7 @@
     for(const link of state.links.filter(l=>C.units(l.amount.replace(/^-/,''))===C.units(s.amt)))$('w-link').add(new Option(`${C.labels[link.type]} · ${link.amount} USDT · ${C.kst(link.occurredAt)} · ${link.requestId}`,link.eventId));
     $('w-link').value=item.linkedEventId||state.target.link||(item.matches.length===1?item.matches[0]:'');$('w-link').disabled=Boolean(item.revision);
     $('w-kind').value=item.kind||(state.target.receipt?'refund':'');$('w-receipt').value=item.requestId||state.target.receipt||'';
-    if(!item.revision)$('w-link').onchange();$('w-kind').onchange();if(item.revision||!$('w-category').value)$('w-category').value=item.category||'';$('w-reason').value=item.reason||'';$('w-save').textContent=item.revision?'정정 기록 저장':'기록 저장';$('w-result').textContent='';
+    if(!item.revision)$('w-link').onchange();$('w-kind').onchange();if(item.revision||!$('w-category').value)$('w-category').value=item.category||'';$('w-reason').value=item.reason||'';$('w-save').textContent=item.revision?'정정 기록 저장':'기록 저장';$('w-result').textContent='';renderWithdrawals();
   }
   async function saveWithdrawal(e){
     e.preventDefault();if(busy||!permitted()||!withdrawalState?.selected)return;
@@ -283,7 +286,7 @@
       const result=await bridge.api('admin_withdrawal_save',{...payload,eventId:selected.eventId,token,adminSerial:serial});
       if(!host||token!==bridge.token()||generation!==bridge.generation()||state!==withdrawalState)return;
       if(!result.ok){selected.signature=null;throw Error(withdrawalError(result.error));}
-      busy=false;state.target={withdrawal:item.snapshot.wdId};await load();await fetchWithdrawals(true);
+      busy=false;state.target={};await load();await fetchWithdrawals(true);
       if(host&&token===bridge.token()&&generation===bridge.generation()&&state===withdrawalState)$('w-message').textContent+=report?' · 기록을 저장하고 정산에 반영했습니다.':' · 저장은 완료했으나 정산 재조회에 실패했습니다. 새로고침해 주세요.';
     }catch(e){if(host&&token===bridge.token()&&state===withdrawalState)$('w-result').textContent=e.message||'응답을 확인하지 못했습니다. 같은 내용으로 다시 저장하면 중복되지 않습니다.';}
     finally{if(host&&token===bridge.token()&&generation===bridge.generation()){busy=false;$('w-serial').value='';for(const input of host.querySelectorAll('button,input,select,textarea'))input.disabled=false;if(state===withdrawalState){$('w-link').disabled=Boolean(state.selected?.item.revision);renderWithdrawals();}$('export').disabled=!report;}}

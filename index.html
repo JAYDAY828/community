@@ -884,10 +884,21 @@
 .settlement-table-wrap :is(th,td):first-child { text-align:left; }
 .settlement-table-wrap th { color:#999; font-size:11px; font-weight:500; background:#ffffff04; }
 .settlement-table-wrap tbody tr:last-child > td { border-bottom:0; }
+/* Preserve native selection semantics while styling supported browser pickers. */
+#member-admin-settlement-view select option { background:#191919; color:#ddd; }
+@supports (appearance:base-select) {
+ #member-admin-settlement-view select, #member-admin-settlement-view select::picker(select) { appearance:base-select; }
+ #member-admin-settlement-view select { gap:12px; align-items:center; }
+ #member-admin-settlement-view select::picker(select) { background:#191919; color:#ddd; border:1px solid #454545; border-radius:9px; padding:5px; box-shadow:0 12px 30px #0008; max-height:320px; overflow-y:auto; }
+ #member-admin-settlement-view select option { padding:9px 12px; border-radius:5px; overflow-wrap:anywhere; }
+ #member-admin-settlement-view select option:checked { background:#333; color:#fff; font-weight:600; }
+ #member-admin-settlement-view select option:hover, #member-admin-settlement-view select option:focus { background:#404040; color:#fff; outline:none; }
+ #member-admin-settlement-view select::picker-icon, #member-admin-settlement-view select option::checkmark { color:#c4c4c4; }
+}
 .settlement-annual-table { margin:0; }
-.settlement-annual-table td:first-child { width:64px; }
+.settlement-annual-table :is(th,td):first-child { width:88px; min-width:76px; white-space:nowrap; overflow-wrap:normal; }
 .settlement-annual-table td:nth-child(4) { color:#e2cc82; }
-#member-admin-settlement-view .settlement-annual-table button { padding:2px 6px; min-height:27px; text-decoration:underline; text-underline-offset:4px; text-decoration-color:#555; }
+#member-admin-settlement-view .settlement-annual-table button { padding:2px 6px; min-height:27px; white-space:nowrap; word-break:normal; overflow-wrap:normal; text-decoration:underline; text-underline-offset:4px; text-decoration-color:#555; }
 .settlement-transactions { margin-top:10px; border:1px solid #303030; border-radius:10px; overflow:hidden; }
 .settlement-transaction-header,.settlement-transaction > summary { display:grid; grid-template-columns:125px minmax(0,1fr) 84px 125px 34px; align-items:center; gap:12px; padding:10px 12px; }
 .settlement-transaction-header { color:#939393; font-size:11px; background:#ffffff04; }
@@ -928,7 +939,11 @@
 .settlement-withdrawals { margin:18px 0; padding:18px; border:1px solid #383838; border-radius:14px; background:linear-gradient(135deg,#191919,#101010); }
 .settlement-withdrawals[hidden],.settlement-withdrawals [hidden] { display:none!important; }
 .settlement-withdrawal-workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; margin:14px 0; align-items:start; }
-.settlement-withdrawal-workspace > div:only-child { grid-column:1/-1; }
+.settlement-withdrawal-workspace:not(.is-editing) > div { grid-column:1/-1; }
+.settlement-withdrawal-workspace:not(.is-editing) .settlement-withdrawal-items { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.settlement-withdrawal-items > :only-child { grid-column:1/-1; }
+.settlement-withdrawal-row > span:first-child { min-width:0; }
+.settlement-withdrawal-row[aria-pressed="true"] { border-color:#d2c48b; background:#25231d; }
 .settlement-withdrawal-row { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; padding:12px; border:1px solid #303030; border-radius:9px; background:#141414; text-align:left; transition:background .18s,border-color .18s; }
 .settlement-withdrawal-row:hover { background:#202020; border-color:#555; }.settlement-withdrawal-row:disabled { opacity:.55; cursor:default; }
 .settlement-withdrawal-row strong { font-size:14px; font-variant-numeric:tabular-nums; }.settlement-withdrawal-row small { display:block; color:#929292; font-size:11px; margin-top:4px; overflow-wrap:anywhere; }
@@ -936,7 +951,7 @@
 .settlement-withdrawals select,.settlement-withdrawals input,.settlement-withdrawals textarea { width:100%; min-width:0; box-sizing:border-box; }
 .settlement-withdrawals .settlement-toolbar { flex-wrap:wrap; justify-content:flex-start; }
 .settlement-manual-link { color:#999; font-size:12px; margin:12px; text-decoration:underline; text-underline-offset:3px; }
-@container (max-width:700px) { .settlement-withdrawal-workspace { grid-template-columns:minmax(0,1fr); }.settlement-withdrawals { padding:12px; }.settlement-withdrawals .settlement-heading { align-items:flex-start; } }
+@container (max-width:700px) { .settlement-withdrawal-workspace:not(.is-editing) .settlement-withdrawal-items { grid-template-columns:minmax(0,1fr); }.settlement-withdrawal-workspace { grid-template-columns:minmax(0,1fr); }.settlement-withdrawals { padding:12px; }.settlement-withdrawals .settlement-heading { align-items:flex-start; } }
 @container (max-width:760px) {
  .settlement-workspace.is-calendar { grid-template-columns:minmax(0,1fr); }
  .settlement-transaction-header,.settlement-transaction > summary { grid-template-columns:110px minmax(0,1fr) 75px 100px 30px; gap:8px; }
@@ -8400,8 +8415,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.14.0"></script>
-    <script src="./assets/settlement-ui.js?v=6.14.0"></script>
+    <script src="./assets/settlement-core.js?v=6.14.2"></script>
+    <script src="./assets/settlement-ui.js?v=6.14.2"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
