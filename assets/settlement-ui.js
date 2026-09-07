@@ -15,7 +15,7 @@
     host.innerHTML=`<div class="settlement-heading"><div><h4>정산 내역</h4><p class="settlement-help">실제 입출금일 · KST · USDT</p></div><span id="settlement-count" class="settlement-count"></span></div>
     <div class="settlement-controls"><div class="settlement-period-controls"><label class="settlement-sr-only" for="settlement-scope">조회 단위</label><select id="settlement-scope"><option value="monthly">월간</option><option value="annual">연간</option></select><label class="settlement-sr-only" for="settlement-year">연도</label><select id="settlement-year"></select><label id="settlement-month-label"><span class="settlement-sr-only">월</span><select id="settlement-month"></select></label></div><div class="settlement-actions"><button id="settlement-refresh" type="button" class="liquid-btn-smoke">새로고침</button><button id="settlement-export" class="liquid-btn-smoke" type="button" disabled>Excel 내보내기</button></div></div>
     <p id="settlement-message" role="status" class="settlement-help settlement-status"></p><div id="settlement-summary" class="settlement-summary"></div>
-    <details id="settlement-costs" class="settlement-disclosure"><summary>차감 내역</summary><div id="settlement-cost-details"></div></details>
+    <details id="settlement-costs" class="settlement-disclosure settlement-cashflow"><summary>자금 흐름</summary><div id="settlement-cost-details"></div></details>
     <div class="settlement-viewbar"><h4 id="settlement-period-title"></h4><div id="settlement-modes" class="settlement-modes" role="group" aria-label="정산 보기"><button data-mode="calendar" type="button">달력</button><button data-mode="list" type="button">거래 목록</button></div></div>
     <div id="settlement-workspace" class="settlement-workspace"><section id="settlement-calendar-panel" class="settlement-calendar-panel" aria-label="일별 정산 달력"><div class="settlement-calendar-legend">일별 순수납 · USDT</div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">금액은 요약 표시입니다. 날짜를 선택하면 정확한 금액을 확인할 수 있습니다.</p></section><section id="settlement-annual" hidden></section><section id="settlement-list" aria-label="거래 목록"></section></div>
     <details id="settlement-plan-panel" class="settlement-disclosure"><summary>플랜별 집계</summary><div id="settlement-breakdown"></div></details>
@@ -94,10 +94,21 @@
         card.append(el('span',name),valueLine);if(name==='환불'&&t.reversal!=='0')card.append(el('small',`환불 정정 +${t.reversal}`));$('summary').append(card);
       }
       if(t.distribution!=='0'||t.fees!=='0'||t.ownerWithdrawals!=='0'){
-        $('costs').hidden=false;$('costs').querySelector('summary').textContent=`차감 내역 · 분배·수수료 차감 후 ${money(t.afterCosts)}`;
+        $('costs').hidden=false;
+        const heading=el('span',undefined,'settlement-cashflow-heading'),balance=el('span',undefined,'settlement-cashflow-balance'),chevron=el('span',undefined,'settlement-cashflow-chevron');
+        heading.append(el('strong','자금 흐름'),el('small','본인 인출 · 운영자 분배 · 수수료'));
+        const amount=el('strong',t.afterCosts);amount.append(el('small','USDT'));
+        balance.append(el('span','분배·수수료 반영 후'),amount);chevron.setAttribute('aria-hidden','true');
+        $('costs').querySelector('summary').replaceChildren(heading,balance,chevron);
+        const groups=el('div',undefined,'settlement-cashflow-groups'),adjusted=el('section'),owner=el('section');
+        adjusted.append(el('h5','정산 반영'));
         const dl=el('dl',undefined,'settlement-cost-grid');
-        for(const [label,value] of [['운영자 분배',t.distribution],['출금 수수료',t.fees],['차감 후',t.afterCosts],['본인 인출 · 자금 이동',t.ownerWithdrawals]]){dl.append(el('dt',label),el('dd',money(value)));}
-        $('cost-details').append(dl,el('p','순수납은 입금 − 환불 + 환불 정정입니다. 본인 인출은 다시 차감하지 않습니다. 차감 후 금액은 계좌 잔액이 아닙니다.','settlement-help'));
+        for(const [label,value] of [['운영자 분배',t.distribution],['출금 수수료',t.fees]])dl.append(el('dt',label),el('dd',money(value)));
+        adjusted.append(dl);
+        const ownerHeading=el('div',undefined,'settlement-cashflow-owner-heading');ownerHeading.append(el('h5','본인 인출'),el('span','자금 이동','settlement-cashflow-tag'));
+        const ownerAmount=el('strong',t.ownerWithdrawals,'settlement-cashflow-owner-amount');ownerAmount.append(el('small','USDT'));
+        owner.append(ownerHeading,ownerAmount,el('p','순수납에서 다시 차감하지 않습니다.','settlement-help'));groups.append(adjusted,owner);
+        $('cost-details').append(groups,el('p','반영 후 금액은 순수납에서 분배·출금 수수료를 뺀 금액이며, 계좌 잔액이 아닙니다.','settlement-help'));
         const flows=period.flows;
         if(flows.length)$('cost-details').append(table(['날짜(KST)','구분','수령인','금액 USDT','수수료'],flows.map(e=>[C.kst(e.occurredAt).slice(0,16),C.labels[e.eventType],e.username,C.amount(-C.units(e.amount)),e.feeAmount||'0'])));
       }

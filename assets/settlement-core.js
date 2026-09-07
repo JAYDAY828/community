@@ -92,15 +92,96 @@
       const [c,d]=header(46);d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x800,true);d.setUint32(16,sum,true);d.setUint32(20,data.length,true);d.setUint32(24,data.length,true);d.setUint16(28,n.length,true);d.setUint32(42,offset,true);central.push(c,n);offset+=30+n.length+data.length;}
     const length=central.reduce((n,p)=>n+p.length,0),[end,e]=header(22);e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,length,true);e.setUint32(16,offset,true);const result=new Uint8Array(offset+length+22);let pos=0;for(const p of [...parts,...central,end]){result.set(p,pos);pos+=p.length;}return result;
   }
+  // Presentation metadata is separate from the exported records and exact money strings.
+  function exportLayout(sheet,index){
+    const rows=[],merges=[];
+    const add=(values,role='body',height=26,spans=[])=>{
+      rows.push({values,role,height});const r=rows.length;
+      for(const [a,b] of spans)merges.push(`${column(a)}${r}:${column(b)}${r}`);
+    };
+    if(index===0){
+      const value=new Map(sheet.rows.filter(r=>r.length===2));
+      add([], 'blank',12);
+      add([`${value.get('정산 기간')} 정산 내역`],'title',32,[[0,8]]);
+      add([`${value.get('기준')}  ·  추출 ${value.get('추출 시각')}`],'note',24,[[0,8]]);
+      add([],'blank',10);
+      add(['입금 USDT','','','환불 USDT','','','순수납 USDT'],'metric-label',24,[[0,2],[3,5],[6,8]]);
+      add([value.get('입금 합계 USDT'),'','',value.get('환불 USDT'),'','',value.get('순수납 USDT')],'metric',36,[[0,2],[3,5],[6,8]]);
+      add([],'blank',10);
+      const pairs=[['결제 건수',value.get('결제 건수'),'환불 정정 USDT',value.get('환불 정정 USDT')]];
+      if(value.has('운영자 분배 USDT'))pairs.push(
+        ['운영자 분배 USDT',value.get('운영자 분배 USDT'),'출금 수수료 USDT',value.get('출금 수수료 USDT')],
+        ['분배·수수료 차감 후 USDT',value.get('분배·수수료 차감 후 USDT'),'본인 인출 USDT · 자금 이동',value.get('본인 인출 USDT (수납액 차감 제외)')]);
+      for(const [a,b,c,d] of pairs)add([a,'',b,'','',c,'',d],'pair',28,[[0,1],[2,3],[5,6],[7,8]]);
+      add([],'blank',12);
+      add(['월별 정산'],'section',27,[[0,8]]);
+      add(['월','입금\nUSDT','환불\nUSDT','환불 정정\nUSDT','순수납\nUSDT','결제 건수','운영자 분배\nUSDT','수수료\nUSDT','차감 후\nUSDT'],'header',36);
+      const monthly=sheet.rows.findIndex(r=>r[0]==='월'),plans=sheet.rows.findIndex(r=>r[0]==='플랜');
+      for(const row of sheet.rows.slice(monthly+1,plans-1))add(row,'body',27);
+      add([],'blank',12);
+      add(['플랜별 정산'],'section',27,[[0,8]]);
+      add(['플랜','','','','입금 USDT','환불 USDT','환불 정정 USDT','순수납 USDT','결제 건수'],'header',32,[[0,3]]);
+      for(const row of sheet.rows.slice(plans+1))add([row[0],'','','',...row.slice(1)],'body',28,[[0,3]]);
+      add([],'blank',12);
+      for(const label of ['안내','집계 범위','출처'])if(value.has(label))add([label,'',value.get(label)],'note',38,[[0,1],[2,8]]);
+      return {rows,merges,widths:[22,17,17,17,17,13,18,18,19],freeze:0,printCols:9};
+    }
+    const hasScope=index>=2,sourceHeader=hasScope?1:0;
+    // Put the working columns before IDs and evidence, preserving every source field.
+    const order=index===1?[6,2,3,4,5,10,22,9,11,23,0,1,12,13,24,14,15,16,7,8,20,17,18,19,21]:sheet.rows[sourceHeader].map((_,i)=>i);
+    const records=sheet.rows.slice(sourceHeader+1);
+    if(index===1)records.sort((a,b)=>String(a[7]).localeCompare(String(b[7])));
+    const data=[sheet.rows[sourceHeader],...records].map(row=>order.map(c=>row[c]??''));
+    const widths=index===1?[25,17,29,29,16,20,19,19,24,24,44,44,72,26,26,20,22,24,29,25,29,64,72,22,100]
+      :index===2?[42,17,29,28,20,20,20,26,72,26,100]
+      :index===3?[42,42,22,22,29,64,72,22,29]
+      :[25,20,18,22,22,26,72,28,64,100];
+    add([sheet.name],'title',32,[[0,Math.min(7,data[0].length-1)]]);
+    add([hasScope?sheet.rows[0][1]:'실제 입출금일 · KST · USDT. 거래 식별자·원문·증빙은 오른쪽 열에서 확인할 수 있습니다.'],'note',32,[[0,Math.min(7,data[0].length-1)]]);
+    add(data[0],'header',34);
+    const textWidth=v=>[...String(v)].reduce((n,c)=>n+(c.charCodeAt(0)>255?2:1),0);
+    for(const row of data.slice(1)){
+      const lines=Math.max(1,...row.map((v,c)=>typeof v==='number'?1:Math.ceil(textWidth(v)/Math.max(1,widths[c]-2))));
+      add(row,'body',Math.max(30,lines*14+8));
+    }
+    return {rows,merges,widths,freeze:3,freezeCols:index===1?2:0,filter:3,printCols:index===1?8:data[0].length};
+  }
   function xlsx(sheets){
     const ns='http://schemas.openxmlformats.org/spreadsheetml/2006/main',rel='http://schemas.openxmlformats.org/package/2006/relationships',base='http://schemas.openxmlformats.org/officeDocument/2006/relationships/';
-    const files=[['[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`],['_rels/.rels',`<Relationships xmlns="${rel}"><Relationship Id="rId1" Type="${base}officeDocument" Target="xl/workbook.xml"/></Relationships>`],['xl/workbook.xml',`<workbook xmlns="${ns}" xmlns:r="${base.slice(0,-1)}"><sheets>${sheets.map((s,i)=>`<sheet name="${xml(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets></workbook>`],['xl/_rels/workbook.xml.rels',`<Relationships xmlns="${rel}">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="${base}worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="styles" Type="${base}styles" Target="styles.xml"/></Relationships>`],['xl/styles.xml',`<styleSheet xmlns="${ns}"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0.########;[Red]-#,##0.########"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF252525"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="3"><xf fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf><xf fontId="1" fillId="2" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf><xf fontId="0" fillId="0" borderId="0" numFmtId="164" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`]];
-    sheets.forEach((s,i)=>{const cols=Math.max(...s.rows.map(r=>r.length));
-      const headerRow=i>=2?1:0;
-      const widths=Array.from({length:cols},(_,c)=> i===0?(c===0?32:24):[0,1,12,13].includes(c)?38:[6,7,8,18,20,21].includes(c)?30:22);
-      const merges=i===0?'<mergeCells count="4">'+[2,3,4,5].map(r=>`<mergeCell ref="B${r}:F${r}"/>`).join('')+'</mergeCells>':'';
-      const rowHeight=(row,r)=>Math.min(150,Math.max(30,...row.map((v,c)=> Math.ceil(String(v??'').length/(i===0&&r>=1&&r<=4&&c===1?105:widths[c]/1.5))*15+8)));
-      files.push([`xl/worksheets/sheet${i+1}.xml`,`<worksheet xmlns="${ns}"><sheetViews><sheetView workbookViewId="0"><pane ySplit="${headerRow+1}" topLeftCell="A${headerRow+2}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>${widths.map((w,c)=>`<col min="${c+1}" max="${c+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${s.rows.map((row,r)=>`<row r="${r+1}" ht="${rowHeight(row,r)}" customHeight="1">${row.map((v,c)=>{const ref=column(c)+(r+1);return typeof v==='number'&&Number.isFinite(v)?`<c r="${ref}" s="2"><v>${v}</v></c>`:`<c r="${ref}" s="${r===headerRow||(i===0&&['월','플랜'].includes(row[0]))?1:0}" t="inlineStr"><is><t xml:space="preserve">${xml(v)}</t></is></c>`;}).join('')}</row>`).join('')}</sheetData>${i>0?`<autoFilter ref="A${headerRow+1}:${column(cols-1)}${s.rows.length}"/>`:''}${merges}</worksheet>`]);});return zip(files);
+    const layouts=sheets.map(exportLayout),formats=Array.from({length:9},(_,n)=>{const f='#,##0'+(n?'.'+'0'.repeat(n):'');return `${f};[Red]-${f};0`;});
+    const styles=[],styleIds=new Map();
+    const style=(role,value,band)=>{
+      const number=typeof value==='number'&&Number.isFinite(value);
+      const precision=number?(value.toFixed(8).replace(/0+$/,'').split('.')[1]||'').length:0;
+      const font=role==='title'?2:role==='metric'?3:role==='header'?1:['section','metric-label'].includes(role)?4:role==='note'?5:0;
+      const fill=role==='header'?2:['metric','metric-label'].includes(role)?4:role==='section'?3:role==='body'&&band?3:0;
+      const align=role==='header'?'center':number?'right':'left';
+      const wrap=['header','note'].includes(role)||(role==='body'&&!number)?1:0,border=role==='body'?1:0;
+      const key=[font,fill,align,wrap,border,role==='body',number?precision:'text'].join(':');
+      if(!styleIds.has(key)){
+        styleIds.set(key,styles.length);
+        styles.push(`<xf fontId="${font}" fillId="${fill}" borderId="${border}" numFmtId="${number?164+precision:0}" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"${number?' applyNumberFormat="1"':''}><alignment horizontal="${align}" vertical="center" wrapText="${wrap}"${role==='body'?' indent="1"':''}/></xf>`);
+      }
+      return styleIds.get(key);
+    };
+    style('body','',false);
+    const worksheetFiles=layouts.map((layout,i)=>{
+      const {rows,merges,widths,freeze,freezeCols=0,filter}=layout;
+      const pane=freeze?`<pane${freezeCols?` xSplit="${freezeCols}"`:''} ySplit="${freeze}" topLeftCell="${column(freezeCols)}${freeze+1}" activePane="${freezeCols?'bottomRight':'bottomLeft'}" state="frozen"/>`:'';
+      const data=rows.map((row,r)=>{
+        const values=Array.from({length:row.values.length?widths.length:0},(_,c)=>row.values[c]??'');
+        return `<row r="${r+1}" ht="${row.height}" customHeight="1">${values.map((v,c)=>{
+          const ref=column(c)+(r+1),id=style(row.role,v,r%2===0);
+          return typeof v==='number'&&Number.isFinite(v)?`<c r="${ref}" s="${id}"><v>${v}</v></c>`:`<c r="${ref}" s="${id}" t="inlineStr"><is><t xml:space="preserve">${xml(v)}</t></is></c>`;
+        }).join('')}</row>`;
+      }).join('');
+      return [`xl/worksheets/sheet${i+1}.xml`,`<worksheet xmlns="${ns}"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><dimension ref="A1:${column(widths.length-1)}${rows.length}"/><sheetViews><sheetView workbookViewId="0" showGridLines="0" zoomScale="90">${pane}</sheetView></sheetViews><sheetFormatPr defaultRowHeight="26"/><cols>${widths.map((w,c)=>`<col min="${c+1}" max="${c+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${data}</sheetData>${filter?`<autoFilter ref="A${filter}:${column(widths.length-1)}${rows.length}"/>`:''}${merges.length?`<mergeCells count="${merges.length}">${merges.map(ref=>`<mergeCell ref="${ref}"/>`).join('')}</mergeCells>`:''}<printOptions horizontalCentered="1"/><pageMargins left="0.25" right="0.25" top="0.4" bottom="0.4" header="0.2" footer="0.2"/><pageSetup paperSize="9" orientation="landscape" fitToWidth="1" fitToHeight="0"/><headerFooter><oddFooter>&amp;L${xml(sheets[i].name)}&amp;R&amp;P / &amp;N</oddFooter></headerFooter></worksheet>`];
+    });
+    const font=(size,color,bold=false,italic=false)=>`<font>${bold?'<b/>':''}${italic?'<i/>':''}<sz val="${size}"/><color rgb="FF${color}"/><name val="맑은 고딕"/><family val="2"/></font>`;
+    const fills=['<fill><patternFill patternType="none"/></fill>','<fill><patternFill patternType="gray125"/></fill>',...['30363D','F3F5F7','F5F1E6'].map(c=>`<fill><patternFill patternType="solid"><fgColor rgb="FF${c}"/><bgColor indexed="64"/></patternFill></fill>`)];
+    const definitions=layouts.map((l,i)=>{const name=`'${sheets[i].name.replace(/'/g,"''")}'`;return `<definedName name="_xlnm.Print_Area" localSheetId="${i}">${xml(name)}!$A$1:$${column(l.printCols-1)}$${l.rows.length}</definedName>${l.filter?`<definedName name="_xlnm.Print_Titles" localSheetId="${i}">${xml(name)}!$${l.filter}:$${l.filter}</definedName>`:''}`;}).join('');
+    const files=[['[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`],['_rels/.rels',`<Relationships xmlns="${rel}"><Relationship Id="rId1" Type="${base}officeDocument" Target="xl/workbook.xml"/></Relationships>`],['xl/workbook.xml',`<workbook xmlns="${ns}" xmlns:r="${base.slice(0,-1)}"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xml(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets><definedNames>${definitions}</definedNames></workbook>`],['xl/_rels/workbook.xml.rels',`<Relationships xmlns="${rel}">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="${base}worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="styles" Type="${base}styles" Target="styles.xml"/></Relationships>`],['xl/styles.xml',`<styleSheet xmlns="${ns}"><numFmts count="9">${formats.map((f,i)=>`<numFmt numFmtId="${164+i}" formatCode="${xml(f)}"/>`).join('')}</numFmts><fonts count="6">${font(10,'24292F')+font(10,'FFFFFF',true)+font(16,'24292F',true)+font(16,'24292F',true)+font(10,'24292F',true)+font(10,'57606A',false,true)}</fonts><fills count="5">${fills.join('')}</fills><borders count="2"><border/><border><bottom style="hair"><color rgb="FFE1E5EA"/></bottom></border></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="${styles.length}">${styles.join('')}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`],...worksheetFiles];
+    return zip(files);
   }
   return {units,amount,total,kst,labels,period,selected,prepare,sheets,xlsx};
 });

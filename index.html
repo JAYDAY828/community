@@ -826,8 +826,34 @@
 .settlement-disclosure,#settlement-exceptions { border-bottom:1px solid #2b2b2b; padding:8px 0; }
 .settlement-disclosure > summary,#settlement-exceptions > summary { cursor:pointer; color:#a5a5a5; font-size:12px; padding:3px 0; }
 .settlement-disclosure[open] > summary,#settlement-exceptions[open] > summary { color:#ddd; margin-bottom:10px; }
-.settlement-cost-grid { display:grid; grid-template-columns:1fr auto 1fr auto; gap:8px 16px; font-size:12px; }
-.settlement-cost-grid dt { color:#999; }.settlement-cost-grid dd { text-align:right; font-variant-numeric:tabular-nums; }
+.settlement-cashflow { border:1px solid #303030; border-radius:12px; padding:0; background:linear-gradient(120deg,#ffffff04,transparent); }
+.settlement-cashflow > summary { display:grid; grid-template-columns:minmax(0,1fr) auto 12px; align-items:center; gap:20px; padding:15px 18px; border-radius:11px; list-style:none; transition:background .2s ease; }
+.settlement-cashflow > summary::-webkit-details-marker { display:none; }
+.settlement-cashflow > summary::marker { content:''; }
+.settlement-cashflow > summary:hover { background:#ffffff05; }
+.settlement-cashflow[open] > summary { margin:0; background:#ffffff03; border-radius:11px 11px 0 0; }
+#member-admin-settlement-view .settlement-cashflow > summary:focus-visible { outline:1px solid #999; outline-offset:3px; }
+.settlement-cashflow-heading,.settlement-cashflow-balance { display:flex; flex-direction:column; min-width:0; gap:3px; }
+.settlement-cashflow-heading strong { font-size:14px; font-weight:600; color:#e2e2e2; }
+.settlement-cashflow-heading small,.settlement-cashflow-balance > span { font-size:11px; color:#939393; font-weight:400; }
+.settlement-cashflow-balance { text-align:right; }
+.settlement-cashflow-balance strong { color:#ddd; font-size:19px; font-weight:600; font-variant-numeric:tabular-nums; line-height:1.4; }
+.settlement-cashflow-balance strong small,.settlement-cashflow-owner-amount small { margin-left:5px; color:#8f8f8f; font-size:10px; font-weight:400; }
+.settlement-cashflow-chevron { width:7px; height:7px; border-right:1.5px solid #999; border-bottom:1.5px solid #999; transform:rotate(45deg); transition:transform .2s ease; justify-self:center; }
+.settlement-cashflow[open] .settlement-cashflow-chevron { transform:rotate(225deg); }
+.settlement-cashflow[open] > #settlement-cost-details { animation:settlement-cashflow-reveal .18s ease-out; }
+#settlement-cost-details { padding:16px 18px; border-top:1px solid #292929; }
+.settlement-cashflow-groups { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; }
+.settlement-cashflow-groups > section + section { padding-left:24px; border-left:1px solid #303030; }
+.settlement-cashflow-groups h5 { margin:0 0 10px; color:#bbb; font-size:12px; font-weight:600; }
+.settlement-cost-grid { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:9px 16px; font-size:12px; }
+.settlement-cost-grid dt { color:#939393; }.settlement-cost-grid dd { text-align:right; font-variant-numeric:tabular-nums; color:#ddd; margin:0; }
+.settlement-cashflow-owner-heading { display:flex; align-items:center; gap:8px; margin-bottom:8px; }.settlement-cashflow-owner-heading h5 { margin:0; }
+.settlement-cashflow-tag { border:1px solid #363636; border-radius:5px; padding:1px 6px; font-size:10px; color:#999; }
+.settlement-cashflow-owner-amount { font-size:17px; color:#ccc; font-weight:500; font-variant-numeric:tabular-nums; }
+#settlement-cost-details > .settlement-help { margin:14px 0 0; }
+#settlement-cost-details > .settlement-table-wrap { margin-top:14px; }
+@keyframes settlement-cashflow-reveal { from { opacity:0; transform:translateY(-3px); } to { opacity:1; transform:translateY(0); } }
 .settlement-modes { display:flex; gap:3px; padding:3px; border:1px solid #303030; border-radius:9px; background:#0d0d0d; }
 #member-admin-settlement-view .settlement-modes button { min-height:28px; padding:4px 12px; font-size:12px; color:#949494; }
 #member-admin-settlement-view .settlement-modes button[aria-pressed="true"] { color:#eee; }
@@ -909,7 +935,15 @@
  .settlement-summary .is-primary strong { font-size:20px; margin:0; }.settlement-summary .is-primary strong small { display:inline; margin-left:4px; }
  .settlement-summary > div:not(.is-primary) { border-top:1px solid #303030; }
  .settlement-summary span { font-size:11px; }.settlement-count { font-size:11px; }
- .settlement-cost-grid { grid-template-columns:1fr auto; gap:6px 10px; }
+ .settlement-cashflow > summary { grid-template-columns:minmax(0,1fr) 12px; gap:9px 10px; padding:13px; }
+ .settlement-cashflow-heading { grid-column:1; grid-row:1; }.settlement-cashflow-chevron { grid-column:2; grid-row:1; }
+ .settlement-cashflow-balance { grid-column:1/-1; grid-row:2; flex-direction:row; justify-content:space-between; align-items:baseline; gap:8px; }
+ .settlement-cashflow-balance > span { font-size:10px; }.settlement-cashflow-balance strong { font-size:16px; overflow-wrap:anywhere; min-width:0; }
+ .settlement-cashflow-balance strong small { display:block; margin:0; }
+ #settlement-cost-details { padding:13px; }
+ .settlement-cashflow-groups { grid-template-columns:minmax(0,1fr); gap:14px; }
+ .settlement-cashflow-groups > section + section { padding:14px 0 0; border-left:0; border-top:1px solid #303030; }
+ .settlement-cost-grid { gap:6px 10px; }
  .settlement-transaction-header { display:none; }
  .settlement-transaction > summary { grid-template-columns:minmax(0,1fr) auto; gap:4px 10px; padding:10px; }
  .settlement-who { grid-column:1; grid-row:1; }.settlement-number { grid-column:2; grid-row:1; }
@@ -919,7 +953,7 @@
  .settlement-annual-table :is(th,td):nth-child(2),.settlement-annual-table :is(th,td):nth-child(3) { display:none; }
  .settlement-disclosure > summary { font-size:11px; }
 }
-@media (prefers-reduced-motion:reduce) { #member-admin-settlement-view button { transition:none; } }
+@media (prefers-reduced-motion:reduce) { #member-admin-settlement-view button,.settlement-cashflow > summary,.settlement-cashflow-chevron { transition:none; } .settlement-cashflow[open] > #settlement-cost-details { animation:none; } }
     </style>
 </head>
 
@@ -8351,8 +8385,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.12.1"></script>
-    <script src="./assets/settlement-ui.js?v=6.12.1"></script>
+    <script src="./assets/settlement-core.js?v=6.12.3"></script>
+    <script src="./assets/settlement-ui.js?v=6.12.3"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
