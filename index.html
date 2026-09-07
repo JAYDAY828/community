@@ -885,15 +885,17 @@
 .settlement-table-wrap th { color:#999; font-size:11px; font-weight:500; background:#ffffff04; }
 .settlement-table-wrap tbody tr:last-child > td { border-bottom:0; }
 /* Preserve native selection semantics while styling supported browser pickers. */
-#member-admin-settlement-view select option { background:#191919; color:#ddd; }
+#member-modal select { background:#121212; color:#ddd; border-color:#363636; color-scheme:dark; }
+#member-modal select:focus-visible { outline:2px solid #aaa; outline-offset:2px; }
+#member-modal select option { background:#191919; color:#ddd; }
 @supports (appearance:base-select) {
- #member-admin-settlement-view select, #member-admin-settlement-view select::picker(select) { appearance:base-select; }
- #member-admin-settlement-view select { gap:12px; align-items:center; }
- #member-admin-settlement-view select::picker(select) { background:#191919; color:#ddd; border:1px solid #454545; border-radius:9px; padding:5px; box-shadow:0 12px 30px #0008; max-height:320px; overflow-y:auto; }
- #member-admin-settlement-view select option { padding:9px 12px; border-radius:5px; overflow-wrap:anywhere; }
- #member-admin-settlement-view select option:checked { background:#333; color:#fff; font-weight:600; }
- #member-admin-settlement-view select option:hover, #member-admin-settlement-view select option:focus { background:#404040; color:#fff; outline:none; }
- #member-admin-settlement-view select::picker-icon, #member-admin-settlement-view select option::checkmark { color:#c4c4c4; }
+ #member-modal select, #member-modal select::picker(select) { appearance:base-select; }
+ #member-modal select { gap:12px; align-items:center; }
+ #member-modal select::picker(select) { background:#191919; color:#ddd; border:1px solid #454545; border-radius:9px; padding:5px; box-shadow:0 12px 30px #0008; max-height:320px; overflow-y:auto; }
+ #member-modal select option { padding:9px 12px; border-radius:5px; overflow-wrap:anywhere; }
+ #member-modal select option:checked { background:#333; color:#fff; font-weight:600; }
+ #member-modal select option:hover, #member-modal select option:focus { background:#404040; color:#fff; outline:none; }
+ #member-modal select::picker-icon, #member-modal select option::checkmark { color:#c4c4c4; }
 }
 .settlement-annual-table { margin:0; }
 .settlement-annual-table :is(th,td):first-child { width:88px; min-width:76px; white-space:nowrap; overflow-wrap:normal; }
@@ -930,7 +932,7 @@
 #member-admin-settlement-view .settlement-pagination button { border:1px solid #393939; min-width:55px; }
 .settlement-empty { text-align:center; color:#888; padding:26px 12px; }
 .settlement-record,.settlement-adjust { padding:14px; border:1px solid #303030; border-radius:10px; background:#141414; overflow-wrap:anywhere; }
-.settlement-record { margin:0 10px 10px; font-size:12px; }.is-day .settlement-record { margin:0 0 10px; }
+.settlement-record { margin:12px 10px 10px; font-size:12px; }.is-day .settlement-record { margin:12px 0 10px; }
 .settlement-record p { margin-top:5px; }.settlement-record summary { cursor:pointer; color:#aaa; }
 .settlement-record details,.settlement-record > button { margin-top:10px; }
 .settlement-amount { color:#e2cc82; }
@@ -8415,8 +8417,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.14.2"></script>
-    <script src="./assets/settlement-ui.js?v=6.14.2"></script>
+    <script src="./assets/settlement-core.js?v=6.14.4"></script>
+    <script src="./assets/settlement-ui.js?v=6.14.4"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 

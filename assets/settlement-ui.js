@@ -236,7 +236,7 @@
     if(busy||!permitted()||!withdrawalState||withdrawalState.loading)return;
     const state=withdrawalState,epoch=++withdrawalEpoch,token=bridge.token(),generation=bridge.generation();state.loading=true;
     $('w-message').textContent=savedOnly?'저장된 출금 기록을 불러오는 중…':'OKX 출금 내역을 조회하는 중…';
-    for(const id of ['w-fetch','w-saved','w-more'])$(id).disabled=true;
+    for(const id of ['w-fetch','w-saved','w-more','w-save'])$(id).disabled=true;
     try{
       const result=await bridge.api('admin_withdrawal_list',{token,savedOnly,cursor:more?state.cursor:''});
       if(epoch!==withdrawalEpoch||token!==bridge.token()||generation!==bridge.generation()||!permitted()||!host)return;
@@ -248,7 +248,7 @@
       state.loading=false;renderWithdrawals();
       if(state.target.withdrawal){const item=state.items.find(i=>i.snapshot.wdId===state.target.withdrawal);if(item)selectWithdrawal(item);}
     }catch(e){if(host&&epoch===withdrawalEpoch&&token===bridge.token())$('w-message').textContent=e.message||'조회에 실패했습니다. 다시 시도해 주세요.';}
-    finally{if(host&&state===withdrawalState&&epoch===withdrawalEpoch){state.loading=false;for(const id of ['w-fetch','w-saved','w-more'])$(id).disabled=false;}}
+    finally{if(host&&state===withdrawalState&&epoch===withdrawalEpoch){state.loading=false;for(const id of ['w-fetch','w-saved','w-more','w-save'])$(id).disabled=busy;}}
   }
   function renderWithdrawals(){
     const state=withdrawalState;if(!state)return;
@@ -277,7 +277,7 @@
     if(!item.revision)$('w-link').onchange();$('w-kind').onchange();if(item.revision||!$('w-category').value)$('w-category').value=item.category||'';$('w-reason').value=item.reason||'';$('w-save').textContent=item.revision?'정정 기록 저장':'기록 저장';$('w-result').textContent='';renderWithdrawals();
   }
   async function saveWithdrawal(e){
-    e.preventDefault();if(busy||!permitted()||!withdrawalState?.selected)return;
+    e.preventDefault();if(busy||withdrawalState?.loading||!permitted()||!withdrawalState?.selected)return;
     const state=withdrawalState,selected=state.selected,item=selected.item,token=bridge.token(),generation=bridge.generation();
     const payload={withdrawalId:item.snapshot.wdId,previousEventId:item.revision,kind:$('w-kind').value,requestId:$('w-kind').value==='refund'?$('w-receipt').value:'',linkedEventId:item.revision?item.linkedEventId:$('w-link').value,category:$('w-kind').value==='expense'?$('w-category').value.trim():'',reason:$('w-reason').value.trim()};
     const signature=JSON.stringify(payload);if(selected.signature&&selected.signature!==signature){$('w-result').textContent='이전 요청 결과가 불확실합니다. 저장된 기록을 다시 조회해 주세요.';return;}selected.signature=signature;
