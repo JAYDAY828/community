@@ -908,6 +908,8 @@
 .settlement-event--refund { color:#d19b9b; background:#cf8b8b12; }
 .settlement-event--distribution { color:#c3acd9; background:#201b25; }
 .settlement-event--owner_withdrawal { color:#aaa; background:#1c1c1c; }
+.settlement-event--expense { color:#c7bbab; background:#b5a07b12; max-width:100%; overflow-wrap:anywhere; }
+.settlement-withdrawal-row .settlement-cashflow-tag { max-width:40%; white-space:normal; overflow-wrap:anywhere; }
 .is-day { border:0; border-radius:0; }
 .is-day .settlement-transaction > summary { grid-template-columns:minmax(0,1fr) auto; gap:4px 12px; padding:10px 0; }
 .is-day .settlement-who { grid-column:1; grid-row:1; }.is-day .settlement-number { grid-column:2; grid-row:1; }
@@ -8398,8 +8400,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.13.0"></script>
-    <script src="./assets/settlement-ui.js?v=6.13.0"></script>
+    <script src="./assets/settlement-core.js?v=6.14.0"></script>
+    <script src="./assets/settlement-ui.js?v=6.14.0"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
