@@ -411,6 +411,23 @@
 
         /* Open section layout; retain the individual content cards. */
         .section-document { min-width: 0; padding: 22px 0 32px; }
+        /* Dark relief with brand accents, without a colored halo. */
+        #sponsorship div.liquid-card {
+            background-color: #141414;
+            background-image: linear-gradient(145deg, rgba(255,255,255,.028), transparent 65%);
+            border-color: rgba(255,255,255,.08) !important;
+            border-top-color: rgba(255,255,255,.16) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        #sponsorship div.liquid-card:hover {
+            background-color: #161616;
+            border-color: rgba(255,255,255,.12) !important;
+            border-top-color: rgba(255,255,255,.21) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        #sponsorship [data-i18n="sponsor.card.popular"] {
+            box-shadow: none;
+        }
 
         /* 🚀 High-end Animations */
         .fade-in {
@@ -8402,8 +8419,8 @@
             updateMemberConsentState();
         });
     </script>
-    <script src="./assets/settlement-core.js?v=6.14.6"></script>
-    <script src="./assets/settlement-ui.js?v=6.14.6"></script>
+    <script src="./assets/settlement-core.js?v=6.14.8"></script>
+    <script src="./assets/settlement-ui.js?v=6.14.8"></script>
     <script src="./assets/guide-access.js"></script>
 </body>
 
