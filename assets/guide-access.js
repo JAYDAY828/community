@@ -41,11 +41,42 @@
 
 // The UI integration runs only in the website, after the existing member helpers.
 if (typeof document !== 'undefined') {
-    const guideAccessState = { verified: false, pending: '', request: null, requestToken: '', generation: 0 };
+    const GUIDE_CACHE_KEY = 'toolkit-guide-access-v1';
+    const GUIDE_CACHE_MAX_AGE_MS = 5 * 60 * 1000;
+    const guideAccessState = { verified: false, profile: null, verifiedAt: 0, token: '', pending: '', request: null, requestToken: '', generation: 0 };
+
+    function cacheUsable() {
+        const age = Date.now() - guideAccessState.verifiedAt;
+        const token = memberToken();
+        if (!guideAccessState.verified || !token || token !== guideAccessState.token
+            || !Number.isFinite(age) || age < 0 || age >= GUIDE_CACHE_MAX_AGE_MS) return false;
+        // The server verifies signatures; this only prevents displaying cached access past expiry.
+        try {
+            const payload = JSON.parse(atob(token.split('.')[0].replace(/-/g, '+').replace(/_/g, '/')));
+            if (Number.isFinite(payload.exp) && Date.now() >= payload.exp * 1000) return false;
+        } catch (_) { /* Unknown token formats still require server verification and the short cache bound. */ }
+        const expiration = String(guideAccessState.profile?.expiration || '').trim();
+        const match = expiration.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+        if (match) {
+            const end = Date.UTC(+match[1], +match[2] - 1, +match[3] + 1) - 9 * 3600000;
+            if (Date.now() >= end) return false;
+        }
+        return true;
+    }
+
+    function restoreGuideCache() {
+        try {
+            const saved = JSON.parse(sessionStorage.getItem(GUIDE_CACHE_KEY));
+            if (!saved || saved.token !== memberToken()) return;
+            Object.assign(guideAccessState, { verified: true, token: saved.token,
+                profile: saved.profile, verifiedAt: saved.verifiedAt });
+            if (!cacheUsable()) guideAccessState.verified = false;
+        } catch (_) { /* Storage is optional; server verification remains available. */ }
+    }
 
     window.canViewToolkitGuide = function (id) {
-        return !ToolkitGuidePolicy.isProtected(id) || (guideAccessState.verified && memberProfileCacheIsFresh()
-            && ToolkitGuidePolicy.canView(id, memberState.profile, Boolean(memberToken())));
+        return !ToolkitGuidePolicy.isProtected(id) || (cacheUsable()
+            && ToolkitGuidePolicy.canView(id, guideAccessState.profile, Boolean(memberToken())));
     };
 
     window.refreshToolkitGuideUI = function () {
@@ -64,12 +95,26 @@ if (typeof document !== 'undefined') {
     };
 
     window.acceptToolkitGuideProfile = function () {
-        guideAccessState.verified = true;
+        const profile = memberState.profile;
+        guideAccessState.profile = profile && { active: profile.active, status: profile.status,
+            grade: profile.grade, subscription: profile.subscription,
+            subscriptions: profile.subscriptions, expiration: profile.expiration };
+        guideAccessState.verified = Boolean(profile);
+        guideAccessState.verifiedAt = Date.now();
+        guideAccessState.token = memberToken();
+        try {
+            sessionStorage.setItem(GUIDE_CACHE_KEY, JSON.stringify({ token: guideAccessState.token,
+                profile: guideAccessState.profile, verifiedAt: guideAccessState.verifiedAt }));
+        } catch (_) { /* In-memory access still works when storage is unavailable. */ }
         refreshToolkitGuideUI();
     };
 
     window.resetToolkitGuideAccess = function () {
         guideAccessState.verified = false;
+        guideAccessState.profile = null;
+        guideAccessState.verifiedAt = 0;
+        guideAccessState.token = '';
+        try { sessionStorage.removeItem(GUIDE_CACHE_KEY); } catch (_) {}
         guideAccessState.generation += 1;
         guideAccessState.request = null;
         guideAccessState.requestToken = '';
@@ -108,7 +153,7 @@ if (typeof document !== 'undefined') {
     window.ensureToolkitGuideProfile = function () {
         const token = memberToken();
         if (!token) return Promise.resolve(false);
-        if (guideAccessState.verified && memberProfileCacheIsFresh()) return Promise.resolve(true);
+        if (cacheUsable() && memberProfileCacheIsFresh()) return Promise.resolve(true);
         if (guideAccessState.request && guideAccessState.requestToken === token) return guideAccessState.request;
         const sessionGeneration = memberState.sessionGeneration;
         const generation = guideAccessState.generation;
@@ -119,12 +164,16 @@ if (typeof document !== 'undefined') {
             try {
                 const result = await memberApi('profile', { token });
                 if (!isCurrent()) return false;
-                if (!result.ok || !result.profile) throw new Error('guide_profile_unavailable');
+                if (!result.ok || !result.profile) throw new Error(result.error || 'guide_profile_unavailable');
                 cacheMemberProfile(result.profile);
                 return true;
             } catch (error) {
                 if (isCurrent()) {
-                    guideAccessState.verified = false;
+                    if (['invalid_session', 'account_not_found'].includes(error.message)) {
+                        resetToolkitGuideAccess();
+                    } else if (!cacheUsable()) {
+                        guideAccessState.verified = false;
+                    }
                     refreshToolkitGuideUI();
                 }
                 return false;
@@ -168,6 +217,14 @@ if (typeof document !== 'undefined') {
             setMemberMessage('auth', guideAccessMessage(), 'info');
             return;
         }
+        if (canViewToolkitGuide(id)) {
+            guideAccessState.pending = '';
+            closeMemberModal();
+            activate(id);
+            // Keep navigation responsive; a fresh server response still updates or revokes access.
+            void ensureToolkitGuideProfile();
+            return;
+        }
         await ensureToolkitGuideProfile();
         if (guideAccessState.pending !== id) return;
         if (canViewToolkitGuide(id)) {
@@ -182,6 +239,8 @@ if (typeof document !== 'undefined') {
     window.openPendingToolkitGuide = function () {
         requestToolkitGuide(guideAccessState.pending || 'apikey');
     };
+
+    restoreGuideCache();
 
     document.addEventListener('DOMContentLoaded', () => {
         refreshToolkitGuideUI();
