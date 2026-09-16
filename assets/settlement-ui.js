@@ -32,7 +32,7 @@
     </section><p id="settlement-message" role="status" class="settlement-help settlement-status"></p><div id="settlement-summary" class="settlement-summary"></div>
     <details id="settlement-costs" class="settlement-disclosure settlement-cashflow"><summary>최종 정산</summary><div id="settlement-cost-details"></div></details>
     <div class="settlement-viewbar"><h4 id="settlement-period-title"></h4><div id="settlement-modes" class="settlement-modes" role="group" aria-label="정산 보기"><button data-mode="calendar" type="button">달력</button><button data-mode="list" type="button">거래 목록</button></div></div>
-    <div id="settlement-workspace" class="settlement-workspace"><section id="settlement-calendar-panel" class="settlement-calendar-panel" aria-label="일별 정산 달력"><div class="settlement-calendar-legend">일별 입출금 · USDT</div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">금액은 요약 표시입니다. 날짜를 선택하면 정확한 금액을 확인할 수 있습니다.</p></section><section id="settlement-annual" hidden></section><section id="settlement-list" aria-label="거래 목록"></section></div>
+    <div id="settlement-workspace" class="settlement-workspace"><section id="settlement-calendar-panel" class="settlement-calendar-panel" aria-label="일별 정산 달력"><div class="settlement-calendar-legend"><span>일별 입출금 · USDT</span><div class="settlement-calendar-keys"><span class="settlement-calendar-key is-net"><i aria-hidden="true"></i>순입금</span><span class="settlement-calendar-key is-outgoing"><i aria-hidden="true"></i>출금·지출</span></div></div><div id="settlement-calendar" class="settlement-calendar"></div><p class="settlement-help">금액은 요약 표시입니다. 날짜를 선택하면 정확한 금액을 확인할 수 있습니다.</p></section><section id="settlement-annual" hidden></section><section id="settlement-list" aria-label="거래 목록"></section></div>
     <details id="settlement-plan-panel" class="settlement-disclosure"><summary>플랜별 집계</summary><div id="settlement-breakdown"></div></details>
     <details id="settlement-exceptions"><summary>미확인·무료 이용권</summary><p class="settlement-help">월간·연간은 선택 연도, 누적은 전체 기간의 승인 기록 및 승인일 미확인 기록입니다. 합계에는 포함하지 않습니다.</p><div id="settlement-exception-list"></div></details>
     <form id="settlement-adjust" hidden class="settlement-adjust"><h4 id="settlement-adjust-title"></h4><p class="settlement-help">실제 송금 기능이 아닙니다. 이미 처리한 환불이나 증빙에 따른 정정만 기록하세요.</p>
@@ -148,10 +148,8 @@
             const metrics=el('div',undefined,'settlement-calendar-metrics');
             const addMetric=(label,value,outgoing=false)=>{
               const row=el('div',undefined,'settlement-calendar-metric'+(outgoing?' is-outgoing':''));
-              const caption=el('span',undefined,'settlement-calendar-label');
-              const shortLabel=({'본인출금':'인출','기타지출':'지출','출금·지출':'출금'})[label]||label;
-              caption.append(el('span',label,'settlement-calendar-label-full'),el('span',shortLabel,'settlement-calendar-label-short'));
-              row.append(caption,el('strong',compact(value)));
+              row.setAttribute('aria-label',`${label} ${value} USDT`);
+              row.append(el('strong',compact(value)));
               metrics.append(row);
             };
             // Keep revenue separate from transfers; never subtract owner withdrawals from net receipts.

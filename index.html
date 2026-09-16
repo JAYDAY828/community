@@ -862,25 +862,27 @@
 .settlement-workspace { min-width:0; }
 .settlement-workspace.is-calendar { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); align-items:start; gap:16px; }
 .settlement-calendar-panel { border:1px solid #303030; border-radius:10px; overflow:hidden; min-width:0; background:#121212; }
-.settlement-calendar-legend { padding:9px 12px; color:#999; font-size:11px; }
+.settlement-calendar-legend { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:5px 12px; padding:9px 12px; color:#999; font-size:11px; }
+.settlement-calendar-keys { display:flex; gap:10px; }
+.settlement-calendar-key { display:inline-flex; align-items:center; gap:4px; white-space:nowrap; font-size:10px; }
+.settlement-calendar-key i { width:6px; height:6px; border-radius:50%; background:currentColor; }
+.settlement-calendar-key.is-net { color:#dfcc90; }
+.settlement-calendar-key.is-outgoing { color:#9dbdd4; }
 .settlement-calendar-panel > p { padding:8px 12px; font-size:10px; }
 .settlement-calendar { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:1px; background:#2c2c2c; border-block:1px solid #2c2c2c; min-width:0; }
 .settlement-weekday { padding:6px 1px; background:#151515; color:#888; text-align:center; font-size:11px; }
 .settlement-weekday:first-child { color:#b78d8d; }
 .settlement-calendar-blank { background:#111; }
-#member-admin-settlement-view .settlement-calendar button { border:0; border-radius:0; min-height:108px; padding:5px; background:#161616; text-align:left; display:flex; flex-direction:column; align-items:flex-start; min-width:0; overflow:hidden; }
+#member-admin-settlement-view .settlement-calendar button { border:0; border-radius:0; position:relative; min-height:64px; padding:5px; background:#161616; text-align:left; display:flex; flex-direction:column; align-items:flex-start; min-width:0; overflow:hidden; }
 .settlement-calendar button > span { display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; font-size:11px; }
 .settlement-calendar button[aria-current="date"] > span { background:#d7d7d7; color:#111; }
-/* Two compact metric groups per date; labels stack so narrow cells never squeeze amounts. */
-.settlement-calendar-metrics { display:flex; flex-direction:column; gap:5px; width:100%; min-width:0; margin-top:3px; }
+/* Shared legend keeps each date compact, including days with both receipts and withdrawals. */
+.settlement-calendar-metrics { display:flex; flex-direction:column; gap:2px; width:100%; min-width:0; margin-top:3px; }
 .settlement-calendar-metric { min-width:0; width:100%; }
-.settlement-calendar-label { display:block; color:#a6a6a6; font-size:9px; line-height:1.25; white-space:nowrap; }
-.settlement-calendar button strong { display:block; color:#dfcc90; font-size:12px; line-height:1.3; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
-.settlement-calendar .is-outgoing strong { color:#afbecb; }
-.settlement-calendar-label-short { display:none; }
-@container (max-width:340px) { .settlement-calendar-label-full { display:none; }.settlement-calendar-label-short { display:inline; } }
+.settlement-calendar button strong { display:block; color:#dfcc90; font-size:12px; line-height:1.2; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+.settlement-calendar .is-outgoing strong { color:#9dbdd4; }
 .settlement-calendar button small { color:#8e8e8e; font-size:9px; line-height:1.3; }
-.settlement-calendar-count { margin-top:auto; padding-top:4px; }
+.settlement-calendar-count { position:absolute; top:8px; right:5px; max-width:calc(100% - 29px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 #member-admin-settlement-view .settlement-calendar button[aria-pressed="true"] { box-shadow:inset 0 0 0 1px #a6a6a6; background:#282828; }
 #settlement-list { min-width:0; outline:none; scroll-margin-top:90px; }
 .is-calendar #settlement-list { border:1px solid #2c2c2c; border-radius:10px; padding:14px; min-height:180px; background:#ffffff02; }
@@ -989,7 +991,8 @@
  .settlement-who { grid-column:1; grid-row:1; }.settlement-number { grid-column:2; grid-row:1; }
  .settlement-date { grid-column:1; grid-row:2; }.settlement-event { grid-column:2; grid-row:2; justify-self:end; }.settlement-detail-label { display:none; }
  .settlement-annual-table :is(th,td) { padding:8px 5px; font-size:11px; }.settlement-annual-table td:first-child { width:42px; }
- #member-admin-settlement-view .settlement-calendar button { min-height:104px; padding:4px 3px; }.settlement-calendar button strong { font-size:10px; }
+ #member-admin-settlement-view .settlement-calendar button { min-height:64px; padding:4px 3px; }.settlement-calendar button strong { font-size:10px; }
+ .settlement-calendar button > span { width:16px; height:18px; }.settlement-calendar button .settlement-calendar-count { top:7px; right:3px; font-size:8px; max-width:calc(100% - 23px); }
  .settlement-annual-table :is(th,td):nth-child(2),.settlement-annual-table :is(th,td):nth-child(3) { display:none; }
  .settlement-disclosure > summary { font-size:11px; }
 }
