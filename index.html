@@ -2105,30 +2105,28 @@
                         <!-- Step 6: Chrome Integration -->
                         <div id="getting-started-chrome">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
-                                data-i18n="api.chrome.title">6) 크롬 자동 연동</h2>
-                            <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n="api.chrome.intro">
-                                이 설정은 바이낸스에서 선택한 종목을 Order Toolkit에 자동으로 연동하기 위한 과정입니다. 개별 종목을 직접 지정해 매매하는 경우에는 <strong>Manual Mode</strong>로 사용할 수 있습니다.
-                            </p>
+                                data-i18n="api.chrome.title">6) 크롬 확장 프로그램 연동</h2>
+                            <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n="api.chrome.intro">바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.</p>
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                     <h4 class="text-purple-300 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                        <span data-i18n="api.chrome.auto.title">AUTO 버튼으로 바로 시작 (권장)</span>
+                                        <span data-i18n="api.chrome.auto.title">1. 연결 준비</span>
                                     </h4>
-                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.auto.body"><strong>AUTO</strong> 버튼을 누르면 연동 모드 크롬이 자동 실행되고, 바이낸스에서 선택한 종목이 툴킷에 동기화됩니다.</p>
-                                    <p class="text-xs text-gray-400 !mt-3 !mb-0 leading-relaxed" data-i18n="api.chrome.auto.note">크롬이 기본 경로에 설치되어 있다면 별도 설정 없이 사용할 수 있습니다.</p>
+                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.auto.body">Binance Manager가 설치된 일반 크롬에서 <strong>바이낸스 USDT 선물 탭</strong>을 엽니다. Order Toolkit을 실행하고 <strong>AUTO</strong> 모드로 전환하세요.</p>
+                                    <p class="text-xs text-gray-400 !mt-3 !mb-0 leading-relaxed" data-i18n="api.chrome.auto.note">최신 확장 프로그램과 툴킷을 사용하세요. 별도의 디버깅 크롬 실행이나 포트 설정은 필요하지 않습니다.</p>
                                 </div>
                                 <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                     <h4 class="text-gray-200 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
                                         <i class="fa-solid fa-arrow-up-right-from-square text-accent-blue"></i>
-                                        <span data-i18n="api.chrome.shortcut.title">실행 폴더 바로가기</span>
+                                        <span data-i18n="api.chrome.shortcut.title">2. 최초 연결 승인</span>
                                     </h4>
-                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.shortcut.body">연동 크롬을 먼저 열고 싶다면 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기를 사용하세요.</p>
+                                    <p class="text-sm text-gray-300 !m-0 leading-relaxed" data-i18n="api.chrome.shortcut.body">크롬 툴바의 <strong>Binance Manager</strong>를 열고 <strong>Trading API. Connect → Connect</strong>를 누릅니다. 확장 프로그램과 Order Toolkit 승인 창의 <strong>6자리 코드</strong>가 같은지 확인한 뒤 승인하세요.</p>
                                 </div>
                             </div>
                             <div class="liquid-card guide-glass-accent guide-glass-neutral mt-4 flex items-start gap-3 rounded-xl border px-4 py-3">
                                 <i class="fa-solid fa-circle-info text-gray-500 mt-0.5 flex-shrink-0"></i>
-                                <p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="api.chrome.path.note">크롬을 별도 경로에 설치한 경우 자동 실행을 위한 경로 설정이 필요할 수 있습니다.</p>
+                                <p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="api.chrome.path.note">한 번 승인하면 Order Toolkit·Trades·Order Book에 공통으로 등록되며, 이후에는 같은 크롬 프로필에서 자동 연결됩니다. 확장 프로그램의 <strong>Connected</strong> 표시와 종목을 확인하세요. 연결 수는 실행 중인 도구에 따라 달라지며, Order Toolkit은 <strong>AUTO</strong> 상태에서만 종목을 받습니다.</p>
                             </div>
                         </div>
 
@@ -3081,8 +3079,7 @@
                                 </ul>
                             </div>
                             <div class="mt-4 text-xs text-gray-500 pl-2">
-                                <span data-i18n="ot.topbar.note">* <strong>Add/Remove</strong>: 즐겨찾기 리스트 관리 /
-                                    <strong>Auto/Manual</strong>: 크롬 자동 연동 여부 토글</span>
+                                <span data-i18n="ot.topbar.note">* <strong>Add/Remove</strong>: 즐겨찾기 리스트 관리 / <strong>Auto/Manual</strong>: 확장 프로그램 종목 연동·수동 선택 전환</span>
                             </div>
                         </div>
 
@@ -3522,9 +3519,7 @@
                                             <strong>보안 경고 해결 안내</strong>를 따라 주세요.</li>
                                         <li data-i18n="ot.trouble.item2"><strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이
                                             (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.</li>
-                                        <li data-i18n="ot.trouble.item3"><strong>연동 불가</strong>: 일반 크롬이 아닌 연동 모드 크롬으로
-                                            실행했는지 확인하세요. <strong>AUTO</strong> 버튼을 누르거나 실행 폴더의 <strong>Chrome Debug
-                                                Mode</strong> 바로가기로 다시 실행할 수 있습니다.</li>
+                                        <li data-i18n="ot.trouble.item3"><strong>연동 불가</strong>: Order Toolkit이 <strong>AUTO</strong>인지, 등록한 크롬 프로필에서 Binance Manager와 바이낸스 USDT 선물 탭을 열었는지 확인하세요. 확장 프로그램의 <strong>Trading API. Connect → Reconnect</strong>로 다시 연결합니다. 재등록이 필요하면 <strong>••• → Register again</strong>을 누르고 툴킷에서 코드를 확인해 승인하세요.</li>
                                         <!-- 추가된 항목 -->
                                         <li data-i18n="ot.trouble.item4"><strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면
                                             API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.
@@ -5475,14 +5470,14 @@
             "api.auth.item1": { ko: "<strong>Trading API Launcher</strong>에서 Order Toolkit을 실행합니다.", en: "Launch Order Toolkit from <strong>Trading API Launcher</strong>." },
             "api.auth.item2": { ko: "발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.", en: "Sign in with your issued <strong>Serial Key</strong>." },
             "api.auth.item3": { ko: "<strong>REMEMBER ME</strong>를 선택하면 시리얼 키가 암호화되어 저장됩니다.", en: "Select <strong>REMEMBER ME</strong> to store the serial key encrypted." },
-            "api.chrome.title": { ko: "6) 크롬 자동 연동", en: "6) Automatic Chrome Integration" },
-            "api.chrome.intro": { ko: "이 설정은 바이낸스에서 선택한 종목을 Order Toolkit에 자동으로 연동하기 위한 과정입니다. 개별 종목을 직접 지정해 매매하는 경우에는 <strong>Manual Mode</strong>로 사용할 수 있습니다.", en: "This setup automatically syncs the symbol selected on Binance with Order Toolkit. To trade a symbol selected directly in the toolkit, use <strong>Manual Mode</strong>." },
-            "api.chrome.auto.title": { ko: "AUTO 버튼으로 바로 시작 (권장)", en: "Start with AUTO (Recommended)" },
-            "api.chrome.auto.body": { ko: "<strong>AUTO</strong> 버튼을 누르면 연동 모드 크롬이 자동 실행되고, 바이낸스에서 선택한 종목이 툴킷에 동기화됩니다.", en: "Click <strong>AUTO</strong> to launch Chrome in integration mode and sync the selected Binance symbol with the toolkit." },
-            "api.chrome.auto.note": { ko: "크롬이 기본 경로에 설치되어 있다면 별도 설정 없이 사용할 수 있습니다.", en: "No extra setup is needed when Chrome is installed in its default location." },
-            "api.chrome.shortcut.title": { ko: "실행 폴더 바로가기", en: "Shortcut in the App Folder" },
-            "api.chrome.shortcut.body": { ko: "연동 크롬을 먼저 열고 싶다면 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기를 사용하세요.", en: "To open the integration browser first, use the <strong>Chrome Debug Mode</strong> shortcut in the app folder." },
-            "api.chrome.path.note": { ko: "크롬을 별도 경로에 설치한 경우 자동 실행을 위한 경로 설정이 필요할 수 있습니다.", en: "If Chrome is installed in a custom location, its launch path may need to be configured separately." },
+            "api.chrome.title": { ko: "6) 크롬 확장 프로그램 연동", en: "6) Chrome Extension Integration" },
+            "api.chrome.intro": { ko: "바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.", en: "The <strong>Binance Manager</strong> extension links the active Binance USDT futures tab’s symbol to Order Toolkit. Use <strong>MANUAL</strong> mode to select a symbol yourself." },
+            "api.chrome.auto.title": { ko: "1. 연결 준비", en: "1. Prepare the connection" },
+            "api.chrome.auto.body": { ko: "Binance Manager가 설치된 일반 크롬에서 <strong>바이낸스 USDT 선물 탭</strong>을 엽니다. Order Toolkit을 실행하고 <strong>AUTO</strong> 모드로 전환하세요.", en: "Open a <strong>Binance USDT futures tab</strong> in regular Chrome with Binance Manager installed. Start Order Toolkit and switch to <strong>AUTO</strong> mode." },
+            "api.chrome.auto.note": { ko: "최신 확장 프로그램과 툴킷을 사용하세요. 별도의 디버깅 크롬 실행이나 포트 설정은 필요하지 않습니다.", en: "Use the latest extension and toolkit. No debugging Chrome launch or port configuration is required." },
+            "api.chrome.shortcut.title": { ko: "2. 최초 연결 승인", en: "2. Approve the first connection" },
+            "api.chrome.shortcut.body": { ko: "크롬 툴바의 <strong>Binance Manager</strong>를 열고 <strong>Trading API. Connect → Connect</strong>를 누릅니다. 확장 프로그램과 Order Toolkit 승인 창의 <strong>6자리 코드</strong>가 같은지 확인한 뒤 승인하세요.", en: "Open <strong>Binance Manager</strong> from the Chrome toolbar and click <strong>Trading API. Connect → Connect</strong>. Match the <strong>six-digit code</strong> in the extension with the Order Toolkit approval dialog, then approve." },
+            "api.chrome.path.note": { ko: "한 번 승인하면 Order Toolkit·Trades·Order Book에 공통으로 등록되며, 이후에는 같은 크롬 프로필에서 자동 연결됩니다. 확장 프로그램의 <strong>Connected</strong> 표시와 종목을 확인하세요. 연결 수는 실행 중인 도구에 따라 달라지며, Order Toolkit은 <strong>AUTO</strong> 상태에서만 종목을 받습니다.", en: "One approval registers Order Toolkit, Trades and Order Book together. Later connections are automatic in the same Chrome profile. Check <strong>Connected</strong> and the symbol in the extension. The connection count depends on which tools are running; Order Toolkit receives symbols only in <strong>AUTO</strong> mode." },
             "api.step1.title": { ko: "2) API 키 발급", en: "2) Create an API Key" },
             "api.step1.item1": { ko: "바이낸스 로그인 후 <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>API Management 바로가기 <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>를 열어 API 관리 페이지로 이동합니다.", en: "After signing in to Binance, open <a class='text-brand font-semibold hover:underline' href='https://www.binance.com/en/my/settings/api-management' target='_blank' rel='noopener noreferrer'>Binance API Management <i class='fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]' aria-hidden='true'></i></a>." },
             "api.step1.item2": { ko: "<strong>[Create API]</strong> 클릭 후 <strong>System generated</strong> 방식을 선택합니다.", en: "Click <strong>[Create API]</strong> and choose <strong>System generated</strong>." },
@@ -5852,7 +5847,7 @@
             "ot.topbar.item2": { ko: "<strong>Cross</strong>(교차) / <strong>Isolated</strong>(격리) 모드 토글", en: "Toggle <strong>Cross</strong> / <strong>Isolated</strong> margin mode." },
             "ot.topbar.item3": { ko: "현재 종목 표시. 입력창 클릭 시 수동 입력(예: <code>BTC</code>) 가능하며 자동완성 지원", en: "Shows current symbol. Click the input to type manually (e.g., <code>BTC</code>) with autocomplete." },
             "ot.topbar.item4": { ko: "발급받은 API Key 리스트 관리 및 저장", en: "Manage and save your issued API key list." },
-            "ot.topbar.note": { ko: "* <strong>Add/Remove</strong>: 즐겨찾기 리스트 관리 / <strong>Auto/Manual</strong>: 크롬 자동 연동 여부 토글", en: "* <strong>Add/Remove</strong>: manage favorites list / <strong>Auto/Manual</strong>: toggle Chrome auto-link." },
+            "ot.topbar.note": { ko: "* <strong>Add/Remove</strong>: 즐겨찾기 리스트 관리 / <strong>Auto/Manual</strong>: 확장 프로그램 종목 연동·수동 선택 전환", en: "* <strong>Add/Remove</strong>: manage favorites / <strong>Auto/Manual</strong>: switch between extension symbol linking and manual selection." },
             "ot.order.title": { ko: "3) 주문 UI 및 설정", en: "3) Order UI & Settings" },
             "ot.order.inputs.title": { ko: "주문 옵션 (Inputs)", en: "Order Options (Inputs)" },
             "ot.order.inputs.order.label": { ko: "ORDER (주문 타입)", en: "ORDER (Order Type)" },
@@ -5944,7 +5939,7 @@
             "ot.trouble.title": { ko: "7) 문제 해결", en: "7) Troubleshooting" },
             "ot.trouble.item1": { ko: "<strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련 프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된 <strong>보안 경고 해결 안내</strong>를 따라 주세요.", en: "<strong>Won't launch</strong>: open Task Manager and close any remaining Order Toolkit processes, then try again. If the app does not start at all, follow the bundled <strong>security warning troubleshooting guide</strong>." },
             "ot.trouble.item2": { ko: "<strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이 (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.", en: "<strong>Order failed checklist</strong>: API permission/IP restriction → One-way mode → web trading consent. <strong>TradFi consent is separate from main trading consent</strong>." },
-            "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: 일반 크롬이 아닌 연동 모드 크롬으로 실행했는지 확인하세요. <strong>AUTO</strong> 버튼을 누르거나 실행 폴더의 <strong>Chrome Debug Mode</strong> 바로가기로 다시 실행할 수 있습니다.", en: "<strong>Link failed</strong>: make sure Chrome is running in integration mode rather than as a regular browser. Click <strong>AUTO</strong> or relaunch it with the <strong>Chrome Debug Mode</strong> shortcut in the app folder." },
+            "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: Order Toolkit이 <strong>AUTO</strong>인지, 등록한 크롬 프로필에서 Binance Manager와 바이낸스 USDT 선물 탭을 열었는지 확인하세요. 확장 프로그램의 <strong>Trading API. Connect → Reconnect</strong>로 다시 연결합니다. 재등록이 필요하면 <strong>••• → Register again</strong>을 누르고 툴킷에서 코드를 확인해 승인하세요.", en: "<strong>Link failed</strong>: check that Order Toolkit is in <strong>AUTO</strong> and Binance Manager and a Binance USDT futures tab are open in the registered Chrome profile. Retry with <strong>Trading API. Connect → Reconnect</strong>. If registration needs renewing, select <strong>••• → Register again</strong>, verify the code and approve in the toolkit." },
             "ot.trouble.item4": { ko: "<strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면 API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.", en: "<strong>Time sync</strong>: if PC time differs from server time, API requests are rejected. Sync time via Windows [Date & Time settings] → <strong>'Sync now'</strong>." },
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
 
