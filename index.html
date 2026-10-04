@@ -2523,9 +2523,7 @@
                                 <h3 class="text-white font-bold text-lg mb-3" data-i18n="cd.ui.clipboard.title">클립보드 연동
                                     (Clipboard Sync)</h3>
                                 <div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-6">
-                                    <p class="text-sm text-gray-300 mb-4 !mt-0" data-i18n="cd.ui.clipboard.body">
-                                        감지된 종목을 클릭하면 설정된 포맷으로 클립보드에 자동 복사하여, 웹 브라우저나 타 툴킷으로 즉시 이동할 수 있습니다.
-                                    </p>
+                                    <p class="text-sm text-gray-300 mb-4 !mt-0" data-i18n="cd.ui.clipboard.body">SET에서 클립보드 연동을 켠 뒤 심볼을 좌클릭하면 설정된 포맷으로 복사됩니다. 복사한 값은 웹 브라우저나 다른 툴킷에 붙여 넣어 사용할 수 있습니다.</p>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                                         <div class="bg-[#0e0e0e] p-3 rounded border border-gray-700 text-center">
                                             <div class="text-xs text-gray-500 mb-1" data-i18n="cd.ui.clipboard.card1">
@@ -2553,21 +2551,21 @@
                                     <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-gray-800">
                                         <div class="p-5 md:p-6">
                                             <div class="flex items-center gap-2 mb-4 text-xs font-bold tracking-wider text-accent-green uppercase">
-                                                <i class="fa-solid fa-power-off"></i>
-                                                <span data-i18n="cd.ui.buttons.group.operation">실행 제어</span>
+                                                <i class="fa-solid fa-table-cells-large"></i>
+                                                <span data-i18n="cd.ui.buttons.group.operation">조회 및 분석</span>
                                             </div>
                                             <div class="space-y-2">
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
-                                                    <i class="fa-solid fa-play w-5 text-center text-accent-green text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.start">▶ Start</span>
+                                                    <i class="fa-solid fa-list-ul w-5 text-center text-accent-green text-xs"></i>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.list"><strong>LIST</strong> · Custom·제외 종목 목록 관리</span>
                                                 </div>
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
-                                                    <i class="fa-solid fa-stop w-5 text-center text-accent-red text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.stop">■ Stop</span>
+                                                    <i class="fa-solid fa-table-cells-large w-5 text-center text-accent-red text-xs"></i>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.data"><strong>DATA</strong> · 종목 스크리너 열기</span>
                                                 </div>
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
-                                                    <i class="fa-solid fa-eraser w-5 text-center text-gray-400 text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.clear">CLR (Clear)</span>
+                                                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 text-xs"></i>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.flow"><strong>FLOW</strong> · 감지 기록·종목별 흐름 분석</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -2575,16 +2573,16 @@
                                         <div class="p-5 md:p-6">
                                             <div class="flex items-center gap-2 mb-4 text-xs font-bold tracking-wider text-accent-blue uppercase">
                                                 <i class="fa-solid fa-window-maximize"></i>
-                                                <span data-i18n="cd.ui.buttons.group.workspace">화면 및 설정</span>
+                                                <span data-i18n="cd.ui.buttons.group.workspace">설정 및 프리셋</span>
                                             </div>
                                             <div class="space-y-2">
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
-                                                    <i class="fa-solid fa-thumbtack w-5 text-center text-accent-blue text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.pin">PIN (Always Top)</span>
+                                                    <i class="fa-solid fa-layer-group w-5 text-center text-accent-blue text-xs"></i>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.presets"><strong>1 · 2 · 3</strong> · CHANGE·24H VOL·체크 설정 자동 저장 및 전환</span>
                                                 </div>
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
                                                     <i class="fa-solid fa-sliders w-5 text-center text-accent-blue text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.set">SET (Settings)</span>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.set"><strong>SET</strong> · 감지·알림·클립보드·창 고정 설정</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -2592,20 +2590,20 @@
                                         <div class="p-5 md:p-6">
                                             <div class="flex items-center gap-2 mb-4 text-xs font-bold tracking-wider text-purple-400 uppercase">
                                                 <i class="fa-solid fa-chart-simple"></i>
-                                                <span data-i18n="cd.ui.buttons.group.analysis">관리 및 분석</span>
+                                                <span data-i18n="cd.ui.buttons.group.analysis">표에서 바로 조작</span>
                                             </div>
                                             <div class="space-y-2">
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
                                                     <i class="fa-solid fa-list-ul w-5 text-center text-purple-400 text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.list">LIST (Exclude Symbol Lists)</span>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.custom"><strong>심볼 우클릭 → Add to Custom…</strong><br>해당 종목의 개별 CHANGE 기준 설정</span>
                                                 </div>
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
                                                     <i class="fa-solid fa-table-cells-large w-5 text-center text-purple-400 text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.data">DATA (Screener)</span>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.exclude"><strong>심볼 우클릭 → Add to Exclude…</strong><br>제외할 방향 선택: UP·DOWN 또는 둘 다</span>
                                                 </div>
                                                 <div class="flex items-center gap-3 rounded-lg bg-black/20 border border-white/5 px-3 py-2.5">
                                                     <i class="fa-solid fa-clock-rotate-left w-5 text-center text-purple-400 text-xs"></i>
-                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.log">LOG (Top Alert Lists)</span>
+                                                    <span class="text-xs font-semibold text-gray-200" data-i18n="cd.ui.buttons.chart"><strong>24H VOL / OI 값 클릭</strong><br>해당 종목의 OI FLOW 차트 바로 열기</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -2691,8 +2689,7 @@
                                             <h3 class="text-white font-bold text-sm !mt-0 mb-2"
                                                 data-i18n="cd.oi_flow.main.title">메인 화면</h3>
                                             <p class="text-sm text-gray-400 !m-0 leading-relaxed"
-                                                data-i18n="cd.oi_flow.main.body">감지 목록에서 종목의 <strong
-                                                    class="text-gray-200">OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.</p>
+                                                data-i18n="cd.oi_flow.main.body">감지 목록에서 종목의 <strong class='text-gray-200'>24H VOL 또는 OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -2706,7 +2703,7 @@
                                         </div>
                                         <div>
                                             <h3 class="text-white font-bold text-sm !mt-0 mb-2"
-                                                data-i18n="cd.oi_flow.log.title">LOG 화면</h3>
+                                                data-i18n="cd.oi_flow.log.title">FLOW 화면</h3>
                                             <p class="text-sm text-gray-400 !m-0 leading-relaxed"
                                                 data-i18n="cd.oi_flow.log.body">종목을 선택한 후 상세 정보의 <strong
                                                     class="text-gray-200">OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.</p>
@@ -5664,28 +5661,28 @@
             "cd.ui.indicators.item1": { ko: "업비트 KRW-USDT 실시간 거래 가격", en: "Upbit KRW-USDT real-time trading price" },
             "cd.ui.indicators.item2": { ko: "업비트 가격과 한국은행 실시간 기준환율 간의 괴리율 (김치프리미엄 참고 지표)", en: "Deviation between Upbit price and the Bank of Korea's reference exchange rate, used as a kimchi premium indicator" },
             "cd.ui.listings": {"ko": "<strong class=\"text-brand\">LISTINGS</strong> · 상장 소식과 게시 시각(KST)을 표시합니다. 문구에 마우스를 올리면 멈추고, 클릭하면 Telegram 원문을 엽니다.", "en": "<strong class=\"text-brand\">LISTINGS</strong> · Shows listing news and publication times (KST). Hover over the text to pause; click to open the Telegram post."},
+            "cd.ui.buttons.flow": { ko: "<strong>FLOW</strong> · 감지 기록·종목별 흐름 분석", en: "<strong>FLOW</strong> · Detection history and symbol flow" },
+            "cd.ui.buttons.presets": { ko: "<strong>1 · 2 · 3</strong> · CHANGE·24H VOL·체크 설정 자동 저장 및 전환", en: "<strong>1 · 2 · 3</strong> · Auto-save and switch CHANGE, 24H VOL and checkbox settings" },
+            "cd.ui.buttons.custom": { ko: "<strong>심볼 우클릭 → Add to Custom…</strong><br>해당 종목의 개별 CHANGE 기준 설정", en: "<strong>Right-click symbol → Add to Custom…</strong><br>Set a per-symbol CHANGE threshold" },
+            "cd.ui.buttons.exclude": { ko: "<strong>심볼 우클릭 → Add to Exclude…</strong><br>제외할 방향 선택: UP·DOWN 또는 둘 다", en: "<strong>Right-click symbol → Add to Exclude…</strong><br>Exclude UP, DOWN or both directions" },
+            "cd.ui.buttons.chart": { ko: "<strong>24H VOL / OI 값 클릭</strong><br>해당 종목의 OI FLOW 차트 바로 열기", en: "<strong>Click a 24H VOL / OI value</strong><br>Open that symbol’s OI FLOW chart" },
             "cd.ui.buttons.title": { ko: "조작 및 알림", en: "Controls & Notices" },
-            "cd.ui.buttons.group.operation": { ko: "실행 제어", en: "Operation" },
-            "cd.ui.buttons.group.workspace": { ko: "화면 및 설정", en: "Workspace" },
-            "cd.ui.buttons.group.analysis": { ko: "관리 및 분석", en: "Management & Analysis" },
-            "cd.ui.buttons.set": { ko: "SET (Settings)", en: "SET (Settings)" },
-            "cd.ui.buttons.start": { ko: "▶ Start", en: "▶ Start" },
-            "cd.ui.buttons.stop": { ko: "■ Stop", en: "■ Stop" },
-            "cd.ui.buttons.clear": { ko: "CLR (Clear)", en: "CLR (Clear)" },
-            "cd.ui.buttons.list": { ko: "LIST (Exclude Symbol Lists)", en: "LIST (Exclude Symbol Lists)" },
-            "cd.ui.buttons.data": { ko: "DATA (Screener)", en: "DATA (Screener)" },
-            "cd.ui.buttons.log": { ko: "LOG (Top Alert Lists)", en: "LOG (Top Alert Lists)" },
-            "cd.ui.buttons.pin": { ko: "PIN (Always Top)", en: "PIN (Always Top)" },
+            "cd.ui.buttons.group.operation": { ko: "조회 및 분석", en: "Views & Analysis" },
+            "cd.ui.buttons.group.workspace": { ko: "설정 및 프리셋", en: "Settings & Presets" },
+            "cd.ui.buttons.group.analysis": { ko: "표에서 바로 조작", en: "Table Shortcuts" },
+            "cd.ui.buttons.set": { ko: "<strong>SET</strong> · 감지·알림·클립보드·창 고정 설정", en: "<strong>SET</strong> · Detection, alerts, clipboard and always-on-top" },
+            "cd.ui.buttons.list": { ko: "<strong>LIST</strong> · Custom·제외 종목 목록 관리", en: "<strong>LIST</strong> · Manage Custom and exclusion lists" },
+            "cd.ui.buttons.data": { ko: "<strong>DATA</strong> · 종목 스크리너 열기", en: "<strong>DATA</strong> · Open the symbol screener" },
             "cd.ui.clipboard.title": { ko: "클립보드 연동 (Clipboard Sync)", en: "Clipboard Sync" },
-            "cd.ui.clipboard.body": { ko: "감지된 종목을 클릭하면 설정된 포맷으로 클립보드에 자동 복사하여, 웹 브라우저나 타 툴킷으로 즉시 이동할 수 있습니다.", en: "Click a detected symbol to auto-copy it to the clipboard in the selected format, so you can jump to a browser or other toolkit instantly." },
+            "cd.ui.clipboard.body": { ko: "SET에서 클립보드 연동을 켠 뒤 심볼을 좌클릭하면 설정된 포맷으로 복사됩니다. 복사한 값은 웹 브라우저나 다른 툴킷에 붙여 넣어 사용할 수 있습니다.", en: "Enable clipboard integration in SET, then left-click a symbol to copy it in the selected format. Paste the copied value into a browser or another toolkit." },
             "cd.ui.clipboard.card1": { ko: "URL (Default)", en: "URL (Default)" },
             "cd.ui.clipboard.card2": { ko: "Symbol Only", en: "Symbol Only" },
             "cd.ui.clipboard.card3": { ko: "Custom Format", en: "Custom Format" },
             "cd.oi_flow.title": { ko: "5) OI FLOW", en: "5) OI FLOW" },
             "cd.oi_flow.body": { ko: "감지 종목의 OI 기록을 차트로 열어 미체결약정 변화와 24시간 거래대금 흐름을 시간 순서로 비교할 수 있습니다.", en: "Open a detected symbol's OI history as a chart to compare open-interest changes and 24-hour trading-volume flow over time." },
             "cd.oi_flow.main.title": { ko: "메인 화면", en: "Main Screen" },
-            "cd.oi_flow.main.body": { ko: "감지 목록에서 종목의 <strong class='text-gray-200'>OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.", en: "Click the symbol's <strong class='text-gray-200'>OI</strong> value in the detection list to open the OI FLOW chart directly." },
-            "cd.oi_flow.log.title": { ko: "LOG 화면", en: "LOG Screen" },
+            "cd.oi_flow.main.body": { ko: "감지 목록에서 종목의 <strong class='text-gray-200'>24H VOL 또는 OI</strong> 값을 클릭하면 OI FLOW 차트가 바로 열립니다.", en: "Click a symbol’s <strong class='text-gray-200'>24H VOL or OI</strong> value in the detection list to open its OI FLOW chart." },
+            "cd.oi_flow.log.title": { ko: "FLOW 화면", en: "FLOW Screen" },
             "cd.oi_flow.log.body": { ko: "종목을 선택한 후 상세 정보의 <strong class='text-gray-200'>OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.", en: "Select a symbol, then click the <strong class='text-gray-200'>OI</strong> value or external-open icon in its details." },
             "cd.oi_flow.chart.title": { ko: "차트 확인", en: "Chart Details" },
             "cd.oi_flow.chart.body": { ko: "차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다.", en: "Click a chart point to view OI, 24-hour volume, change from the previous record, and its KST timestamp." },
