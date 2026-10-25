@@ -3098,10 +3098,10 @@
                                             <ul class="list-disc pl-4 mt-1 space-y-1 text-xs">
                                                 <li data-i18n="ot.order.inputs.bbo.item1"><strong>Queue n</strong>: 내
                                                     호가(매수 시 매수대기) n번째 줄 배치</li>
-                                                <li data-i18n="ot.order.inputs.bbo.item2"><strong>Counterparty
-                                                        n</strong>: 상대 호가(매수 시 매도대기) n번째 줄 즉시 체결</li>
+                                                <li data-i18n="ot.order.inputs.bbo.item2"><strong>Counterparty n</strong>: 상대 호가(매수 시 매도대기) n번째 줄 기준으로 주문</li>
                                                 <li data-i18n="ot.order.inputs.bbo.item3"><strong>Grid x%</strong>:
                                                     Queue 1 기준 현재가 ±범위에 분할 주문 (스캘핑 권장)</li>
+                                                <li data-i18n="ot.order.inputs.bbo.extreme"><strong>BBO EX</strong>: 최우선 호가의 순간 변동을 보완하는 지정가 주문</li>
                                             </ul>
                                         </li>
                                         <li>
@@ -3141,9 +3141,7 @@
                                                 <strong class="text-gray-200 block"
                                                     data-i18n="ot.order.toggles.bbo.title">Best Bid / Offer</strong>
                                                 <div class="text-xs mt-1 text-gray-400 leading-relaxed"
-                                                    data-i18n="ot.order.toggles.bbo.desc">
-                                                    최우선 호가 자동 추적. 설정된 모드(Queue/CP)에 따라 주문가를 실시간 보정합니다.
-                                                </div>
+                                                    data-i18n="ot.order.toggles.bbo.desc">선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class="text-gray-300">좌클릭: 켜기·끄기 / 우클릭: EX 전환</span></div>
                                             </div>
                                         </li>
 
@@ -3432,21 +3430,57 @@
                                                 시 Reduce-Only 자동 적용</span>
                                         </div>
                                     </div>
+
+                                <div class="liquid-card guide-glass-accent guide-glass-green border rounded-xl p-5 sm:p-6 mt-6 text-center">
+                                    <h3 id="ot-hedge-shift" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.hedge.title">헤지모드 · Shift + 클릭</h3>
+                                    <p class="text-sm text-gray-400 leading-relaxed mb-5 max-w-3xl mx-auto" data-i18n="ot.hedge.intro">Limit·Market 주문에서 Shift를 누른 채 매수·매도 버튼을 클릭하세요. 롱·숏을 모두 보유했다면 포지션 목록에서 기준이 될 쪽을 먼저 선택합니다.</p>
+                                    <table class="w-full table-fixed text-xs text-center border-collapse" aria-labelledby="ot-hedge-shift">
+                                        <colgroup><col style="width:28%"><col style="width:36%"><col style="width:36%"></colgroup>
+                                        <thead class="text-gray-200 bg-black/20"><tr><th class="p-3 font-semibold border-b border-white/10" data-i18n="ot.hedge.state">포지션 상태</th><th class="p-3 font-semibold border-b border-white/10" data-i18n="ot.hedge.buy">Shift + 매수</th><th class="p-3 font-semibold border-b border-white/10" data-i18n="ot.hedge.sell">Shift + 매도</th></tr></thead>
+                                        <tbody class="text-gray-400"><tr><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.bothlong">롱·숏 보유<br><strong class="text-accent-green">롱 선택</strong></td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.toLong">숏을 줄이고 롱 추가</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.reduce">롱·숏 함께 줄이기</td></tr><tr><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.bothshort">롱·숏 보유<br><strong class="text-accent-red">숏 선택</strong></td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.reduce">롱·숏 함께 줄이기</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.toShort">롱을 줄이고 숏 추가</td></tr><tr><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.longonly">롱만 보유</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.normalBuy">기본 매수와 동일</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.openShort">롱을 줄이고 숏 진입</td></tr><tr><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.shortonly">숏만 보유</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.openLong">숏을 줄이고 롱 진입</td><td class="p-2 sm:p-3 align-middle border-b border-white/10 leading-relaxed" data-i18n="ot.hedge.normalSell">기본 매도와 동일</td></tr></tbody>
+                                    </table>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5 max-w-4xl mx-auto">
+                                        <div class="rounded-lg border border-white/10 bg-black/20 p-4"><div class="text-white font-semibold text-xs mb-2" data-i18n="ot.hedge.cancel.title">Shift + Cancel · 양방향 주문 관리</div><p class="text-xs text-gray-400 leading-relaxed !m-0" data-i18n="ot.hedge.cancel.desc">좌클릭: 롱·숏 미체결 주문 함께 취소<br>우클릭: 롱·숏 미체결 주문 함께 이동</p></div>
+                                        <div class="rounded-lg border border-white/10 bg-black/20 p-4"><div class="text-white font-semibold text-xs mb-2" data-i18n="ot.hedge.close.title">Shift + Close · 양방향 포지션 종료</div><p class="text-xs text-gray-400 leading-relaxed !m-0" data-i18n="ot.hedge.close.desc">좌클릭: 롱·숏 함께 시장가 종료<br>우클릭: 롱·숏 함께 SP 적용 종료</p></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 !mb-0 mt-4 leading-relaxed max-w-4xl mx-auto" data-i18n="ot.hedge.note">수량은 AMOUNT와 보유 수량에 맞춰 적용되며, 두 주문은 각각 체결됩니다. 우클릭 Quick Stop은 기존과 동일합니다.</p>
+                                </div>
                                 </div>
 
                                 <!-- 7. Balance & Etc -->
                                 <div id="ot-balance">
                                     <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
-                                        data-i18n="ot.balance.title">5) 잔고 및 기타 설정</h2>
+                                        data-i18n="ot.balance.title">5) 잔고 및 거래 관리</h2>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li data-i18n="ot.balance.item1"><strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL)
-                                            표시. 클릭 시 표시 항목 전환.</li>
+                                        <li data-i18n="ot.balance.item1"><strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Wallet을 엽니다.</li>
                                         <li data-i18n="ot.balance.item2"><strong>PIN</strong>: 창을 항상 위에 고정</li>
                                         <li data-i18n="ot.balance.item3"><strong>SETTING (Default)</strong>: 테마(Theme),
                                             사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업</li>
                                         <li data-i18n="ot.balance.item4"><strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을
                                             커스터마이징하거나 선택할 수 있습니다.</li>
                                     </ul>
+
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                                        <div class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-6">
+                                            <h3 id="ot-wallet" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.wallet.title">Wallet · 잔고와 자금 이동</h3>
+                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.wallet.open">하단 잔고를 <strong>우클릭</strong>하면 Wallet을 엽니다. 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.</p><p class="text-xs text-gray-400 leading-relaxed" data-i18n="ot.wallet.transfer">금액 입력과 MAX 버튼으로 원하는 금액을 이동합니다. Quick Transfer는 아래 두 단계를 한 번에 이어서 진행합니다.</p>
+                                            <div class="space-y-3 mt-4">
+                                                <div class="rounded-lg border border-white/10 bg-black/20 p-4"><span class="text-[10px] text-brand font-mono">FUTURES TO EARN MAX</span><p class="text-sm text-gray-200 font-semibold !mt-2 !mb-1" data-i18n="ot.wallet.toEarn">선물 → 현물 → Earn</p><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ot.wallet.toEarn.desc">선물에서 이체 가능한 금액을 현물로 옮긴 뒤 Earn에 넣습니다.</p></div>
+                                                <div class="rounded-lg border border-white/10 bg-black/20 p-4"><span class="text-[10px] text-brand font-mono">EARN TO FUTURES MAX</span><p class="text-sm text-gray-200 font-semibold !mt-2 !mb-1" data-i18n="ot.wallet.toFutures">Earn → 현물 → 선물</p><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ot.wallet.toFutures.desc">Earn에서 환매 가능한 금액을 현물로 받은 뒤 선물로 옮깁니다.</p></div>
+                                            </div>
+                                            <p class="text-xs text-gray-500 !mb-0 mt-4 leading-relaxed" data-i18n="ot.wallet.note">진행 상태는 창 하단에서 확인하세요. 중간에 멈췄다면 다시 누르기 전에 안내 문구와 잔고를 먼저 확인합니다.</p>
+                                        </div>
+                                        <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6">
+                                            <h3 id="ot-data" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.data.title">DATA · 거래 기록과 매매 복기</h3>
+                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.data.open"><strong>SETTING 또는 Wallet → DATA</strong>를 누르면 브라우저에서 거래 기록을 확인할 수 있습니다.</p>
+                                            <dl class="space-y-3 mt-4 text-xs">
+                                                <div><dt class="text-gray-200 font-semibold mb-1">Dashboard</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.dashboard">기간별 손익과 수수료, 일별·누적 손익을 확인합니다.</dd></div>
+                                                <div><dt class="text-gray-200 font-semibold mb-1">Trade History</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.history">포지션별 진입·추가·청산 내역과 차트의 체결 위치를 확인합니다.</dd></div>
+                                                <div><dt class="text-gray-200 font-semibold mb-1">Diagnostics</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.diagnostics">주문 거부·오류와 연결 상태를 확인합니다.</dd></div>
+                                            </dl>
+                                            <figure class="mt-5 !mb-0"><a href="./assets/guides/order-toolkit-data.png" target="_blank" rel="noopener noreferrer" class="block rounded-lg border border-white/10 overflow-hidden"><img src="./assets/guides/order-toolkit-data.png" alt="Order Toolkit DATA demo" width="1440" height="1068" loading="lazy" decoding="async" class="w-full h-auto"></a></figure>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- 8. Shortcuts -->
@@ -3458,21 +3492,17 @@
                                         <div>
                                             <h4 class="text-white font-bold text-sm mb-3 !mt-0"
                                                 data-i18n="ot.shortcuts.fixed.title">고정 단축키</h4>
-                                            <ul class="list-none space-y-2 !m-0 !p-0 text-sm text-gray-400">
-                                                <li><kbd
-                                                        class="bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono">Alt</kbd>
-                                                    <span data-i18n="ot.shortcuts.fixed.item1">(Hold): 수량(AMOUNT) 절반으로
-                                                        임시 변경</span>
-                                                </li>
-                                                <li><kbd class="bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono">Caps
-                                                        Lock</kbd> <span data-i18n="ot.shortcuts.fixed.item2">:
-                                                        Reduce-Only 토글</span></li>
-                                                <li><kbd
-                                                        class="bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono">ESC</kbd>
-                                                    <span data-i18n="ot.shortcuts.fixed.item3">: Cancel Orders (미체결
-                                                        취소)</span>
-                                                </li>
-                                            </ul>
+                                            <dl class="!m-0 border-t border-white/10">
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Esc</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.cancel">미체결 주문 취소</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Alt</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.amount">누르는 동안 AMOUNT를 절반으로 적용</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Caps Lock</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.reduce">Reduce-Only 켜기·끄기</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Close</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.reverse">단방향: 좌클릭으로 포지션 반전</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Cancel / Close</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.both">헤지: 현재 종목의 롱·숏 함께 취소·이동·종료</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Space</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.select">헤지: 롱·숏 선택 전환 (주문 없음)</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">`</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.extreme">숫자 1 왼쪽 키: BBO EX 켜기·끄기. BBO 우클릭과 동일</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Trade</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.trade">헤지: 매수·매도 버튼으로 포지션 이동 또는 양쪽 축소</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Trade CLOSE</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.tradeclose">헤지: 매수·매도의 CLOSE 버튼에서 AMOUNT만큼 양쪽 축소</dd></div>
+                                            </dl>
                                         </div>
                                         <div>
                                             <h4 class="text-white font-bold text-sm mb-3 !mt-0"
@@ -3480,23 +3510,15 @@
                                             <p class="text-xs text-gray-500 mb-2" data-i18n="ot.shortcuts.custom.note">
                                                 <strong>SETTING &gt; SHORTCUTS</strong>에서 키별 사용 여부와 액션을 변경합니다.
                                             </p>
-                                            <ul class="list-disc pl-5 space-y-1 text-xs text-gray-400 mb-3">
+                                            <ul class="list-disc !pl-5 space-y-1 text-xs text-gray-400 mb-3">
                                                 <li data-i18n="ot.shortcuts.custom.item1">편집 가능: <code>Ctrl+0~9</code>,
                                                     <code>F13~F22</code></li>
                                                 <li data-i18n="ot.shortcuts.custom.item2"><strong>Use</strong> 체크 해제 시
                                                     해당 키는 비활성화(<code>None</code>)로 저장</li>
                                                 <li data-i18n="ot.shortcuts.custom.item3">지원 액션: BBO 선택, Buy/Sell,
                                                     Close Position, Halve/Double Amount, ATSL</li>
-                                                <li data-i18n="ot.shortcuts.custom.item4">설정은
-                                                    <code>toolkit_settings_shortcut.json</code>에 UTF-8로 자동 저장</li>
+                                                <li data-i18n="ot.shortcuts.custom.item4">변경한 단축키는 자동 저장되며 다음 실행에도 유지됩니다.</li>
                                             </ul>
-                                            <pre
-                                                class="bg-black/50 p-3 rounded-lg text-xs text-gray-300 font-mono !m-0"><code>{
-  "Ctrl+1": "Queue 1",
-  "Ctrl+4": "None",
-  "F13": "Buy",
-  "F15": "Close Position"
-}</code></pre>
                                         </div>
                                     </div>
                                 </div>
@@ -3509,8 +3531,7 @@
                                         <li data-i18n="ot.trouble.item1"><strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련
                                             프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된
                                             <strong>보안 경고 해결 안내</strong>를 따라 주세요.</li>
-                                        <li data-i18n="ot.trouble.item2"><strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이
-                                            (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.</li>
+                                        <li data-i18n="ot.trouble.item2"><strong>주문 실패</strong>: API 권한/IP 제한, 계정의 포지션 모드(원웨이·헤지), 바이낸스 웹 거래 동의를 확인하세요. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.</li>
                                         <li data-i18n="ot.trouble.item3"><strong>연동 불가</strong>: Order Toolkit이 <strong>AUTO</strong>인지, 등록한 크롬 프로필에서 Binance Manager와 바이낸스 USDT 선물 탭을 열었는지 확인하세요. 확장 프로그램의 <strong>Trading API. Connect → Reconnect</strong>로 다시 연결합니다. 재등록이 필요하면 <strong>••• → Register again</strong>을 누르고 툴킷에서 코드를 확인해 승인하세요.</li>
                                         <!-- 추가된 항목 -->
                                         <li data-i18n="ot.trouble.item4"><strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면
@@ -5846,7 +5867,7 @@
             "ot.order.inputs.order.desc": { ko: "Limit (지정가), Market (시장가), Stop Market 지원", en: "Supports Limit, Market, and Stop Market." },
             "ot.order.inputs.bbo.label": { ko: "BBO (호가 모드)", en: "BBO (Order Book Mode)" },
             "ot.order.inputs.bbo.item1": { ko: "<strong>Queue n</strong>: 내 호가(매수 시 매수대기) n번째 줄 배치", en: "<strong>Queue n</strong>: place your order at the n-th level of your side (buy-side queue for buy)." },
-            "ot.order.inputs.bbo.item2": { ko: "<strong>Counterparty n</strong>: 상대 호가(매수 시 매도대기) n번째 줄 즉시 체결", en: "<strong>Counterparty n</strong>: execute against the n-th level of the opposite side (sell queue for buy)." },
+            "ot.order.inputs.bbo.item2": {"ko": "<strong>Counterparty n</strong>: 상대 호가(매수 시 매도대기) n번째 줄 기준으로 주문", "en": "<strong>Counterparty n</strong>: place an order at the n-th level of the opposite side (sell-side queue for buy)."},
             "ot.order.inputs.bbo.item3": { ko: "<strong>Grid x%</strong>: Queue 1 기준 현재가 ±범위에 분할 주문 (스캘핑 권장)", en: "<strong>Grid x%</strong>: split orders within ±x% around Queue 1 price (recommended for scalping)." },
             "ot.order.inputs.price.label": { ko: "PRICE (가격)", en: "PRICE" },
             "ot.order.inputs.price.desc": { ko: "BBO 모드 시 자동 계산 (잠금). 수동 입력 가능.<br/><span class='text-brand'>라벨 좌클릭: 매수1호가</span> / <span class='text-brand'>우클릭: 매도1호가</span> 즉시 지정", en: "Auto-calculated (locked) in BBO mode, but manual input is allowed.<br/><span class='text-brand'>Left-click label: best bid</span> / <span class='text-brand'>Right-click label: best ask</span> to set instantly." },
@@ -5856,7 +5877,7 @@
             "ot.order.toggles.qty.title": { ko: "Unit Toggle", en: "Unit Toggle" },
             "ot.order.toggles.qty.desc": { ko: "<span class='text-brand font-bold'>QTY</span>(코인 개수) ↔ <span class='text-accent-green font-bold'>USDT</span>(금액 환산) 입력 단위를 전환합니다.", en: "Toggle input unit between <span class='text-brand font-bold'>QTY</span> (coin amount) and <span class='text-accent-green font-bold'>USDT</span> (value)." },
             "ot.order.toggles.bbo.title": { ko: "Best Bid / Offer", en: "Best Bid / Offer" },
-            "ot.order.toggles.bbo.desc": { ko: "최우선 호가 자동 추적. 설정된 모드(Queue/CP)에 따라 주문가를 실시간 보정합니다.", en: "Auto-tracks the best bid/offer; adjusts order price in real time based on selected mode (Queue/CP)." },
+            "ot.order.toggles.bbo.desc": {"ko": "선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class=\"text-gray-300\">좌클릭: 켜기·끄기 / 우클릭: EX 전환</span>", "en": "Sets the order price using your selected order-book mode.<br><span class=\"text-gray-300\">Left-click: on/off / Right-click: switch EX</span>"},
             "ot.order.toggles.at.title": { ko: "Auto Stop Market", en: "Auto Stop Market" },
             "ot.order.toggles.at.desc": { ko: "활성화 시 포지션 진입과 동시에 스탑로스(SL) 주문을 자동으로 실행합니다.", en: "When enabled, automatically places a stop-loss (SL) order upon entry." },
             "ot.feature.grid.title": { ko: "그리드 자동호가", en: "Grid Auto-Quotes" },
@@ -5912,25 +5933,66 @@
             "ot.actions.risk.sp.exec.desc": { ko: "OFF는 기존 시장가, 0.3% 이상은 BBO 기준 LIMIT IOC로 가능한 수량만 즉시 처리합니다.", en: "OFF keeps the normal market flow; 0.3% or higher uses BBO-based LIMIT IOC and fills only immediately available quantity." },
             "ot.actions.note.reduce": { ko: "<strong>Reduce-Only</strong>: 포지션 감소만 허용", en: "<strong>Reduce-Only</strong>: only reduce positions" },
             "ot.actions.note.auto": { ko: "<strong>Auto-Reduce</strong>: 포지션 종료 주문 시 Reduce-Only 자동 적용", en: "<strong>Auto-Reduce</strong>: auto applies Reduce-Only on close orders" },
-            "ot.balance.title": { ko: "5) 잔고 및 기타 설정", en: "5) Balance & Other Settings" },
-            "ot.balance.item1": { ko: "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 클릭 시 표시 항목 전환.", en: "<strong>BALANCE</strong>: shows account balance and unrealized PnL; click to cycle display." },
+            "ot.order.inputs.bbo.extreme": {"ko": "<strong>BBO EX</strong>: 최우선 호가의 순간 변동을 보완하는 지정가 주문", "en": "<strong>BBO EX</strong>: limit orders that help handle brief shifts in the best bid/offer."},
+            "ot.hedge.title": {"ko": "헤지모드 · Shift + 클릭", "en": "Hedge Mode · Shift + Click"},
+            "ot.hedge.intro": {"ko": "매수·매도는 Limit·Market 주문에서 Shift와 함께 클릭합니다. 롱·숏을 모두 보유했다면 포지션 목록에서 기준이 될 쪽을 먼저 선택하세요.", "en": "For Buy/Sell, hold Shift and click with Limit or Market selected. If you hold both sides, select the reference side in the position list first."},
+            "ot.hedge.state": {"ko": "포지션 상태", "en": "Position"},
+            "ot.hedge.buy": {"ko": "Shift + 매수", "en": "Shift + Buy"},
+            "ot.hedge.sell": {"ko": "Shift + 매도", "en": "Shift + Sell"},
+            "ot.hedge.bothlong": {"ko": "롱·숏 보유<br><strong class=\"text-accent-green\">롱 선택</strong>", "en": "Both held<br><strong class=\"text-accent-green\">LONG selected</strong>"},
+            "ot.hedge.bothshort": {"ko": "롱·숏 보유<br><strong class=\"text-accent-red\">숏 선택</strong>", "en": "Both held<br><strong class=\"text-accent-red\">SHORT selected</strong>"},
+            "ot.hedge.longonly": {"ko": "롱만 보유", "en": "LONG only"},
+            "ot.hedge.shortonly": {"ko": "숏만 보유", "en": "SHORT only"},
+            "ot.hedge.toLong": {"ko": "숏을 줄이고 롱 추가", "en": "Reduce SHORT + add LONG"},
+            "ot.hedge.toShort": {"ko": "롱을 줄이고 숏 추가", "en": "Reduce LONG + add SHORT"},
+            "ot.hedge.reduce": {"ko": "롱·숏 함께 줄이기", "en": "Reduce both LONG and SHORT"},
+            "ot.hedge.normalBuy": {"ko": "기본 매수와 동일", "en": "Same as normal Buy"},
+            "ot.hedge.normalSell": {"ko": "기본 매도와 동일", "en": "Same as normal Sell"},
+            "ot.hedge.openShort": {"ko": "롱을 줄이고 숏 진입", "en": "Reduce LONG + open SHORT"},
+            "ot.hedge.openLong": {"ko": "숏을 줄이고 롱 진입", "en": "Reduce SHORT + open LONG"},
+            "ot.hedge.cancel.title": {"ko": "Shift + Cancel · 양방향 주문 관리", "en": "Shift + Cancel · Both-side orders"},
+            "ot.hedge.cancel.desc": {"ko": "좌클릭: 롱·숏 미체결 주문 함께 취소<br>우클릭: 롱·숏 미체결 주문 함께 이동", "en": "Left-click: cancel open orders on both sides<br>Right-click: move open orders on both sides"},
+            "ot.hedge.close.title": {"ko": "Shift + Close · 양방향 포지션 종료", "en": "Shift + Close · Both-side positions"},
+            "ot.hedge.close.desc": {"ko": "좌클릭: 롱·숏 함께 시장가 종료<br>우클릭: 롱·숏 함께 SP 적용 종료", "en": "Left-click: close both sides at market<br>Right-click: close both sides with SP"},
+            "ot.hedge.note": {"ko": "양방향 관리는 현재 종목에 적용됩니다. 수량은 AMOUNT와 보유 수량에 맞춰 적용되며, 각 주문은 따로 체결됩니다. 매수·매도 우클릭 Quick Stop은 Shift의 영향을 받지 않습니다.", "en": "Both-side actions apply to the current symbol. Buy/Sell quantities follow AMOUNT and available positions; orders fill separately. Shift does not change the Buy/Sell right-click Quick Stop."},
+            "ot.wallet.title": {"ko": "Wallet · 잔고와 자금 이동", "en": "Wallet · Balances & Transfers"},
+            "ot.wallet.open": {"ko": "하단 잔고를 <strong>우클릭</strong>하면 Wallet을 엽니다. 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.", "en": "<strong>Right-click the bottom balance</strong> to open Wallet. Check your Futures, Spot and USDT Flexible Earn balances and move funds between them."},
+            "ot.wallet.transfer": {"ko": "금액 입력과 MAX 버튼으로 원하는 금액을 이동합니다. Quick Transfer는 아래 두 단계를 한 번에 이어서 진행합니다.", "en": "Enter an amount or use MAX to move funds. Quick Transfer carries out the two steps below in sequence."},
+            "ot.wallet.toEarn": {"ko": "선물 → 현물 → Earn", "en": "Futures → Spot → Earn"},
+            "ot.wallet.toFutures": {"ko": "Earn → 현물 → 선물", "en": "Earn → Spot → Futures"},
+            "ot.wallet.toEarn.desc": {"ko": "선물에서 이체 가능한 금액을 현물로 옮긴 뒤 Earn에 넣습니다.", "en": "Move transferable Futures funds to Spot, then subscribe to Earn."},
+            "ot.wallet.toFutures.desc": {"ko": "Earn에서 환매 가능한 금액을 현물로 받은 뒤 선물로 옮깁니다.", "en": "Redeem available Earn funds to Spot, then move them to Futures."},
+            "ot.wallet.note": {"ko": "진행 상태는 창 하단에서 확인하세요. 중간에 멈췄다면 다시 누르기 전에 안내 문구와 잔고를 먼저 확인합니다.", "en": "Check progress at the bottom of the window. If it stops partway through, review the message and balances before trying again."},
+            "ot.data.title": {"ko": "DATA · 거래 기록과 매매 복기", "en": "DATA · History & Trade Review"},
+            "ot.data.open": {"ko": "<strong>SETTING 또는 Wallet → DATA</strong>를 누르면 브라우저에서 거래 기록을 확인할 수 있습니다.", "en": "Select <strong>DATA in SETTING or Wallet</strong> to open your trade history in the browser."},
+            "ot.data.dashboard": {"ko": "기간별 손익과 수수료, 일별·누적 손익을 확인합니다.", "en": "Review period PNL, fees, and daily or cumulative results."},
+            "ot.data.history": {"ko": "포지션별 진입·추가·청산 내역과 차트의 체결 위치를 확인합니다.", "en": "Review entries, additions and exits for each position, with fills marked on the chart."},
+            "ot.data.diagnostics": {"ko": "주문 거부·오류와 연결 상태를 확인합니다.", "en": "Review order rejections, errors and connection status."},
+            "ot.balance.title": {"ko": "5) 잔고 및 거래 관리", "en": "5) Balances & Trade Review"},
+            "ot.balance.item1": {"ko": "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Wallet을 엽니다.", "en": "<strong>BALANCE</strong>: shows account balance and unrealized PNL. Left-click to switch the display; right-click to open Wallet."},
             "ot.balance.item2": { ko: "<strong>PIN</strong>: 창을 항상 위에 고정", en: "<strong>PIN</strong>: keep window always on top." },
             "ot.balance.item3": { ko: "<strong>SETTING (Default)</strong>: 테마(Theme), 사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업", en: "<strong>SETTING (Default)</strong>: opens general settings for theme, SFX, auto-stop ratio, SP ratio, etc." },
             "ot.balance.item4": { ko: "<strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을 커스터마이징하거나 선택할 수 있습니다.", en: "<strong>SFX/THEME</strong>: customize or choose sound packs and theme skins." },
             "ot.shortcuts.title": { ko: "6) 단축키 (Shortcuts)", en: "6) Shortcuts" },
             "ot.shortcuts.fixed.title": { ko: "고정 단축키", en: "Fixed Shortcuts" },
-            "ot.shortcuts.fixed.item1": { ko: "(Hold): 수량(AMOUNT) 절반으로 임시 변경", en: "(Hold): temporarily halve the amount (AMOUNT)" },
-            "ot.shortcuts.fixed.item2": { ko: ": Reduce-Only 토글", en: ": Toggle Reduce-Only" },
-            "ot.shortcuts.fixed.item3": { ko: ": Cancel Orders (미체결 취소)", en: ": Cancel Orders (open orders)" },
+            "ot.shortcuts.fixed.cancel": {"ko": "미체결 주문 취소", "en": "Cancel open orders"},
+            "ot.shortcuts.fixed.amount": {"ko": "누르는 동안 AMOUNT를 절반으로 적용", "en": "Halve AMOUNT while held"},
+            "ot.shortcuts.fixed.reduce": {"ko": "Reduce-Only 켜기·끄기", "en": "Toggle Reduce-Only"},
+            "ot.shortcuts.fixed.reverse": {"ko": "단방향: 좌클릭으로 포지션 반전", "en": "One-way: left-click to reverse the position"},
+            "ot.shortcuts.fixed.both": {"ko": "헤지: 현재 종목의 롱·숏 함께 취소·이동·종료", "en": "Hedge: cancel, move or close both sides of the current symbol"},
+            "ot.shortcuts.fixed.select": {"ko": "헤지: 롱·숏 선택 전환 (주문 없음)", "en": "Hedge: switch LONG/SHORT selection without placing an order"},
+            "ot.shortcuts.fixed.extreme": {"ko": "숫자 1 왼쪽 키: BBO EX 켜기·끄기. BBO 우클릭과 동일", "en": "Key left of 1: toggle BBO EX, same as BBO right-click"},
+            "ot.shortcuts.fixed.trade": {"ko": "헤지: 매수·매도 버튼으로 포지션 이동 또는 양쪽 축소", "en": "Hedge: use Buy/Sell to transfer a position or reduce both sides"},
+            "ot.shortcuts.fixed.tradeclose": {"ko": "헤지: 매수·매도의 CLOSE 버튼에서 AMOUNT만큼 양쪽 축소", "en": "Hedge: use the Buy/Sell CLOSE button to reduce both sides by AMOUNT"},
             "ot.shortcuts.custom.title": { ko: "설정 패널 관리", en: "Settings Panel" },
             "ot.shortcuts.custom.note": { ko: "<strong>SETTING &gt; SHORTCUTS</strong>에서 키별 사용 여부와 액션을 변경합니다.", en: "Use <strong>SETTING &gt; SHORTCUTS</strong> to change each key's enabled state and action." },
             "ot.shortcuts.custom.item1": { ko: "편집 가능: <code>Ctrl+0~9</code>, <code>F13~F22</code>", en: "Editable keys: <code>Ctrl+0~9</code>, <code>F13~F22</code>" },
             "ot.shortcuts.custom.item2": { ko: "<strong>Use</strong> 체크 해제 시 해당 키는 비활성화(<code>None</code>)로 저장", en: "Turn <strong>Use</strong> off to save that key as disabled (<code>None</code>)." },
             "ot.shortcuts.custom.item3": { ko: "지원 액션: BBO 선택, Buy/Sell, Close Position, Halve/Double Amount, ATSL", en: "Supported actions: BBO selection, Buy/Sell, Close Position, Halve/Double Amount, ATSL." },
-            "ot.shortcuts.custom.item4": { ko: "설정은 <code>toolkit_settings_shortcut.json</code>에 UTF-8로 자동 저장", en: "Settings are saved automatically as UTF-8 in <code>toolkit_settings_shortcut.json</code>." },
+            "ot.shortcuts.custom.item4": {"ko": "변경한 단축키는 자동 저장되며 다음 실행에도 유지됩니다.", "en": "Shortcut changes are saved automatically and kept for your next session."},
             "ot.trouble.title": { ko: "7) 문제 해결", en: "7) Troubleshooting" },
             "ot.trouble.item1": { ko: "<strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련 프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된 <strong>보안 경고 해결 안내</strong>를 따라 주세요.", en: "<strong>Won't launch</strong>: open Task Manager and close any remaining Order Toolkit processes, then try again. If the app does not start at all, follow the bundled <strong>security warning troubleshooting guide</strong>." },
-            "ot.trouble.item2": { ko: "<strong>주문 실패</strong>: API 권한/IP 제한 → 원웨이 (One-way) 모드 → 웹 거래 동의. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.", en: "<strong>Order failed checklist</strong>: API permission/IP restriction → One-way mode → web trading consent. <strong>TradFi consent is separate from main trading consent</strong>." },
+            "ot.trouble.item2": {"ko": "<strong>주문 실패</strong>: API 권한/IP 제한, 계정의 포지션 모드(원웨이·헤지), 바이낸스 웹 거래 동의를 확인하세요. <strong>TradFi 동의는 메인 거래 동의와 별도</strong>입니다.", "en": "<strong>Order failed</strong>: check API permissions/IP restrictions, the account position mode (One-way or Hedge), and Binance web trading consent. <strong>TradFi consent is separate from main trading consent</strong>."},
             "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: Order Toolkit이 <strong>AUTO</strong>인지, 등록한 크롬 프로필에서 Binance Manager와 바이낸스 USDT 선물 탭을 열었는지 확인하세요. 확장 프로그램의 <strong>Trading API. Connect → Reconnect</strong>로 다시 연결합니다. 재등록이 필요하면 <strong>••• → Register again</strong>을 누르고 툴킷에서 코드를 확인해 승인하세요.", en: "<strong>Link failed</strong>: check that Order Toolkit is in <strong>AUTO</strong> and Binance Manager and a Binance USDT futures tab are open in the registered Chrome profile. Retry with <strong>Trading API. Connect → Reconnect</strong>. If registration needs renewing, select <strong>••• → Register again</strong>, verify the code and approve in the toolkit." },
             "ot.trouble.item4": { ko: "<strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면 API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.", en: "<strong>Time sync</strong>: if PC time differs from server time, API requests are rejected. Sync time via Windows [Date & Time settings] → <strong>'Sync now'</strong>." },
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
