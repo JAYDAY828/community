@@ -4891,11 +4891,18 @@
                                 <i class="fa-solid fa-rotate"></i>
                                 플랜 관리
                             </button>
-                            <button id="member-download-button" type="button" onclick="openDownloadCenter()"
-                                class="liquid-btn-smoke hidden sm:col-span-2 h-11 px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors items-center justify-center gap-2">
-                                <i id="member-download-icon" class="fa-solid fa-download"></i>
-                                <span id="member-download-label">다운로드</span>
-                            </button>
+                            <div id="member-download-actions" class="hidden sm:col-span-2 grid-cols-2 gap-3 min-w-0">
+                                <a id="member-notice-button" href="https://t.me/bf_notice" target="_blank" rel="noopener noreferrer"
+                                    class="liquid-btn-smoke min-w-0 h-11 px-2 sm:px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                                    <i class="fa-brands fa-telegram text-sky-400" aria-hidden="true"></i>
+                                    <span>공지사항</span>
+                                </a>
+                                <button id="member-download-button" type="button" onclick="openDownloadCenter()"
+                                    class="liquid-btn-smoke min-w-0 h-11 px-2 sm:px-4 border border-gray-600 hover:border-brand rounded-md text-sm font-bold text-white transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                                    <i id="member-download-icon" class="fa-solid fa-download" aria-hidden="true"></i>
+                                    <span id="member-download-label">다운로드</span>
+                                </button>
+                            </div>
                         </div>
 
                         <form id="member-subscription-form" class="hidden border-t border-white/10 pt-5 space-y-4"
@@ -7265,12 +7272,12 @@
             const canRequestNew = (profile.subscriptions || []).length === 0;
             newSubscriptionButton.classList.toggle('hidden', !canRequestNew);
 
-            const downloadButton = document.getElementById('member-download-button');
-            downloadButton.classList.remove('hidden');
-            downloadButton.classList.add('flex');
-            const visibleMemberActions = [canRequestNew, profile.canRequestRenewal, true].filter(Boolean).length;
-            [newSubscriptionButton, renewalButton, downloadButton].forEach(button => {
-                button.classList.toggle('sm:col-span-2', visibleMemberActions === 1);
+            const downloadActions = document.getElementById('member-download-actions');
+            downloadActions.classList.remove('hidden');
+            downloadActions.classList.add('grid');
+            const visiblePlanActions = [canRequestNew, profile.canRequestRenewal].filter(Boolean).length;
+            [newSubscriptionButton, renewalButton].forEach(button => {
+                button.classList.toggle('sm:col-span-2', visiblePlanActions === 1);
             });
 
             const requestPanel = document.getElementById('member-request-status');
