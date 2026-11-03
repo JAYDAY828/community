@@ -7312,8 +7312,8 @@
 
             const isAdmin = profile.grade === 'admin';
             const subscriptionActions = document.getElementById('member-subscription-actions');
-            subscriptionActions.classList.toggle('hidden', isAdmin || visibleMemberActions === 0);
-            subscriptionActions.classList.toggle('grid', !isAdmin && visibleMemberActions > 0);
+            subscriptionActions.classList.toggle('hidden', isAdmin);
+            subscriptionActions.classList.toggle('grid', !isAdmin);
             document.getElementById('member-admin-panel').classList.toggle('hidden', !isAdmin);
             if (isAdmin) {
                 setMemberAdminTab(memberState.adminTab || 'requests');
