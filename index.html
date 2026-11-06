@@ -1324,6 +1324,14 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <a href="https://t.me/bf_notice" target="_blank" rel="noopener noreferrer"
+                            class="md:col-span-2 flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
+                            <img src="assets/brand/bf-icon-512.png" class="w-10 h-10 object-contain" alt="BF">
+                            <div>
+                                <h3 class="font-bold text-white !m-0 !text-base" data-i18n="quick.notice.title">공지사항</h3>
+                                <p class="text-xs text-gray-400 !m-0" data-i18n="quick.notice.desc">툴킷 업데이트 및 운영 소식</p>
+                            </div>
+                        </a>
                         <!-- Telegram Community -->
                         <a href="https://t.me/+_1EVjnyCr-FhNjE1" target="_blank"
                             class="flex items-center gap-4 p-4 rounded-xl liquid-card bg-gray-800/20 hover:bg-gray-700/50 transition-colors border border-gray-700">
@@ -1357,7 +1365,7 @@
                                 class="w-10 h-10" alt="Telegram">
                             <div>
                                 <h3 class="font-bold text-white !m-0 !text-base"
-                                    data-i18n="quick.tele_symbols.title">Telegram : 종목 & 일정</h3>
+                                    data-i18n="quick.tele_symbols.title">Telegram : Research</h3>
                                 <p class="text-xs text-gray-400 !m-0" data-i18n="quick.tele_symbols.desc">내가 보려고 정리하는
                                     종목 정보와 매크로 일정</p>
                             </div>
@@ -5407,9 +5415,11 @@
             "quick.badge": { ko: "바로가기", en: "Quick Links" },
             "quick.tele_community.title": { ko: "Telegram : 커뮤니티", en: "Telegram : Community" },
             "quick.tele_community.desc": { ko: "공지 / 문의 / 커뮤니티", en: "Announcements / Inquiries / Community" },
+            "quick.notice.title": { ko: "공지사항", en: "Announcements" },
+            "quick.notice.desc": { ko: "툴킷 업데이트 및 운영 소식", en: "Toolkit updates and service news" },
             "quick.tele_news.title": { ko: "Telegram : Market Briefing", en: "Telegram : Market Briefing" },
             "quick.tele_news.desc": { ko: "암호화폐 / 주식 / 정보 / 뉴스", en: "Crypto / Stock / Info / News" },
-            "quick.tele_symbols.title": { ko: "Telegram : 종목 & 일정", en: "Telegram : Symbols & Calendar" },
+            "quick.tele_symbols.title": { ko: "Telegram : Research", en: "Telegram : Research" },
             "quick.tele_symbols.desc": { ko: "내가 보려고 정리하는 종목 정보와 매크로 일정", en: "Symbol info and macro calendar I organize for reference" },
             "quick.tele_signal.title": { ko: "Telegram : Signal Desk", en: "Telegram : Signal Desk" },
             "quick.tele_signal.desc": { ko: "내가 보려고 모아놓은 구독 채널 피드", en: "Subscribed channel feed I collect for reference" },
@@ -6872,6 +6882,7 @@
             registration_disabled: '현재 신규 회원가입이 중지되어 있습니다.',
             request_already_applied: '이미 승인 완료된 신청입니다.',
             request_in_progress: '입금 확인 또는 승인 처리 중인 신청이 있습니다. 현재 신청을 먼저 완료해주세요.',
+            request_not_cancellable: '미결제 대기 신청만 취소할 수 있습니다. 목록을 새로고침해주세요.',
             request_not_approvable: '현재 승인할 수 없는 신청입니다.',
             request_not_found: '플랜 신청을 찾을 수 없습니다.',
             payment_check_disabled: '현재 자동 입금 확인을 사용할 수 없습니다.',
@@ -7418,7 +7429,18 @@
                 approve.className = 'liquid-btn-smoke flex-shrink-0 h-9 px-3 border border-brand/50 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors';
                 approve.textContent = request.status === 'PROCESSING' ? '승인 재개' : '승인';
                 approve.addEventListener('click', () => selectAdminRequest(request.id));
-                card.append(info, approve);
+                const actions = document.createElement('div');
+                actions.className = 'flex flex-shrink-0 items-center gap-2';
+                actions.append(approve);
+                if (request.status === 'WAITING' && request.paymentStatus !== 'VERIFIED') {
+                    const cancel = document.createElement('button');
+                    cancel.type = 'button';
+                    cancel.className = 'liquid-btn-smoke h-9 px-3 rounded-md text-xs text-gray-400 hover:text-red-300';
+                    cancel.textContent = '신청 취소';
+                    cancel.addEventListener('click', () => cancelAdminRequest(request, cancel));
+                    actions.append(cancel);
+                }
+                card.append(info, actions);
                 container.appendChild(card);
             });
 
@@ -7484,6 +7506,22 @@
             if (form) form.classList.add('hidden');
             const serial = document.getElementById('member-admin-serial');
             if (serial) serial.value = '';
+        }
+
+        async function cancelAdminRequest(request, button) {
+            if (!confirm(`${request.username}님의 미결제 신청을 취소하시겠습니까?\n신청번호: ${request.id}\n기존 이용권은 변경되지 않습니다.`)) return;
+            const generation = memberState.sessionGeneration;
+            button.disabled = true;
+            try {
+                const result = await memberApi('admin_cancel_request', { token: memberToken(), requestId: request.id });
+                if (generation !== memberState.sessionGeneration) return;
+                if (!result.ok) throw new Error(result.error || 'server_error');
+                cancelAdminApproval();
+                await loadAdminRequests(true);
+                setMemberMessage('profile', '신청을 취소했습니다.', 'success');
+            } catch (error) {
+                if (generation === memberState.sessionGeneration) setMemberMessage('profile', memberErrorMessage(error));
+            } finally { button.disabled = false; }
         }
 
         async function submitAdminApproval(event) {
