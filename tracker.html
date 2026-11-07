@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trading API.Onchain Tracker | 부평구금융인</title>
-<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
-<link rel="icon" href="/assets/brand/bf-favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon.ico?v=transparent-bf" type="image/x-icon" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/assets/brand/bf-favicon-32.png?v=transparent-bf" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/brand/bf-apple-touch-icon.png" sizes="180x180">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -425,6 +425,10 @@ tr:hover td{background:rgba(252,213,53,0.035)}
   .btn-search{width:62px;padding:0;font-size:0;display:flex;align-items:center;justify-content:center;flex:0 0 62px}
   .btn-search i{font-size:1rem}
 }
+/* Linked summary reuses the same coin and exchange renderer. */
+.tracker-compact .tabs,.tracker-compact .tab-content,.tracker-compact #btnWatchCoin,.tracker-compact .tracker-settings{display:none!important}
+#trackerFullView[hidden]{display:none!important}
+#trackerFullView{border-radius:10px;padding:0 16px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -439,9 +443,10 @@ tr:hover td{background:rgba(252,213,53,0.035)}
       </div>
     </a>
     <div class="header-actions">
+      <button class="btn btn-secondary" id="trackerFullView" onclick="openFullTracker()" hidden>전체 보기</button>
       <button class="btn-icon" onclick="location.href='/'" title="메인으로" aria-label="메인으로"><i class="fa-solid fa-house"></i></button>
       <button class="btn-icon" onclick="refreshData()" title="새로고침" aria-label="새로고침"><i class="fa-solid fa-rotate"></i></button>
-      <button class="btn-icon" onclick="openSettings()" title="설정" aria-label="설정"><i class="fa-solid fa-gear"></i></button>
+      <button class="btn-icon tracker-settings" onclick="openSettings()" title="설정" aria-label="설정"><i class="fa-solid fa-gear"></i></button>
     </div>
   </header>
 
@@ -661,6 +666,12 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 <script>
 // ==================== CONFIGURATION ====================
 const APP_VERSION = 'Tracker v1.1.9';
+const trackerParams=new URLSearchParams(location.search);
+let trackerCompact=trackerParams.get('view')==='compact';
+function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
+function syncTrackerMode(){document.documentElement.classList.toggle('tracker-compact',trackerCompact);document.getElementById('trackerFullView').hidden=!trackerCompact;}
+async function loadFullTrackerFeatures(){document.getElementById('tabsBar').style.display='flex';await Promise.allSettled([loadDexData(),loadTransfers(),loadNewsFeed()]);switchTab('decision');}
+async function openFullTracker(){if(!trackerCompact)return;trackerCompact=false;syncTrackerMode();const url=new URL(location.href);url.searchParams.delete('view');history.replaceState(null,'',url);if(state.currentCoin&&!state.loading)await loadFullTrackerFeatures();}
 const CONFIG = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
   COINPAPRIKA: 'https://api.coinpaprika.com/v1',
@@ -2373,11 +2384,12 @@ function renderDropdown(coins){
 }
 
 async function selectCoin(coinId){
+  if(!validTrackerCoin(coinId)||state.loading)return;
   document.getElementById('searchDropdown').classList.remove('active');
   state.loading=true;
   showLoading();
   try{
-    const r=await fetch(`${CONFIG.COINGECKO}/coins/${coinId}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false`);
+    const r=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false`);
     if(!r.ok) throw new Error('Coin data fetch failed');
     const coin=await r.json();
     state.currentCoin=coin;
@@ -2401,10 +2413,8 @@ async function selectCoin(coinId){
     }
     renderCoinPanel(coin);
     document.getElementById('coinPanel').classList.add('active');
-    document.getElementById('tabsBar').style.display='flex';
-    // load extras
-    await Promise.allSettled([loadDexData(), loadTransfers(), loadNewsFeed()]);
-    switchTab('decision');
+    const url=new URL(location.href);url.searchParams.set('coin',coinId);history.replaceState(null,'',url);
+    if(!trackerCompact)await loadFullTrackerFeatures();
     startRefreshTimer();
   }catch(e){
     console.error(e);
@@ -4982,8 +4992,8 @@ async function refreshData(reason='manual'){
   if(reason==='missed_timer') state.forceCatchUp=true;
   toast(reason==='missed_timer' ? '🔄 놓친 자동 새로고침 보정 중...' : '🔄 데이터 새로고침 중...','info');
   try{
-    const tasks=[loadDexData(true), loadTransfers(true), checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'')];
-    if(reason==='manual') tasks.push(loadNewsFeed(true));
+    const tasks=[checkExchangeListings(state.currentCoin?.tickers||[],state.currentCoin?.symbol||'')];
+    if(!trackerCompact){tasks.push(loadDexData(true),loadTransfers(true));if(reason==='manual')tasks.push(loadNewsFeed(true));}
     await Promise.allSettled(tasks);
     toast('✅ 새로고침 완료!','success');
   }finally{
@@ -5065,6 +5075,7 @@ function showLoading(){
 
 // ==================== INIT ====================
 (function init(){
+  syncTrackerMode();
   ensureHistoryTabButton();
   renderWatchlist();
   renderNewsFeed();
@@ -5075,6 +5086,8 @@ function showLoading(){
   }
   // add bottom padding for refresh bar
   document.body.style.paddingBottom='50px';
+  const linkedCoin=trackerParams.get('coin');
+  if(validTrackerCoin(linkedCoin))selectCoin(linkedCoin);
 })();
 </script>
 </body>
