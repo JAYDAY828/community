@@ -6881,6 +6881,8 @@
             payment_amount_mismatch: '입금 금액이 허용 범위와 일치하지 않습니다.',
             payment_time_mismatch: '신청 이전에 처리된 입금은 사용할 수 없습니다.',
             payment_already_used: '이미 다른 신청에 사용된 TXID입니다.',
+            payment_already_linked: '이 신청에는 이미 다른 입금이 연결되어 있습니다.',
+            request_not_linkable: '승인 완료된 신청에만 TXID를 연결할 수 있습니다.',
             payment_api_error: 'OKX 입금 조회에 실패했습니다. 잠시 후 다시 시도하거나 운영자에게 문의해주세요.',
             payment_not_required: '무료 플랜은 입금 확인이 필요하지 않습니다.',
             renewal_not_available: '연장하거나 변경할 기존 플랜이 없습니다.',
@@ -7458,8 +7460,67 @@
                     const tx = document.createElement('p'); tx.textContent = request.submittedTxid;
                     details.append(summary, tx); item.append(details);
                 }
+                if (!verified && Number(request.amount) > 0) item.append(adminPaymentLinkForm(request));
                 historyContainer.appendChild(item);
             });
+        }
+
+        // Manual approvals without a verified payment: attach the TXID so settlement counts the real deposit.
+        function adminPaymentLinkForm(request) {
+            const wrap = document.createElement('div');
+            wrap.className = 'mt-2';
+            const open = document.createElement('button');
+            open.type = 'button';
+            open.className = 'liquid-btn-smoke h-8 px-3 border border-brand/50 hover:bg-brand hover:text-black rounded-md text-[11px] font-bold text-brand transition-colors';
+            open.textContent = 'TXID 연결';
+            const form = document.createElement('form');
+            form.className = 'hidden mt-2 space-y-2';
+            const row = document.createElement('div');
+            row.className = 'flex gap-2';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.maxLength = 130;
+            input.autocomplete = 'off';
+            input.required = true;
+            input.placeholder = '입금 TXID';
+            input.className = 'min-w-0 flex-1 h-9 px-3 bg-[#0b0e11] border border-gray-700 rounded-md text-xs font-mono text-white focus:outline-none focus:border-brand';
+            const submit = document.createElement('button');
+            submit.type = 'submit';
+            submit.className = 'liquid-btn-smoke h-9 px-3 border border-brand/60 hover:bg-brand hover:text-black rounded-md text-xs font-bold text-brand transition-colors';
+            submit.textContent = '확인 후 연결';
+            const status = document.createElement('p');
+            status.className = 'text-[11px] text-gray-500';
+            status.textContent = 'OKX 입금 내역으로 금액·네트워크·주소를 확인한 뒤 정산에 반영합니다. 이용기간은 바뀌지 않습니다.';
+            row.append(input, submit);
+            form.append(row, status);
+            open.addEventListener('click', () => {
+                form.classList.toggle('hidden');
+                if (!form.classList.contains('hidden')) input.focus();
+            });
+            form.addEventListener('submit', async event => {
+                event.preventDefault();
+                const txid = input.value.trim();
+                if (!txid || submit.disabled) return;
+                submit.disabled = true;
+                input.disabled = true;
+                submit.textContent = '확인 중...';
+                status.className = 'text-[11px] text-gray-500';
+                try {
+                    const result = await memberApi('admin_link_payment', { token: memberToken(), requestId: request.id, txid });
+                    if (!result.ok) throw new Error(result.error || 'server_error');
+                    const amount = result.payment?.amount ?? result.request?.matchedAmount;
+                    setMemberMessage('profile', `${request.username} 신청에 입금 ${amount} USDT를 연결했습니다.`, 'success');
+                    await loadAdminRequests(true);
+                } catch (error) {
+                    status.className = 'text-[11px] text-red-300';
+                    status.textContent = memberErrorMessage(error);
+                    submit.disabled = false;
+                    input.disabled = false;
+                    submit.textContent = '확인 후 연결';
+                }
+            });
+            wrap.append(open, form);
+            return wrap;
         }
 
         function selectAdminRequest(requestId) {
