@@ -8338,7 +8338,8 @@
             pickerLabel.className = 'block text-gray-500 mb-2';
             pickerLabel.textContent = single ? '네트워크' : '네트워크 선택';
             const picker = document.createElement('div');
-            picker.className = 'flex flex-wrap gap-2';
+            // Equal-width columns (max 3 per row) keep the options aligned; long names wrap inside the button.
+            picker.className = `grid gap-2 ${['grid-cols-1', 'grid-cols-2', 'grid-cols-3'][Math.min(methods.length, 3) - 1]}`;
             picker.setAttribute('role', 'radiogroup');
             pickerRow.append(pickerLabel, picker);
 
@@ -8372,7 +8373,7 @@
                 buttons.forEach((button, index) => {
                     const active = methods[index] === selected;
                     button.setAttribute('aria-checked', String(active));
-                    button.className = `px-3 h-8 rounded-md border text-xs font-bold transition-colors ${active
+                    button.className = `w-full min-h-10 px-2 py-2 rounded-md border text-xs font-bold leading-tight text-center break-words transition-colors ${active
                         ? 'border-brand bg-brand text-black'
                         : 'border-gray-700 text-gray-300 hover:border-gray-500 hover:text-white'}`;
                 });
