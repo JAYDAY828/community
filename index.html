@@ -4960,17 +4960,7 @@
                                 <div class="flex justify-between gap-4 py-3 text-sm">
                                     <span class="text-gray-500">자산</span><strong id="member-payment-asset" class="text-white">USDT</strong>
                                 </div>
-                                <div class="flex justify-between gap-4 py-3 text-sm">
-                                    <span class="text-gray-500">네트워크</span><strong id="member-payment-network" class="text-brand">APTOS</strong>
-                                </div>
-                                <div class="py-3 text-sm">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="text-gray-500">입금 주소</span>
-                                        <button type="button" onclick="copyMemberValue('member-payment-address')"
-                                            class="text-xs text-brand hover:text-yellow-300"><i class="fa-regular fa-copy mr-1"></i>복사</button>
-                                    </div>
-                                    <code id="member-payment-address" class="block text-xs text-white break-all leading-relaxed">-</code>
-                                </div>
+                                <div id="member-payment-methods" class="divide-y divide-white/10"></div>
                                 <div id="member-reset-row" class="hidden py-3 text-sm">
                                     <div class="flex items-center justify-between mb-2">
                                         <span class="text-gray-500">툴킷 복구키</span>
@@ -4982,7 +4972,7 @@
                                 </div>
                             </div>
                             <div id="member-payment-notice" class="px-4 py-3 bg-red-950/20 border border-red-900/40 rounded-md text-xs text-gray-300 leading-relaxed">
-                                결제 화면에 표시된 자산과 네트워크를 반드시 확인한 후 전송해 주세요. 결제 확인 후 선택한 플랜이 활성화됩니다. 처리가 지연되면 운영자에게 문의해 주세요.
+                                결제 화면에 표시된 자산과 네트워크를 반드시 확인한 후 전송해 주세요. 네트워크가 여러 개이면 그중 하나를 골라, 출금 화면에서 같은 네트워크를 선택하고 그 네트워크의 주소로 전송해 주세요. 결제 확인 후 선택한 플랜이 활성화됩니다. 처리가 지연되면 운영자에게 문의해 주세요.
                             </div>
                             <a id="member-support-link" href="#" target="_blank" rel="noopener noreferrer"
                                 class="liquid-btn-smoke hidden w-full h-10 border border-gray-700 hover:border-gray-500 rounded-md text-sm font-bold text-gray-300 items-center justify-center gap-2">
@@ -6864,7 +6854,7 @@
             invalid_expiration: '만료일은 YYYY/MM/DD 또는 unlimited로 입력해주세요.',
             invalid_period: '신청 기간이 올바르지 않습니다.',
             invalid_plan: '선택한 플랜을 확인해주세요.',
-            invalid_txid: '올바른 Aptos TXID를 입력해주세요.',
+            invalid_txid: '올바른 TXID를 입력해주세요.',
             invalid_request_type: '플랜 신청 유형을 확인해주세요.',
             invalid_serial: '등록되지 않은 시리얼키입니다.',
             invalid_serial_format: '시리얼키는 영문, 숫자, 밑줄 및 하이픈 6~64자로 입력해주세요.',
@@ -6886,7 +6876,7 @@
             payment_not_found: 'OKX 입금 내역에서 해당 TXID를 찾지 못했습니다.',
             payment_not_final: '입금이 아직 최종 완료되지 않았습니다.',
             payment_currency_mismatch: '입금 자산이 USDT가 아닙니다.',
-            payment_network_mismatch: 'Aptos 네트워크 입금이 아닙니다.',
+            payment_network_mismatch: '안내된 입금 네트워크로 전송된 입금이 아닙니다.',
             payment_address_mismatch: '입금 주소가 일치하지 않습니다.',
             payment_amount_mismatch: '입금 금액이 허용 범위와 일치하지 않습니다.',
             payment_time_mismatch: '신청 이전에 처리된 입금은 사용할 수 없습니다.',
@@ -8182,8 +8172,7 @@
             document.getElementById('member-payment-details').classList.toggle('hidden', isFree);
             document.getElementById('member-payment-notice').classList.toggle('hidden', isFree);
             document.getElementById('member-payment-asset').textContent = payment.asset || 'USDT';
-            document.getElementById('member-payment-network').textContent = payment.network || 'APTOS';
-            document.getElementById('member-payment-address').textContent = payment.address || '-';
+            renderMemberPaymentMethods(payment);
 
             const resetRow = document.getElementById('member-reset-row');
             if (payment.resetKey) {
@@ -8254,8 +8243,61 @@
             }
         }
 
+        function memberPaymentMethodList(payment) {
+            const source = Array.isArray(payment.methods) && payment.methods.length
+                ? payment.methods
+                : [{ network: payment.network, address: payment.address }];
+            return source
+                .map(method => ({
+                    network: String(method?.network || '').trim(),
+                    address: String(method?.address || '').trim()
+                }))
+                .filter(method => method.network && method.address);
+        }
+
+        function renderMemberPaymentMethods(payment) {
+            const container = document.getElementById('member-payment-methods');
+            container.replaceChildren();
+            const methods = memberPaymentMethodList(payment);
+            if (!methods.length) {
+                const empty = document.createElement('p');
+                empty.className = 'py-3 text-sm text-red-300';
+                empty.textContent = '입금 주소를 불러오지 못했습니다. 운영자에게 문의해 주세요.';
+                container.append(empty);
+                return;
+            }
+            methods.forEach(method => {
+                const row = document.createElement('div');
+                row.className = 'py-3 text-sm';
+                const head = document.createElement('div');
+                head.className = 'flex items-center justify-between gap-3 mb-2';
+                const label = document.createElement('span');
+                label.className = 'text-gray-500';
+                label.append('네트워크 ');
+                const network = document.createElement('strong');
+                network.className = 'text-brand';
+                network.textContent = method.network;
+                label.append(network);
+                const copy = document.createElement('button');
+                copy.type = 'button';
+                copy.className = 'text-xs text-brand hover:text-yellow-300 shrink-0';
+                copy.innerHTML = '<i class="fa-regular fa-copy mr-1"></i>주소 복사';
+                copy.addEventListener('click', () => copyMemberText(method.address));
+                head.append(label, copy);
+                const address = document.createElement('code');
+                address.className = 'block text-xs text-white break-all leading-relaxed';
+                address.textContent = method.address;
+                row.append(head, address);
+                container.append(row);
+            });
+        }
+
         async function copyMemberValue(elementId) {
-            const value = document.getElementById(elementId)?.textContent?.trim();
+            await copyMemberText(document.getElementById(elementId)?.textContent);
+        }
+
+        async function copyMemberText(rawValue) {
+            const value = String(rawValue || '').trim();
             if (!value || value === '-') return;
             try {
                 await navigator.clipboard.writeText(value);
