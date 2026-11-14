@@ -665,7 +665,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.1.9';
+const APP_VERSION = 'Tracker v1.2.0';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -680,7 +680,7 @@ const CONFIG = {
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
   MORALIS_SOLANA_API: 'https://solana-gateway.moralis.io',
   GNEWS_API: 'https://gnews.io/api/v4',
-  EXCHANGE_PROXY: 'https://tracker-exchange-proxy.wjdghdry1234.workers.dev',
+  EXCHANGE_PROXY: 'https://tracker-exchange-proxy.jayday.workers.dev',
   BINANCE_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/binance_futures?include_tickers=unexpired',
   KUCOIN_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/kumex?include_tickers=unexpired',
   EXPLORERS: {
