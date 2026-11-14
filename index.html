@@ -8266,30 +8266,65 @@
                 container.append(empty);
                 return;
             }
-            methods.forEach(method => {
-                const row = document.createElement('div');
-                row.className = 'py-3 text-sm';
-                const head = document.createElement('div');
-                head.className = 'flex items-center justify-between gap-3 mb-2';
-                const label = document.createElement('span');
-                label.className = 'text-gray-500';
-                label.append('네트워크 ');
-                const network = document.createElement('strong');
-                network.className = 'text-brand';
-                network.textContent = method.network;
-                label.append(network);
-                const copy = document.createElement('button');
-                copy.type = 'button';
-                copy.className = 'text-xs text-brand hover:text-yellow-300 shrink-0';
-                copy.innerHTML = '<i class="fa-regular fa-copy mr-1"></i>주소 복사';
-                copy.addEventListener('click', () => copyMemberText(method.address));
-                head.append(label, copy);
-                const address = document.createElement('code');
-                address.className = 'block text-xs text-white break-all leading-relaxed';
-                address.textContent = method.address;
-                row.append(head, address);
-                container.append(row);
+            // Several networks: the operator-facing rule is "pick one network first, then copy its address".
+            // No network is preselected so the payer consciously matches it with the exchange withdrawal screen.
+            const single = methods.length === 1;
+            let selected = single ? methods[0] : null;
+
+            const pickerRow = document.createElement('div');
+            pickerRow.className = 'py-3 text-sm';
+            const pickerLabel = document.createElement('span');
+            pickerLabel.className = 'block text-gray-500 mb-2';
+            pickerLabel.textContent = single ? '네트워크' : '네트워크 선택';
+            const picker = document.createElement('div');
+            picker.className = 'flex flex-wrap gap-2';
+            picker.setAttribute('role', 'radiogroup');
+            pickerRow.append(pickerLabel, picker);
+
+            const addressRow = document.createElement('div');
+            addressRow.className = 'py-3 text-sm';
+            const addressHead = document.createElement('div');
+            addressHead.className = 'flex items-center justify-between gap-3 mb-2';
+            const addressLabel = document.createElement('span');
+            addressLabel.className = 'text-gray-500';
+            const copy = document.createElement('button');
+            copy.type = 'button';
+            copy.className = 'text-xs text-brand hover:text-yellow-300 shrink-0';
+            copy.innerHTML = '<i class="fa-regular fa-copy mr-1"></i>주소 복사';
+            copy.addEventListener('click', () => { if (selected) copyMemberText(selected.address); });
+            addressHead.append(addressLabel, copy);
+            const address = document.createElement('code');
+            address.className = 'block text-xs text-white break-all leading-relaxed';
+            addressRow.append(addressHead, address);
+
+            const buttons = methods.map(method => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.setAttribute('role', 'radio');
+                button.textContent = method.network;
+                button.addEventListener('click', () => { selected = method; update(); });
+                picker.append(button);
+                return button;
             });
+
+            function update() {
+                buttons.forEach((button, index) => {
+                    const active = methods[index] === selected;
+                    button.setAttribute('aria-checked', String(active));
+                    button.className = `px-3 h-8 rounded-md border text-xs font-bold transition-colors ${active
+                        ? 'border-brand bg-brand text-black'
+                        : 'border-gray-700 text-gray-300 hover:border-gray-500 hover:text-white'}`;
+                });
+                copy.classList.toggle('hidden', !selected);
+                addressLabel.textContent = selected ? `${selected.network} 입금 주소` : '입금 주소';
+                address.className = selected
+                    ? 'block text-xs text-white break-all leading-relaxed'
+                    : 'block font-sans text-xs text-gray-500 leading-relaxed';
+                address.textContent = selected ? selected.address : '위에서 출금할 네트워크를 먼저 선택해 주세요.';
+            }
+
+            update();
+            container.append(pickerRow, addressRow);
         }
 
         async function copyMemberValue(elementId) {
