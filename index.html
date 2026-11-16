@@ -793,7 +793,7 @@
             background: #6b7280;
         }
     </style>
-    <link rel="stylesheet" href="./assets/toolkit-overview.css">
+    <link rel="stylesheet" href="./assets/toolkit-overview.css?v=7.0.0">
     <style id="settlement-styles">
 /* Settlement workspace: one period, one view, exact records on demand. */
 #member-modal:has(#member-profile-view:not(.hidden) #member-admin-panel:not(.hidden) #member-admin-settlement-view:not(.hidden)) .member-dialog-surface { max-width:1080px; }
@@ -1156,6 +1156,12 @@
                         data-id="toolkit" data-guide-section="toolkit" hidden>
                         <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3v7m0 4v7m7-18v12m0 4v2m7-18v3m0 4v11M2 10h6m1 5h6m1-9h6"/></svg>
                         <span data-i18n="nav.toolkit">Order Toolkit</span>
+                    </button>
+                    <button onclick="requestToolkitGuide('workspace')"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
+                        data-id="workspace" data-guide-section="workspace" hidden>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11"/></svg>
+                        <span data-i18n="nav.workspace">Workspace</span>
                     </button>
                     <button onclick="requestToolkitGuide('trades')"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group"
@@ -1896,12 +1902,15 @@
             <section id="overview" class="guide-section hidden fade-in toolkit-overview" aria-labelledby="overview-title">
 <div id="guide-access-notice" class="guide-access-notice hidden" role="status"><p id="guide-access-message"></p><button type="button" class="overview-text-link" onclick="openPendingToolkitGuide()"><span data-i18n="overview.access">로그인 · 이용 권한 확인</span></button></div>
 <header class="overview-header"><p data-i18n="overview.eyebrow" class="overview-eyebrow">BUILT FOR TRADERS.</p><h1 id="overview-title" data-i18n="overview.title">실전 매매를 위한 트레이딩 툴킷</h1><p data-i18n="overview.lead">종목을 찾고, 체결과 호가를 확인하고, 주문과 포지션을 관리합니다. 실시간 보조지표부터 멀티차트, 매매노트까지 평소 사용하는 거래 화면에 더해보세요.</p><div class="overview-actions"><button type="button" class="liquid-btn-smoke" onclick="openTradingVideoModal()"><span data-i18n="overview.watch">실전 매매 영상</span></button><a class="overview-text-link" href="#sponsorship"><span data-i18n="overview.plans">플랜 · 이용 안내</span><span aria-hidden="true">↗</span></a></div></header>
-<figure class="overview-hero"><a class="overview-shot " href="./assets/overview/lightning.png" target="_blank" rel="noopener noreferrer" aria-label="Binance Futures에서 사용하는 Lightning Candle 멀티차트 — 전체 화면"><img src="./assets/overview/lightning.png" width="2371" height="1176" alt="Binance Futures에서 사용하는 Lightning Candle 멀티차트" loading="lazy" decoding="async"></a><figcaption data-i18n="overview.hero.caption" class="overview-caption">Binance Futures에 Lightning Candle을 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.</figcaption></figure><article class="overview-product" id="overview-detector">
+<figure class="overview-hero"><a class="overview-shot " href="./assets/overview/lightning.png" target="_blank" rel="noopener noreferrer" aria-label="Binance Futures에서 사용하는 PRO CHART 멀티차트 — 전체 화면"><img src="./assets/overview/lightning.png" width="2000" height="975" alt="Binance Futures에서 사용하는 PRO CHART 멀티차트" loading="lazy" decoding="async"></a><figcaption data-i18n="overview.hero.caption" class="overview-caption">Binance Futures에 PRO CHART를 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.</figcaption></figure><article class="overview-product" id="overview-detector">
     <div><p data-i18n="overview.detector.label" class="overview-eyebrow">CRYPTO DETECTOR</p><h2 data-i18n="overview.detector.title">실시간 종목 감지</h2><p data-i18n="overview.detector.desc">설정한 변동률과 거래대금 조건에 맞는 종목을 감지합니다. 감지 목록에서 등락률·거래대금·미결제약정(OI)을 확인하고, 최근 감지 이력도 조회할 수 있습니다.</p><ul><li data-i18n="overview.detector.point0">변동률·거래대금 기준 설정</li><li data-i18n="overview.detector.point1">종목 감지 팝업 알림과 감지 이력 조회</li><li data-i18n="overview.detector.point2">미결제약정(OI)·거래대금 차트 제공</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('detector')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
     <div><div class="overview-media-stack"><a class="overview-shot " href="./assets/overview/detector.png" target="_blank" rel="noopener noreferrer" aria-label="Crypto Detector 감지 목록 — 전체 화면"><img src="./assets/overview/detector.png" width="783" height="441" alt="Crypto Detector 감지 목록" loading="lazy" decoding="async"></a><a class="overview-shot " href="./assets/overview/open-interest.png" target="_blank" rel="noopener noreferrer" aria-label="미결제약정 및 거래대금 차트 — 전체 화면"><img src="./assets/overview/open-interest.png" width="1077" height="567" alt="미결제약정 및 거래대금 차트" loading="lazy" decoding="async"></a></div></div>
 </article><article class="overview-product" id="overview-toolkit">
     <div><p data-i18n="overview.toolkit.label" class="overview-eyebrow">ORDER TOOLKIT</p><h2 data-i18n="overview.toolkit.title">주문 실행과 포지션 관리</h2><p data-i18n="overview.toolkit.desc">바이낸스 USDⓂ 선물 주문을 실행하는 데스크톱 툴킷입니다. 크롬 연동 또는 수동 모드로 사용하며, 주문 입력부터 미체결 주문 취소·포지션 종료까지 한 화면에서 처리합니다.</p><ul><li data-i18n="overview.toolkit.point0">금액 프리셋과 주문 수량 자동 계산</li><li data-i18n="overview.toolkit.point1">수동 주문과 다중 지정가 주문 지원</li><li data-i18n="overview.toolkit.point2">미체결 주문 취소·포지션 종료·스탑 주문</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('toolkit')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><button type="button" class="overview-text-link" onclick="openTradingVideoModal('scalping1')"><span data-i18n="overview.toolkit.video1">실전 스캘핑 1</span><span aria-hidden="true">▷</span></button><button type="button" class="overview-text-link" onclick="openTradingVideoModal('scalping2')"><span data-i18n="overview.toolkit.video2">실전 스캘핑 2</span><span aria-hidden="true">▷</span></button></div></div>
     <div><a class="overview-shot overview-crop overview-crop--orders" href="./assets/overview/order-toolkit.png" target="_blank" rel="noopener noreferrer" aria-label="Order Toolkit 주문 컨트롤 — 전체 화면"><img src="./assets/overview/order-toolkit.png" width="481" height="982" alt="Order Toolkit 주문 컨트롤" loading="lazy" decoding="async"></a><p data-i18n="overview.toolkit.caption" class="overview-caption">주문 화면 일부입니다. 전체 구성은 이미지를 눌러 확인할 수 있습니다.</p></div>
+</article><article class="overview-product" id="overview-workspace">
+    <div><p data-i18n="overview.workspace.label" class="overview-eyebrow">WORKSPACE</p><h2 data-i18n="overview.workspace.title">브라우저에서 보는 통합 화면</h2><p data-i18n="overview.workspace.desc">Order Toolkit이나 Crypto Detector를 실행하면 브라우저에서 함께 쓰는 화면입니다. 종목 리스트와 차트, 스크리너, 거래 기록을 한곳에서 확인합니다.</p><ul><li data-i18n="overview.workspace.point0">종목 리스트·즐겨찾기와 PRO CHART를 한 화면에(Trade)</li><li data-i18n="overview.workspace.point1">코인·주식 스크리너와 OI 흐름 차트</li><li data-i18n="overview.workspace.point2">손익 대시보드·거래 기록·지갑</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('workspace')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
+    <div><a class="overview-shot " href="./assets/workspace/trade.png" target="_blank" rel="noopener noreferrer" aria-label="Workspace Trade 화면 — 전체 화면"><img src="./assets/workspace/trade.png" width="1800" height="1235" alt="Workspace Trade 화면" loading="lazy" decoding="async"></a><p data-i18n="overview.workspace.caption" class="overview-caption">Trade 화면 예시입니다. 이미지를 누르면 크게 볼 수 있습니다.</p></div>
 </article><article class="overview-product" id="overview-trades">
     <div><p data-i18n="overview.trades.label" class="overview-eyebrow">TRADES</p><h2 data-i18n="overview.trades.title">실시간 체결내역과 보조지표</h2><p data-i18n="overview.trades.desc">실시간 체결내역과 청산내역에 순델타, 마크·인덱스가격 괴리율, 체결 강도 등 보조지표를 함께 표시합니다. 매수·매도 우세와 실제 가격 반응을 비교하고, 현재 체결가와 두 기준 가격의 차이를 확인할 수 있습니다.</p><ul><li data-i18n="overview.trades.point0">거래대금 기준 체결 필터링과 대량 체결 강조</li><li data-i18n="overview.trades.point1">순델타·대량 체결 비중·가격 반응(FLOW) 표시</li><li data-i18n="overview.trades.point2">마크·인덱스가격 괴리율(선물)과 체결 강도 표시</li><li data-i18n="overview.trades.point3">강제청산 내역·누적 청산대금·팝업 및 소리 알림</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('trades')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
     <div><div class="overview-media-stack"><a class="overview-shot overview-crop overview-crop--trades" href="./assets/overview/trades.png" target="_blank" rel="noopener noreferrer" aria-label="Trades 실시간 체결 목록 — 전체 화면"><img src="./assets/overview/trades.png" width="487" height="1101" alt="Trades 실시간 체결 목록" loading="lazy" decoding="async"></a><a class="overview-shot " href="./assets/overview/liquidations.png" target="_blank" rel="noopener noreferrer" aria-label="강제청산 내역 — 전체 화면"><img src="./assets/overview/liquidations.png" width="823" height="483" alt="강제청산 내역" loading="lazy" decoding="async"></a></div></div>
@@ -1909,8 +1918,8 @@
     <div><p data-i18n="overview.orderbook.label" class="overview-eyebrow">ORDER BOOK</p><h2 data-i18n="overview.orderbook.title">실시간 호가와 매수·매도 잔량</h2><p data-i18n="overview.orderbook.desc">가격별 매수·매도 호가 잔량을 실시간으로 표시합니다. 호가를 원하는 단위로 모아 보고, 잔량을 USDT 금액으로 환산해 확인할 수 있습니다.</p><ul><li data-i18n="overview.orderbook.point0">가격별 호가 잔량과 대량 주문 표시</li><li data-i18n="overview.orderbook.point1">호가 모아보기와 USDT 금액 환산</li><li data-i18n="overview.orderbook.point2">호가 클릭 시 Order Toolkit 주문 가격 연동</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('orderbook')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button></div></div>
     <div><a class="overview-shot overview-crop" href="./assets/overview/order-book.png" target="_blank" rel="noopener noreferrer" aria-label="Order Book 매수·매도 호가 — 전체 화면"><img src="./assets/overview/order-book.png" width="486" height="2082" alt="Order Book 매수·매도 호가" loading="lazy" decoding="async"></a><p data-i18n="overview.orderbook.caption" class="overview-caption">현재가 주변을 확대한 화면입니다. 전체 호가창도 열어볼 수 있습니다.</p></div>
 </article><article class="overview-product" id="overview-extensions">
-    <div><p data-i18n="overview.extensions.label" class="overview-eyebrow">EXTENSIONS · BINANCE MANAGER</p><h2 data-i18n="overview.extensions.title">간편주문·멀티차트·매매노트</h2><p data-i18n="overview.extensions.desc">바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, Lightning Candle 멀티차트와 종목별 매매노트를 추가합니다.</p><ul><li data-i18n="overview.extensions.point0">주문 수량 계산과 주문·취소 기능 제공</li><li data-i18n="overview.extensions.point1">Lightning Candle 멀티차트 제공</li><li data-i18n="overview.extensions.point2">NOTES에 종목별 매매노트와 스크린샷 저장</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('extensions')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><a class="overview-text-link" href="https://youtu.be/VS_cTJY7ZXI" rel="noopener noreferrer"><span data-i18n="overview.extensions.video">확장 기능 시연</span><span aria-hidden="true">↗</span></a></div></div>
-    <div><a class="overview-shot " href="./assets/overview/notes.png" target="_blank" rel="noopener noreferrer" aria-label="NOTES 종목별 메모와 이미지 기록 — 전체 화면"><img src="./assets/overview/notes.png" width="919" height="886" alt="NOTES 종목별 메모와 이미지 기록" loading="lazy" decoding="async"></a></div>
+    <div><p data-i18n="overview.extensions.label" class="overview-eyebrow">EXTENSIONS · BINANCE MANAGER</p><h2 data-i18n="overview.extensions.title">간편주문·멀티차트·매매노트</h2><p data-i18n="overview.extensions.desc">바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, PRO CHART 멀티차트와 종목별 매매노트를 추가합니다.</p><ul><li data-i18n="overview.extensions.point0">주문 수량 계산과 주문·취소 기능 제공</li><li data-i18n="overview.extensions.point1">PRO CHART 멀티차트 제공(이전 이름 LIGHTNING)</li><li data-i18n="overview.extensions.point2">NOTES에 종목별 매매노트와 스크린샷 저장</li></ul><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('extensions')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><a class="overview-text-link" href="https://youtu.be/VS_cTJY7ZXI" rel="noopener noreferrer"><span data-i18n="overview.extensions.video">확장 기능 시연</span><span aria-hidden="true">↗</span></a></div></div>
+    <div><a class="overview-shot " href="./assets/overview/notes.png" target="_blank" rel="noopener noreferrer" aria-label="NOTES 종목별 메모와 이미지 기록 — 전체 화면"><img src="./assets/overview/notes.png" width="1144" height="1255" alt="NOTES 종목별 메모와 이미지 기록" loading="lazy" decoding="async"></a></div>
 </article><footer class="overview-foot"><h2 data-i18n="overview.start.title">사용을 시작하려면</h2><p data-i18n="overview.start.desc">로그인 후 이용 권한이 있는 도구의 가이드가 사이드바에 표시됩니다. Getting Started에서 실행·인증·기본 설정을 확인하고, 각 도구의 상세 사용법을 이어서 볼 수 있습니다.</p><p data-i18n="overview.scope">데스크톱 도구와 Chrome 확장 기능은 지원 환경과 제공 기능이 다릅니다. 도구별 지원 거래소·설치 환경·주문 전 확인 사항은 사용 가이드에서 확인해 주세요.</p><div class="overview-actions"><button type="button" class="overview-text-link" onclick="requestToolkitGuide('apikey')"><span data-i18n="overview.guide">사용 가이드</span><span aria-hidden="true">↗</span></button><a class="overview-text-link" href="#sponsorship"><span data-i18n="overview.plans">플랜 · 이용 안내</span></a></div></footer></section>
 
             <section id="apikey" class="guide-section hidden content-body" data-guide-section="apikey">
@@ -2114,7 +2123,7 @@
                         <div id="getting-started-chrome">
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand"
                                 data-i18n="api.chrome.title">6) 크롬 확장 프로그램 연동</h2>
-                            <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n="api.chrome.intro">바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.</p>
+                            <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n="api.chrome.intro">바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. Workspace Trade 화면에서 고른 종목도 같은 방식으로 연동됩니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.</p>
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-6 transition-all duration-300 hover:-translate-y-1">
                                     <h4 class="text-purple-300 font-bold text-sm mb-3 !mt-0 flex items-center gap-2">
@@ -2618,7 +2627,7 @@
                             <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-green"
                                 data-i18n="cd.screener.title">4) DATA 스크리너</h2>
                             <p class="text-gray-400 leading-relaxed mb-4" data-i18n="cd.screener.body">
-                                DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 상장 여부를 한 화면에서 비교하기 위한 보조 데이터 패널입니다.
+                                DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 펀딩비, 상장 거래소를 한 화면에서 비교하기 위한 보조 데이터 패널입니다. DATA 버튼을 누르면 브라우저의 Workspace에서 열립니다.
                             </p>
                             <div class="liquid-card section-glass-panel rounded-2xl border border-gray-700">
                             <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-800">
@@ -2639,7 +2648,7 @@
                                         <span data-i18n="cd.screener.card2.title">상장 거래소 확인</span>
                                     </h3>
                                     <p class="text-sm text-gray-400 !m-0" data-i18n="cd.screener.card2.body">
-                                        Binance Spot, Upbit, Bithumb 상장 여부를 확인하여 어떤 거래소가 가격을 주도하는지 추적할 수 있습니다.
+                                        LISTED 열에서 Binance Spot·Upbit·Bithumb 상장 여부를 아이콘으로 확인합니다(미상장은 회색). 어떤 거래소가 가격을 주도하는지 추적할 때 참고하세요.
                                     </p>
                                 </div>
                                 <div
@@ -2664,6 +2673,7 @@
                                 </p>
                             </div>
                             </div>
+                            <p class="text-sm text-gray-400 mt-4 !mb-0 leading-relaxed"><span data-i18n="cd.screener.workspace">FUNDING 열, 행을 펼쳐 보는 가격·OI 차트, Trade 화면 이동 등 화면 사용법은 Workspace 가이드에서 볼 수 있습니다.</span> <button type="button" class="ws-guide-link" onclick="requestToolkitGuide('workspace')"><span data-i18n="ws.link">Workspace 가이드 보기</span><span aria-hidden="true">→</span></button></p>
                         </div>
 
                         <!-- 5. OI Flow -->
@@ -2725,7 +2735,7 @@
 
                             <div class="flex items-start gap-3 text-xs text-gray-400 bg-yellow-500/5 border-t border-yellow-500/20 p-4 md:px-6">
                                 <i class="fa-solid fa-circle-info text-yellow-400 mt-0.5 flex-shrink-0"></i>
-                                <p class="!m-0 leading-relaxed" data-i18n="cd.oi_flow.note">OI FLOW는 실시간 연속 차트가 아니라 Crypto Detector가 해당 종목을 감지한 시점의 기록을 기반으로 구성됩니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.</p>
+                                <p class="!m-0 leading-relaxed" data-i18n="cd.oi_flow.note">OI FLOW는 Crypto Detector의 감지 기록과 함께 최근 30일 OI 흐름을 보여 줍니다. 감지 기록이 없는 기간도 채워지며, 차트를 연 직후에는 일부 구간이 잠시 뒤에 나타날 수 있습니다.</p>
                             </div>
                             </div>
                         </div>
@@ -2862,7 +2872,7 @@
                     .bm-tabs button:focus-visible{outline:2px solid #eaecef;outline-offset:3px}
                     .bm-slide[hidden]{display:none}
                     .bm-slide-layout{--bm-frame-height:500px;display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:24px;align-items:stretch}
-                    .bm-slide-layout>div:first-child{height:var(--bm-frame-height);box-sizing:border-box}
+                    .bm-slide-layout>div:first-child{min-height:var(--bm-frame-height);box-sizing:border-box}
                     .bm-slide h2{font-size:21px;line-height:1.4;color:#f4f5f7;margin-bottom:8px}
                     .bm-slide p{font-size:13px;line-height:1.7;color:#a6afbc}
                     .bm-kicker{display:block;margin-bottom:7px;color:#f0b90b;font-size:10px;font-weight:700;letter-spacing:.08em}
@@ -2870,7 +2880,7 @@
                     .bm-points li{position:relative;padding:10px 0 10px 15px!important;border-bottom:1px solid #303743;color:#b8c0cb;font-size:12px;line-height:1.55;list-style:none!important}
                     .bm-points li::marker{content:""}
                     .bm-points li::before{position:absolute;left:1px;top:16px;width:4px;height:4px;border-radius:50%;background:#f0b90b;content:""}
-                    .bm-shot{display:block;height:var(--bm-frame-height);border:1px solid #3c3c3c;border-radius:12px;overflow:hidden;background:#0e0e0e}
+                    .bm-shot{display:block;min-height:var(--bm-frame-height);border:1px solid #3c3c3c;border-radius:12px;overflow:hidden;background:#0e0e0e}
                     .bm-shot img{display:block;width:100%;height:100%;object-fit:contain}
                     .bm-note-shots{display:grid!important;grid-template-rows:minmax(0,1fr) 150px;gap:10px;height:var(--bm-frame-height)!important}
                     .bm-note-shots .bm-shot{height:auto;min-height:0}
@@ -2878,18 +2888,25 @@
                     .bm-setup{margin-top:24px;border-top:1px solid #343c48;padding-top:18px;color:#a6afbc;font-size:14px}
                     .bm-setup summary{cursor:pointer;color:#eaecef;padding:6px 0}
                     .bm-setup ol{line-height:1.9;margin:14px 0}
+                    .bm-more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+                    .bm-more-card{padding:16px 18px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(18,18,18,.85)}
+                    .bm-more-card h4{margin:0 0 6px!important;font-size:13px;line-height:1.5;font-weight:700;color:#f4f5f7}
+                    .bm-more-card p{margin:0!important;font-size:12.5px;line-height:1.7;color:#a6afbc}
+                    .bm-more-card--order{border-color:rgba(240,185,11,.35)}
+                    .bm-more-tag{display:inline-block;margin-left:6px;padding:1px 7px;border:1px solid rgba(240,185,11,.4);border-radius:999px;color:#f0b90b;font-size:10px;font-weight:700;vertical-align:1px}
+                    @media(max-width:800px){.bm-more{grid-template-columns:1fr}}
                     @media(max-width:800px){.bm-slide-layout{grid-template-columns:1fr;--bm-frame-height:auto}.bm-slide-layout>div:first-child,.bm-shot,.bm-note-shots{height:auto!important}.bm-shot img{height:auto;max-height:500px}.bm-note-shots{grid-template-rows:auto auto}.bm-note-shots .bm-shot:last-child img{height:170px}}
                     @media(max-width:520px){.bm-tabs button{font-size:11px;padding:11px 4px}}
                 </style>
                 <div class="section-document">
                     <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
                         <span class="badge text-brand border-brand/50" data-i18n="ext.badge">Extension</span>
-                        <div><h1 class="text-2xl font-bold text-white mb-1">Binance Manager</h1><p class="text-sm text-gray-400 !m-0" data-i18n="ext.showcase.intro">Binance Futures에 간편주문, 실시간 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다.</p></div>
+                        <div><h1 class="text-2xl font-bold text-white mb-1">Binance Manager</h1><p class="text-sm text-gray-400 !m-0" data-i18n="ext.showcase.intro">Binance Futures에 간편주문, PRO CHART 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다. PRO CHART와 NOTES는 TradingView와 Workspace Trade 화면에서도 쓸 수 있습니다.</p></div>
                     </div>
                     <div class="bm-showcase" id="ext-binance">
                     <div class="bm-tabs" role="tablist" aria-label="Binance Manager features">
                         <button type="button" id="bm-tab-0" role="tab" aria-controls="bm-slide-0" aria-selected="true" tabindex="0" onclick="showBinanceFeature(0)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(0+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.orders.tab">Order Toolkit</span></button>
-                        <button type="button" id="bm-tab-1" role="tab" aria-controls="bm-slide-1" aria-selected="false" tabindex="-1" onclick="showBinanceFeature(1)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(1+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.chart.tab">Lightning Candle</span></button>
+                        <button type="button" id="bm-tab-1" role="tab" aria-controls="bm-slide-1" aria-selected="false" tabindex="-1" onclick="showBinanceFeature(1)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(1+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.chart.tab">PRO CHART</span></button>
                         <button type="button" id="bm-tab-2" role="tab" aria-controls="bm-slide-2" aria-selected="false" tabindex="-1" onclick="showBinanceFeature(2)" onkeydown="if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();showBinanceFeature(event.key==='Home'?0:event.key==='End'?2:(2+(event.key==='ArrowRight'?1:2))%3,true)}"><span data-i18n="ext.showcase.notes.tab">NOTES</span></button>
                     </div>
                     <article class="bm-slide" id="bm-slide-0" role="tabpanel" aria-labelledby="bm-tab-0" tabindex="0">
@@ -2900,18 +2917,24 @@
                         </div><a class="bm-shot liquid-card" href="./assets/extensions/bm%201.png" target="_blank" rel="noopener noreferrer" aria-label="Open 간편주문 screenshot"><img src="./assets/extensions/bm%201.png" alt="간편주문 on Binance Futures" loading="lazy" decoding="async"></a></div>
                     </article>
                     <article class="bm-slide" id="bm-slide-1" role="tabpanel" aria-labelledby="bm-tab-1" tabindex="0" hidden>
-                        <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5"><span class="bm-kicker">LIGHTNING CANDLE</span>
-                            <h2 data-i18n="ext.showcase.chart.title">Lightning Candle</h2>
-                            <p data-i18n="ext.showcase.chart.body">Binance 웹 차트의 캔들 반응과 멀티차트 사용성을 보완하는 실시간 보조 차트입니다.</p>
-                            <ul class="bm-points"><li data-i18n="ext.showcase.chart.item1">최근 체결 가격을 빠르게 반영하는 실시간 캔들</li><li data-i18n="ext.showcase.chart.item2">최대 4개 멀티차트로 여러 시간대와 종목을 한 화면에 구성</li><li data-i18n="ext.showcase.chart.item3">현재 종목 연동 또는 차트별 종목·타임프레임 고정</li><li data-i18n="ext.showcase.chart.item4">투명도, High·Low, 수평선·Ray 등 차트 보조 기능 제공</li></ul>
-                        </div><a class="bm-shot liquid-card" href="./assets/extensions/lightning-candle-full.png" target="_blank" rel="noopener noreferrer" aria-label="Open Lightning Candle screenshot"><img src="./assets/extensions/lightning-candle-full.png" alt="Lightning Candle on Binance Futures" loading="lazy" decoding="async"></a></div>
+                        <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5"><span class="bm-kicker">PRO CHART</span>
+                            <h2 data-i18n="ext.showcase.chart.title">PRO CHART</h2>
+                            <p data-i18n="ext.showcase.chart.body">실시간 체결을 빠르게 보여 주는 멀티차트로, 바이낸스 선물·TradingView·Workspace Trade 화면에서 씁니다. 이전 이름은 LIGHTNING이며 저장된 설정과 Alt+1 단축키는 그대로입니다.</p>
+                            <ul class="bm-points"><li data-i18n="ext.showcase.chart.item1">최근 체결 가격을 빠르게 반영하는 실시간 캔들</li><li data-i18n="ext.showcase.chart.item2">최대 4개 멀티차트로 여러 시간대와 종목을 한 화면에 구성</li><li data-i18n="ext.showcase.chart.item3">현재 종목 연동 또는 차트별 종목·타임프레임 고정</li><li data-i18n="ext.showcase.chart.item4">투명도·High/Low·수평선·Ray·사각형·피보나치·자 도구와 가격 알림</li><li data-i18n="ext.showcase.chart.item5">버튼 줄 🔔 · PRO CHART · NOTES · POSITIONS (🔔은 차트를 닫아도 알림 창만 열 수 있음)</li></ul>
+                        </div><a class="bm-shot liquid-card" href="./assets/extensions/lightning-candle-full.png" target="_blank" rel="noopener noreferrer" aria-label="Open PRO CHART screenshot"><img src="./assets/extensions/lightning-candle-full.png" alt="PRO CHART multi-chart with the POSITIONS panel" width="1600" height="1281" loading="lazy" decoding="async"></a></div>
+                        <div class="bm-more">
+                            <div class="bm-more-card"><h4 data-i18n="ext.pro.positions.title">POSITIONS · 청산선</h4><p data-i18n="ext.pro.positions.body">Order Toolkit이 연결되면 POSITIONS 버튼이 나타나 보유 포지션 전체와 바이낸스 청산가·손익을 보여 줍니다(바이낸스 선물·Workspace Trade 화면). 차트의 Positions 표시를 켜 두면 청산가가 주황 점선(LIQ)으로 함께 표시됩니다. 보기 전용이며 주문 버튼은 없습니다.</p></div>
+                            <div class="bm-more-card"><h4 data-i18n="ext.pro.copy.title">가격 복사 · 우클릭 메뉴</h4><p data-i18n="ext.pro.copy.body">⚙ 설정의 Copy price(기본 켜짐)를 켜 두면 차트를 더블클릭해 그 위치의 가격을 복사합니다. 차트를 우클릭하면 그 가격으로 가격 알림 추가·수평선 추가·가격 복사를 고를 수 있습니다.</p></div>
+                            <div class="bm-more-card bm-more-card--order"><h4><span data-i18n="ext.pro.drag.title">차트에서 주문 옮기기 · Drag orders</span><span class="bm-more-tag" data-i18n="ext.pro.default_off">기본 꺼짐</span></h4><p data-i18n="ext.pro.drag.body">⚙ 설정에서 켜야 동작합니다(Order Toolkit 연결 필요). 켜 두면 차트에 표시된 지정가·스탑·익절 주문선을 끌어 놓아 가격을 옮길 수 있습니다(트레일링 스탑 제외). 놓기 전에 Esc나 우클릭을 누르면 취소되어 아무것도 바뀌지 않습니다. 스탑·익절은 현재가 너머(바로 발동되는 위치)로 옮길 수 없습니다.</p></div>
+                            <div class="bm-more-card bm-more-card--order"><h4><span data-i18n="ext.pro.cross.title">Market on cross · 지정가만</span><span class="bm-more-tag" data-i18n="ext.pro.default_off">기본 꺼짐</span></h4><p data-i18n="ext.pro.cross.body">⚙ 설정에서 따로 켜야 하며 지정가에만 적용됩니다. 꺼져 있으면 지정가를 현재가 너머로 끌어도 주문이 바뀌지 않습니다. 켜 두면 끌어 놓은 가격까지 즉시 체결됩니다. 시장가 주문이 아니라 그 가격까지만 체결되며, 남은 수량은 그 가격에 대기합니다. Post-only 주문은 현재가 너머로 옮길 수 없습니다.</p></div>
+                        </div>
                     </article>
                     <article class="bm-slide" id="bm-slide-2" role="tabpanel" aria-labelledby="bm-tab-2" tabindex="0" hidden>
                         <div class="bm-slide-layout"><div class="liquid-card guide-glass-accent guide-glass-purple border rounded-xl p-5"><span class="bm-kicker">TRADING NOTES</span>
                             <h2 data-i18n="ext.showcase.notes.title">종목별 매매노트</h2>
                             <p data-i18n="ext.showcase.notes.body">종목별 메모와 차트 캡처를 간편하게 남기고, 기록을 공유하거나 내 폴더에 계속 보관합니다.</p>
                             <ul class="bm-points"><li data-i18n="ext.showcase.notes.item1">현재 종목 빠른 기록과 본문·종목 검색</li><li data-i18n="ext.showcase.notes.item2">일·주·월·전체 기간 조회와 기록 일괄 복사</li><li data-i18n="ext.showcase.notes.item3">이미지 붙여넣기·수정·크게 보기 및 텍스트·이미지 공유</li><li data-i18n="ext.showcase.notes.item4">로컬 폴더에 종목·날짜별로 누적 보관하고 복원·이동</li></ul>
-                        </div><div class="bm-note-shots"><a class="bm-shot liquid-card" href="./assets/extensions/notes-workspace.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES screenshot"><img src="./assets/extensions/notes-workspace.png" alt="NOTES on Binance Futures" loading="lazy" decoding="async"></a><a class="bm-shot liquid-card" href="./assets/extensions/notes-history.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES history screenshot"><img src="./assets/extensions/notes-history.png" alt="NOTES period filters" width="882" height="903" loading="lazy" decoding="async"></a></div></div>
+                        </div><div class="bm-note-shots"><a class="bm-shot liquid-card" href="./assets/extensions/notes-workspace.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES screenshot"><img src="./assets/extensions/notes-workspace.png" alt="NOTES pinned note" width="1144" height="1255" loading="lazy" decoding="async"></a><a class="bm-shot liquid-card" href="./assets/extensions/notes-history.png" target="_blank" rel="noopener noreferrer" aria-label="Open NOTES history screenshot"><img src="./assets/extensions/notes-history.png" alt="NOTES period filters" width="882" height="831" loading="lazy" decoding="async"></a></div></div>
                     </article>
                     <details class="bm-setup liquid-card guide-glass-accent guide-glass-neutral rounded-xl border p-4">
                         <summary data-i18n="ext.showcase.setup">처음 사용하시나요? 설치 안내</summary>
@@ -3455,7 +3478,7 @@
                                     <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-accent-blue"
                                         data-i18n="ot.balance.title">5) 잔고 및 거래 관리</h2>
                                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                        <li data-i18n="ot.balance.item1"><strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Wallet을 엽니다.</li>
+                                        <li data-i18n="ot.balance.item1"><strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Workspace를 엽니다.</li>
                                         <li data-i18n="ot.balance.item2"><strong>PIN</strong>: 창을 항상 위에 고정</li>
                                         <li data-i18n="ot.balance.item3"><strong>SETTING (Default)</strong>: 테마(Theme),
                                             사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업</li>
@@ -3466,7 +3489,7 @@
                                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                                         <div class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-6">
                                             <h3 id="ot-wallet" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.wallet.title">Wallet · 잔고와 자금 이동</h3>
-                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.wallet.open">하단 잔고를 <strong>우클릭</strong>하면 Wallet을 엽니다. 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.</p><p class="text-xs text-gray-400 leading-relaxed" data-i18n="ot.wallet.transfer">금액 입력과 MAX 버튼으로 원하는 금액을 이동합니다. Quick Transfer는 아래 두 단계를 한 번에 이어서 진행합니다.</p>
+                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.wallet.open">하단 잔고를 <strong>우클릭</strong>하면 Workspace가 열립니다. 왼쪽 <strong>Wallet</strong> 메뉴에서 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.</p><p class="text-xs text-gray-400 leading-relaxed" data-i18n="ot.wallet.transfer">금액 입력과 MAX 버튼으로 원하는 금액을 이동합니다. Quick Transfer는 아래 두 단계를 한 번에 이어서 진행합니다.</p>
                                             <div class="space-y-3 mt-4">
                                                 <div class="rounded-lg border border-white/10 bg-black/20 p-4"><span class="text-[10px] text-brand font-mono">FUTURES TO EARN MAX</span><p class="text-sm text-gray-200 font-semibold !mt-2 !mb-1" data-i18n="ot.wallet.toEarn">선물 → 현물 → Earn</p><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ot.wallet.toEarn.desc">선물에서 이체 가능한 금액을 현물로 옮긴 뒤 Earn에 넣습니다.</p></div>
                                                 <div class="rounded-lg border border-white/10 bg-black/20 p-4"><span class="text-[10px] text-brand font-mono">EARN TO FUTURES MAX</span><p class="text-sm text-gray-200 font-semibold !mt-2 !mb-1" data-i18n="ot.wallet.toFutures">Earn → 현물 → 선물</p><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ot.wallet.toFutures.desc">Earn에서 환매 가능한 금액을 현물로 받은 뒤 선물로 옮깁니다.</p></div>
@@ -3474,14 +3497,10 @@
                                             <p class="text-xs text-gray-500 !mb-0 mt-4 leading-relaxed" data-i18n="ot.wallet.note">진행 상태는 창 하단에서 확인하세요. 중간에 멈췄다면 다시 누르기 전에 안내 문구와 잔고를 먼저 확인합니다.</p>
                                         </div>
                                         <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-6">
-                                            <h3 id="ot-data" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.data.title">DATA · 거래 기록과 매매 복기</h3>
-                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.data.open"><strong>SETTING 또는 Wallet → DATA</strong>를 누르면 브라우저에서 거래 기록을 확인할 수 있습니다.</p>
-                                            <dl class="space-y-3 mt-4 text-xs">
-                                                <div><dt class="text-gray-200 font-semibold mb-1">Dashboard</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.dashboard">기간별 손익과 수수료, 일별·누적 손익을 확인합니다.</dd></div>
-                                                <div><dt class="text-gray-200 font-semibold mb-1">Trade History</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.history">포지션별 진입·추가·청산 내역과 차트의 체결 위치를 확인합니다.</dd></div>
-                                                <div><dt class="text-gray-200 font-semibold mb-1">Diagnostics</dt><dd class="text-gray-400 !m-0 leading-relaxed" data-i18n="ot.data.diagnostics">주문 거부·오류와 연결 상태를 확인합니다.</dd></div>
-                                            </dl>
-                                            <figure class="mt-5 !mb-0"><a href="./assets/guides/order-toolkit-data.png" target="_blank" rel="noopener noreferrer" class="block rounded-lg border border-white/10 overflow-hidden"><img src="./assets/guides/order-toolkit-data.png" alt="Order Toolkit DATA demo" width="1440" height="1068" loading="lazy" decoding="async" class="w-full h-auto"></a></figure>
+                                            <h3 id="ot-data" class="text-white font-bold text-sm !mt-0 mb-3" data-i18n="ot.data.title">DASHBOARD · Workspace</h3>
+                                            <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ot.data.open"><strong>SETTING → DASHBOARD</strong>를 누르거나 하단 잔고를 <strong>우클릭</strong>하면 브라우저에서 Workspace가 열립니다. Dashboard·Trade·Trade History·Wallet·Logs를 한 화면에서 사용할 수 있습니다.</p>
+                                            <button type="button" class="ws-guide-link" onclick="requestToolkitGuide('workspace')"><span data-i18n="ws.link">Workspace 가이드 보기</span><span aria-hidden="true">→</span></button>
+                                            <figure class="mt-5 !mb-0"><a href="./assets/workspace/trade.png" target="_blank" rel="noopener noreferrer" class="block rounded-lg border border-white/10 overflow-hidden"><img src="./assets/workspace/trade.png" alt="Workspace Trade 화면" width="1800" height="1235" loading="lazy" decoding="async" class="w-full h-auto"></a></figure>
                                         </div>
                                     </div>
                                 </div>
@@ -3548,6 +3567,132 @@
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: WORKSPACE -->
+            <section id="workspace" class="guide-section hidden content-body" data-guide-section="workspace">
+                <button type="button" class="guide-return" onclick="activate('overview')"><span aria-hidden="true">←</span><span data-i18n="overview.back">소개</span></button>
+                <div class="section-document">
+                    <div class="flex items-center gap-3 mb-8 border-b border-gray-800 pb-6">
+                        <span class="badge text-brand border-brand/50" data-i18n="ws.badge">Web</span>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white mb-1" data-i18n="ws.title">Workspace</h1>
+                            <p class="text-sm text-gray-400 !m-0" data-i18n="ws.desc">Order Toolkit과 Crypto Detector의 기록·시장 정보를 브라우저 한 화면에서 봅니다.</p>
+                        </div>
+                    </div>
+                    <figure class="ws-figure ws-figure--hero"><a class="ws-shot" href="./assets/workspace/trade.png" target="_blank" rel="noopener noreferrer" aria-label="Workspace Trade 화면 — 전체 화면"><img src="./assets/workspace/trade.png" width="1800" height="1235" alt="Workspace Trade 화면" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.hero.caption">Trade 화면: 왼쪽 종목 리스트, 위쪽 시세 정보, 오른쪽 PRO CHART. 이미지를 누르면 크게 볼 수 있습니다.</figcaption></figure>
+
+                    <div class="space-y-12">
+                        <!-- 1. Intro -->
+                        <div id="ws-intro">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.intro.title">1) Workspace란</h2>
+                            <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="ws.intro.body">Order Toolkit이나 Crypto Detector를 실행하면 브라우저에서 함께 쓸 수 있는 통합 화면입니다. 실행 중인 프로그램의 메뉴가 왼쪽에 켜지고, 실행하지 않은 프로그램의 메뉴는 자물쇠로 표시됩니다. 프로그램을 실행하면 자동으로 열립니다.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.toolkit.title">Order Toolkit에서 열기</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.toolkit.body"><strong>SETTING → DASHBOARD</strong>를 누르거나, 하단 잔고를 <strong>우클릭</strong>합니다.</p></div>
+                                <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.detector.title">Crypto Detector에서 열기</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.detector.body"><strong>DATA</strong> 버튼은 Screener, <strong>FLOW</strong> 버튼은 Flow 화면을 엽니다.</p></div>
+                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.shared.title">여러 탭에서 함께</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.shared.body">여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Menus -->
+                        <div id="ws-menu">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.menu.title">2) 메뉴 구성</h2>
+                            <div class="ws-menu-layout">
+                                <div class="ws-table-wrap">
+                                    <table class="ws-table">
+                                        <thead><tr><th data-i18n="ws.menu.head.group">구분</th><th data-i18n="ws.menu.head.menu">메뉴</th><th data-i18n="ws.menu.head.desc">내용</th></tr></thead>
+                                        <tbody>
+                                            <tr><td data-i18n="ws.menu.common">공통</td><td>Notices</td><td data-i18n="ws.menu.notices">서비스 공지</td></tr>
+                                            <tr><td rowspan="5">Order Toolkit</td><td>Dashboard</td><td data-i18n="ws.menu.dashboard">기간별 손익과 수수료, 일별·누적 손익</td></tr>
+                                            <tr><td><strong>Trade</strong></td><td data-i18n="ws.menu.trade">종목 리스트·즐겨찾기와 시세 정보, PRO CHART를 한 화면에</td></tr>
+                                            <tr><td>Trade History</td><td data-i18n="ws.menu.history">포지션별 진입·추가·청산 내역과 차트의 체결 위치</td></tr>
+                                            <tr><td>Wallet</td><td data-i18n="ws.menu.wallet">선물·현물·Earn 잔고 확인과 자금 이동</td></tr>
+                                            <tr><td>Logs</td><td data-i18n="ws.menu.logs">주문 거부·오류와 연결 상태</td></tr>
+                                            <tr><td rowspan="3">Crypto Detector</td><td>Screener</td><td data-i18n="ws.menu.screener">코인(Crypto)·주식(Stocks) 종목 비교</td></tr>
+                                            <tr><td>Options</td><td data-i18n="ws.menu.options">주식·코인 옵션의 콜·풋 거래량과 미결제약정</td></tr>
+                                            <tr><td>Flow</td><td data-i18n="ws.menu.flow">감지된 종목의 흐름과 기록</td></tr>
+                                            <tr><td rowspan="2">Market</td><td>News</td><td data-i18n="ws.menu.news">상장 공지와 시장 소식</td></tr>
+                                            <tr><td>Calendar</td><td data-i18n="ws.menu.calendar">경제 일정</td></tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="text-xs text-gray-500 mt-3 !mb-0 leading-relaxed" data-i18n="ws.menu.index">왼쪽 아래 INDEX·EXCHANGE RATES에서 주요 지수와 환율을 함께 봅니다.</p>
+                                    <p class="text-xs text-gray-500 mt-1 !mb-0 leading-relaxed" data-i18n="ws.menu.note">Order Toolkit 메뉴는 Order Toolkit을, Crypto Detector 메뉴는 Crypto Detector를 실행 중일 때 사용할 수 있습니다.</p>
+                                </div>
+                                <figure class="ws-figure ws-figure--menu"><a class="ws-shot" href="./assets/workspace/menu.png" target="_blank" rel="noopener noreferrer" aria-label="Workspace 왼쪽 메뉴 — 전체 화면"><img src="./assets/workspace/menu.png" width="1098" height="1503" alt="Workspace 왼쪽 메뉴" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.menu.caption">왼쪽 메뉴</figcaption></figure>
+                            </div>
+                        </div>
+
+                        <!-- 3. Trade -->
+                        <div id="ws-trade">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.trade.title">3) Trade — 종목 리스트와 차트</h2>
+                            <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="ws.trade.body">Order Toolkit 실행 중에 사용할 수 있는 화면입니다. 종목을 고르면 시세 정보와 차트가 함께 바뀝니다.</p>
+                            <ul class="ws-list">
+                                <li data-i18n="ws.trade.list"><strong>종목 리스트</strong>: 가격·24시간 등락률·거래대금·OI를 한눈에 봅니다. 열 제목을 누르면 정렬되고, 검색창에 종목명이나 바이낸스 선물 주소를 붙여 넣으면 바로 선택됩니다.</li>
+                                <li data-i18n="ws.trade.favorites"><strong>즐겨찾기</strong>: ☆를 눌러 추가합니다. 섹션을 만들어 이름을 바꾸고, 종목을 끌어서 순서를 바꾸거나 다른 섹션으로 옮길 수 있습니다. 브라우저 기록을 지워도 유지됩니다.</li>
+                                <li data-i18n="ws.trade.keys"><strong>빠른 선택</strong>: Shift + 1~0으로 목록 위에서부터 1~10번째 종목을 고릅니다. 새로고침해도 보던 종목이 유지됩니다.</li>
+                                <li data-i18n="ws.trade.header"><strong>상단 정보</strong>: 현재가·마크·인덱스·펀딩비(남은 시간)·24시간 고가/저가·거래량·OI와 1시간/4시간/24시간 OI 변화를 한 줄로 보여 줍니다. 창이 좁으면 값을 줄여 표시하고, 마우스를 올리면 원래 값이 보입니다. OI 변화를 누르면 금액과 %가 바뀝니다. 바이낸스 서버 시각 시계와 경제 캘린더 버튼은 맨 위 Website 버튼 옆에 있습니다.</li>
+                                <li data-i18n="ws.trade.oi"><strong>OI Flow 차트</strong>: Open Interest 값을 누르면 1일·7일·30일 OI와 거래대금 흐름이 열립니다. Crypto Detector가 실행 중이면 상장 거래소와 시가총액 정보도 함께 표시됩니다.</li>
+                                <li data-i18n="ws.trade.chart"><strong>차트와 노트</strong>: Binance Manager 확장이 설치되어 있으면 오른쪽 빈 공간에 PRO CHART와 NOTES가 열리고, 리스트에서 고른 종목을 따라갑니다. 확장이 없으면 리스트와 시세 정보만 표시됩니다.</li>
+                                <li data-i18n="ws.trade.link"><strong>툴킷 연동</strong>: Trade 화면에서 고른 종목은 Order Toolkit·Trades·Order Book에도 연동됩니다.</li>
+                                <li data-i18n="ws.trade.tabs"><strong>새 탭</strong>: 상단 종목 이름을 누르면 Screener가, 리스트에서 휠 클릭이나 Ctrl+클릭하면 그 종목의 Trade 화면이 새 탭으로 열립니다. 여러 Trade 창을 함께 띄워도 창마다 시세가 유지됩니다.</li>
+                            </ul>
+                            <p class="ws-note" data-i18n="ws.trade.note">Trade 화면 자체에는 주문 버튼이 없습니다. 차트에서 주문을 옮기는 기능은 Binance Manager 설정에서 켠 경우에만 동작합니다(Extensions 가이드 참고).</p>
+                            <div class="ws-grid-2">
+                                <figure class="ws-figure"><a class="ws-shot" href="./assets/workspace/trade-positions.png" target="_blank" rel="noopener noreferrer" aria-label="Trade 화면의 포지션 표시 — 전체 화면"><img src="./assets/workspace/trade-positions.png" width="2000" height="796" alt="Trade 화면 PRO CHART의 포지션 표시" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.trade.positions.caption">PRO CHART의 Positions 표시를 켜 두면 보유 포지션과 손익이 차트에 함께 보입니다.</figcaption></figure>
+                                <figure class="ws-figure"><a class="ws-shot" href="./assets/workspace/oi-flow.png" target="_blank" rel="noopener noreferrer" aria-label="OI Flow 차트 — 전체 화면"><img src="./assets/workspace/oi-flow.png" width="1600" height="886" alt="Trade 화면의 OI Flow 차트" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.trade.oi.caption">Open Interest 값을 누르면 열리는 OI Flow 차트</figcaption></figure>
+                            </div>
+                        </div>
+
+                        <!-- 4. Screener -->
+                        <div id="ws-screener">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.screener.title">4) Screener — 코인·주식 비교</h2>
+                            <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="ws.screener.body">Crypto Detector 실행 중에 사용할 수 있습니다. Crypto(코인)와 Stocks(주식) 목록을 바꿔 가며 비교합니다.</p>
+                            <ul class="ws-list">
+                                <li data-i18n="ws.screener.movers"><strong>Market movers</strong>: 24시간 상승·하락 상위와 1시간 OI 증가·감소 상위 종목을 맨 위에 보여 줍니다.</li>
+                                <li data-i18n="ws.screener.listed"><strong>LISTED</strong>: Binance 현물·Upbit·Bithumb 상장 여부를 아이콘으로 표시합니다(미상장은 회색).</li>
+                                <li data-i18n="ws.screener.funding"><strong>FUNDING</strong>: 현재 펀딩비와 정산 주기를 보여 주며, 열 제목을 눌러 정렬할 수 있습니다.</li>
+                                <li data-i18n="ws.screener.expand"><strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade ↗</strong>로 그 종목의 Trade 화면을 엽니다.</li>
+                                <li data-i18n="ws.screener.copy"><strong>검색·즐겨찾기·복사</strong>: 검색창과 ★ 즐겨찾기를 쓸 수 있고, 종목 이름을 누르면 Crypto Detector 설정에 따라 클립보드에 복사됩니다.</li>
+                            </ul>
+                            <div class="ws-grid-2">
+                                <figure class="ws-figure"><a class="ws-shot" href="./assets/workspace/screener.png" target="_blank" rel="noopener noreferrer" aria-label="Screener 목록 — 전체 화면"><img src="./assets/workspace/screener.png" width="1600" height="1160" alt="Workspace Screener 목록" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.screener.caption1">Screener 목록 (LISTED·FUNDING 열)</figcaption></figure>
+                                <figure class="ws-figure"><a class="ws-shot" href="./assets/workspace/screener-detail.png" target="_blank" rel="noopener noreferrer" aria-label="Screener 행 펼치기 — 전체 화면"><img src="./assets/workspace/screener-detail.png" width="1600" height="1173" alt="Screener 행을 펼친 화면" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.screener.caption2">행을 펼친 모습: 가격 차트와 OI Flow</figcaption></figure>
+                            </div>
+                        </div>
+
+                        <!-- 5. Options / Flow -->
+                        <div id="ws-options-flow">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.more.title">5) Options · Flow</h2>
+                            <div class="ws-grid-2">
+                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5">
+                                    <h3 id="ws-options" class="text-white font-bold text-sm !mt-0 mb-2">Options</h3>
+                                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="ws.options.body">주식·코인 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있습니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.</p>
+                                    <figure class="ws-figure !mb-0"><a class="ws-shot" href="./assets/workspace/options.png" target="_blank" rel="noopener noreferrer" aria-label="Options 화면 — 전체 화면"><img src="./assets/workspace/options.png" width="1600" height="1169" alt="Workspace Options 화면" loading="lazy" decoding="async"></a></figure>
+                                </div>
+                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5">
+                                    <h3 id="ws-flow" class="text-white font-bold text-sm !mt-0 mb-2">Flow</h3>
+                                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="ws.flow.body">감지된 종목의 감지 횟수·기간·1분 변동 범위·24시간 변화를 요약하고, 가격·OI 차트와 일별 감지 요약, 최근 감지 기록을 보여 줍니다. OI 차트는 감지 기록이 없는 기간도 최근 30일 흐름으로 채워 보여 줍니다.</p>
+                                    <figure class="ws-figure !mb-0"><a class="ws-shot" href="./assets/workspace/flow.png" target="_blank" rel="noopener noreferrer" aria-label="Flow 화면 — 전체 화면"><img src="./assets/workspace/flow.png" width="1600" height="1099" alt="Workspace Flow 화면" loading="lazy" decoding="async"></a></figure>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. Records -->
+                        <div id="ws-records">
+                            <h2 class="text-xl font-bold text-white mb-4 pl-3 border-l-4 border-brand" data-i18n="ws.records.title">6) Dashboard · Trade History · Wallet · Logs</h2>
+                            <p class="text-gray-400 mb-4 leading-relaxed" data-i18n="ws.records.body">Order Toolkit 실행 중에 사용할 수 있는 거래 기록 화면입니다.</p>
+                            <div class="ws-grid-2 ws-grid-2--records">
+                                <dl class="ws-dl">
+                                    <div><dt>Dashboard</dt><dd data-i18n="ot.data.dashboard">기간별 손익과 수수료, 일별·누적 손익을 확인합니다.</dd></div>
+                                    <div><dt>Trade History</dt><dd data-i18n="ot.data.history">포지션별 진입·추가·청산 내역과 차트의 체결 위치를 확인합니다.</dd></div>
+                                    <div><dt>Wallet</dt><dd><span data-i18n="ws.records.wallet">선물·현물·Earn 잔고 확인과 자금 이동. 사용법은 Order Toolkit 가이드의 Wallet 항목을 참고하세요.</span> <a class="ws-guide-link" href="#ot-wallet"><span>Wallet</span><span aria-hidden="true">→</span></a></dd></div>
+                                    <div><dt>Logs</dt><dd data-i18n="ot.data.diagnostics">주문 거부·오류와 연결 상태를 확인합니다.</dd></div>
+                                </dl>
+                                <figure class="ws-figure !mb-0"><a class="ws-shot" href="./assets/guides/order-toolkit-data.png" target="_blank" rel="noopener noreferrer" aria-label="Dashboard 예시 — 전체 화면"><img src="./assets/guides/order-toolkit-data.png" width="1440" height="1068" alt="Dashboard 예시 화면 (데모 데이터)" loading="lazy" decoding="async"></a><figcaption class="ws-caption" data-i18n="ws.records.caption">데모 데이터로 만든 Dashboard 예시 화면입니다.</figcaption></figure>
                             </div>
                         </div>
                     </div>
@@ -5286,7 +5431,7 @@
             "overview.lead": {"ko": "종목을 찾고, 체결과 호가를 확인하고, 주문과 포지션을 관리합니다. 실시간 보조지표부터 멀티차트, 매매노트까지 평소 사용하는 거래 화면에 더해보세요.", "en": "Find symbols, review trades and order books, and manage orders and positions. Add real-time indicators, multiple charts and trading notes to your everyday trading screen."},
             "overview.watch": {"ko": "실전 매매 영상", "en": "Live trading video"},
             "overview.plans": {"ko": "플랜 · 이용 안내", "en": "Plans & access"},
-            "overview.hero.caption": {"ko": "Binance Futures에 Lightning Candle을 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.", "en": "Lightning Candle alongside Binance Futures. Select an image to open the full screenshot."},
+            "overview.hero.caption": {"ko": "Binance Futures에 PRO CHART를 함께 배치한 사용 예시입니다. 이미지를 누르면 전체 화면을 볼 수 있습니다.", "en": "PRO CHART alongside Binance Futures. Select an image to open the full screenshot."},
             "overview.detector.point0": {"ko": "변동률·거래대금 기준 설정", "en": "Set price-change and trading-volume thresholds"},
             "overview.detector.point1": {"ko": "종목 감지 팝업 알림과 감지 이력 조회", "en": "Popup alerts and detection history"},
             "overview.detector.point2": {"ko": "미결제약정(OI)·거래대금 차트 제공", "en": "Open-interest and trading-volume charts"},
@@ -5319,11 +5464,18 @@
             "overview.orderbook.desc": {"ko": "가격별 매수·매도 호가 잔량을 실시간으로 표시합니다. 호가를 원하는 단위로 모아 보고, 잔량을 USDT 금액으로 환산해 확인할 수 있습니다.", "en": "View bid and ask sizes at each price in real time. Group price levels by the selected interval and display order sizes in USDT."},
             "overview.extensions.video": {"ko": "확장 기능 시연", "en": "Extension demo"},
             "overview.extensions.point0": {"ko": "주문 수량 계산과 주문·취소 기능 제공", "en": "Order-quantity calculation, order entry and cancellation"},
-            "overview.extensions.point1": {"ko": "Lightning Candle 멀티차트 제공", "en": "Multiple charts with Lightning Candle"},
+            "overview.extensions.point1": {"ko": "PRO CHART 멀티차트 제공(이전 이름 LIGHTNING)", "en": "Multiple charts with PRO CHART (formerly LIGHTNING)"},
             "overview.extensions.point2": {"ko": "NOTES에 종목별 매매노트와 스크린샷 저장", "en": "Save symbol-specific trading notes and screenshots in NOTES"},
             "overview.extensions.label": {"ko": "EXTENSIONS · BINANCE MANAGER", "en": "EXTENSIONS · BINANCE MANAGER"},
             "overview.extensions.title": {"ko": "간편주문·멀티차트·매매노트", "en": "Order shortcuts, multiple charts and trading notes"},
-            "overview.extensions.desc": {"ko": "바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, Lightning Candle 멀티차트와 종목별 매매노트를 추가합니다.", "en": "A Chrome extension for the Binance Futures website. Add order shortcuts, Lightning Candle charts and symbol-specific trading notes to the trading screen."},
+            "overview.extensions.desc": {"ko": "바이낸스 선물 웹사이트에서 사용하는 Chrome 확장 프로그램입니다. 기존 거래 화면에 간편주문, PRO CHART 멀티차트와 종목별 매매노트를 추가합니다.", "en": "A Chrome extension for the Binance Futures website. Add order shortcuts, PRO CHART multi-charts and symbol-specific trading notes to the trading screen."},
+            "overview.workspace.label": {"ko": "WORKSPACE", "en": "WORKSPACE"},
+            "overview.workspace.title": {"ko": "브라우저에서 보는 통합 화면", "en": "One browser view for your tools"},
+            "overview.workspace.desc": {"ko": "Order Toolkit이나 Crypto Detector를 실행하면 브라우저에서 함께 쓰는 화면입니다. 종목 리스트와 차트, 스크리너, 거래 기록을 한곳에서 확인합니다.", "en": "A browser view that opens with Order Toolkit or Crypto Detector. See symbol lists and charts, the screener and trade records in one place."},
+            "overview.workspace.point0": {"ko": "종목 리스트·즐겨찾기와 PRO CHART를 한 화면에(Trade)", "en": "Symbol list, favorites and PRO CHART on one screen (Trade)"},
+            "overview.workspace.point1": {"ko": "코인·주식 스크리너와 OI 흐름 차트", "en": "Crypto and stock screener with OI flow charts"},
+            "overview.workspace.point2": {"ko": "손익 대시보드·거래 기록·지갑", "en": "PnL dashboard, trade history and wallet"},
+            "overview.workspace.caption": {"ko": "Trade 화면 예시입니다. 이미지를 누르면 크게 볼 수 있습니다.", "en": "The Trade view. Select the image to enlarge it."},
             "overview.start.title": {"ko": "사용을 시작하려면", "en": "Getting started"},
             "overview.start.desc": {"ko": "로그인 후 이용 권한이 있는 도구의 가이드가 사이드바에 표시됩니다. Getting Started에서 실행·인증·기본 설정을 확인하고, 각 도구의 상세 사용법을 이어서 볼 수 있습니다.", "en": "After signing in, guides for the tools included in your access appear in the sidebar. Getting Started covers setup and authentication, followed by each tool’s detailed instructions."},
             "overview.scope": {"ko": "데스크톱 도구와 Chrome 확장 기능은 지원 환경과 제공 기능이 다릅니다. 도구별 지원 거래소·설치 환경·주문 전 확인 사항은 사용 가이드에서 확인해 주세요.", "en": "Desktop tools and the Chrome extension differ in their supported environments and features. See each guide for supported markets, setup requirements and pre-order checks."},
@@ -5364,6 +5516,7 @@
             "nav.toolkit": { ko: "Order Toolkit", en: "Order Toolkit" },
             "nav.orderbook": { ko: "Order Book", en: "Order Book" },
             "nav.trades": { ko: "Trades", en: "Trades" },
+            "nav.workspace": { ko: "Workspace", en: "Workspace" },
             "nav.toc": { ko: "On This Page", en: "On This Page" },
 
             // Hero Section
@@ -5485,7 +5638,7 @@
             "api.auth.item2": { ko: "발급받은 <strong>Serial Key</strong>를 입력하여 로그인합니다.", en: "Sign in with your issued <strong>Serial Key</strong>." },
             "api.auth.item3": { ko: "<strong>REMEMBER ME</strong>를 선택하면 시리얼 키가 암호화되어 저장됩니다.", en: "Select <strong>REMEMBER ME</strong> to store the serial key encrypted." },
             "api.chrome.title": { ko: "6) 크롬 확장 프로그램 연동", en: "6) Chrome Extension Integration" },
-            "api.chrome.intro": { ko: "바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.", en: "The <strong>Binance Manager</strong> extension links the active Binance USDT futures tab’s symbol to Order Toolkit. Use <strong>MANUAL</strong> mode to select a symbol yourself." },
+            "api.chrome.intro": { ko: "바이낸스 매니저(<strong>Binance Manager</strong>) 확장 프로그램으로 현재 보고 있는 바이낸스 USDT 선물 탭의 종목을 Order Toolkit에 연동합니다. Workspace Trade 화면에서 고른 종목도 같은 방식으로 연동됩니다. 직접 종목을 선택하려면 <strong>MANUAL</strong> 모드를 사용하세요.", en: "The <strong>Binance Manager</strong> extension links the active Binance USDT futures tab’s symbol to Order Toolkit. Symbols selected on the Workspace Trade view are linked the same way. Use <strong>MANUAL</strong> mode to select a symbol yourself." },
             "api.chrome.auto.title": { ko: "1. 연결 준비", en: "1. Prepare the connection" },
             "api.chrome.auto.body": { ko: "Binance Manager가 설치된 일반 크롬에서 <strong>바이낸스 USDT 선물 탭</strong>을 엽니다. Order Toolkit을 실행하고 <strong>AUTO</strong> 모드로 전환하세요.", en: "Open a <strong>Binance USDT futures tab</strong> in regular Chrome with Binance Manager installed. Start Order Toolkit and switch to <strong>AUTO</strong> mode." },
             "api.chrome.auto.note": { ko: "최신 확장 프로그램과 툴킷을 사용하세요. 별도의 디버깅 크롬 실행이나 포트 설정은 필요하지 않습니다.", en: "Use the latest extension and toolkit. No debugging Chrome launch or port configuration is required." },
@@ -5706,7 +5859,7 @@
             "cd.oi_flow.log.body": { ko: "종목을 선택한 후 상세 정보의 <strong class='text-gray-200'>OI</strong> 값 또는 외부 열기 아이콘을 클릭합니다.", en: "Select a symbol, then click the <strong class='text-gray-200'>OI</strong> value or external-open icon in its details." },
             "cd.oi_flow.chart.title": { ko: "차트 확인", en: "Chart Details" },
             "cd.oi_flow.chart.body": { ko: "차트의 지점을 클릭하면 해당 시점의 OI, 24시간 거래대금, 이전 기록 대비 변화량과 KST 시각을 확인할 수 있습니다.", en: "Click a chart point to view OI, 24-hour volume, change from the previous record, and its KST timestamp." },
-            "cd.oi_flow.note": { ko: "OI FLOW는 실시간 연속 차트가 아니라 Crypto Detector가 해당 종목을 감지한 시점의 기록을 기반으로 구성됩니다. 감지 이력이 없는 종목은 차트를 표시할 수 없습니다.", en: "OI FLOW is not a continuous real-time chart; it is built from records captured when Crypto Detector detects the symbol. The chart is unavailable when no detection history exists." },
+            "cd.oi_flow.note": { ko: "OI FLOW는 Crypto Detector의 감지 기록과 함께 최근 30일 OI 흐름을 보여 줍니다. 감지 기록이 없는 기간도 채워지며, 차트를 연 직후에는 일부 구간이 잠시 뒤에 나타날 수 있습니다.", en: "OI FLOW shows the Detector’s detection records together with the last 30 days of OI. Periods without detections are filled in as well; right after opening, some ranges may appear a moment later." },
             "cd.log.title": { ko: "6) LOG", en: "6) LOG" },
             "cd.log.overview.title": { ko: "감지 기록 열기", en: "Open Detection Log" },
             "cd.log.overview.body": { ko: "메인 화면의 <strong class='text-gray-200'>LOG</strong> 버튼을 누르면 최근 7일 동안 감지된 종목과 감지 이력을 확인할 수 있습니다. 종목별 감지 빈도와 시장 데이터를 비교하고, 선택한 종목의 상세 흐름을 분석할 수 있습니다.", en: "Click <strong class='text-gray-200'>LOG</strong> on the main screen to view symbols and detection history from the last seven days. Compare detection frequency and market data, then analyze the selected symbol in detail." },
@@ -5726,15 +5879,16 @@
             "cd.mobile.item2": { ko: "트레이딩뷰 앱의 '얼러트(Alert)' 기능을 통해 <strong>스마트폰 푸시 알림</strong>을 받을 수 있습니다.", en: "Use TradingView Alerts to receive <strong>smartphone push notifications</strong>." },
             "cd.mobile.cta": { ko: "TradingView : 지표 소개", en: "TradingView : Indicator" },
             "cd.screener.title": { ko: "4) DATA 스크리너", en: "4) DATA Screener" },
-            "cd.screener.body": { ko: "DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 상장 여부를 한 화면에서 비교하기 위한 보조 데이터 패널입니다.", en: "DATA Screener is a companion data panel for comparing market cap, FDV, OI, and listing status across detected coins in one view." },
+            "cd.screener.body": { ko: "DATA 스크리너는 감지 대상 코인들의 시가총액, FDV, OI, 펀딩비, 상장 거래소를 한 화면에서 비교하기 위한 보조 데이터 패널입니다. DATA 버튼을 누르면 브라우저의 Workspace에서 열립니다.", en: "The DATA screener compares market cap, FDV, OI, funding and listed exchanges for the coins the detector tracks. The DATA button opens it in Workspace in your browser." },
             "cd.screener.card1.title": { ko: "MC / FDV / 24H", en: "MC / FDV / 24H" },
             "cd.screener.card1.body": { ko: "시총 구간, FDV 대비 희석률, 24시간 등락률을 함께 확인하여 종목의 현재 위치를 빠르게 판단합니다.", en: "Check market-cap range, FDV dilution, and 24h change together to quickly understand where a coin currently sits." },
             "cd.screener.card2.title": { ko: "상장 거래소 확인", en: "Exchange Listings" },
-            "cd.screener.card2.body": { ko: "Binance Spot, Upbit, Bithumb 상장 여부를 확인하여 어떤 거래소가 가격을 주도하는지 추적할 수 있습니다.", en: "Check Binance Spot, Upbit, and Bithumb listings to track which venue may be driving price action." },
+            "cd.screener.card2.body": { ko: "LISTED 열에서 Binance Spot·Upbit·Bithumb 상장 여부를 아이콘으로 확인합니다(미상장은 회색). 어떤 거래소가 가격을 주도하는지 추적할 때 참고하세요.", en: "The LISTED column shows Binance Spot, Upbit and Bithumb listings as icons (unlisted in gray), helping you see which exchange may be leading the price." },
             "cd.screener.card3.title": { ko: "OI / OI-MC", en: "OI / OI-MC" },
             "cd.screener.card3.body": { ko: "개별 종목의 미체결약정과 시총 대비 OI 비율을 확인하여 선물 포지션 쏠림을 참고할 수 있습니다.", en: "Review each coin's open interest and OI-to-market-cap ratio to gauge futures-position concentration." },
             "cd.screener.tracker.title": { ko: "TRACKER", en: "TRACKER" },
             "cd.screener.tracker.body": { ko: "스크리너에서 관심 종목을 추린 뒤 TRACKER 버튼으로 이동하면, 개별 종목의 상장 현황과 트랜잭션 흐름을 추가로 확인할 수 있습니다.", en: "After narrowing down candidates in the screener, use the TRACKER button to review each coin's listings and transaction flow in more detail." },
+            "cd.screener.workspace": { ko: "FUNDING 열, 행을 펼쳐 보는 가격·OI 차트, Trade 화면 이동 등 화면 사용법은 Workspace 가이드에서 볼 수 있습니다.", en: "See the Workspace guide for the FUNDING column, the price and OI charts in an expanded row, and opening the Trade view." },
             "cd.trouble.title": { ko: "7) 문제 해결 및 팁", en: "7) Troubleshooting & Tips" },
             "cd.trouble.item1.title": { ko: "리스트가 비어 있습니다.", en: "The list is empty." },
             "cd.trouble.item1.body": { ko: "필터 설정값(Change %, Volume)이 현재 장세에 비해 너무 높을 수 있습니다. 설정값을 조금 낮춰보세요.", en: "Your filter settings (Change %, Volume) may be too high for current market conditions. Try lowering them." },
@@ -5749,7 +5903,7 @@
             "ext.badge": { ko: "Extension", en: "Extension" },
             "ext.title": { ko: "Extensions", en: "Extensions" },
             "ext.desc": { ko: "주문 보조, 실시간 차트, 종목별 기록을 Binance Futures 화면 한곳에서 사용하세요.", en: "Order helpers, live charts, and symbol-based notes together on Binance Futures." },
-            "ext.showcase.intro": { ko: "Binance Futures에 간편주문, 실시간 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다.", en: "A Chrome extension that adds quick order controls, real-time multi-charts, and trading notes to Binance Futures." },
+            "ext.showcase.intro": { ko: "Binance Futures에 간편주문, PRO CHART 멀티차트, 매매노트를 추가하는 Chrome 확장 기능입니다. PRO CHART와 NOTES는 TradingView와 Workspace Trade 화면에서도 쓸 수 있습니다.", en: "A Chrome extension that adds quick order controls, PRO CHART multi-charts and trading notes to Binance Futures. PRO CHART and NOTES also work on TradingView and the Workspace Trade view." },
             "ext.showcase.hint": { ko: "이미지를 누르면 크게 볼 수 있습니다.", en: "Click an image to view it at full size." },
             "ext.showcase.setup": { ko: "처음 사용하시나요? 설치 안내", en: "Getting started · Installation" },
             "ext.showcase.notes.detail": { ko: "기간별 조회 화면 보기", en: "View the journal and period filters" },
@@ -5760,14 +5914,24 @@
             "ext.showcase.orders.item1": { ko: "편집 가능한 금액 프리셋으로 주문 수량 간편 계산", en: "Calculate order quantity with editable value presets" },
             "ext.showcase.orders.item2": { ko: "주문 후에도 입력 수량을 유지하고 예상 주문 금액 표시", en: "Keep the entered quantity after an order and show its estimated value" },
             "ext.showcase.orders.item3": { ko: "주문·취소·포지션 종료 동선을 보강하고 결과 사운드 제공", en: "Streamline order, cancel, and close-position actions with result sounds" },
-            "ext.showcase.chart.tab": { ko: "Lightning Candle", en: "Lightning Candle" },
-            "ext.showcase.chart.title": { ko: "Lightning Candle", en: "Lightning Candle" },
-            "ext.showcase.chart.body": { ko: "Binance 웹 차트의 캔들 반응과 멀티차트 사용성을 보완하는 실시간 보조 차트입니다.", en: "A real-time companion chart that improves candle responsiveness and multi-chart usability on Binance Web." },
+            "ext.showcase.chart.tab": { ko: "PRO CHART", en: "PRO CHART" },
+            "ext.showcase.chart.title": { ko: "PRO CHART", en: "PRO CHART" },
+            "ext.showcase.chart.body": { ko: "실시간 체결을 빠르게 보여 주는 멀티차트로, 바이낸스 선물·TradingView·Workspace Trade 화면에서 씁니다. 이전 이름은 LIGHTNING이며 저장된 설정과 Alt+1 단축키는 그대로입니다.", en: "A fast multi-chart for live trades on Binance Futures, TradingView and the Workspace Trade view. Formerly LIGHTNING; saved settings and the Alt+1 shortcut stay the same." },
             "ext.showcase.chart.features": { ko: "멀티차트 · 자석 드로잉 · High/Low · 투명도 조절", en: "Multi-chart layouts · Magnet drawings · High/Low · Transparency" },
             "ext.showcase.chart.item1": { ko: "최근 체결 가격을 빠르게 반영하는 실시간 캔들", en: "Real-time candles that promptly reflect the latest traded prices" },
             "ext.showcase.chart.item2": { ko: "최대 4개 멀티차트로 여러 시간대와 종목을 한 화면에 구성", en: "Arrange multiple timeframes and symbols across up to four charts" },
             "ext.showcase.chart.item3": { ko: "현재 종목 연동 또는 차트별 종목·타임프레임 고정", en: "Follow the current symbol or fix a symbol and timeframe per chart" },
-            "ext.showcase.chart.item4": { ko: "투명도, High·Low, 수평선·Ray 등 차트 보조 기능 제공", en: "Use chart aids including opacity, High/Low, horizontal lines, and rays" },
+            "ext.showcase.chart.item4": { ko: "투명도·High/Low·수평선·Ray·사각형·피보나치·자 도구와 가격 알림", en: "Opacity, High/Low, horizontal lines, rays, rectangles, Fibonacci, ruler and price alerts" },
+            "ext.showcase.chart.item5": { ko: "버튼 줄 🔔 · PRO CHART · NOTES · POSITIONS (🔔은 차트를 닫아도 알림 창만 열 수 있음)", en: "Launcher row 🔔 · PRO CHART · NOTES · POSITIONS (🔔 opens the alert popup even with the chart closed)" },
+            "ext.pro.default_off": { ko: "기본 꺼짐", en: "Off by default" },
+            "ext.pro.positions.title": { ko: "POSITIONS · 청산선", en: "POSITIONS · Liquidation line" },
+            "ext.pro.positions.body": { ko: "Order Toolkit이 연결되면 POSITIONS 버튼이 나타나 보유 포지션 전체와 바이낸스 청산가·손익을 보여 줍니다(바이낸스 선물·Workspace Trade 화면). 차트의 Positions 표시를 켜 두면 청산가가 주황 점선(LIQ)으로 함께 표시됩니다. 보기 전용이며 주문 버튼은 없습니다.", en: "With Order Toolkit linked, the POSITIONS button lists every open position with Binance’s liquidation price and PnL (Binance Futures and the Workspace Trade view). With Positions shown on the chart, the liquidation price appears as a dashed orange LIQ line. View-only, with no order buttons." },
+            "ext.pro.copy.title": { ko: "가격 복사 · 우클릭 메뉴", en: "Copy price · Right-click menu" },
+            "ext.pro.copy.body": { ko: "⚙ 설정의 Copy price(기본 켜짐)를 켜 두면 차트를 더블클릭해 그 위치의 가격을 복사합니다. 차트를 우클릭하면 그 가격으로 가격 알림 추가·수평선 추가·가격 복사를 고를 수 있습니다.", en: "With Copy price in ⚙ Settings (on by default), double-click the chart to copy the price at that point. Right-click the chart to add a price alert, add a horizontal line or copy the price there." },
+            "ext.pro.drag.title": { ko: "차트에서 주문 옮기기 · Drag orders", en: "Move orders on the chart · Drag orders" },
+            "ext.pro.drag.body": { ko: "⚙ 설정에서 켜야 동작합니다(Order Toolkit 연결 필요). 켜 두면 차트에 표시된 지정가·스탑·익절 주문선을 끌어 놓아 가격을 옮길 수 있습니다(트레일링 스탑 제외). 놓기 전에 Esc나 우클릭을 누르면 취소되어 아무것도 바뀌지 않습니다. 스탑·익절은 현재가 너머(바로 발동되는 위치)로 옮길 수 없습니다.", en: "Works only after you turn it on in ⚙ Settings (Order Toolkit must be linked). Drag a limit, stop or take-profit line shown on the chart and release to move its price (trailing stops excluded). Press Esc or right-click before releasing to cancel; nothing changes. Stops and take-profits cannot be moved past the current price, where they would trigger at once." },
+            "ext.pro.cross.title": { ko: "Market on cross · 지정가만", en: "Market on cross · Limit orders only" },
+            "ext.pro.cross.body": { ko: "⚙ 설정에서 따로 켜야 하며 지정가에만 적용됩니다. 꺼져 있으면 지정가를 현재가 너머로 끌어도 주문이 바뀌지 않습니다. 켜 두면 끌어 놓은 가격까지 즉시 체결됩니다. 시장가 주문이 아니라 그 가격까지만 체결되며, 남은 수량은 그 가격에 대기합니다. Post-only 주문은 현재가 너머로 옮길 수 없습니다.", en: "A separate switch in ⚙ Settings, for limit orders only. When off, dragging a limit past the current price does not change the order. When on, the order fills immediately up to the price where you release it — not a market order: it fills only up to that price and any remainder rests there. Post-only orders cannot be moved past the current price." },
             "ext.showcase.notes.tab": { ko: "NOTES", en: "NOTES" },
             "ext.showcase.notes.title": { ko: "종목별 매매노트", en: "Trading notes by symbol" },
             "ext.showcase.notes.body": { ko: "종목별 메모와 차트 캡처를 간편하게 남기고, 기록을 공유하거나 내 폴더에 계속 보관합니다.", en: "Quickly capture symbol-based notes and charts, then share them or keep the growing archive in your own folder." },
@@ -5777,7 +5941,7 @@
             "ext.showcase.notes.item3": { ko: "이미지 붙여넣기·수정·크게 보기 및 텍스트·이미지 공유", en: "Paste, edit, enlarge, and share note text and images" },
             "ext.showcase.notes.item4": { ko: "로컬 폴더에 종목·날짜별로 누적 보관하고 복원·이동", en: "Build an archive by symbol and date in a local folder for recovery or migration" },
             "ext.nav.orders": { ko: "주문 보조", en: "Order helpers" },
-            "ext.notes.desc": { ko: "차트를 보며 떠오른 생각과 캡처를 종목별로 기록합니다. 빠른 메모부터 기간별 매매 복기까지, Lightning 차트를 열지 않아도 독립적으로 사용할 수 있습니다.", en: "Save thoughts and screenshots by symbol while watching the market. From quick notes to reviewing a trading period, NOTES works independently of the Lightning chart." },
+            "ext.notes.desc": { ko: "차트를 보며 떠오른 생각과 캡처를 종목별로 기록합니다. 빠른 메모부터 기간별 매매 복기까지, PRO CHART를 열지 않아도 독립적으로 사용할 수 있습니다.", en: "Save thoughts and screenshots by symbol while watching the market. From quick notes to reviewing a trading period, NOTES works independently of PRO CHART." },
             "ext.notes.quick.title": { ko: "현재 종목에 바로 메모", en: "Quick notes for the current symbol" },
             "ext.notes.quick.body": { ko: "NOTES는 현재 종목을 따라갑니다. 목록 버튼을 누르면 종목 연동을 잠시 멈추고 여러 종목의 기록을 살펴볼 수 있습니다.", en: "NOTES follows the current symbol. Open the list to pause symbol tracking and browse records across symbols." },
             "ext.notes.images.title": { ko: "캡처와 내용을 함께 보관", en: "Keep screenshots with your notes" },
@@ -5789,7 +5953,7 @@
             "ext.notes.screen.workspace": { ko: "차트 확인과 기록을 한 화면에서. 이미지를 누르면 원본 크기로 볼 수 있습니다.", en: "Charts and notes in one workspace. Click the image to view it at full size." },
             "ext.notes.screen.history": { ko: "기간별 조회부터 기존 메모 수정까지 이어지는 기록 화면.", en: "Browse a trading period and edit an existing note in the same panel." },
             "ext.binance.title": { ko: "Binance Manager", en: "Binance Manager" },
-            "ext.binance.body": { ko: "반복 주문을 돕는 주문 보조, 흐름을 비교하는 Lightning Candle, 생각과 캡처를 남기는 NOTES. 거래 전 확인부터 거래 후 기록까지 한 화면에서 이어갑니다.", en: "Order helpers for repeated trades, Lightning Candle for comparing price action, and NOTES for thoughts and screenshots. Follow the workflow from preparation to review in one screen." },
+            "ext.binance.body": { ko: "반복 주문을 돕는 주문 보조, 흐름을 비교하는 PRO CHART, 생각과 캡처를 남기는 NOTES. 거래 전 확인부터 거래 후 기록까지 한 화면에서 이어갑니다.", en: "Order helpers for repeated trades, PRO CHART for comparing price action, and NOTES for thoughts and screenshots. Follow the workflow from preparation to review in one screen." },
             "ext.image.off.title": { ko: "기본 화면", en: "Default Screen" },
             "ext.image.off.desc": { ko: "Binance Manager를 사용하기 전의 기본 주문 화면입니다.", en: "The default Binance order screen before Binance Manager is enabled." },
             "ext.image.bm1.title": { ko: "주문 보조 화면", en: "Order Helper Screen" },
@@ -5803,10 +5967,10 @@
             "ext.binance.feature.item2": { ko: "1K, 5K, 10K, 50K, 100K 금액 버튼으로 수량을 계산합니다.", en: "Calculates quantity from 1K, 5K, 10K, 50K, and 100K value buttons." },
             "ext.binance.feature.item3": { ko: "주문 취소와 포지션 종료 버튼을 주문 영역 가까이에서 바로 사용할 수 있습니다.", en: "Places cancel-order and close-position buttons close to the order area for quick access." },
             "ext.binance.feature.item4": { ko: "주문 생성과 취소 결과를 소리로 바로 알려줍니다.", en: "Provides an immediate sound cue when orders are created or canceled." },
-            "ext.lightning.title": { ko: "Lightning Candle", en: "Lightning Candle" },
+            "ext.lightning.title": { ko: "PRO CHART", en: "PRO CHART" },
             "ext.lightning.desc": { ko: "실시간 체결 가격을 독립 플로팅 차트로 보여줍니다. 최대 4개 차트에서 현재 Binance 종목을 연동하거나 원하는 종목과 타임프레임을 고정해 여러 흐름을 빠르게 비교할 수 있습니다.", en: "Shows live traded prices in an independent floating chart. Use up to four charts linked to the current Binance symbol, or lock each chart to a chosen symbol and timeframe for quick comparison." },
             "ext.lightning.why.title": { ko: "왜 별도의 실시간 차트가 필요한가요?", en: "Why a Separate Real-time Chart?" },
-            "ext.lightning.why.desc": { ko: "빠른 변동 구간에서는 Binance 기본 차트가 스캘핑 타점을 확인하기에 다소 느리게 느껴질 수 있습니다. Lightning Candle은 최근 체결 흐름을 빠르게 보여주어 현재 가격 움직임과 진입 시점을 더 날렵하게 확인할 수 있도록 돕습니다.", en: "During fast moves, the default Binance chart can feel slow when judging scalping entries. Lightning Candle presents recent trades quickly, making current price movement and entry timing easier to follow." },
+            "ext.lightning.why.desc": { ko: "빠른 변동 구간에서는 Binance 기본 차트가 스캘핑 타점을 확인하기에 다소 느리게 느껴질 수 있습니다. PRO CHART는 최근 체결 흐름을 빠르게 보여주어 현재 가격 움직임과 진입 시점을 더 날렵하게 확인할 수 있도록 돕습니다.", en: "During fast moves, the default Binance chart can feel slow when judging scalping entries. PRO CHART presents recent trades quickly, making current price movement and entry timing easier to follow." },
             "ext.lightning.chart.title": { ko: "차트 보기", en: "Viewing the Chart" },
             "ext.lightning.chart.item1": { ko: "최종 체결가와 현재 봉이 끝날 때까지 남은 시간을 표시합니다.", en: "Shows the latest traded price and the time remaining in the current candle." },
             "ext.lightning.chart.item2": { ko: "1·3·5·15·30분, 1·4시간, 1일 차트를 선택할 수 있습니다.", en: "Choose 1, 3, 5, 15, or 30 minutes, 1 or 4 hours, or 1 day." },
@@ -5822,12 +5986,12 @@
             "ext.lightning.window.title": { ko: "위치·크기·투명도", en: "Position, Size & Opacity" },
             "ext.lightning.window.item1": { ko: "접힌 버튼과 펼친 차트를 각각 원하는 위치로 옮기고, 차트 크기와 최대화 상태를 조절할 수 있습니다.", en: "Move the collapsed button and expanded chart separately, then adjust the chart size or maximize it." },
             "ext.lightning.window.item2": { ko: "ISO는 차트 배경을, ALL은 상단바를 제외한 차트 전체를 투명하게 조절합니다.", en: "ISO adjusts chart-background transparency; ALL adjusts the entire chart except the top bar." },
-            "ext.lightning.window.item3": { ko: "설정의 RESET LIGHTNING POSITION은 버튼과 차트 위치·크기·접힘 상태를 함께 초기화합니다.", en: "RESET LIGHTNING POSITION in Settings resets the button and chart positions, size, and collapsed state together." },
-            "ext.lightning.image.entry.title": { ko: "LIGHTNING 버튼으로 실행", en: "Launch with the LIGHTNING Button" },
+            "ext.lightning.window.item3": { ko: "확장 팝업의 PRO CHART 배치 복원은 버튼과 차트 위치·크기·접힘 상태를 함께 초기화합니다.", en: "PRO CHART 배치 복원 (restore layout) in the extension popup resets the button and chart positions, size, and collapsed state together." },
+            "ext.lightning.image.entry.title": { ko: "PRO CHART 버튼으로 실행", en: "Launch with the PRO CHART Button" },
             "ext.lightning.image.entry.desc": { ko: "Binance Futures 차트 상단의 버튼을 눌러 플로팅 차트를 열고 접습니다.", en: "Use the button above the Binance Futures chart to open or collapse the floating chart." },
             "ext.lightning.image.full.title": { ko: "멀티차트 사용 예시", en: "Multi-chart Example" },
             "ext.lightning.image.full.desc": { ko: "같은 종목의 1분·1일 차트를 함께 배치하고 투명도를 조절해 단기 체결 흐름과 큰 추세를 동시에 확인한 예시입니다.", en: "This example places 1-minute and 1-day charts for the same symbol together, using transparency to monitor short-term trades and the broader trend at once." },
-            "ext.lightning.note": { ko: "Lightning Candle은 빠른 시세 확인을 위한 보조 차트이며 주문 실행, 포지션 및 오픈오더 표시는 제공하지 않습니다. 실제 주문과 계정 정보는 Binance 공식 화면에서 확인하세요.", en: "Lightning Candle is a companion chart for fast market monitoring. It does not execute orders or display positions and open orders. Confirm actual orders and account information on the official Binance screen." },
+            "ext.lightning.note": { ko: "PRO CHART는 빠른 시세 확인을 위한 보조 차트입니다. Order Toolkit이 연결되면 포지션과 미체결 주문을 표시하며, 설정에서 켠 경우에만 차트에서 주문 가격을 옮길 수 있습니다. 실제 주문과 계정 정보는 Binance 공식 화면에서 확인하세요.", en: "PRO CHART is a companion chart for fast market monitoring. With Order Toolkit linked it shows positions and open orders, and it moves order prices on the chart only when you turn that on in Settings. Confirm actual orders and account information on the official Binance screen." },
             "ext.install.title": { ko: "설치 및 활성화", en: "Install & Activate" },
             "ext.install.desc": { ko: "Trading API Launcher에서 받은 Binance Manager를 Chrome에 추가해 사용합니다.", en: "Add Binance Manager from Trading API Launcher to Chrome to begin using it." },
             "ext.install.step1.title": { ko: "런처 업데이트 실행", en: "Run Launcher Update" },
@@ -5839,7 +6003,7 @@
             "ext.install.step4.title": { ko: "Binance 화면 새로고침", en: "Refresh Binance" },
             "ext.install.step4.body": { ko: "Binance Futures 탭을 새로고침하고 확장 팝업에서 시리얼 인증 상태를 확인합니다.", en: "Refresh the Binance Futures tab and confirm the serial authentication status in the extension popup." },
             "ext.screens.title": { ko: "화면 구성", en: "Screen Layout" },
-            "ext.lightning.screens.title": { ko: "Lightning Candle 화면", en: "Lightning Candle Screen" },
+            "ext.lightning.screens.title": { ko: "PRO CHART 화면", en: "PRO CHART Screen" },
             "ext.order.screens.title": { ko: "주문 보조 화면", en: "Order Helper Screen" },
             "ext.video.title": { ko: "실행 영상 보기", en: "Watch Demo Video" },
             "ext.video.desc": { ko: "실제 Binance Manager 적용 흐름을 영상으로 확인할 수 있습니다.", en: "Watch the actual Binance Manager workflow in action." },
@@ -5960,20 +6124,20 @@
             "ot.hedge.close.desc": {"ko": "좌클릭: 롱·숏 함께 시장가 종료<br>우클릭: 롱·숏 함께 SP 적용 종료", "en": "Left-click: close both sides at market<br>Right-click: close both sides with SP"},
             "ot.hedge.note": {"ko": "양방향 관리는 현재 종목에 적용됩니다. 수량은 AMOUNT와 보유 수량에 맞춰 적용되며, 각 주문은 따로 체결됩니다. 매수·매도 우클릭 Quick Stop은 Shift의 영향을 받지 않습니다.", "en": "Both-side actions apply to the current symbol. Buy/Sell quantities follow AMOUNT and available positions; orders fill separately. Shift does not change the Buy/Sell right-click Quick Stop."},
             "ot.wallet.title": {"ko": "Wallet · 잔고와 자금 이동", "en": "Wallet · Balances & Transfers"},
-            "ot.wallet.open": {"ko": "하단 잔고를 <strong>우클릭</strong>하면 Wallet을 엽니다. 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.", "en": "<strong>Right-click the bottom balance</strong> to open Wallet. Check your Futures, Spot and USDT Flexible Earn balances and move funds between them."},
+            "ot.wallet.open": {"ko": "하단 잔고를 <strong>우클릭</strong>하면 Workspace가 열립니다. 왼쪽 <strong>Wallet</strong> 메뉴에서 선물·현물·USDT Flexible Earn 잔고를 확인하고 자금을 이동할 수 있습니다.", "en": "<strong>Right-click the bottom balance</strong> to open Workspace. In the <strong>Wallet</strong> menu, check your Futures, Spot and USDT Flexible Earn balances and move funds between them."},
             "ot.wallet.transfer": {"ko": "금액 입력과 MAX 버튼으로 원하는 금액을 이동합니다. Quick Transfer는 아래 두 단계를 한 번에 이어서 진행합니다.", "en": "Enter an amount or use MAX to move funds. Quick Transfer carries out the two steps below in sequence."},
             "ot.wallet.toEarn": {"ko": "선물 → 현물 → Earn", "en": "Futures → Spot → Earn"},
             "ot.wallet.toFutures": {"ko": "Earn → 현물 → 선물", "en": "Earn → Spot → Futures"},
             "ot.wallet.toEarn.desc": {"ko": "선물에서 이체 가능한 금액을 현물로 옮긴 뒤 Earn에 넣습니다.", "en": "Move transferable Futures funds to Spot, then subscribe to Earn."},
             "ot.wallet.toFutures.desc": {"ko": "Earn에서 환매 가능한 금액을 현물로 받은 뒤 선물로 옮깁니다.", "en": "Redeem available Earn funds to Spot, then move them to Futures."},
             "ot.wallet.note": {"ko": "진행 상태는 창 하단에서 확인하세요. 중간에 멈췄다면 다시 누르기 전에 안내 문구와 잔고를 먼저 확인합니다.", "en": "Check progress at the bottom of the window. If it stops partway through, review the message and balances before trying again."},
-            "ot.data.title": {"ko": "DATA · 거래 기록과 매매 복기", "en": "DATA · History & Trade Review"},
-            "ot.data.open": {"ko": "<strong>SETTING 또는 Wallet → DATA</strong>를 누르면 브라우저에서 거래 기록을 확인할 수 있습니다.", "en": "Select <strong>DATA in SETTING or Wallet</strong> to open your trade history in the browser."},
+            "ot.data.title": {"ko": "DASHBOARD · Workspace", "en": "DASHBOARD · Workspace"},
+            "ot.data.open": {"ko": "<strong>SETTING → DASHBOARD</strong>를 누르거나 하단 잔고를 <strong>우클릭</strong>하면 브라우저에서 Workspace가 열립니다. Dashboard·Trade·Trade History·Wallet·Logs를 한 화면에서 사용할 수 있습니다.", "en": "Click <strong>SETTING → DASHBOARD</strong> or <strong>right-click</strong> the bottom balance to open Workspace in your browser, with Dashboard, Trade, Trade History, Wallet and Logs in one place."},
             "ot.data.dashboard": {"ko": "기간별 손익과 수수료, 일별·누적 손익을 확인합니다.", "en": "Review period PNL, fees, and daily or cumulative results."},
             "ot.data.history": {"ko": "포지션별 진입·추가·청산 내역과 차트의 체결 위치를 확인합니다.", "en": "Review entries, additions and exits for each position, with fills marked on the chart."},
             "ot.data.diagnostics": {"ko": "주문 거부·오류와 연결 상태를 확인합니다.", "en": "Review order rejections, errors and connection status."},
             "ot.balance.title": {"ko": "5) 잔고 및 거래 관리", "en": "5) Balances & Trade Review"},
-            "ot.balance.item1": {"ko": "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Wallet을 엽니다.", "en": "<strong>BALANCE</strong>: shows account balance and unrealized PNL. Left-click to switch the display; right-click to open Wallet."},
+            "ot.balance.item1": {"ko": "<strong>BALANCE</strong>: 계정 잔고 및 미실현 손익(PnL) 표시. 좌클릭으로 표시를 전환하고, 우클릭으로 Workspace를 엽니다.", "en": "<strong>BALANCE</strong>: shows account balance and unrealized PNL. Left-click to switch the display; right-click to open Workspace."},
             "ot.balance.item2": { ko: "<strong>PIN</strong>: 창을 항상 위에 고정", en: "<strong>PIN</strong>: keep window always on top." },
             "ot.balance.item3": { ko: "<strong>SETTING (Default)</strong>: 테마(Theme), 사운드(SFX), 오토 스탑 비율, SP 비율 등 전반적인 설정 팝업", en: "<strong>SETTING (Default)</strong>: opens general settings for theme, SFX, auto-stop ratio, SP ratio, etc." },
             "ot.balance.item4": { ko: "<strong>SFX/THEME</strong>: 사운드 팩 및 테마 스킨을 커스터마이징하거나 선택할 수 있습니다.", en: "<strong>SFX/THEME</strong>: customize or choose sound packs and theme skins." },
@@ -6000,6 +6164,69 @@
             "ot.trouble.item3": { ko: "<strong>연동 불가</strong>: Order Toolkit이 <strong>AUTO</strong>인지, 등록한 크롬 프로필에서 Binance Manager와 바이낸스 USDT 선물 탭을 열었는지 확인하세요. 확장 프로그램의 <strong>Trading API. Connect → Reconnect</strong>로 다시 연결합니다. 재등록이 필요하면 <strong>••• → Register again</strong>을 누르고 툴킷에서 코드를 확인해 승인하세요.", en: "<strong>Link failed</strong>: check that Order Toolkit is in <strong>AUTO</strong> and Binance Manager and a Binance USDT futures tab are open in the registered Chrome profile. Retry with <strong>Trading API. Connect → Reconnect</strong>. If registration needs renewing, select <strong>••• → Register again</strong>, verify the code and approve in the toolkit." },
             "ot.trouble.item4": { ko: "<strong>시간 동기화</strong>: PC 시간이 서버 시간과 오차가 크면 API 요청이 거부됩니다. 윈도우 [날짜 및 시간 설정]에서 <strong>'지금 동기화'</strong>를 눌러 시간을 맞춰주세요.", en: "<strong>Time sync</strong>: if PC time differs from server time, API requests are rejected. Sync time via Windows [Date & Time settings] → <strong>'Sync now'</strong>." },
             "ot.trouble.note": { ko: "<strong>면책:</strong> 프로그램 사용 중 발생한 손익은 전적으로 사용자 책임입니다. API Key 및 Secret Key는 타인에게 노출되지 않도록 각별히 주의하세요.", en: "<strong>Disclaimer:</strong> All profits/losses from using the program are the user's responsibility. Keep your API and Secret keys private." },
+
+            // Workspace
+            "ws.badge": { ko: "Web", en: "Web" },
+            "ws.title": { ko: "Workspace", en: "Workspace" },
+            "ws.desc": { ko: "Order Toolkit과 Crypto Detector의 기록·시장 정보를 브라우저 한 화면에서 봅니다.", en: "See Order Toolkit and Crypto Detector records and market data in one browser view." },
+            "ws.link": { ko: "Workspace 가이드 보기", en: "Open the Workspace guide" },
+            "ws.hero.caption": { ko: "Trade 화면: 왼쪽 종목 리스트, 위쪽 시세 정보, 오른쪽 PRO CHART. 이미지를 누르면 크게 볼 수 있습니다.", en: "The Trade view: symbol list on the left, market data on top, PRO CHART on the right. Select the image to enlarge it." },
+            "ws.intro.title": { ko: "1) Workspace란", en: "1) What is Workspace?" },
+            "ws.intro.body": { ko: "Order Toolkit이나 Crypto Detector를 실행하면 브라우저에서 함께 쓸 수 있는 통합 화면입니다. 실행 중인 프로그램의 메뉴가 왼쪽에 켜지고, 실행하지 않은 프로그램의 메뉴는 자물쇠로 표시됩니다. 프로그램을 실행하면 자동으로 열립니다.", en: "A combined browser view available while Order Toolkit or Crypto Detector is running. Menus of running programs are active on the left; menus of programs that are not running show a lock and open automatically once you start them." },
+            "ws.open.toolkit.title": { ko: "Order Toolkit에서 열기", en: "From Order Toolkit" },
+            "ws.open.toolkit.body": { ko: "<strong>SETTING → DASHBOARD</strong>를 누르거나, 하단 잔고를 <strong>우클릭</strong>합니다.", en: "Click <strong>SETTING → DASHBOARD</strong>, or <strong>right-click</strong> the bottom balance." },
+            "ws.open.detector.title": { ko: "Crypto Detector에서 열기", en: "From Crypto Detector" },
+            "ws.open.detector.body": { ko: "<strong>DATA</strong> 버튼은 Screener, <strong>FLOW</strong> 버튼은 Flow 화면을 엽니다.", en: "<strong>DATA</strong> opens the Screener and <strong>FLOW</strong> opens the Flow view." },
+            "ws.open.shared.title": { ko: "여러 탭에서 함께", en: "Across tabs" },
+            "ws.open.shared.body": { ko: "여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.", en: "Open it in several tabs or windows; they share the same view. Closing all programs ends the Workspace connection." },
+            "ws.menu.title": { ko: "2) 메뉴 구성", en: "2) Menus" },
+            "ws.menu.head.group": { ko: "구분", en: "Group" },
+            "ws.menu.head.menu": { ko: "메뉴", en: "Menu" },
+            "ws.menu.head.desc": { ko: "내용", en: "What it shows" },
+            "ws.menu.common": { ko: "공통", en: "Common" },
+            "ws.menu.notices": { ko: "서비스 공지", en: "Service notices" },
+            "ws.menu.dashboard": { ko: "기간별 손익과 수수료, 일별·누적 손익", en: "PnL and fees by period, daily and cumulative PnL" },
+            "ws.menu.trade": { ko: "종목 리스트·즐겨찾기와 시세 정보, PRO CHART를 한 화면에", en: "Symbol list, favorites, market data and PRO CHART on one screen" },
+            "ws.menu.history": { ko: "포지션별 진입·추가·청산 내역과 차트의 체결 위치", en: "Entries, adds and exits per position, with fills on the chart" },
+            "ws.menu.wallet": { ko: "선물·현물·Earn 잔고 확인과 자금 이동", en: "Futures, spot and Earn balances and transfers" },
+            "ws.menu.logs": { ko: "주문 거부·오류와 연결 상태", en: "Order rejections, errors and connection status" },
+            "ws.menu.screener": { ko: "코인(Crypto)·주식(Stocks) 종목 비교", en: "Compare crypto and stock symbols" },
+            "ws.menu.options": { ko: "주식·코인 옵션의 콜·풋 거래량과 미결제약정", en: "Call/put volume and open interest for stock and crypto options" },
+            "ws.menu.flow": { ko: "감지된 종목의 흐름과 기록", en: "Flow and records of detected symbols" },
+            "ws.menu.news": { ko: "상장 공지와 시장 소식", en: "Listing notices and market news" },
+            "ws.menu.calendar": { ko: "경제 일정", en: "Economic calendar" },
+            "ws.menu.index": { ko: "왼쪽 아래 INDEX·EXCHANGE RATES에서 주요 지수와 환율을 함께 봅니다.", en: "INDEX and EXCHANGE RATES at the bottom left show major indices and exchange rates." },
+            "ws.menu.note": { ko: "Order Toolkit 메뉴는 Order Toolkit을, Crypto Detector 메뉴는 Crypto Detector를 실행 중일 때 사용할 수 있습니다.", en: "Order Toolkit menus work while Order Toolkit is running; Crypto Detector menus work while Crypto Detector is running." },
+            "ws.menu.caption": { ko: "왼쪽 메뉴", en: "Sidebar menus" },
+            "ws.trade.title": { ko: "3) Trade — 종목 리스트와 차트", en: "3) Trade — Symbol list and chart" },
+            "ws.trade.body": { ko: "Order Toolkit 실행 중에 사용할 수 있는 화면입니다. 종목을 고르면 시세 정보와 차트가 함께 바뀝니다.", en: "Available while Order Toolkit is running. Pick a symbol and the market data and chart follow." },
+            "ws.trade.list": { ko: "<strong>종목 리스트</strong>: 가격·24시간 등락률·거래대금·OI를 한눈에 봅니다. 열 제목을 누르면 정렬되고, 검색창에 종목명이나 바이낸스 선물 주소를 붙여 넣으면 바로 선택됩니다.", en: "<strong>Symbol list</strong>: price, 24h change, volume and OI at a glance. Click a column heading to sort; type a symbol or paste a Binance futures link into the search box to select it." },
+            "ws.trade.favorites": { ko: "<strong>즐겨찾기</strong>: ☆를 눌러 추가합니다. 섹션을 만들어 이름을 바꾸고, 종목을 끌어서 순서를 바꾸거나 다른 섹션으로 옮길 수 있습니다. 브라우저 기록을 지워도 유지됩니다.", en: "<strong>Favorites</strong>: click ☆ to add. Create and rename sections, and drag symbols to reorder them or move them between sections. Favorites stay even after clearing browser data." },
+            "ws.trade.keys": { ko: "<strong>빠른 선택</strong>: Shift + 1~0으로 목록 위에서부터 1~10번째 종목을 고릅니다. 새로고침해도 보던 종목이 유지됩니다.", en: "<strong>Quick select</strong>: Shift + 1–0 picks the 1st to 10th symbol from the top of the list. Reloading keeps the symbol you were viewing." },
+            "ws.trade.header": { ko: "<strong>상단 정보</strong>: 현재가·마크·인덱스·펀딩비(남은 시간)·24시간 고가/저가·거래량·OI와 1시간/4시간/24시간 OI 변화를 한 줄로 보여 줍니다. 창이 좁으면 값을 줄여 표시하고, 마우스를 올리면 원래 값이 보입니다. OI 변화를 누르면 금액과 %가 바뀝니다. 바이낸스 서버 시각 시계와 경제 캘린더 버튼은 맨 위 Website 버튼 옆에 있습니다.", en: "<strong>Header</strong>: last price, mark, index, funding (with countdown), 24h high/low, volume, OI and 1h/4h/24h OI change on one line. In a narrow window values are shortened; hover to see the full value. Click the OI change to switch between value and %. The Binance server-time clock and the economic calendar button sit next to the Website button at the top." },
+            "ws.trade.oi": { ko: "<strong>OI Flow 차트</strong>: Open Interest 값을 누르면 1일·7일·30일 OI와 거래대금 흐름이 열립니다. Crypto Detector가 실행 중이면 상장 거래소와 시가총액 정보도 함께 표시됩니다.", en: "<strong>OI Flow chart</strong>: click an Open Interest value to open 1-day, 7-day and 30-day OI and volume. With Crypto Detector running, listed exchanges and market cap are shown too." },
+            "ws.trade.chart": { ko: "<strong>차트와 노트</strong>: Binance Manager 확장이 설치되어 있으면 오른쪽 빈 공간에 PRO CHART와 NOTES가 열리고, 리스트에서 고른 종목을 따라갑니다. 확장이 없으면 리스트와 시세 정보만 표시됩니다.", en: "<strong>Chart and notes</strong>: with the Binance Manager extension installed, PRO CHART and NOTES open in the free area on the right and follow the symbol you pick. Without it, only the list and market data are shown." },
+            "ws.trade.link": { ko: "<strong>툴킷 연동</strong>: Trade 화면에서 고른 종목은 Order Toolkit·Trades·Order Book에도 연동됩니다.", en: "<strong>Toolkit link</strong>: the symbol you pick on the Trade view is also linked to Order Toolkit, Trades and Order Book." },
+            "ws.trade.tabs": { ko: "<strong>새 탭</strong>: 상단 종목 이름을 누르면 Screener가, 리스트에서 휠 클릭이나 Ctrl+클릭하면 그 종목의 Trade 화면이 새 탭으로 열립니다. 여러 Trade 창을 함께 띄워도 창마다 시세가 유지됩니다.", en: "<strong>New tabs</strong>: click the symbol name in the header to open the Screener, or middle-click / Ctrl+click a list row to open that symbol’s Trade view in a new tab. Several Trade windows each keep their own prices." },
+            "ws.trade.note": { ko: "Trade 화면 자체에는 주문 버튼이 없습니다. 차트에서 주문을 옮기는 기능은 Binance Manager 설정에서 켠 경우에만 동작합니다(Extensions 가이드 참고).", en: "The Trade view itself has no order buttons. Moving orders on the chart works only if you turn it on in Binance Manager settings (see the Extensions guide)." },
+            "ws.trade.positions.caption": { ko: "PRO CHART의 Positions 표시를 켜 두면 보유 포지션과 손익이 차트에 함께 보입니다.", en: "With Positions shown on PRO CHART, your open position and PnL appear on the chart." },
+            "ws.trade.oi.caption": { ko: "Open Interest 값을 누르면 열리는 OI Flow 차트", en: "The OI Flow chart that opens from an Open Interest value" },
+            "ws.screener.title": { ko: "4) Screener — 코인·주식 비교", en: "4) Screener — Compare crypto and stocks" },
+            "ws.screener.body": { ko: "Crypto Detector 실행 중에 사용할 수 있습니다. Crypto(코인)와 Stocks(주식) 목록을 바꿔 가며 비교합니다.", en: "Available while Crypto Detector is running. Switch between the Crypto and Stocks lists to compare symbols." },
+            "ws.screener.movers": { ko: "<strong>Market movers</strong>: 24시간 상승·하락 상위와 1시간 OI 증가·감소 상위 종목을 맨 위에 보여 줍니다.", en: "<strong>Market movers</strong>: top 24h gainers and losers and the largest 1h OI increases and decreases appear at the top." },
+            "ws.screener.listed": { ko: "<strong>LISTED</strong>: Binance 현물·Upbit·Bithumb 상장 여부를 아이콘으로 표시합니다(미상장은 회색).", en: "<strong>LISTED</strong>: Binance spot, Upbit and Bithumb listings shown as icons (unlisted in gray)." },
+            "ws.screener.funding": { ko: "<strong>FUNDING</strong>: 현재 펀딩비와 정산 주기를 보여 주며, 열 제목을 눌러 정렬할 수 있습니다.", en: "<strong>FUNDING</strong>: the current funding rate and its interval; click the heading to sort." },
+            "ws.screener.expand": { ko: "<strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade ↗</strong>로 그 종목의 Trade 화면을 엽니다.", en: "<strong>Expand a row</strong>: see price and OI charts with a market cap / FDV summary, and use <strong>Trade ↗</strong> to open that symbol’s Trade view." },
+            "ws.screener.copy": { ko: "<strong>검색·즐겨찾기·복사</strong>: 검색창과 ★ 즐겨찾기를 쓸 수 있고, 종목 이름을 누르면 Crypto Detector 설정에 따라 클립보드에 복사됩니다.", en: "<strong>Search, favorites, copy</strong>: use the search box and ★ favorites; clicking a symbol copies it to the clipboard according to your Crypto Detector settings." },
+            "ws.screener.caption1": { ko: "Screener 목록 (LISTED·FUNDING 열)", en: "Screener list (LISTED and FUNDING columns)" },
+            "ws.screener.caption2": { ko: "행을 펼친 모습: 가격 차트와 OI Flow", en: "An expanded row: price chart and OI Flow" },
+            "ws.more.title": { ko: "5) Options · Flow", en: "5) Options · Flow" },
+            "ws.options.body": { ko: "주식·코인 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있습니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.", en: "See the call/put volume ratio and open interest for the nearest expiry of stock and crypto options. Expand a symbol for open interest by strike and Max Pain (a reference level, not a forecast). Option data may be delayed rather than real-time." },
+            "ws.flow.body": { ko: "감지된 종목의 감지 횟수·기간·1분 변동 범위·24시간 변화를 요약하고, 가격·OI 차트와 일별 감지 요약, 최근 감지 기록을 보여 줍니다. OI 차트는 감지 기록이 없는 기간도 최근 30일 흐름으로 채워 보여 줍니다.", en: "Summarizes hits, span, 1-minute range and 24h change for detected symbols, with price and OI charts, daily detection summaries and recent detections. The OI chart fills periods without detections from the last 30 days." },
+            "ws.records.title": { ko: "6) Dashboard · Trade History · Wallet · Logs", en: "6) Dashboard · Trade History · Wallet · Logs" },
+            "ws.records.body": { ko: "Order Toolkit 실행 중에 사용할 수 있는 거래 기록 화면입니다.", en: "Trading record views, available while Order Toolkit is running." },
+            "ws.records.wallet": { ko: "선물·현물·Earn 잔고 확인과 자금 이동. 사용법은 Order Toolkit 가이드의 Wallet 항목을 참고하세요.", en: "Futures, spot and Earn balances and transfers. See Wallet in the Order Toolkit guide for details." },
+            "ws.records.caption": { ko: "데모 데이터로 만든 Dashboard 예시 화면입니다.", en: "A Dashboard example made with demo data." },
 
             // Order Book
             "ob.badge": { ko: "Order Book", en: "Order Book" },
@@ -8486,7 +8713,7 @@
     </script>
     <script src="./assets/settlement-core.js?v=6.14.8"></script>
     <script src="./assets/settlement-ui.js?v=6.14.16"></script>
-    <script src="./assets/guide-access.js?v=6.14.12"></script>
+    <script src="./assets/guide-access.js?v=7.0.0"></script>
 </body>
 
 </html>

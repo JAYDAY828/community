@@ -9,6 +9,7 @@
         detector: ['detector', 'all'],
         preview: ['detector', 'all'],
         toolkit: ['all'],
+        workspace: ['detector', 'all'],
         trades: ['all'],
         orderbook: ['all'],
         extensions: ['extension', 'all']
