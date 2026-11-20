@@ -3534,11 +3534,21 @@
                                             </p>
                                             <ul class="list-disc !pl-5 space-y-1 text-xs text-gray-400 mb-3">
                                                 <li data-i18n="ot.shortcuts.custom.item1">편집 가능: <code>Ctrl+0~9</code>,
-                                                    <code>F13~F22</code></li>
+                                                    <code>F13~F22</code>, <code>Ctrl+F1~F12</code>, <code>Ctrl+F13~F22</code>.
+                                                    키는 고정이며 액션만 고릅니다. macOS는 <code>Ctrl</code> 대신 <code>Cmd</code>,
+                                                    F키는 <code>fn</code>과 함께 누릅니다.</li>
                                                 <li data-i18n="ot.shortcuts.custom.item2"><strong>Use</strong> 체크 해제 시
                                                     해당 키는 비활성화(<code>None</code>)로 저장</li>
                                                 <li data-i18n="ot.shortcuts.custom.item3">지원 액션: BBO 선택, Buy/Sell,
-                                                    Close Position, Halve/Double Amount, ATSL</li>
+                                                    Close Position, Close (Slippage Protection), Quick Stop, Cancel Orders,
+                                                    Move Orders (Queue 1), Move Orders (Market), Halve/Double Amount, ATSL,
+                                                    Toggle Reduce-Only, Toggle BBO Extreme, Hedge LONG / SHORT</li>
+                                                <li data-i18n="ot.shortcuts.custom.move"><strong>Move Orders (Queue 1)</strong>·<strong>Move
+                                                    Orders (Market)</strong>은 <strong>MOVE ORDER TYPE</strong> 설정과 상관없이 이름의 방식으로
+                                                    옮깁니다. Cancel 우클릭은 계속 MOVE ORDER TYPE을 따릅니다.</li>
+                                                <li data-i18n="ot.shortcuts.custom.shift">헤지에서 <code>Shift</code>를 누른 채 단축키를 쓰면
+                                                    Shift + 클릭과 같이 동작합니다(롱·숏 양쪽 / Shift + Trade). Reverse는 단축키가 없고
+                                                    마우스(<strong>Shift + Close</strong> 좌클릭)로만 실행합니다.</li>
                                                 <li data-i18n="ot.shortcuts.custom.item4">변경한 단축키는 자동 저장되며 다음 실행에도 유지됩니다.</li>
                                             </ul>
                                         </div>
@@ -6154,9 +6164,11 @@
             "ot.shortcuts.fixed.tradeclose": {"ko": "헤지: 매수·매도의 CLOSE 버튼에서 AMOUNT만큼 양쪽 축소", "en": "Hedge: use the Buy/Sell CLOSE button to reduce both sides by AMOUNT"},
             "ot.shortcuts.custom.title": { ko: "설정 패널 관리", en: "Settings Panel" },
             "ot.shortcuts.custom.note": { ko: "<strong>SETTING &gt; SHORTCUTS</strong>에서 키별 사용 여부와 액션을 변경합니다.", en: "Use <strong>SETTING &gt; SHORTCUTS</strong> to change each key's enabled state and action." },
-            "ot.shortcuts.custom.item1": { ko: "편집 가능: <code>Ctrl+0~9</code>, <code>F13~F22</code>", en: "Editable keys: <code>Ctrl+0~9</code>, <code>F13~F22</code>" },
+            "ot.shortcuts.custom.item1": { ko: "편집 가능: <code>Ctrl+0~9</code>, <code>F13~F22</code>, <code>Ctrl+F1~F12</code>, <code>Ctrl+F13~F22</code>. 키는 고정이며 액션만 고릅니다. macOS는 <code>Ctrl</code> 대신 <code>Cmd</code>, F키는 <code>fn</code>과 함께 누릅니다.", en: "Editable keys: <code>Ctrl+0~9</code>, <code>F13~F22</code>, <code>Ctrl+F1~F12</code>, <code>Ctrl+F13~F22</code>. The keys are fixed; you only choose the action. On macOS use <code>Cmd</code> instead of <code>Ctrl</code>, and press F-keys with <code>fn</code>." },
             "ot.shortcuts.custom.item2": { ko: "<strong>Use</strong> 체크 해제 시 해당 키는 비활성화(<code>None</code>)로 저장", en: "Turn <strong>Use</strong> off to save that key as disabled (<code>None</code>)." },
-            "ot.shortcuts.custom.item3": { ko: "지원 액션: BBO 선택, Buy/Sell, Close Position, Halve/Double Amount, ATSL", en: "Supported actions: BBO selection, Buy/Sell, Close Position, Halve/Double Amount, ATSL." },
+            "ot.shortcuts.custom.item3": { ko: "지원 액션: BBO 선택, Buy/Sell, Close Position, Close (Slippage Protection), Quick Stop, Cancel Orders, Move Orders (Queue 1), Move Orders (Market), Halve/Double Amount, ATSL, Toggle Reduce-Only, Toggle BBO Extreme, Hedge LONG / SHORT", en: "Supported actions: BBO selection, Buy/Sell, Close Position, Close (Slippage Protection), Quick Stop, Cancel Orders, Move Orders (Queue 1), Move Orders (Market), Halve/Double Amount, ATSL, Toggle Reduce-Only, Toggle BBO Extreme, Hedge LONG / SHORT." },
+            "ot.shortcuts.custom.move": { ko: "<strong>Move Orders (Queue 1)</strong>·<strong>Move Orders (Market)</strong>은 <strong>MOVE ORDER TYPE</strong> 설정과 상관없이 이름의 방식으로 옮깁니다. Cancel 우클릭은 계속 MOVE ORDER TYPE을 따릅니다.", en: "<strong>Move Orders (Queue 1)</strong> and <strong>Move Orders (Market)</strong> always move with the method in their name, regardless of the <strong>MOVE ORDER TYPE</strong> setting. Cancel right-click still follows MOVE ORDER TYPE." },
+            "ot.shortcuts.custom.shift": { ko: "헤지에서 <code>Shift</code>를 누른 채 단축키를 쓰면 Shift + 클릭과 같이 동작합니다(롱·숏 양쪽 / Shift + Trade). Reverse는 단축키가 없고 마우스(<strong>Shift + Close</strong> 좌클릭)로만 실행합니다.", en: "In Hedge mode, holding <code>Shift</code> with a shortcut works like Shift + click (both sides / Shift + Trade). Reverse has no shortcut; it runs only with the mouse (<strong>Shift + Close</strong> left-click)." },
             "ot.shortcuts.custom.item4": {"ko": "변경한 단축키는 자동 저장되며 다음 실행에도 유지됩니다.", "en": "Shortcut changes are saved automatically and kept for your next session."},
             "ot.trouble.title": { ko: "7) 문제 해결", en: "7) Troubleshooting" },
             "ot.trouble.item1": { ko: "<strong>실행 불가</strong>: 작업 관리자에서 Order Toolkit 관련 프로세스가 남아 있다면 종료한 뒤 다시 실행하세요. 처음부터 실행되지 않는 경우에는 런처에 동봉된 <strong>보안 경고 해결 안내</strong>를 따라 주세요.", en: "<strong>Won't launch</strong>: open Task Manager and close any remaining Order Toolkit processes, then try again. If the app does not start at all, follow the bundled <strong>security warning troubleshooting guide</strong>." },
