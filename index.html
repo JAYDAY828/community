@@ -3604,7 +3604,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="liquid-card guide-glass-accent guide-glass-yellow border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.toolkit.title">Order Toolkit에서 열기</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.toolkit.body"><strong>SETTING → DASHBOARD</strong>를 누르거나, 하단 잔고를 <strong>우클릭</strong>합니다.</p></div>
                                 <div class="liquid-card guide-glass-accent guide-glass-blue border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.detector.title">Crypto Detector에서 열기</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.detector.body"><strong>DATA</strong> 버튼은 Screener, <strong>FLOW</strong> 버튼은 Flow 화면을 엽니다.</p></div>
-                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.shared.title">여러 탭에서 함께</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.shared.body">여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.</p></div>
+                                <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5"><h4 class="text-white font-bold text-sm mb-2 !mt-0" data-i18n="ws.open.shared.title">여러 탭에서 함께</h4><p class="text-xs text-gray-400 !m-0 leading-relaxed" data-i18n="ws.open.shared.body">여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 왼쪽 메뉴를 휠 클릭이나 Ctrl+클릭(맥은 Cmd+클릭)하면 그 화면이 새 탭으로 열립니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.</p></div>
                             </div>
                         </div>
 
@@ -3623,7 +3623,7 @@
                                             <tr><td>Wallet</td><td data-i18n="ws.menu.wallet">선물·현물·Earn 잔고 확인과 자금 이동</td></tr>
                                             <tr><td>Logs</td><td data-i18n="ws.menu.logs">주문 거부·오류와 연결 상태</td></tr>
                                             <tr><td rowspan="3">Crypto Detector</td><td>Screener</td><td data-i18n="ws.menu.screener">코인(Crypto)·주식(Stocks) 종목 비교</td></tr>
-                                            <tr><td>Options</td><td data-i18n="ws.menu.options">주식·코인 옵션의 콜·풋 거래량과 미결제약정</td></tr>
+                                            <tr><td>Options</td><td data-i18n="ws.menu.options">코인·주식 옵션의 콜·풋 거래량과 미결제약정</td></tr>
                                             <tr><td>Flow</td><td data-i18n="ws.menu.flow">감지된 종목의 흐름과 기록</td></tr>
                                             <tr><td rowspan="2">Market</td><td>News</td><td data-i18n="ws.menu.news">상장 공지와 시장 소식</td></tr>
                                             <tr><td>Calendar</td><td data-i18n="ws.menu.calendar">경제 일정</td></tr>
@@ -3665,7 +3665,7 @@
                                 <li data-i18n="ws.screener.movers"><strong>Market movers</strong>: 24시간 상승·하락 상위와 1시간 OI 증가·감소 상위 종목을 맨 위에 보여 줍니다.</li>
                                 <li data-i18n="ws.screener.listed"><strong>LISTED</strong>: Binance 현물·Upbit·Bithumb 상장 여부를 아이콘으로 표시합니다(미상장은 회색).</li>
                                 <li data-i18n="ws.screener.funding"><strong>FUNDING</strong>: 현재 펀딩비와 정산 주기를 보여 주며, 열 제목을 눌러 정렬할 수 있습니다.</li>
-                                <li data-i18n="ws.screener.expand"><strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade ↗</strong>로 그 종목의 Trade 화면을 엽니다.</li>
+                                <li data-i18n="ws.screener.expand"><strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade &gt;</strong>로 그 종목의 Trade 화면을 엽니다(휠 클릭·Ctrl+클릭은 새 탭). BTC·ETH는 <strong>Data ↗</strong>로 Velo의 선물 데이터(거래소별 OI·펀딩비·청산·베이시스)를 새 탭으로 엽니다.</li>
                                 <li data-i18n="ws.screener.copy"><strong>검색·즐겨찾기·복사</strong>: 검색창과 ★ 즐겨찾기를 쓸 수 있고, 종목 이름을 누르면 Crypto Detector 설정에 따라 클립보드에 복사됩니다.</li>
                             </ul>
                             <div class="ws-grid-2">
@@ -3680,7 +3680,7 @@
                             <div class="ws-grid-2">
                                 <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5">
                                     <h3 id="ws-options" class="text-white font-bold text-sm !mt-0 mb-2">Options</h3>
-                                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="ws.options.body">주식·코인 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있습니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.</p>
+                                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="ws.options.body">코인·주식 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있고, <strong>Screener &gt;</strong>로 같은 종목을 Screener에서, BTC·ETH는 <strong>Data ↗</strong>로 Velo 선물 데이터를 엽니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.</p>
                                     <figure class="ws-figure !mb-0"><a class="ws-shot" href="./assets/workspace/options.png" target="_blank" rel="noopener noreferrer" aria-label="Options 화면 — 전체 화면"><img src="./assets/workspace/options.png" width="1600" height="1169" alt="Workspace Options 화면" loading="lazy" decoding="async"></a></figure>
                                 </div>
                                 <div class="liquid-card guide-glass-accent guide-glass-neutral border rounded-xl p-5">
@@ -6190,7 +6190,7 @@
             "ws.open.detector.title": { ko: "Crypto Detector에서 열기", en: "From Crypto Detector" },
             "ws.open.detector.body": { ko: "<strong>DATA</strong> 버튼은 Screener, <strong>FLOW</strong> 버튼은 Flow 화면을 엽니다.", en: "<strong>DATA</strong> opens the Screener and <strong>FLOW</strong> opens the Flow view." },
             "ws.open.shared.title": { ko: "여러 탭에서 함께", en: "Across tabs" },
-            "ws.open.shared.body": { ko: "여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.", en: "Open it in several tabs or windows; they share the same view. Closing all programs ends the Workspace connection." },
+            "ws.open.shared.body": { ko: "여러 탭이나 창으로 열어도 같은 화면을 함께 씁니다. 왼쪽 메뉴를 휠 클릭이나 Ctrl+클릭(맥은 Cmd+클릭)하면 그 화면이 새 탭으로 열립니다. 프로그램을 모두 종료하면 Workspace 연결도 끝납니다.", en: "Open it in several tabs or windows; they share the same view. Middle-click or Ctrl+click (Cmd+click on Mac) a menu on the left to open that view in a new tab. Closing all programs ends the Workspace connection." },
             "ws.menu.title": { ko: "2) 메뉴 구성", en: "2) Menus" },
             "ws.menu.head.group": { ko: "구분", en: "Group" },
             "ws.menu.head.menu": { ko: "메뉴", en: "Menu" },
@@ -6203,7 +6203,7 @@
             "ws.menu.wallet": { ko: "선물·현물·Earn 잔고 확인과 자금 이동", en: "Futures, spot and Earn balances and transfers" },
             "ws.menu.logs": { ko: "주문 거부·오류와 연결 상태", en: "Order rejections, errors and connection status" },
             "ws.menu.screener": { ko: "코인(Crypto)·주식(Stocks) 종목 비교", en: "Compare crypto and stock symbols" },
-            "ws.menu.options": { ko: "주식·코인 옵션의 콜·풋 거래량과 미결제약정", en: "Call/put volume and open interest for stock and crypto options" },
+            "ws.menu.options": { ko: "코인·주식 옵션의 콜·풋 거래량과 미결제약정", en: "Call/put volume and open interest for crypto and stock options" },
             "ws.menu.flow": { ko: "감지된 종목의 흐름과 기록", en: "Flow and records of detected symbols" },
             "ws.menu.news": { ko: "상장 공지와 시장 소식", en: "Listing notices and market news" },
             "ws.menu.calendar": { ko: "경제 일정", en: "Economic calendar" },
@@ -6228,12 +6228,12 @@
             "ws.screener.movers": { ko: "<strong>Market movers</strong>: 24시간 상승·하락 상위와 1시간 OI 증가·감소 상위 종목을 맨 위에 보여 줍니다.", en: "<strong>Market movers</strong>: top 24h gainers and losers and the largest 1h OI increases and decreases appear at the top." },
             "ws.screener.listed": { ko: "<strong>LISTED</strong>: Binance 현물·Upbit·Bithumb 상장 여부를 아이콘으로 표시합니다(미상장은 회색).", en: "<strong>LISTED</strong>: Binance spot, Upbit and Bithumb listings shown as icons (unlisted in gray)." },
             "ws.screener.funding": { ko: "<strong>FUNDING</strong>: 현재 펀딩비와 정산 주기를 보여 주며, 열 제목을 눌러 정렬할 수 있습니다.", en: "<strong>FUNDING</strong>: the current funding rate and its interval; click the heading to sort." },
-            "ws.screener.expand": { ko: "<strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade ↗</strong>로 그 종목의 Trade 화면을 엽니다.", en: "<strong>Expand a row</strong>: see price and OI charts with a market cap / FDV summary, and use <strong>Trade ↗</strong> to open that symbol’s Trade view." },
+            "ws.screener.expand": { ko: "<strong>행 펼치기</strong>: 행을 펼치면 가격·OI 차트와 시가총액·FDV 요약이 열리고, <strong>Trade &gt;</strong>로 그 종목의 Trade 화면을 엽니다(휠 클릭·Ctrl+클릭은 새 탭). BTC·ETH는 <strong>Data ↗</strong>로 Velo의 선물 데이터(거래소별 OI·펀딩비·청산·베이시스)를 새 탭으로 엽니다.", en: "<strong>Expand a row</strong>: see price and OI charts with a market cap / FDV summary, and use <strong>Trade &gt;</strong> to open that symbol’s Trade view (middle-click / Ctrl+click: new tab). For BTC and ETH, <strong>Data ↗</strong> opens Velo’s futures data (OI, funding, liquidations and basis by exchange) in a new tab." },
             "ws.screener.copy": { ko: "<strong>검색·즐겨찾기·복사</strong>: 검색창과 ★ 즐겨찾기를 쓸 수 있고, 종목 이름을 누르면 Crypto Detector 설정에 따라 클립보드에 복사됩니다.", en: "<strong>Search, favorites, copy</strong>: use the search box and ★ favorites; clicking a symbol copies it to the clipboard according to your Crypto Detector settings." },
             "ws.screener.caption1": { ko: "Screener 목록 (LISTED·FUNDING 열)", en: "Screener list (LISTED and FUNDING columns)" },
             "ws.screener.caption2": { ko: "행을 펼친 모습: 가격 차트와 OI Flow", en: "An expanded row: price chart and OI Flow" },
             "ws.more.title": { ko: "5) Options · Flow", en: "5) Options · Flow" },
-            "ws.options.body": { ko: "주식·코인 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있습니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.", en: "See the call/put volume ratio and open interest for the nearest expiry of stock and crypto options. Expand a symbol for open interest by strike and Max Pain (a reference level, not a forecast). Option data may be delayed rather than real-time." },
+            "ws.options.body": { ko: "코인·주식 옵션의 가장 가까운 만기 기준 콜·풋 거래량 비율과 미결제약정을 봅니다. 종목을 펼치면 행사가별 미결제약정과 Max Pain(참고 가격이며 예측이 아닙니다)을 확인할 수 있고, <strong>Screener &gt;</strong>로 같은 종목을 Screener에서, BTC·ETH는 <strong>Data ↗</strong>로 Velo 선물 데이터를 엽니다. 옵션 데이터는 실시간이 아니라 지연될 수 있습니다.", en: "See the call/put volume ratio and open interest for the nearest expiry of crypto and stock options. Expand a symbol for open interest by strike and Max Pain (a reference level, not a forecast); <strong>Screener &gt;</strong> opens the same symbol in the Screener, and for BTC and ETH <strong>Data ↗</strong> opens Velo’s futures data. Option data may be delayed rather than real-time." },
             "ws.flow.body": { ko: "감지된 종목의 감지 횟수·기간·1분 변동 범위·24시간 변화를 요약하고, 가격·OI 차트와 일별 감지 요약, 최근 감지 기록을 보여 줍니다. OI 차트는 감지 기록이 없는 기간도 최근 30일 흐름으로 채워 보여 줍니다.", en: "Summarizes hits, span, 1-minute range and 24h change for detected symbols, with price and OI charts, daily detection summaries and recent detections. The OI chart fills periods without detections from the last 30 days." },
             "ws.records.title": { ko: "6) Dashboard · Trade History · Wallet · Logs", en: "6) Dashboard · Trade History · Wallet · Logs" },
             "ws.records.body": { ko: "Order Toolkit 실행 중에 사용할 수 있는 거래 기록 화면입니다.", en: "Trading record views, available while Order Toolkit is running." },
