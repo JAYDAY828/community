@@ -121,6 +121,11 @@ body{font-family:var(--font);background:radial-gradient(ellipse at 72% 0%,rgba(1
 .xt-link{color:inherit;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.18);transition:border-color .15s,color .15s}
 .xt-link:hover{border-bottom-color:var(--primary)}
 .xt-link:hover .xt-num,.xt-link:hover .xt-ex{color:var(--primary)}
+.xt-krw{padding:0;border:0;border-bottom:1px dotted rgba(255,255,255,.3);border-radius:0;background:none;color:inherit;font:inherit;cursor:pointer;transition:border-color .15s}
+.xt-krw:hover{border-bottom-color:var(--primary)}
+.xt-krw:hover .xt-num{color:var(--primary)}
+.xt-krw:focus-visible{outline:1px solid var(--primary);outline-offset:3px}
+.xt-approx{margin-right:2px;color:var(--text-dim)}
 .xt-wallet{display:inline-flex;align-items:center;gap:5px;color:inherit;text-decoration:none;max-width:100%}
 .xt-net{font-size:.78rem;color:var(--text);margin-right:2px}
 .xt-wallet:hover .xt-net{color:var(--primary)}
@@ -3721,6 +3726,17 @@ function walletCellHtml(key, wallet, items, emptyRow){
     `<span class="xt-date">${formatKst(first.at).slice(0,5)}</span></a>`;
 }
 
+// A won price can be shown in dollars (the value the gap columns use). Clicking any won price
+// switches Upbit and Bithumb together; the choice is kept in this browser only.
+const KRW_VIEW_STORAGE_KEY='tracker_krw_view_v1';
+let krwShowUsd=(()=>{ try{ return localStorage.getItem(KRW_VIEW_STORAGE_KEY)==='usd'; }catch(_){ return false; } })();
+
+function toggleKrwPriceView(){
+  krwShowUsd=!krwShowUsd;
+  try{ localStorage.setItem(KRW_VIEW_STORAGE_KEY, krwShowUsd ? 'usd' : 'krw'); }catch(_){}
+  renderExchangeTable();
+}
+
 function exchangePriceCellHtml(row, ready){
   if(row.spot==='checking') return '<span class="xt-none">확인 중</span>';
   if(row.spot==='error') return '<span class="xt-none" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
@@ -3729,12 +3745,20 @@ function exchangePriceCellHtml(row, ready){
   const p=row.price;
   if(p?.pending) return '<span class="xt-none" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
   if(!p || p.failed) return '<span class="xt-none">조회 실패</span>';
-  // A won price is shown as is; its dollar value (what the gap columns use) is in the tooltip.
-  const notes=[];
-  if(p.quote==='KRW' && p.priceUsd) notes.push(`≈ ${formatMarketPrice(p.priceUsd,'USDT')} (USDT 원화 가격으로 환산)`);
-  if(p.storedAt) notes.push(`업비트 요청 제한으로 ${Math.max(0, Math.round((Date.now()-p.storedAt)/1000))}초 전에 받은 값입니다`);
-  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`;
-  return notes.length ? `<span title="${escapeHtml(notes.join('\n'))}">${value}</span>` : value;
+  const won=formatMarketPrice(p.price,p.quote);
+  const stored=p.storedAt ? `업비트 요청 제한으로 ${Math.max(0, Math.round((Date.now()-p.storedAt)/1000))}초 전에 받은 값입니다` : '';
+  if(p.quote==='KRW' && p.priceUsd){
+    const usd=formatMarketPrice(p.priceUsd,'USDT');
+    const shown=krwShowUsd ? `<span class="xt-num"><span class="xt-approx">≈</span>${usd}</span>` : `<span class="xt-num">${won}</span>`;
+    const title=[
+      krwShowUsd ? `${won}을 USDT 원화 가격으로 환산한 값` : `≈ ${usd} (USDT 원화 가격으로 환산)`,
+      stored,
+      `누르면 ${krwShowUsd ? '원화' : '달러'}로 표시 (업비트·빗썸 함께)`
+    ].filter(Boolean).join('\n');
+    return `<button type="button" class="xt-krw" onclick="toggleKrwPriceView()" title="${escapeHtml(title)}">${shown}</button>`;
+  }
+  const value=`<span class="xt-num">${won}</span>`;
+  return stored ? `<span title="${escapeHtml(stored)}">${value}</span>` : value;
 }
 
 // Green above, red below, grey when it shows as 0.00% (under half a basis point either way).
@@ -3871,6 +3895,7 @@ function renderExchangeTable(){
     '김프는 USDT 원화 가격(업비트, 없으면 빗썸) 기준',
     'KuCoin·MEXC는 CoinGecko 값(지연)',
     '거래소 이름·선물 칸을 누르면 거래 페이지',
+    rows.some(row=>row.price?.quote==='KRW' && row.price?.priceUsd) ? '원화 가격을 누르면 ₩/$ 전환' : '',
     '입출금은 theddari 채널의 최근 7일 변경 기록(가능 보장 아님)'
   ].filter(Boolean).map(text=>`<span>${text}</span>`).join('<span class="xt-dot">·</span>');
   el.innerHTML=`<div class="xt-head"><div class="xt-stats">${stats}</div><div class="xt-actions">${actions}</div></div>
