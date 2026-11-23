@@ -670,7 +670,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.4';
+const APP_VERSION = 'Tracker v1.2.5';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -2647,6 +2647,76 @@ function coinGeckoOiSource(ticker){
   return `CoinGecko · ${ticker?.symbol||'-'} · 수 분 지연`;
 }
 
+// Upbit lets a web page (any request carrying an Origin header) call it only about once
+// every ten seconds per IP: its "origin" limit group allows 6 calls a minute across every
+// endpoint (measured: "Remaining-Req: group=origin; min=6"). All Tracker tabs therefore
+// share one gate in browser storage and call Upbit only when ten seconds have passed since
+// any tab's last call; answers are stored so other tabs can reuse them meanwhile.
+const UPBIT_GATE_MS=10500;
+const UPBIT_GATE_KEY='tracker_upbit_gate_v1';
+const UPBIT_MARKETS_KEY='tracker_upbit_markets_v1';
+const UPBIT_MARKETS_TTL_MS=60*60*1000;
+let upbitLastCallAt=0;
+let upbitMarketsPending=null;
+
+function readSharedJson(key){
+  try{ return JSON.parse(localStorage.getItem(key)||'null'); }catch{ return null; }
+}
+
+function writeSharedJson(key, value){
+  try{ localStorage.setItem(key, JSON.stringify(value)); }catch{}
+}
+
+// How long this tab must still wait before calling Upbit (0 = now). A stored time in the
+// future (another clock) is ignored rather than blocking Upbit.
+function upbitGateWaitMs(now=Date.now()){
+  const shared=Number(readSharedJson(UPBIT_GATE_KEY)?.at||0);
+  const last=Math.max(upbitLastCallAt, Number.isFinite(shared) && shared<=now+1000 ? shared : 0);
+  return Math.max(0, last+UPBIT_GATE_MS-now);
+}
+
+function claimUpbitGate(now=Date.now()){
+  upbitLastCallAt=now;
+  writeSharedJson(UPBIT_GATE_KEY, {at:now});
+}
+
+async function waitForUpbitGate(){
+  for(let round=0; round<4; round++){
+    const wait=upbitGateWaitMs();
+    if(!wait) return;
+    await new Promise(resolve=>setTimeout(resolve, wait));
+  }
+}
+
+function storedUpbitMarkets(){
+  const saved=readSharedJson(UPBIT_MARKETS_KEY);
+  const age=Date.now()-Number(saved?.loadedAt||0);
+  return Array.isArray(saved?.markets) && saved.markets.length && age>=0 && age<UPBIT_MARKETS_TTL_MS ? saved.markets : null;
+}
+
+// Upbit's full market list, kept for an hour and shared by all tabs, so checking whether a
+// coin is listed on Upbit costs no Upbit call for most coin views.
+async function getUpbitMarkets(){
+  const stored=storedUpbitMarkets();
+  if(stored) return stored;
+  if(upbitMarketsPending) return upbitMarketsPending;
+  upbitMarketsPending=(async()=>{
+    await waitForUpbitGate();
+    const filled=storedUpbitMarkets();
+    if(filled) return filled;
+    claimUpbitGate();
+    const data=await fetchDirectJson('https://api.upbit.com/v1/market/all?isDetails=false');
+    const markets=(Array.isArray(data) ? data : []).map(item=>String(item?.market||'')).filter(Boolean);
+    if(markets.length) writeSharedJson(UPBIT_MARKETS_KEY, {loadedAt:Date.now(), markets});
+    return markets;
+  })();
+  try{
+    return await upbitMarketsPending;
+  }finally{
+    upbitMarketsPending=null;
+  }
+}
+
 async function getBinanceFallbackTickers(){
   return getCoinGeckoFuturesTickers('binanceFallback', CONFIG.BINANCE_FUTURES_FALLBACK, 'Binance Futures');
 }
@@ -2967,7 +3037,7 @@ async function checkExchangeListings(tickers, sysSymbol){
   };
   if(!intel.kucoin.futures) addCoinGeckoFuturesCheck(intel.kucoin,fetchKuCoinFallback);
   if(!intel.mexc.futures) addCoinGeckoFuturesCheck(intel.mexc,fetchMexcFallback);
-  if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchDirectJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
+  if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>getUpbitMarkets(),markets=>markets.includes(`KRW-${symbolUpper}`));
   // Bithumb returns the market list as a plain array (e.g. [{"market":"KRW-BTC",...}]).
   if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchDirectJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(Array.isArray(d)?d:(d?.value||[])).some(item=>String(item?.market||'').endsWith(`-${symbolUpper}`)));
   renderExchangeIntel(intel);
@@ -3079,7 +3149,8 @@ function requestMarketBoardRefresh(reason=''){
   const listing=currentExchangeListing();
   if(listing){
     const prices=board.prices;
-    const stale=!prices || prices.coinId!==listing.coinId || Date.now()-prices.loadedAt>=CONFIG.MARKET_PRICE_REFRESH_MS-1000;
+    const stale=!prices || prices.coinId!==listing.coinId || Date.now()-prices.loadedAt>=CONFIG.MARKET_PRICE_REFRESH_MS-1000 ||
+      Boolean(prices.retryAt && Date.now()>=prices.retryAt);
     if((reason==='listing'||stale) && !board.priceLoading) loadMarketPrices(listing);
   }
   const symbol=currentMarketSymbol();
@@ -3147,6 +3218,47 @@ const MARKET_QUOTE_FETCHERS={
   }
 };
 
+// Upbit answers through the shared ten-second gate (see UPBIT_GATE_MS). Its last answers are
+// stored for two minutes so every tab can show them while waiting for its turn; retryAt tells
+// the board when to ask again. A market Upbit does not have (404) is not retried.
+const UPBIT_QUOTES_KEY='tracker_upbit_quotes_v1';
+const UPBIT_QUOTE_TTL_MS=2*60*1000;
+
+async function fetchUpbitQuotes(base){
+  const now=Date.now();
+  const stored=readSharedJson(UPBIT_QUOTES_KEY)||{};
+  const recent=market=>{
+    const q=stored[market];
+    const age=now-Number(q?.at||0);
+    return q && age>=0 && age<UPBIT_QUOTE_TTL_MS ? q : null;
+  };
+  const fromStore=retryAt=>{
+    const usdt=recent('KRW-USDT');
+    const coin=recent(`KRW-${base}`);
+    return {usdtKrw:usdt ? Number(usdt.price) : null,
+      quote:coin ? {price:Number(coin.price), quote:'KRW', quoteVolume:Number(coin.quoteVolume), storedAt:Number(coin.at)} : null,
+      retryAt};
+  };
+  const wait=upbitGateWaitMs(now);
+  if(wait>0) return fromStore(now+wait);
+  claimUpbitGate(now);
+  try{
+    const r=await fetchKrwMarketQuotes('api.upbit.com', base);
+    const at=Date.now();
+    const next={};
+    for(const [market,q] of Object.entries(stored)) if(at-Number(q?.at||0)<UPBIT_QUOTE_TTL_MS) next[market]=q;
+    if(r.usdtKrw) next['KRW-USDT']={price:r.usdtKrw, at};
+    if(r.quote) next[`KRW-${base}`]={price:r.quote.price, quoteVolume:r.quote.quoteVolume, at};
+    writeSharedJson(UPBIT_QUOTES_KEY, next);
+    return {...r, retryAt:0};
+  }catch(err){
+    const message=String(err?.message||err);
+    console.warn('Upbit quotes failed:', redactSensitiveUrl(message));
+    if(/status 404/.test(message)) return {usdtKrw:null, quote:null, retryAt:0};
+    return fromStore(Date.now()+UPBIT_GATE_MS);
+  }
+}
+
 // Upbit and Bithumb answer several markets in one call; KRW-USDT gives the won price of USDT.
 async function fetchKrwMarketQuotes(host, base){
   const markets=['KRW-USDT', ...(base ? [`KRW-${base}`] : [])];
@@ -3203,18 +3315,23 @@ async function fetchMarketQuotes(listing, coin){
   }
   let upbitUsdt=null;
   let bithumbUsdt=null;
+  let retryAt=0;
+  // Upbit is asked only for a coin it lists, and only through the shared ten-second gate.
   const upbitBase=intel.upbit?.spot ? marketBaseSymbol('upbit',listing,tickers) : '';
-  jobs.push(fetchKrwMarketQuotes('api.upbit.com', upbitBase).then(r=>{
-    upbitUsdt=r.usdtKrw;
-    if(upbitBase) quotes.upbit=r.quote && r.quote.price>0 ? {ok:true,...r.quote} : {ok:false,error:'no KRW market'};
-  },err=>{ if(upbitBase) quotes.upbit={ok:false,error:String(err?.message||err)}; }));
-  const bithumbBase=intel.bithumb?.spot ? marketBaseSymbol('bithumb',listing,tickers) : '';
-  if(bithumbBase){
-    jobs.push(fetchKrwMarketQuotes('api.bithumb.com', bithumbBase).then(r=>{
-      bithumbUsdt=r.usdtKrw;
-      quotes.bithumb=r.quote && r.quote.price>0 ? {ok:true,...r.quote} : {ok:false,error:'no KRW market'};
-    },err=>{ quotes.bithumb={ok:false,error:String(err?.message||err)}; }));
+  if(upbitBase){
+    jobs.push(fetchUpbitQuotes(upbitBase).then(r=>{
+      upbitUsdt=r.usdtKrw;
+      retryAt=r.retryAt||0;
+      quotes.upbit=r.quote && r.quote.price>0 ? {ok:true,...r.quote}
+        : r.retryAt ? {ok:false,pending:true,error:'waiting for the Upbit limit'} : {ok:false,error:'no KRW market'};
+    }));
   }
+  // Bithumb has no such limit, so it always gives the won price of USDT as well.
+  const bithumbBase=intel.bithumb?.spot ? marketBaseSymbol('bithumb',listing,tickers) : '';
+  jobs.push(fetchKrwMarketQuotes('api.bithumb.com', bithumbBase).then(r=>{
+    bithumbUsdt=r.usdtKrw;
+    if(bithumbBase) quotes.bithumb=r.quote && r.quote.price>0 ? {ok:true,...r.quote} : {ok:false,error:'no KRW market'};
+  },err=>{ if(bithumbBase) quotes.bithumb={ok:false,error:String(err?.message||err)}; }));
   await Promise.allSettled(jobs);
 
   let reference=null;
@@ -3232,7 +3349,8 @@ async function fetchMarketQuotes(listing, coin){
     quotes,
     reference,
     usdtKrw:upbitUsdt||bithumbUsdt,
-    usdtSource:upbitUsdt ? 'Upbit' : bithumbUsdt ? 'Bithumb' : ''
+    usdtSource:upbitUsdt ? 'Upbit' : bithumbUsdt ? 'Bithumb' : '',
+    retryAt
   };
 }
 
@@ -3245,6 +3363,8 @@ async function loadMarketPrices(listing){
     const result=await fetchMarketQuotes(listing, state.currentCoin);
     if(requestId!==board.priceRequestId) return;
     board.prices={coinId:listing.coinId, symbol:listing.symbol, loadedAt:Date.now(), ...result};
+    // Upbit's turn comes back in about ten seconds; ask again then rather than at the next tick.
+    if(result.retryAt) setTimeout(()=>requestMarketBoardRefresh('retry'), Math.max(0, result.retryAt-Date.now())+100);
   }catch(err){
     console.warn('Market prices failed:', redactSensitiveUrl(err?.message||err));
   }finally{
@@ -3274,14 +3394,14 @@ function buildMarketRows(prices, listing, coin){
     const row={key, name:source.name, delayed:Boolean(source.coingeckoExchange),
       isReference:key==='binance' && reference?.label==='Binance 현물'};
     const q=prices?.quotes?.[key];
-    if(!q?.ok){ rows.push({...row, failed:true, volumeUsd:null}); continue; }
+    if(!q?.ok){ rows.push({...row, failed:!q?.pending, pending:Boolean(q?.pending), volumeUsd:null}); continue; }
     const toUsd=q.quote==='KRW' ? (usdtKrw ? 1/usdtKrw : null) : 1;
     const priceUsd=toUsd ? q.price*toUsd : null;
     const volumeUsd=toUsd && Number.isFinite(q.quoteVolume) ? q.quoteVolume*toUsd : null;
     const abnormal=isCoinGeckoStaleMarket(tickers,key);
     const gapPct=reference && priceUsd && !row.isReference && !abnormal ? (priceUsd/reference.price-1)*100 : null;
     const unconfirmed=gapPct!==null && Math.abs(gapPct)>MARKET_UNCONFIRMED_GAP_PCT && !findCoinGeckoSpotTicker(tickers,key);
-    rows.push({...row, price:q.price, quote:q.quote, priceUsd, gapPct, volumeUsd, unconfirmed, abnormal,
+    rows.push({...row, price:q.price, quote:q.quote, storedAt:q.storedAt||0, priceUsd, gapPct, volumeUsd, unconfirmed, abnormal,
       lowVolume:volumeUsd!==null && volumeUsd<MARKET_LOW_VOLUME_USD});
   }
   rows.sort((a,b)=>(Number(b.isReference)-Number(a.isReference)) || ((b.volumeUsd ?? -1)-(a.volumeUsd ?? -1)));
@@ -3455,13 +3575,17 @@ function exchangePriceCellHtml(row, ready){
   if(row.spot!=='listed') return '<span class="xt-muted">현물 없음</span>';
   if(!ready) return '<span class="xt-muted">불러오는 중</span>';
   const p=row.price;
+  if(p?.pending) return '<span class="xt-muted" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
   if(!p || p.failed) return '<span class="xt-muted">조회 실패</span>';
-  return formatMarketPrice(p.price,p.quote)+(p.quote==='KRW' && p.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
+  const value=formatMarketPrice(p.price,p.quote)+(p.quote==='KRW' && p.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
+  if(!p.storedAt) return value;
+  const seconds=Math.max(0, Math.round((Date.now()-p.storedAt)/1000));
+  return `<span title="업비트 요청 제한으로 ${seconds}초 전에 받은 값입니다">${value}</span>`;
 }
 
 function exchangeGapCellHtml(row){
   const p=row.price;
-  if(!p || p.failed) return '<span class="xt-muted">-</span>';
+  if(!p || p.failed || p.pending) return '<span class="xt-muted">-</span>';
   if(p.isReference) return '<span class="xt-muted">기준</span>';
   if(p.abnormal || p.gapPct===null) return '<span class="xt-muted">-</span>';
   return `<span class="${pctClass(p.gapPct)}">${pctStr(p.gapPct)}</span>`;
@@ -3529,13 +3653,13 @@ function renderExchangeTable(){
       <td class="${listed?'':'xt-muted'}">${escapeHtml(row.ex.name)}${tags}</td>
       <td class="num">${exchangePriceCellHtml(row, ready)}</td>
       <td class="num">${exchangeGapCellHtml(row)}</td>
-      <td class="num">${p && !p.failed && p.volumeUsd!==null ? formatUsd(p.volumeUsd) : '<span class="xt-muted">-</span>'}</td>
+      <td class="num">${p && !p.failed && !p.pending && p.volumeUsd!==null ? formatUsd(p.volumeUsd) : '<span class="xt-muted">-</span>'}</td>
       <td class="num">${exchangeOiCellHtml(row.ex, row.futures)}</td>
       <td>${walletCellHtml(row.key, wallet, row.walletItems)}</td></tr>`;
   }).join('') || '<tr><td colspan="6" class="xt-muted">상장된 거래소가 없습니다</td></tr>';
   const foot=[
     unlisted.length ? `<span>미상장: ${unlisted.map(escapeHtml).join(' · ')}</span>` : '',
-    '<span>김프는 업비트 USDT 원화 가격 기준 · KuCoin·MEXC는 CoinGecko 값(지연) · 거래량 $10K 미만 흐림</span>',
+    '<span>김프는 USDT 원화 가격(업비트, 없으면 빗썸) 기준 · KuCoin·MEXC는 CoinGecko 값(지연) · 거래량 $10K 미만 흐림</span>',
     CONFIG.WALLET_FEED_ENABLED && symbol ? `<span>입출금은 theddari 채널의 바뀐 기록 기준(가능 보장 아님) · <a class="wallet-link" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer">${escapeHtml(symbol)} 글 모아보기 ↗</a> · <button class="xt-link-btn" onclick="reloadWalletStatus()">다시 조회</button></span>` : ''
   ].join('');
   el.innerHTML=`<div class="xt-head">${head}</div>
