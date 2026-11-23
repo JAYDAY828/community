@@ -665,7 +665,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.0';
+const APP_VERSION = 'Tracker v1.2.1';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -680,9 +680,9 @@ const CONFIG = {
   MORALIS_API: 'https://deep-index.moralis.io/api/v2.2',
   MORALIS_SOLANA_API: 'https://solana-gateway.moralis.io',
   GNEWS_API: 'https://gnews.io/api/v4',
-  EXCHANGE_PROXY: 'https://tracker-exchange-proxy.jayday.workers.dev',
   BINANCE_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/binance_futures?include_tickers=unexpired',
   KUCOIN_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/kumex?include_tickers=unexpired',
+  MEXC_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/mxc_futures?include_tickers=unexpired',
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
     'binance-smart-chain':{ name:'BscScan',      chainId:56,    moralisChain:'bsc',     url:'https://bscscan.com',                v2Free:false },
@@ -787,7 +787,7 @@ const state = {
   exchangeOiDelta: {},
   binanceFallback: { loadedAt:0, tickers:[] },
   kucoinFallback: { loadedAt:0, tickers:[] },
-  kucoinSpotFallback: { loadedAt:0, symbols:[] },
+  mexcFallback: { loadedAt:0, tickers:[] },
   coinPaprikaMarkets: {},
   sessions: [],
   sessionWindow: 900,
@@ -795,6 +795,7 @@ const state = {
   alertPanelOpen: false,
   funderGroups: {},
   exchangeRequestId: 0,
+  exchangeRefreshPending: false,
   forceCatchUp: false,
   lastFocusCatchUpAt: 0,
   refreshTimer: null,
@@ -1087,7 +1088,7 @@ async function fetchGNewsSearch(query, options={}){
   url.searchParams.set('apikey', state.gnewsKey);
   if(options.from) url.searchParams.set('from', options.from);
   try{
-    const data=await fetchExternalJson(url.toString(), 'GNews');
+    const data=await fetchDirectJson(url.toString());
     return Array.isArray(data?.articles) ? data.articles : [];
   }catch(err){
     if(isRateLimitError(err)){
@@ -2561,58 +2562,57 @@ function renderExchangeIntel(intelMap){
         </div>`;
       }).join('')}
     </div>
-    <div class="market-note">* 거래소 공개 API 기준으로 선물 OI를 표시합니다. 거래소마다 계약 단위가 달라 가능한 경우 USDT 환산치로 정규화했고, 하단에는 계약 단위만 남겼습니다.</div>`;
+    <div class="market-note">* 거래소 공개 API 기준으로 선물 OI를 표시합니다. 거래소마다 계약 단위가 달라 가능한 경우 USDT 환산치로 정규화했고, 하단에는 계약 단위만 남겼습니다. KuCoin·MEXC는 CoinGecko 집계값이라 몇 분 늦을 수 있습니다.</div>`;
 
   const warn=document.getElementById('warningBanner');
   const hasTier1Spot = intelMap.binance?.spot || intelMap.upbit?.spot || intelMap.bithumb?.spot;
   warn.classList.toggle('active', !hasTier1Spot);
 }
 
-function getExchangeProxyUrl(targetUrl){
-  const base=(CONFIG.EXCHANGE_PROXY||'').replace(/\/+$/,'');
-  return base ? `${base}/proxy?url=${encodeURIComponent(targetUrl)}` : targetUrl;
-}
-
-async function fetchExternalJson(targetUrl, label='External'){
-  const candidates=[];
-  if(CONFIG.EXCHANGE_PROXY) candidates.push(getExchangeProxyUrl(targetUrl));
-  candidates.push(targetUrl);
-  let lastError=null;
-  let proxyHostError=null;
-
-  for(const candidate of candidates){
-    try{
-      const r=await fetch(candidate, { cache:'no-store' });
-      if(!r.ok){
-        const text=await r.text().catch(()=>'');
-        throw new Error(`${candidate} status ${r.status}${text ? ` :: ${text.slice(0, 120)}` : ''}`);
-      }
-      return await r.json();
-    }catch(err){
-      lastError=err;
-      if(String(err?.message || '').includes('Host not allowed')) proxyHostError=err;
-      console.warn(`${label} fetch failed:`, redactSensitiveUrl(candidate), redactSensitiveUrl(err?.message || err));
-    }
+// Tracker uses no proxy: exchange, GNews and CoinGecko calls go straight from the
+// visitor's browser, so nobody's lookups count against a shared Cloudflare quota.
+// Only APIs that allow browser calls are used (KuCoin and MEXC do not, so they come
+// from CoinGecko). Errors name the URL with API keys redacted.
+// No Referer is sent: Binance answers 403 without CORS headers when a site's address is attached.
+async function fetchDirectJson(targetUrl){
+  const r=await fetch(targetUrl,{cache:'no-store',referrerPolicy:'no-referrer'});
+  if(!r.ok){
+    const text=await r.text().catch(()=>'');
+    throw new Error(`${redactSensitiveUrl(targetUrl)} status ${r.status}${text ? ` :: ${text.slice(0, 120)}` : ''}`);
   }
-  if(lastError && String(lastError.message||'').includes(' status ')) throw lastError;
-  throw proxyHostError || lastError || new Error(`${label} fetch failed`);
+  return r.json();
 }
 
-async function fetchExchangeJson(targetUrl){
-  return fetchExternalJson(targetUrl, 'Exchange');
-}
-
-async function getBinanceFallbackTickers(){
-  const cached=state.binanceFallback||{};
+// CoinGecko futures lists are per exchange, so one copy serves every coin for five minutes.
+async function getCoinGeckoFuturesTickers(stateKey, url, label){
+  const cached=state[stateKey]||{};
   if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
     return cached.tickers;
   }
-  const response=await fetch(CONFIG.BINANCE_FUTURES_FALLBACK,{cache:'no-store'});
-  if(!response.ok) throw new Error(`CoinGecko Binance Futures status ${response.status}`);
-  const data=await response.json();
-  const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
-  state.binanceFallback={loadedAt:Date.now(),tickers};
-  return tickers;
+  if(cached.pending) return cached.pending;
+  const pending=(async()=>{
+    const response=await fetch(url,{cache:'no-store'});
+    if(!response.ok) throw new Error(`CoinGecko ${label} status ${response.status}`);
+    const data=await response.json();
+    const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
+    state[stateKey]={loadedAt:Date.now(),tickers};
+    return tickers;
+  })();
+  state[stateKey]={...cached,pending};
+  try{
+    return await pending;
+  }catch(err){
+    if(state[stateKey]?.pending===pending) state[stateKey]={...cached,pending:null};
+    throw err;
+  }
+}
+
+function coinGeckoOiSource(ticker){
+  return `CoinGecko · ${ticker?.symbol||'-'} · 수 분 지연`;
+}
+
+async function getBinanceFallbackTickers(){
+  return getCoinGeckoFuturesTickers('binanceFallback', CONFIG.BINANCE_FUTURES_FALLBACK, 'Binance Futures');
 }
 
 function findBinanceFallbackTicker(tickers, symbolUpper){
@@ -2634,16 +2634,7 @@ async function fetchBinanceFallback(symbolUpper){
 }
 
 async function getKuCoinFallbackTickers(){
-  const cached=state.kucoinFallback||{};
-  if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
-    return cached.tickers;
-  }
-  const response=await fetch(CONFIG.KUCOIN_FUTURES_FALLBACK,{cache:'no-store'});
-  if(!response.ok) throw new Error(`CoinGecko KuCoin Futures status ${response.status}`);
-  const data=await response.json();
-  const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
-  state.kucoinFallback={loadedAt:Date.now(),tickers};
-  return tickers;
+  return getCoinGeckoFuturesTickers('kucoinFallback', CONFIG.KUCOIN_FUTURES_FALLBACK, 'KuCoin Futures');
 }
 
 function findKuCoinFallbackTicker(tickers, symbolUpper){
@@ -2666,30 +2657,37 @@ async function fetchKuCoinFallback(symbolUpper){
   return findKuCoinFallbackTicker(tickers,symbolUpper);
 }
 
-async function getKuCoinSpotFallbackSymbols(){
-  const cached=state.kucoinSpotFallback||{};
-  if(cached.symbols?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
-    return cached.symbols;
-  }
-  const data=await fetchExchangeJson('https://api.kucoin.com/api/v2/symbols');
-  const symbols=Array.isArray(data?.data) ? data.data : [];
-  state.kucoinSpotFallback={loadedAt:Date.now(),symbols};
-  return symbols;
+async function getMexcFallbackTickers(){
+  return getCoinGeckoFuturesTickers('mexcFallback', CONFIG.MEXC_FUTURES_FALLBACK, 'MEXC Futures');
 }
 
+// A contract only counts when CoinGecko ties it to this coin, so a same-ticker
+// contract of a different coin is never shown as this coin's MEXC market.
+function findMexcFallbackTicker(tickers, symbolUpper){
+  const coinId=state.currentCoin?.id||'';
+  const expected=`${symbolUpper}_USDT`;
+  const candidates=(tickers||[]).filter(item=>
+    item?.contract_type==='perpetual' &&
+    item?.target==='USDT' &&
+    (coinId && item.coin_id ? item.coin_id===coinId : item.base===symbolUpper)
+  );
+  return candidates.find(item=>item.symbol===expected) || candidates[0] || null;
+}
+
+async function fetchMexcFallback(symbolUpper){
+  const tickers=await getMexcFallbackTickers();
+  return findMexcFallbackTicker(tickers,symbolUpper);
+}
+
+// KuCoin's own API refuses browser calls, so spot listing comes from CoinGecko's
+// KuCoin tickers for this coin, and from CoinPaprika only when CoinGecko fails.
 async function fetchKuCoinSpotFallback(symbolUpper){
-  const expected=getKuCoinSpotSymbol(symbolUpper);
-  if(!expected) return null;
+  if(!symbolUpper) return null;
   try{
-    const symbols=await getKuCoinSpotFallbackSymbols();
-    const match=symbols.find(item=>
-      item?.symbol===expected &&
-      item?.quoteCurrency==='USDT' &&
-      item?.enableTrading!==false
-    );
-    if(match) return match;
+    const ticker=await fetchCoinGeckoSpotTicker('kucoin', symbolUpper);
+    return ticker ? {symbol:getKuCoinSpotSymbol(symbolUpper),source:'coingecko'} : null;
   }catch(err){
-    console.warn('KuCoin symbol-list fallback failed:', redactSensitiveUrl(err?.message||err));
+    console.warn('CoinGecko KuCoin spot fallback failed:', redactSensitiveUrl(err?.message||err));
   }
   return fetchKuCoinSpotFromCoinPaprika(symbolUpper);
 }
@@ -2728,17 +2726,21 @@ async function fetchKuCoinSpotFromCoinPaprika(symbolUpper){
   return market ? {symbol:getKuCoinSpotSymbol(symbolUpper),source:'coinpaprika'} : null;
 }
 
-async function fetchBinanceSpotFallback(symbolUpper){
+async function fetchCoinGeckoSpotTicker(exchangeId, symbolUpper){
   const coinId=state.currentCoin?.id;
   if(!coinId) return null;
-  const response=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}/tickers?exchange_ids=binance&page=1`,{cache:'no-store'});
-  if(!response.ok) throw new Error(`CoinGecko Binance Spot status ${response.status}`);
+  const response=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}/tickers?exchange_ids=${encodeURIComponent(exchangeId)}&page=1`,{cache:'no-store'});
+  if(!response.ok) throw new Error(`CoinGecko ${exchangeId} spot status ${response.status}`);
   const data=await response.json();
   return (data?.tickers||[]).find(item=>
-    item?.market?.identifier==='binance' &&
+    item?.market?.identifier===exchangeId &&
     String(item.base||'').toUpperCase()===symbolUpper &&
     !item.is_stale
   ) || null;
+}
+
+async function fetchBinanceSpotFallback(symbolUpper){
+  return fetchCoinGeckoSpotTicker('binance', symbolUpper);
 }
 
 async function fetchExchangeOi(exchangeKey, ex){
@@ -2746,7 +2748,7 @@ async function fetchExchangeOi(exchangeKey, ex){
   switch(exchangeKey){
     case 'binance': {
       try{
-        const d=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
+        const d=await fetchDirectJson(`https://fapi.binance.com/fapi/v1/openInterest?symbol=${ex.futuresSymbol}`);
         const raw=parseFloat(d.openInterest||'0');
         return {
           oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
@@ -2760,12 +2762,12 @@ async function fetchExchangeOi(exchangeKey, ex){
         ex.baseSymbol=fallback.base||ex.baseSymbol;
         return {
           oiUsd:Number(fallback.open_interest_usd),
-          rawOiText:`CoinGecko · ${fallback.symbol}`
+          rawOiText:coinGeckoOiSource(fallback)
         };
       }
     }
     case 'bybit': {
-      const d=await fetchExchangeJson(`https://api.bybit.com/v5/market/open-interest?category=linear&symbol=${ex.futuresSymbol}&intervalTime=5min`);
+      const d=await fetchDirectJson(`https://api.bybit.com/v5/market/open-interest?category=linear&symbol=${ex.futuresSymbol}&intervalTime=5min`);
       const raw=parseFloat(d.result?.list?.[0]?.openInterest||'0');
       return {
         oiUsd: raw * price * symbolUnitMultiplier(ex.baseSymbol),
@@ -2773,7 +2775,7 @@ async function fetchExchangeOi(exchangeKey, ex){
       };
     }
     case 'okx': {
-      const d=await fetchExchangeJson(`https://www.okx.com/api/v5/public/open-interest?instId=${ex.futuresSymbol}`);
+      const d=await fetchDirectJson(`https://www.okx.com/api/v5/public/open-interest?instId=${ex.futuresSymbol}`);
       const item=d.data?.[0]||{};
       return {
         oiUsd: parseFloat(item.oiUsd||'0'),
@@ -2782,8 +2784,8 @@ async function fetchExchangeOi(exchangeKey, ex){
     }
     case 'bitget': {
       const [oiResp, contractResp]=await Promise.all([
-        fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/open-interest?symbol=${ex.futuresSymbol}&productType=USDT-FUTURES`),
-        fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${ex.futuresSymbol}`)
+        fetchDirectJson(`https://api.bitget.com/api/v2/mix/market/open-interest?symbol=${ex.futuresSymbol}&productType=USDT-FUTURES`),
+        fetchDirectJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${ex.futuresSymbol}`)
       ]);
       const oiData=oiResp;
       const contractData=contractResp;
@@ -2794,7 +2796,7 @@ async function fetchExchangeOi(exchangeKey, ex){
       };
     }
     case 'gate': {
-      const d=await fetchExchangeJson(`https://api.gateio.ws/api/v4/futures/usdt/tickers?contract=${ex.futuresSymbol}`);
+      const d=await fetchDirectJson(`https://api.gateio.ws/api/v4/futures/usdt/tickers?contract=${ex.futuresSymbol}`);
       const item=d?.[0]||{};
       const raw=parseFloat(item.total_size||'0');
       const multiplier=parseFloat(item.quanto_multiplier||'1');
@@ -2804,46 +2806,19 @@ async function fetchExchangeOi(exchangeKey, ex){
         rawOiText: `${compactNum(raw)} contracts`
       };
     }
-    case 'mexc': {
-      const [tickerResp, detailResp]=await Promise.all([
-        fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/ticker?symbol=${ex.futuresSymbol}`),
-        fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${ex.futuresSymbol}`)
-      ]);
-      const tickerData=tickerResp;
-      const detailData=detailResp;
-      const raw=parseFloat(tickerData.data?.holdVol||'0');
-      const multiplier=parseFloat(detailData.data?.contractSize||'1');
-      const markPrice=parseFloat(tickerData.data?.lastPrice||price||'0');
-      const baseAmount=raw * multiplier;
-      return {
-        oiUsd: baseAmount * markPrice,
-        rawOiText: `${compactNum(baseAmount)} ${detailData.data?.baseCoin || ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
-      };
-    }
+    case 'mexc':
     case 'kucoin': {
-      try{
-        const d=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${ex.futuresSymbol}`);
-        const item=d.data||{};
-        const rawContracts=parseFloat(item.openInterest||'0');
-        const multiplier=parseFloat(item.multiplier||'1');
-        const markPrice=parseFloat(item.markPrice||price||'0');
-        const baseAmount=rawContracts * multiplier;
-        return {
-          oiUsd: baseAmount * markPrice,
-          rawOiText: `${compactNum(baseAmount)} ${ex.displaySymbol || ex.baseSymbol || state.currentCoin?.symbol?.toUpperCase() || ''}`
-        };
-      }catch(primaryError){
-        const symbolUpper=state.currentCoin?.symbol?.toUpperCase()||ex.displaySymbol||'';
-        const fallback=ex.fallbackTicker || await fetchKuCoinFallback(symbolUpper);
-        if(!fallback || !Number.isFinite(Number(fallback.open_interest_usd))) throw primaryError;
-        ex.fallbackTicker=fallback;
-        ex.futuresSymbol=fallback.symbol||ex.futuresSymbol;
-        ex.baseSymbol=fallback.base||ex.baseSymbol;
-        return {
-          oiUsd:Number(fallback.open_interest_usd),
-          rawOiText:`CoinGecko · ${fallback.symbol}`
-        };
-      }
+      // Neither exchange allows browser calls, so their OI is CoinGecko's figure.
+      const symbolUpper=state.currentCoin?.symbol?.toUpperCase()||ex.displaySymbol||'';
+      const fallback=ex.fallbackTicker || await (exchangeKey==='mexc' ? fetchMexcFallback(symbolUpper) : fetchKuCoinFallback(symbolUpper));
+      if(!fallback || !Number.isFinite(Number(fallback.open_interest_usd))) throw new Error(`${ex.name} OI is not on CoinGecko`);
+      ex.fallbackTicker=fallback;
+      ex.futuresSymbol=fallback.symbol||ex.futuresSymbol;
+      ex.baseSymbol=fallback.base||ex.baseSymbol;
+      return {
+        oiUsd:Number(fallback.open_interest_usd),
+        rawOiText:coinGeckoOiSource(fallback)
+      };
     }
     default:
       return { oiUsd: null, rawOiText: '지원 준비 중' };
@@ -2852,6 +2827,7 @@ async function fetchExchangeOi(exchangeKey, ex){
 
 async function checkExchangeListings(tickers, sysSymbol){
   const requestId=++state.exchangeRequestId;
+  state.exchangeRefreshPending=false;
   const symbolUpper=(sysSymbol||'').toUpperCase();
   const kucoinSpotSymbol=getKuCoinSpotSymbol(symbolUpper);
   const kucoinBaseSymbol=getKuCoinBaseSymbol(symbolUpper);
@@ -2901,7 +2877,7 @@ async function checkExchangeListings(tickers, sysSymbol){
     }
     if(!intel.binance.futures){
       try{
-        const direct=await fetchExchangeJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`);
+        const direct=await fetchDirectJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${intel.binance.futuresSymbol}`);
         intel.binance.futures=Boolean(direct?.price);
       }catch(err){
         try{
@@ -2919,52 +2895,44 @@ async function checkExchangeListings(tickers, sysSymbol){
       if(intel.binance.futuresStatus!=='error') intel.binance.futuresStatus=intel.binance.futures?'listed':'unlisted';
     }
   })());
-  if(!intel.okx.futures) addListingCheck(intel.okx,'futures',()=>fetchExchangeJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`),d=>d.data?.length);
-  if(!intel.bybit.futures) addListingCheck(intel.bybit,'futures',()=>fetchExchangeJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`),d=>d.result?.list?.length);
-  if(!intel.bitget.futures) addListingCheck(intel.bitget,'futures',()=>fetchExchangeJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`),d=>d.code==='00000'&&d.data?.length);
+  if(!intel.okx.futures) addListingCheck(intel.okx,'futures',()=>fetchDirectJson(`https://www.okx.com/api/v5/market/ticker?instId=${intel.okx.futuresSymbol}`),d=>d.data?.length);
+  if(!intel.bybit.futures) addListingCheck(intel.bybit,'futures',()=>fetchDirectJson(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${intel.bybit.futuresSymbol}`),d=>d.result?.list?.length);
+  if(!intel.bitget.futures) addListingCheck(intel.bitget,'futures',()=>fetchDirectJson(`https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${intel.bitget.futuresSymbol}`),d=>d.code==='00000'&&d.data?.length);
   if(!intel.kucoin.spot){
     intel.kucoin.spotStatus='checking';
     checks.push((async()=>{
       try{
-        const direct=await fetchExchangeJson(`https://api.kucoin.com/api/v2/symbols/${intel.kucoin.spotSymbol}`);
-        intel.kucoin.spot=Boolean(direct.code==='200000'&&direct.data?.symbol);
+        const fallback=await fetchKuCoinSpotFallback(symbolUpper);
+        intel.kucoin.spot=Boolean(fallback);
+        if(fallback) intel.kucoin.spotSymbol=fallback.symbol||intel.kucoin.spotSymbol;
+        intel.kucoin.spotStatus=intel.kucoin.spot?'listed':'unlisted';
       }catch(err){
-        try{
-          const fallback=await fetchKuCoinSpotFallback(symbolUpper);
-          intel.kucoin.spot=Boolean(fallback);
-          if(fallback) intel.kucoin.spotSymbol=fallback.symbol||intel.kucoin.spotSymbol;
-        }catch(fallbackError){
-          intel.kucoin.spotStatus='error';
-        }
+        intel.kucoin.spotStatus='error';
       }
-      if(intel.kucoin.spotStatus!=='error') intel.kucoin.spotStatus=intel.kucoin.spot?'listed':'unlisted';
     })());
   }
-  if(!intel.kucoin.futures){
-    intel.kucoin.futuresStatus='checking';
+  // KuCoin and MEXC futures come from CoinGecko's per-exchange futures lists.
+  const addCoinGeckoFuturesCheck=(ex,lookup)=>{
+    ex.futuresStatus='checking';
     checks.push((async()=>{
       try{
-        const direct=await fetchExchangeJson(`https://api-futures.kucoin.com/api/v1/contracts/${intel.kucoin.futuresSymbol}`);
-        intel.kucoin.futures=Boolean(direct.code==='200000'&&direct.data?.symbol);
-      }catch(err){
-        try{
-          const fallback=await fetchKuCoinFallback(symbolUpper);
-          if(fallback){
-            intel.kucoin.fallbackTicker=fallback;
-            intel.kucoin.futuresSymbol=fallback.symbol||intel.kucoin.futuresSymbol;
-            intel.kucoin.baseSymbol=fallback.base||intel.kucoin.baseSymbol;
-            intel.kucoin.futures=true;
-          }
-        }catch(fallbackError){
-          intel.kucoin.futuresStatus='error';
+        const fallback=await lookup(symbolUpper);
+        if(fallback){
+          ex.fallbackTicker=fallback;
+          ex.futuresSymbol=fallback.symbol||ex.futuresSymbol;
+          ex.baseSymbol=fallback.base||ex.baseSymbol;
+          ex.futures=true;
         }
+        ex.futuresStatus=ex.futures?'listed':'unlisted';
+      }catch(err){
+        ex.futuresStatus='error';
       }
-      if(intel.kucoin.futuresStatus!=='error') intel.kucoin.futuresStatus=intel.kucoin.futures?'listed':'unlisted';
     })());
-  }
-  if(!intel.mexc.futures) addListingCheck(intel.mexc,'futures',()=>fetchExchangeJson(`https://contract.mexc.com/api/v1/contract/detail?symbol=${intel.mexc.futuresSymbol}`),d=>d.success&&d.data?.symbol);
-  if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchExchangeJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
-  if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchExchangeJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`)));
+  };
+  if(!intel.kucoin.futures) addCoinGeckoFuturesCheck(intel.kucoin,fetchKuCoinFallback);
+  if(!intel.mexc.futures) addCoinGeckoFuturesCheck(intel.mexc,fetchMexcFallback);
+  if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchDirectJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
+  if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchDirectJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`)));
   renderExchangeIntel(intel);
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
@@ -3257,10 +3225,8 @@ async function loadNewsFeed(isSilent=false, options={}){
     const message=String(err?.message || 'Unknown error');
     if(isRateLimitError(err)){
       state.newsStatusMessage=`GNews 요청 한도에 걸렸습니다. 뉴스 자동 조회는 ${formatCooldownUntil(state.newsCooldownUntil)}까지 쉬고, 전송/DEX 자동 추적은 계속합니다.`;
-    }else if(message.includes('Host not allowed: gnews.io')){
-      state.newsStatusMessage='뉴스를 불러오지 못했습니다. Cloudflare Worker 허용 호스트에 gnews.io 추가가 필요합니다.';
     }else if(message.includes('Failed to fetch')){
-      state.newsStatusMessage='뉴스를 불러오지 못했습니다. 현재 호스팅 환경에서 GNews 직접 호출이 차단될 수 있어 Worker 경유가 필요합니다.';
+      state.newsStatusMessage='뉴스를 불러오지 못했습니다. 네트워크 연결이나 광고 차단 같은 브라우저 확장 프로그램이 GNews 요청을 막고 있을 수 있습니다.';
     }else{
       state.newsStatusMessage=`뉴스를 불러오지 못했습니다: ${redactSensitiveUrl(message)}`;
     }
@@ -4987,12 +4953,25 @@ function togglePause(){
 async function refreshData(reason='manual'){
   if(!state.currentCoin) return;
   if(state.loading || state.refreshing) return;
+  // A hidden tab leaves exchange lookups until it is shown again; the full view
+  // still refreshes DEX and transfers so its transfer observation stays continuous.
+  const deferExchange=document.hidden && reason!=='manual';
+  if(deferExchange && trackerCompact){
+    state.exchangeRefreshPending=true;
+    if(state.refreshInterval && !state.paused){
+      scheduleNextRefresh();
+      updateRefreshCountdownDisplay();
+    }
+    return;
+  }
   state.refreshing=true;
   const wasCatchUp=state.forceCatchUp;
   if(reason==='missed_timer') state.forceCatchUp=true;
   toast(reason==='missed_timer' ? '🔄 놓친 자동 새로고침 보정 중...' : '🔄 데이터 새로고침 중...','info');
   try{
-    const tasks=[checkExchangeListings(state.currentCoin?.tickers||[],state.currentCoin?.symbol||'')];
+    const tasks=[];
+    if(deferExchange) state.exchangeRefreshPending=true;
+    else tasks.push(checkExchangeListings(state.currentCoin?.tickers||[],state.currentCoin?.symbol||''));
     if(!trackerCompact){tasks.push(loadDexData(true),loadTransfers(true));if(reason==='manual')tasks.push(loadNewsFeed(true));}
     await Promise.allSettled(tasks);
     toast('✅ 새로고침 완료!','success');
@@ -5018,7 +4997,16 @@ async function catchUpAfterFocus(reason='focus'){
   await refreshData('missed_timer');
 }
 
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden) catchUpAfterFocus('visible'); });
+function resumeDeferredExchangeRefresh(){
+  if(document.hidden || !state.exchangeRefreshPending || !state.currentCoin || state.loading) return;
+  checkExchangeListings(state.currentCoin?.tickers||[], state.currentCoin?.symbol||'');
+}
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden) return;
+  resumeDeferredExchangeRefresh();
+  catchUpAfterFocus('visible');
+});
 window.addEventListener('focus',()=>catchUpAfterFocus('focus'));
 
 // ==================== SETTINGS ====================
