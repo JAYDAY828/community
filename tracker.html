@@ -109,7 +109,6 @@ body{font-family:var(--font);background:radial-gradient(ellipse at 72% 0%,rgba(1
 .xt-table tbody tr:hover{background:rgba(255,255,255,.025)}
 .xt-table .num{text-align:right}
 .xt-num{font-family:var(--mono);font-weight:500;letter-spacing:-.2px;color:var(--text)}
-.xt-conv{margin-left:6px;font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
 .xt-ex{font-weight:600;color:var(--text)}
 .xt-none,.xt-ex.xt-none{color:var(--text-dim);font-weight:400;font-size:.78rem}
 .xt-gap{display:inline-block;min-width:70px;padding:3px 8px;border-radius:6px;font:600 .78rem var(--mono);text-align:right}
@@ -3730,12 +3729,12 @@ function exchangePriceCellHtml(row, ready){
   const p=row.price;
   if(p?.pending) return '<span class="xt-none" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
   if(!p || p.failed) return '<span class="xt-none">조회 실패</span>';
-  // The dollar value of a won price sits on the same line, so every row keeps one height.
-  const usd=p.quote==='KRW' && p.priceUsd ? (p.priceUsd>=1000 ? '$'+Math.round(p.priceUsd).toLocaleString('en-US') : formatMarketPrice(p.priceUsd,'USDT')) : '';
-  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`+(usd ? `<span class="xt-conv">≈ ${usd}</span>` : '');
-  if(!p.storedAt) return value;
-  const seconds=Math.max(0, Math.round((Date.now()-p.storedAt)/1000));
-  return `<span title="업비트 요청 제한으로 ${seconds}초 전에 받은 값입니다">${value}</span>`;
+  // A won price is shown as is; its dollar value (what the gap columns use) is in the tooltip.
+  const notes=[];
+  if(p.quote==='KRW' && p.priceUsd) notes.push(`≈ ${formatMarketPrice(p.priceUsd,'USDT')} (USDT 원화 가격으로 환산)`);
+  if(p.storedAt) notes.push(`업비트 요청 제한으로 ${Math.max(0, Math.round((Date.now()-p.storedAt)/1000))}초 전에 받은 값입니다`);
+  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`;
+  return notes.length ? `<span title="${escapeHtml(notes.join('\n'))}">${value}</span>` : value;
 }
 
 // Green above, red below, grey when it shows as 0.00% (under half a basis point either way).
@@ -3822,10 +3821,13 @@ function renderExchangeTable(){
     rows.push({key, ex, spot, futures, price, futPrice, futMismatch, basis, spotUrl, futuresUrl,
       futIsReference:key==='binance' && ref?.label==='Binance 선물' && Boolean(futPrice),
       walletItems, walletEmpty,
-      rank:price?.isReference ? 0 : spot==='listed' ? 1 : futures==='listed' ? 2 : 3,
+      // Reference first, then Upbit and Bithumb together (the kimchi premium pair), then other
+      // spot markets by volume, then futures-only exchanges by OI.
+      rank:price?.isReference ? 0 : spot==='listed' && (key==='upbit' || key==='bithumb') ? 1 : spot==='listed' ? 2 : futures==='listed' ? 3 : 4,
+      krOrder:key==='upbit' ? 0 : 1,
       volume:price?.volumeUsd ?? -1, oi:Number.isFinite(ex.oiUsd) ? ex.oiUsd : -1});
   }
-  rows.sort((a,b)=>(a.rank-b.rank) || (b.volume-a.volume) || (b.oi-a.oi));
+  rows.sort((a,b)=>(a.rank-b.rank) || (a.rank===1 ? a.krOrder-b.krOrder : 0) || (b.volume-a.volume) || (b.oi-a.oi));
 
   const ready=Boolean(prices && listing);
   const stats=[
