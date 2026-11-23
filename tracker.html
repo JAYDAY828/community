@@ -12,32 +12,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+/* Colors follow the app web (Order Toolkit / Detector workspace): achromatic black, gold accent. */
 :root{
-  --bg-primary:#07090b;--bg-secondary:#101318;--bg-card:rgba(18,20,28,0.78);
+  color-scheme:dark;
+  --bg-primary:#0b0b0b;--bg-secondary:#141414;--bg-card:#111;
+  --panel-fill:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,0)),#111;
+  --panel-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
   --border:rgba(255,255,255,0.08);--border-hover:rgba(252,213,53,0.32);
-  --text:#eaecef;--text-muted:#929aa8;--text-dim:#5e6673;
-  --primary:#fcd535;--primary-glow:rgba(252,213,53,0.18);
-  --accent:#fcd535;--accent-glow:rgba(252,213,53,0.14);
-  --success:#10b981;--warning:#f59e0b;--danger:#ef4444;
+  --text:#eaecef;--text-muted:#a3a3a3;--text-dim:#6b6b6b;
+  --primary:#fcd535;--primary-glow:rgba(252,213,53,0.14);
+  --accent:#fcd535;--accent-glow:rgba(252,213,53,0.12);
+  --success:#0ecb81;--warning:#f59e0b;--danger:#f6465d;
   --whale:#8b5cf6;--exchange:#3b82f6;
   --radius:12px;--radius-sm:8px;--radius-xs:6px;
-  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  --font:'Inter','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;--mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
 }
 html{font-size:14px}
-body{font-family:var(--font);background:var(--bg-primary);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 18% 0%,rgba(252,213,53,0.075) 0%,transparent 43%),radial-gradient(ellipse at 82% 100%,rgba(252,213,53,0.035) 0%,transparent 46%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:auto,auto,48px 48px,48px 48px;pointer-events:none;z-index:0}
+body{font-family:var(--font);background:radial-gradient(ellipse at 72% 0%,rgba(142,142,142,.045),transparent 58%),var(--bg-primary);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+::selection{background:rgba(252,213,53,.25);color:#fff}
 
 /* Scrollbar */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--primary)}
 
 /* Layout */
 .app{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:24px 24px 88px}
 
 /* Header */
-.header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(255,255,255,.07);border-top-color:rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08);border-top-color:rgba(255,255,255,.17);border-radius:16px;background:var(--panel-fill);box-shadow:var(--panel-shadow)}
 .logo{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;cursor:pointer}
 .logo-icon{width:48px;height:48px;display:block;object-fit:contain;flex-shrink:0}
 .logo-text h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.3px}
@@ -45,16 +49,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .logo-text .logo-subtitle{display:block;font-size:.75rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase}
 .logo-text .version-line{display:block;margin-top:4px;font-size:.72rem;color:var(--warning);letter-spacing:.3px;text-transform:none}
 .header-actions{display:flex;gap:8px}
-.btn-icon{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:rgba(8,10,13,.7);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
-.btn-icon:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-glow);transform:translateY(-1px)}
+.btn-icon{width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.14);border-top-color:rgba(255,255,255,.25);border-bottom-color:rgba(255,255,255,.09);background:linear-gradient(165deg,rgba(255,255,255,.15),rgba(255,255,255,.08) 55%,rgba(255,255,255,.11));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 12px -7px rgba(0,0,0,.6);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,color .16s ease}
+.btn-icon:hover{border-color:#6b602f;color:var(--primary);transform:translateY(-1px)}
 
 /* Search */
-.search-section{margin-bottom:24px;position:relative}
+.search-section{margin-bottom:16px;position:relative}
 .search-box{display:flex;gap:8px}
-.search-input{flex:1;padding:14px 18px;border-radius:12px;border:1px solid var(--border);border-top-color:rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(23,25,36,.72),rgba(18,20,28,.84));color:var(--text);font-size:1rem;font-family:var(--font);outline:none;transition:all .2s;backdrop-filter:blur(20px)}
+.search-input{flex:1;padding:12px 16px;border-radius:12px;border:1px solid #363636;border-top-color:#444;background:#191919;color:var(--text);font-size:1rem;font-family:var(--font);outline:none;transition:border-color .2s,box-shadow .2s}
 .search-input::placeholder{color:var(--text-dim)}
 .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
-.btn-search{padding:14px 24px;border-radius:12px;border:1px solid rgba(252,213,53,.4);border-top-color:rgba(255,255,255,.62);background:linear-gradient(135deg,rgba(252,213,53,.86),var(--primary));color:#090a0c;font-weight:800;cursor:pointer;transition:all .2s;font-size:1rem;box-shadow:0 8px 24px rgba(252,213,53,.12)}
+.btn-search{padding:12px 24px;border-radius:12px;border:1px solid rgba(255,231,151,.32);border-top-color:rgba(255,241,191,.52);border-bottom-color:rgba(244,212,113,.18);background:linear-gradient(165deg,rgba(252,221,103,.95),rgba(244,205,70,.9) 55%,rgba(249,214,88,.93));color:#231e11;font-weight:700;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease;font-size:1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 4px 12px -7px rgba(0,0,0,.6)}
 .btn-search:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
 .dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);max-height:300px;overflow-y:auto;display:none;z-index:100;backdrop-filter:blur(20px)}
 .dropdown.active{display:block}
@@ -68,57 +72,52 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* Coin Info Panel */
 .coin-panel{display:none;margin-bottom:20px}
 .coin-panel.active{display:block}
-.coin-header-card{background:linear-gradient(180deg,rgba(23,25,36,.7),rgba(18,20,28,.86));border:1px solid var(--border);border-top-color:rgba(255,255,255,.15);border-radius:16px;padding:24px;backdrop-filter:blur(20px);box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);position:relative;overflow:hidden}
-.coin-header-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary))}
-.coin-top{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
-.coin-logo{width:48px;height:48px;border-radius:50%;border:2px solid var(--border)}
-.coin-title h2{font-size:1.5rem;font-weight:700}
+.coin-header-card{background:var(--panel-fill);border:1px solid rgba(255,255,255,.08);border-top-color:rgba(255,255,255,.17);border-radius:16px;padding:18px 20px;box-shadow:var(--panel-shadow);position:relative;overflow:hidden}
+.coin-top{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.coin-logo{width:40px;height:40px;border-radius:50%;border:2px solid var(--border)}
+.coin-title h2{font-size:1.35rem;font-weight:700}
 .coin-title .symbol{color:var(--accent);font-family:var(--mono);font-weight:600}
 .coin-chain-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(252,213,53,0.12);color:var(--primary);border:1px solid rgba(252,213,53,0.24);text-transform:capitalize}
-.coin-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
-.metric-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:var(--radius-sm);padding:12px 16px}
-.metric-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.metric-value{font-size:1.1rem;font-weight:700;font-family:var(--mono)}
+.coin-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+.metric-card{background:rgba(0,0,0,.25);border:1px solid var(--border);border-top-color:rgba(255,255,255,.12);border-radius:10px;padding:8px 12px}
+.metric-label{font-size:.66rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.metric-value{font-size:1rem;font-weight:650;font-family:var(--mono)}
 .metric-value.positive{color:var(--success)}
 .metric-value.negative{color:var(--danger)}
 .contract-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .contract-addr{font-family:var(--mono);font-size:.85rem;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:6px 12px;border-radius:var(--radius-xs);cursor:pointer;transition:all .15s;border:1px solid transparent}
 .contract-addr:hover{border-color:var(--primary);color:var(--text)}
-.exchange-status{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.exchange-badge{padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px}
-.exchange-badge.listed{background:rgba(16,185,129,0.12);color:var(--success);border:1px solid rgba(16,185,129,0.25)}
-.exchange-badge.not-listed{background:rgba(239,68,68,0.12);color:var(--danger);border:1px solid rgba(239,68,68,0.25)}
-.warning-banner{margin-top:12px;padding:10px 16px;border-radius:var(--radius-sm);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:var(--danger);font-size:.85rem;display:flex;align-items:center;gap:8px;display:none}
+.exchange-status{margin-top:12px}
+.warning-banner{margin-top:12px;padding:10px 16px;border-radius:var(--radius-sm);background:rgba(246,70,93,0.08);border:1px solid rgba(246,70,93,0.2);color:var(--danger);font-size:.85rem;display:flex;align-items:center;gap:8px;display:none}
 .warning-banner.active{display:flex}
-.exchange-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;width:100%}
-.exchange-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);padding:14px;min-height:132px;display:flex;flex-direction:column;gap:10px;transition:all .2s}
-.exchange-card.active{border-color:var(--border-hover);box-shadow:0 0 18px rgba(252,213,53,0.07)}
-.exchange-card.partial{border-color:rgba(59,130,246,0.2)}
-.exchange-card.dim{opacity:.76}
-.exchange-name{font-size:1.05rem;font-weight:700}
-.exchange-flags{display:flex;flex-wrap:wrap;gap:8px;font-size:.76rem}
-.market-flag{display:inline-flex;align-items:center;gap:4px;color:var(--text-dim)}
-.market-flag.good{color:var(--success)}
-.market-flag.bad{color:var(--text-dim)}
-.oi-block{margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:4px}
-.oi-label{font-size:.68rem;letter-spacing:.2px;color:var(--text-dim)}
-.oi-value{font-size:1rem;font-weight:700;font-family:var(--mono);color:#fff}
-.oi-value.muted{color:var(--text-dim)}
-.oi-value.error{color:var(--danger)}
-.oi-sub{font-size:.72rem;color:var(--text-muted);line-height:1.35}
-.market-note{font-size:.75rem;color:var(--text-dim);margin-top:12px;line-height:1.5}
+/* Exchange table: one row per exchange (spot price, gap, volume, futures OI, wallet status). */
+.xt-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:.78rem;color:var(--text-muted);margin-bottom:8px}
+.xt-head b{color:var(--text);font-family:var(--mono);font-weight:600}
+.xt-head .xt-time{margin-left:auto;color:var(--text-dim)}
+.xt-table{min-width:760px;font-size:.84rem}
+.xt-table th,.xt-table td{padding:7px 10px;white-space:nowrap}
+.xt-table th{font-size:.68rem}
+.xt-table .num{text-align:right;font-family:var(--mono)}
+.xt-table .sub{display:block;font-size:.68rem;color:var(--text-dim);margin-top:1px}
+.xt-table tbody tr:hover td{background:rgba(252,213,53,.035)}
+.xt-muted{color:var(--text-dim)}
+.xt-dim-row td{opacity:.5}
+.xt-old{opacity:.6}
+.xt-foot{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;font-size:.72rem;color:var(--text-dim);margin-top:8px;line-height:1.6}
+.xt-link-btn{border:0;background:none;padding:0;font:inherit;color:var(--text-muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.xt-link-btn:hover{color:var(--accent)}
 
 /* Tabs */
-.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:0;overflow-x:auto}
-.tab-btn{padding:10px 20px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-weight:500;font-size:.9rem;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;font-family:var(--font)}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tabs{display:flex;gap:8px;margin-bottom:16px;padding-bottom:2px;overflow-x:auto}
+.tab-btn{padding:9px 16px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--text-muted);cursor:pointer;font-weight:600;font-size:.86rem;transition:background-color .15s,border-color .15s,color .15s;white-space:nowrap;font-family:var(--font)}
+.tab-btn:hover{color:var(--text);background:rgba(255,255,255,.04);border-color:var(--border)}
+.tab-btn.active{color:var(--primary);border-color:rgba(252,213,53,.3);background:rgba(252,213,53,.065)}
 .tab-content{display:none}
 .tab-content.active{display:block;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Cards & Tables */
-.card{background:linear-gradient(180deg,rgba(23,25,36,.68),rgba(18,20,28,.84));border:1px solid var(--border);border-top-color:rgba(255,255,255,.14);border-radius:16px;padding:22px;backdrop-filter:blur(20px);box-shadow:0 10px 32px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.04);margin-bottom:16px}
+.card{background:var(--panel-fill);border:1px solid rgba(255,255,255,.08);border-top-color:rgba(255,255,255,.17);border-radius:16px;padding:22px;box-shadow:var(--panel-shadow);margin-bottom:16px}
 .card-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .table-wrap{overflow-x:auto}
 .pagination-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
@@ -129,8 +128,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .pagination-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
 .pagination-btn:disabled{opacity:.45;cursor:not-allowed}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
-th{text-align:left;padding:10px 12px;color:var(--text-muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
-td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+th{text-align:left;padding:10px 12px;color:var(--text-muted);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:#151515}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.05)}
 tr:hover td{background:rgba(252,213,53,0.035)}
 .addr{font-family:var(--mono);font-size:.8rem;color:var(--accent);cursor:pointer;transition:color .15s}
 .addr:hover{color:#fff}
@@ -138,9 +137,9 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .tag-whale{background:rgba(139,92,246,0.15);color:var(--whale)}
 .tag-exchange{background:rgba(59,130,246,0.15);color:var(--exchange);text-transform:none}
 .tag-labeled{background:rgba(252,213,53,0.11);color:#f6d85e;border:1px solid rgba(252,213,53,0.22);display:inline-flex;align-items:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none}
-.tag-accumulator{background:rgba(16,185,129,0.15);color:var(--success)}
-.tag-distributor{background:rgba(239,68,68,0.15);color:var(--danger)}
-.tag-suspicious{background:rgba(239,68,68,0.2);color:var(--danger);border:1px solid rgba(239,68,68,0.3)}
+.tag-accumulator{background:rgba(14,203,129,0.15);color:var(--success)}
+.tag-distributor{background:rgba(246,70,93,0.15);color:var(--danger)}
+.tag-suspicious{background:rgba(246,70,93,0.2);color:var(--danger);border:1px solid rgba(246,70,93,0.3)}
 .tag-active{background:rgba(245,158,11,0.15);color:var(--warning)}
 .amount-large{color:var(--warning);font-weight:600}
 .transfer-table{table-layout:fixed;min-width:1120px}
@@ -153,10 +152,10 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .transfer-signal-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .signal-empty{color:var(--text-dim)}
 .risk-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid transparent}
-.risk-pill-danger{background:rgba(239,68,68,0.14);border-color:rgba(239,68,68,0.24);color:#ff8a97}
+.risk-pill-danger{background:rgba(246,70,93,0.14);border-color:rgba(246,70,93,0.24);color:#ff8a97}
 .risk-pill-warning{background:rgba(245,158,11,0.14);border-color:rgba(245,158,11,0.22);color:#fbbf24}
 .risk-pill-info{background:rgba(59,130,246,0.14);border-color:rgba(59,130,246,0.22);color:#7dd3fc}
-.risk-pill-success{background:rgba(16,185,129,0.14);border-color:rgba(16,185,129,0.22);color:#34d399}
+.risk-pill-success{background:rgba(14,203,129,0.14);border-color:rgba(14,203,129,0.22);color:#34d399}
 .risk-pill-neutral{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--text-muted)}
 .reason-list{display:flex;flex-wrap:wrap;gap:6px;height:68px;overflow:hidden;align-content:flex-start;padding-top:10px}
 .reason-chip{padding:5px 10px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);font-size:.72rem;color:var(--text-muted)}
@@ -167,9 +166,9 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .summary-help{font-size:.72rem;color:var(--text-dim);margin-top:4px;line-height:1.4}
 .decision-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:12px;margin-bottom:14px}
 .decision-main{padding:18px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07)}
-.decision-main.danger{border-color:rgba(239,68,68,0.28);background:rgba(239,68,68,0.07)}
+.decision-main.danger{border-color:rgba(246,70,93,0.28);background:rgba(246,70,93,0.07)}
 .decision-main.warning{border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.065)}
-.decision-main.success{border-color:rgba(16,185,129,0.24);background:rgba(16,185,129,0.06)}
+.decision-main.success{border-color:rgba(14,203,129,0.24);background:rgba(14,203,129,0.06)}
 .decision-main.info{border-color:rgba(59,130,246,0.24);background:rgba(59,130,246,0.06)}
 .decision-eyebrow{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .decision-title{font-size:1.35rem;font-weight:800;line-height:1.3}
@@ -210,9 +209,9 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .wallet-meta-note{font-size:.72rem;color:var(--text-dim);line-height:1.4;padding-left:100px;min-height:20px}
 .meta-group-label{font-size:.68rem;color:var(--text-dim);letter-spacing:.2px;white-space:nowrap}
 .score-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid transparent}
-.score-chip-danger{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.2);color:#ff8a97}
+.score-chip-danger{background:rgba(246,70,93,0.12);border-color:rgba(246,70,93,0.2);color:#ff8a97}
 .score-chip-warning{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.2);color:#fbbf24}
-.score-chip-success{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.2);color:#34d399}
+.score-chip-success{background:rgba(14,203,129,0.12);border-color:rgba(14,203,129,0.2);color:#34d399}
 .score-chip-info{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.2);color:#7dd3fc}
 .score-chip-neutral{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--text-muted)}
 .detail-badge-grid{display:flex;flex-direction:column;gap:10px;margin-top:10px}
@@ -243,9 +242,9 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .flow-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:999px;font-size:.7rem;font-weight:700;border:1px solid transparent;white-space:nowrap}
 .flow-neutral{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--text-muted)}
 .flow-info{background:rgba(59,130,246,0.14);border-color:rgba(59,130,246,0.22);color:#7dd3fc}
-.flow-success{background:rgba(16,185,129,0.14);border-color:rgba(16,185,129,0.22);color:#34d399}
+.flow-success{background:rgba(14,203,129,0.14);border-color:rgba(14,203,129,0.22);color:#34d399}
 .flow-warning{background:rgba(245,158,11,0.14);border-color:rgba(245,158,11,0.22);color:#fbbf24}
-.flow-danger{background:rgba(239,68,68,0.14);border-color:rgba(239,68,68,0.24);color:#ff8a97}
+.flow-danger{background:rgba(246,70,93,0.14);border-color:rgba(246,70,93,0.24);color:#ff8a97}
 .session-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .session-window-group{display:flex;gap:6px;flex-wrap:wrap}
 .session-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
@@ -271,7 +270,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .alert-panel-header h3{font-size:1rem}
 .alert-panel-body{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:10px}
 .alert-card{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03)}
-.alert-card.high{border-color:rgba(239,68,68,0.34);background:rgba(239,68,68,0.08)}
+.alert-card.high{border-color:rgba(246,70,93,0.34);background:rgba(246,70,93,0.08)}
 .alert-card.medium{border-color:rgba(245,158,11,0.28);background:rgba(245,158,11,0.07)}
 .alert-card.low{border-color:rgba(59,130,246,0.24);background:rgba(59,130,246,0.06)}
 .alert-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
@@ -357,7 +356,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 /* Settings modal */
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .modal-overlay.active{display:flex}
-.modal{background:linear-gradient(180deg,rgba(23,25,36,.98),rgba(14,16,22,.98));border:1px solid var(--border);border-top-color:rgba(255,255,255,.16);border-radius:18px;padding:28px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 28px 80px rgba(0,0,0,.6)}
+.modal{background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,0)),#121212;border:1px solid var(--border);border-top-color:rgba(255,255,255,.16);border-radius:18px;padding:28px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 28px 80px rgba(0,0,0,.6)}
 .modal h3{font-size:1.2rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:.8rem;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -366,7 +365,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 .form-group small{display:block;margin-top:4px;color:var(--text-dim);font-size:.7rem}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
 .btn{padding:10px 20px;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.9rem;transition:all .2s;font-family:var(--font)}
-.btn-primary{background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c}
+.btn-primary{background:linear-gradient(135deg,#ffe268,var(--primary));color:#231e11}
 .btn-primary:hover{box-shadow:0 4px 20px var(--primary-glow)}
 .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-muted)}
 .btn-secondary:hover{border-color:var(--text-muted);color:var(--text)}
@@ -374,8 +373,8 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 /* Toast */
 .toast-container{position:fixed;top:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px}
 .toast{padding:12px 20px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;animation:slideIn .3s;backdrop-filter:blur(20px)}
-.toast-success{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--success)}
-.toast-error{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:var(--danger)}
+.toast-success{background:rgba(14,203,129,0.15);border:1px solid rgba(14,203,129,0.3);color:var(--success)}
+.toast-error{background:rgba(246,70,93,0.15);border:1px solid rgba(246,70,93,0.3);color:var(--danger)}
 .toast-info{background:rgba(252,213,53,0.12);border:1px solid rgba(252,213,53,0.28);color:var(--primary)}
 @keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
@@ -427,18 +426,9 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 }
 /* Linked summary reuses the same coin and exchange renderer. */
 .tracker-compact .tabs,.tracker-compact .tab-content,.tracker-compact #btnWatchCoin,.tracker-compact .tracker-settings{display:none!important}
-.tracker-compact #coinPanel.active ~ #tab-markets{display:block!important}
 #trackerFullView[hidden]{display:none!important}
-.market-summary{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.78rem;color:var(--text-muted);margin-bottom:12px}
-.market-summary b{color:var(--text);font-family:var(--mono);font-weight:600}
-.market-table td,.market-table th{white-space:nowrap}
-.market-table .num{text-align:right;font-family:var(--mono)}
-.market-table .sub{display:block;font-size:.7rem;color:var(--text-dim);margin-top:2px}
 .market-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:4px;font-size:.66rem;font-weight:500;color:var(--text-dim);border:1px solid var(--border);vertical-align:1px}
 .market-tag.warn{color:var(--warning);border-color:rgba(245,158,11,.35)}
-.market-row-dim td{opacity:.5}
-.market-foot{font-size:.74rem;color:var(--text-dim);margin-top:10px;line-height:1.6}
-.market-card-gap{margin-top:16px}
 .wallet-ok{color:var(--success)}
 .wallet-no{color:var(--danger)}
 .wallet-link{color:var(--text-muted);text-decoration:none}
@@ -498,7 +488,6 @@ tr:hover td{background:rgba(252,213,53,0.035)}
     <button class="tab-btn active" data-tab="decision" onclick="switchTab('decision')">🧭 판단요약</button>
     <button class="tab-btn" data-tab="transfers" onclick="switchTab('transfers')">📋 전송내역</button>
     <button class="tab-btn" data-tab="wallets" onclick="clearWalletDetail(); switchTab('wallets')">🔍 지갑분석</button>
-    <button class="tab-btn" data-tab="markets" onclick="switchTab('markets')">💱 거래소 시세</button>
     <button class="tab-btn" data-tab="sessions" onclick="switchTab('sessions')">🕒 세션</button>
     <button class="tab-btn" data-tab="dex" onclick="switchTab('dex')">📊 DEX</button>
     <button class="tab-btn" data-tab="news" onclick="switchTab('news')">📰 뉴스피드</button>
@@ -524,7 +513,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
       <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
         <span>📋 최근 전송 내역 <span id="transferCount" style="color:var(--text-dim);font-weight:400;font-size:.8rem"></span></span>
         <div style="display:flex;gap:4px">
-          <button id="btnFilterAll" class="btn-sm active" onclick="setTransferFilter('all')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--primary);color:#fff;cursor:pointer;font-size:.75rem">전체 내역</button>
+          <button id="btnFilterAll" class="btn-sm active" onclick="setTransferFilter('all')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--primary);color:#231e11;cursor:pointer;font-size:.75rem">전체 내역</button>
           <button id="btnFilterWhale" class="btn-sm" onclick="setTransferFilter('whale')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">대량 전송만(고래)</button>
           <button id="btnFilterSuspicious" class="btn-sm" onclick="setTransferFilter('suspicious')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">의심 관여만</button>
         </div>
@@ -555,31 +544,13 @@ tr:hover td{background:rgba(252,213,53,0.035)}
     </div>
   </div>
 
-  <!-- Tab: Markets (also shown under the exchange cards in the compact view) -->
-  <div class="tab-content" id="tab-markets">
-    <div class="card">
-      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <span>💱 거래소별 현물 시세</span>
-        <span id="marketUpdated" style="color:var(--text-dim);font-weight:400;font-size:.75rem"></span>
-      </div>
-      <div id="marketPricesContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 거래소별 현물 시세가 표시됩니다</p></div></div>
-    </div>
-    <div class="card market-card-gap" id="walletStatusCard">
-      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <span>👛 지갑 입출금 상태</span>
-        <span id="walletStatusActions" style="display:flex;gap:10px;align-items:center;font-weight:400;font-size:.75rem"></span>
-      </div>
-      <div id="walletStatusContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 업비트·빗썸·바이낸스 지갑 상태가 표시됩니다</p></div></div>
-    </div>
-  </div>
-
   <!-- Tab: Sessions -->
   <div class="tab-content" id="tab-sessions">
     <div class="card">
       <div class="card-title">🕒 시간대별 세션</div>
       <div class="session-toolbar">
         <div class="session-window-group">
-          <button id="btnSession5m" class="btn-sm active" onclick="setSessionWindow(300)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--primary);color:#fff;cursor:pointer;font-size:.75rem">5분</button>
+          <button id="btnSession5m" class="btn-sm active" onclick="setSessionWindow(300)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--primary);color:#231e11;cursor:pointer;font-size:.75rem">5분</button>
           <button id="btnSession15m" class="btn-sm" onclick="setSessionWindow(900)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">15분</button>
           <button id="btnSession1h" class="btn-sm" onclick="setSessionWindow(3600)" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">1시간</button>
         </div>
@@ -699,7 +670,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.3';
+const APP_VERSION = 'Tracker v1.2.4';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -837,6 +808,7 @@ const state = {
   exchangeRequestId: 0,
   exchangeRefreshPending: false,
   exchangeListing: null,
+  exchangeView: null,
   marketBoard: null,
   forceCatchUp: false,
   lastFocusCatchUpAt: 0,
@@ -898,7 +870,7 @@ function formatTransferStats(){
 }
 function buildTransferNote(message, tone='info'){
   const palette=tone==='success'
-    ? { bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.2)', color:'#10b981' }
+    ? { bg:'rgba(14,203,129,0.08)', border:'rgba(14,203,129,0.2)', color:'#10b981' }
     : tone==='warning'
       ? { bg:'rgba(245,158,11,0.08)', border:'rgba(245,158,11,0.2)', color:'#f59e0b' }
       : { bg:'rgba(59,130,246,0.08)', border:'rgba(59,130,246,0.18)', color:'#7dd3fc' };
@@ -2475,6 +2447,7 @@ async function selectCoin(coinId){
     state.observation=null;
     state.observationRecord=null;
     state.exchangeListing=null;
+    state.exchangeView=null;
     resetMarketBoard();
     // pick primary chain
     const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]);
@@ -2590,54 +2563,12 @@ function getKuCoinFuturesSymbol(symbolUpper){
   return base ? `${base}USDTM` : '';
 }
 
-function getExchangeOiSourceNote(intel){
-  if(intel.oiStatus==='loading') return '공개 API에서 OI 집계 중';
-  if(intel.oiStatus==='error') return intel.oiError || '이 거래소의 OI를 지금 조회하지 못했습니다';
-  if(!intel.futures) return '';
-  if(!intel.oiUsd&&intel.oiUsd!==0) return intel.rawOiText || '';
-  return intel.rawOiText || '';
-}
-
-function renderMarketFlag(ex, market){
-  const listed=Boolean(ex[market]);
-  const status=ex[`${market}Status`] || (listed ? 'listed' : 'unlisted');
-  const label=market==='spot' ? '현물' : '선물';
-  if(status==='checking') return `<span class="market-flag">⏳ ${label} 확인 중</span>`;
-  if(status==='error') return `<span class="market-flag" title="거래소 응답을 확인하지 못했습니다">⚠ ${label} 조회 실패</span>`;
-  return `<span class="market-flag ${listed?'good':'bad'}">${listed?'✅':'❌'} ${label}</span>`;
-}
-
+// Keeps the latest listing and OI state; the exchange table (one row per exchange with
+// spot price, kimchi premium, volume, futures OI and wallet status) is drawn by
+// renderExchangeTable in EXCHANGE MARKETS.
 function renderExchangeIntel(intelMap){
-  const esSt=document.getElementById('exchangeStatus');
-  const exchanges=Object.values(intelMap);
-  esSt.innerHTML=`
-    <div class="exchange-grid">
-      ${exchanges.map(ex=>{
-        const cardClass=['exchange-card', ex.spot||ex.futures ? 'active' : 'dim', ex.spot!==ex.futures ? 'partial' : ''].filter(Boolean).join(' ');
-        const oiNote=getExchangeOiSourceNote(ex);
-        const oiValue = ex.oiStatus==='loading'
-          ? '<span class="oi-value muted">집계 중...</span>'
-          : ex.oiStatus==='error'
-            ? '<span class="oi-value error">조회 실패</span>'
-            : ex.futures
-              ? `<span class="oi-value ${ex.oiUsd!=null?'':'muted'}">${ex.oiUsd!=null?`≈ ${formatUsd(ex.oiUsd)}`:'-'}</span>`
-              : '<span class="oi-value muted">-</span>';
-        return `<div class="${cardClass}">
-          <div class="exchange-name" style="color:${ex.spot||ex.futures?'#fff':'var(--text-dim)'}">${ex.name}</div>
-          <div class="exchange-flags">
-            ${renderMarketFlag(ex,'spot')}
-            ${ex.showFutures!==false?renderMarketFlag(ex,'futures'):''}
-          </div>
-          <div class="oi-block">
-            <div class="oi-label">Open Interest ( USDT )</div>
-            ${oiValue}
-            ${oiNote?`<div class="oi-sub">${oiNote}</div>`:''}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div class="market-note">* 거래소 공개 API 기준으로 선물 OI를 표시합니다. 거래소마다 계약 단위가 달라 가능한 경우 USDT 환산치로 정규화했고, 하단에는 계약 단위만 남겼습니다. KuCoin·MEXC는 CoinGecko 집계값이라 몇 분 늦을 수 있습니다.</div>`;
-
+  state.exchangeView=intelMap;
+  renderExchangeTable();
   const warn=document.getElementById('warningBanner');
   const hasTier1Spot = intelMap.binance?.spot || intelMap.upbit?.spot || intelMap.bithumb?.spot;
   warn.classList.toggle('active', !hasTier1Spot);
@@ -3123,10 +3054,10 @@ function resetMarketBoard(){
   renderMarketBoard();
 }
 
+// The exchange table sits in the coin panel in both the full and the compact view.
 function isMarketBoardShown(){
   if(document.hidden || !state.currentCoin) return false;
-  if(trackerCompact) return true;
-  return Boolean(document.getElementById('tab-markets')?.classList.contains('active'));
+  return Boolean(document.getElementById('coinPanel')?.classList.contains('active'));
 }
 
 function currentExchangeListing(){
@@ -3139,9 +3070,9 @@ function currentMarketSymbol(){
   return /^[A-Z0-9]{1,20}$/.test(symbol) ? symbol : '';
 }
 
-// Called when the listing check finishes, on tab or visibility changes, and every 15 s.
+// Called when the listing check finishes, when the page is shown again, and every 15 s.
 // Prices reload after a minute; the wallet status loads once per coin and again only
-// when the section is opened or shown after ten minutes.
+// when the page is shown again after ten minutes.
 function requestMarketBoardRefresh(reason=''){
   if(!isMarketBoardShown()) return;
   const board=marketBoard();
@@ -3155,7 +3086,7 @@ function requestMarketBoardRefresh(reason=''){
   if(CONFIG.WALLET_FEED_ENABLED && symbol && board.wallet.status!=='loading'){
     const sameCoin=board.wallet.symbol===symbol;
     const expired=Date.now()-board.wallet.fetchedAt>=CONFIG.WALLET_FEED_TTL_MS;
-    if(!sameCoin || (expired && (reason==='tab'||reason==='visible'))) loadWalletStatus(symbol);
+    if(!sameCoin || (expired && reason==='visible')) loadWalletStatus(symbol);
   }
   renderMarketBoard();
 }
@@ -3167,6 +3098,16 @@ function findCoinGeckoSpotTicker(tickers, key){
     t?.market && source.isCoinGeckoMarket(String(t.market.identifier||'')) && !isFut(t) && !t.is_stale &&
     String(t.target||'').toUpperCase()===target
   ) || null;
+}
+
+// CoinGecko marks a market stale when its price stopped tracking the coin (e.g. an old pair
+// after a token swap); such a market is shown as abnormal and left out of the gap.
+function isCoinGeckoStaleMarket(tickers, key){
+  const source=MARKET_SPOT_SOURCES[key];
+  const target=MARKET_QUOTE_CURRENCY[key]||'USDT';
+  const same=(tickers||[]).filter(t=>t?.market && source.isCoinGeckoMarket(String(t.market.identifier||'')) && !isFut(t) &&
+    String(t.target||'').toUpperCase()===target);
+  return same.length>0 && same.every(t=>t.is_stale);
 }
 
 function marketBaseSymbol(key, listing, tickers){
@@ -3337,9 +3278,10 @@ function buildMarketRows(prices, listing, coin){
     const toUsd=q.quote==='KRW' ? (usdtKrw ? 1/usdtKrw : null) : 1;
     const priceUsd=toUsd ? q.price*toUsd : null;
     const volumeUsd=toUsd && Number.isFinite(q.quoteVolume) ? q.quoteVolume*toUsd : null;
-    const gapPct=reference && priceUsd && !row.isReference ? (priceUsd/reference.price-1)*100 : null;
+    const abnormal=isCoinGeckoStaleMarket(tickers,key);
+    const gapPct=reference && priceUsd && !row.isReference && !abnormal ? (priceUsd/reference.price-1)*100 : null;
     const unconfirmed=gapPct!==null && Math.abs(gapPct)>MARKET_UNCONFIRMED_GAP_PCT && !findCoinGeckoSpotTicker(tickers,key);
-    rows.push({...row, price:q.price, quote:q.quote, priceUsd, gapPct, volumeUsd, unconfirmed,
+    rows.push({...row, price:q.price, quote:q.quote, priceUsd, gapPct, volumeUsd, unconfirmed, abnormal,
       lowVolume:volumeUsd!==null && volumeUsd<MARKET_LOW_VOLUME_USD});
   }
   rows.sort((a,b)=>(Number(b.isReference)-Number(a.isReference)) || ((b.volumeUsd ?? -1)-(a.volumeUsd ?? -1)));
@@ -3488,81 +3430,123 @@ function buildWalletRows(records, now=Date.now()){
   return rows;
 }
 
-function renderMarketPrices(){
-  const el=document.getElementById('marketPricesContent');
-  const updated=document.getElementById('marketUpdated');
-  if(!el) return;
-  const board=marketBoard();
-  const placeholder=text=>`<div class="loading"><p style="color:var(--text-dim)">${text}</p></div>`;
-  if(updated) updated.textContent='';
-  if(!state.currentCoin){ el.innerHTML=placeholder('코인을 검색하면 거래소별 현물 시세가 표시됩니다'); return; }
-  const listing=currentExchangeListing();
-  const prices=board.prices && board.prices.coinId===state.currentCoin.id ? board.prices : null;
-  if(!listing){ el.innerHTML=placeholder('거래소 상장 여부를 확인하는 중입니다…'); return; }
-  if(!prices){ el.innerHTML=placeholder('거래소별 시세를 불러오는 중입니다…'); return; }
-  if(updated) updated.textContent=`${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST`;
-  const {rows, unlisted, unknown}=buildMarketRows(prices, listing, state.currentCoin);
-  const ref=prices.reference;
-  const summary=[
-    ref ? `기준 ${escapeHtml(ref.label)} <b>${formatMarketPrice(ref.price,'USDT')}</b>` : '기준 가격 없음 (바이낸스 미상장)',
-    prices.usdtKrw ? `USDT <b>${formatMarketPrice(prices.usdtKrw,'KRW')}</b> (${escapeHtml(prices.usdtSource)})` : ''
-  ].filter(Boolean).map(part=>`<span>${part}</span>`).join('');
-  const body=rows.length ? rows.map(row=>{
-    const tags=[row.delayed?'<span class="market-tag">지연</span>':'', row.quote==='USD'?'<span class="market-tag">USD</span>':'',
-      row.unconfirmed?'<span class="market-tag warn" title="CoinGecko가 이 코인의 마켓으로 확인하지 못했고 차이가 20%를 넘습니다">다른 코인일 수 있음</span>':''].join('');
-    if(row.failed) return `<tr><td>${escapeHtml(row.name)}${tags}</td><td class="num" colspan="3" style="color:var(--text-dim)">시세 조회 실패</td></tr>`;
-    const price=formatMarketPrice(row.price,row.quote)+(row.quote==='KRW' && row.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(row.priceUsd,'USDT')}</span>` : '');
-    const gap=row.isReference ? '<span style="color:var(--text-dim)">기준</span>' : row.gapPct===null ? '-' : `<span class="${pctClass(row.gapPct)}">${pctStr(row.gapPct)}</span>`;
-    return `<tr class="${row.lowVolume?'market-row-dim':''}"><td>${escapeHtml(row.name)}${tags}</td><td class="num">${price}</td><td class="num">${gap}</td><td class="num">${row.volumeUsd===null?'-':formatUsd(row.volumeUsd)}</td></tr>`;
-  }).join('') : '<tr><td colspan="4" style="color:var(--text-dim)">현물 상장 거래소가 없습니다</td></tr>';
-  const notes=[
-    unlisted.length ? `미상장: ${unlisted.map(escapeHtml).join(' · ')}` : '',
-    unknown.length ? `상장 확인 실패: ${unknown.map(escapeHtml).join(' · ')}` : '',
-    '업비트·빗썸의 기준 대비는 업비트 USDT 원화 가격으로 환산한 김프입니다. KuCoin·MEXC는 CoinGecko 값이라 몇 분 늦을 수 있고, 24시간 거래량이 $10K 미만이면 흐리게 표시합니다. 탭을 보고 있을 때 1분마다 갱신합니다.'
-  ].filter(Boolean).join('<br>');
-  el.innerHTML=`<div class="market-summary">${summary}</div>
-    <div class="table-wrap"><table class="market-table">
-      <thead><tr><th>거래소</th><th class="num">가격</th><th class="num">기준 대비</th><th class="num">24h 거래량</th></tr></thead>
-      <tbody>${body}</tbody></table></div>
-    <div class="market-foot">${notes}</div>`;
+// One row per exchange: spot price, gap (kimchi premium for Upbit/Bithumb), 24h volume,
+// futures OI and the theddari wallet status. Exchanges with neither market (and no wallet
+// record) go to one "미상장" line, so the whole board fits on one screen.
+const EXCHANGE_TABLE_ORDER=['binance','bybit','okx','bitget','gate','kucoin','mexc','upbit','bithumb','coinbase'];
+
+function walletCellHtml(key, wallet, items){
+  if(!CONFIG.WALLET_FEED_ENABLED || !WALLET_EXCHANGES.some(ex=>ex.key===key)) return '<span class="xt-muted">-</span>';
+  if(!wallet || wallet.status==='idle' || wallet.status==='loading') return '<span class="xt-muted">확인 중…</span>';
+  if(wallet.status==='error') return `<span class="xt-muted" title="${escapeHtml(wallet.error)}">조회 실패</span>`;
+  if(!items.length) return '<span class="xt-muted">최근 변경 기록 없음</span>';
+  const mark=(label,ok)=>`<span class="${ok?'wallet-ok':'wallet-no'}">${label}${ok?'✓':'✕'}</span>`;
+  const shown=items.slice(0,2).map(r=>
+    `<a class="wallet-link${r.old?' xt-old':''}" href="https://t.me/${WALLET_CHANNEL}/${Number(r.postId)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.network)} ${mark('입',r.deposit)} ${mark('출',r.withdraw)}</a>`
+  ).join('<span class="xt-muted"> · </span>');
+  const more=items.length>2 ? ` <span class="xt-muted">외 ${items.length-2}</span>` : '';
+  const title=items.map(r=>`${r.network}: 입금 ${r.deposit?'가능':'중단'} · 출금 ${r.withdraw?'가능':'중단'} · ${formatKst(r.at)} KST 변경${r.old?' (오래된 기록)':''}`).join('\n');
+  return `<span title="${escapeHtml(title)}">${shown}${more} <span class="xt-muted">${formatKst(items[0].at).slice(0,5)}</span></span>`;
 }
 
-function renderWalletStatus(){
-  const card=document.getElementById('walletStatusCard');
-  const el=document.getElementById('walletStatusContent');
-  const actions=document.getElementById('walletStatusActions');
-  if(!card || !el) return;
-  card.hidden=!CONFIG.WALLET_FEED_ENABLED;
-  if(!CONFIG.WALLET_FEED_ENABLED) return;
-  const placeholder=text=>`<div class="loading"><p style="color:var(--text-dim)">${text}</p></div>`;
+function exchangePriceCellHtml(row, ready){
+  if(row.spot==='checking') return '<span class="xt-muted">확인 중</span>';
+  if(row.spot==='error') return '<span class="xt-muted" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
+  if(row.spot!=='listed') return '<span class="xt-muted">현물 없음</span>';
+  if(!ready) return '<span class="xt-muted">불러오는 중</span>';
+  const p=row.price;
+  if(!p || p.failed) return '<span class="xt-muted">조회 실패</span>';
+  return formatMarketPrice(p.price,p.quote)+(p.quote==='KRW' && p.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
+}
+
+function exchangeGapCellHtml(row){
+  const p=row.price;
+  if(!p || p.failed) return '<span class="xt-muted">-</span>';
+  if(p.isReference) return '<span class="xt-muted">기준</span>';
+  if(p.abnormal || p.gapPct===null) return '<span class="xt-muted">-</span>';
+  return `<span class="${pctClass(p.gapPct)}">${pctStr(p.gapPct)}</span>`;
+}
+
+function exchangeOiCellHtml(ex, futures){
+  if(futures==='none' || futures==='unlisted') return '<span class="xt-muted">-</span>';
+  if(futures==='checking') return '<span class="xt-muted">확인 중</span>';
+  if(futures==='error') return '<span class="xt-muted" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
+  if(ex.oiStatus==='loading' || ex.oiStatus==='idle') return '<span class="xt-muted">집계 중</span>';
+  if(ex.oiStatus==='error') return `<span class="xt-muted" title="${escapeHtml(ex.oiError||'')}">조회 실패</span>`;
+  if(!Number.isFinite(ex.oiUsd)) return '<span class="xt-muted">-</span>';
+  return `<span title="${escapeHtml(ex.rawOiText||'')}">${formatUsd(ex.oiUsd)}</span>`;
+}
+
+function renderExchangeTable(){
+  const el=document.getElementById('exchangeStatus');
+  if(!el) return;
+  const intel=state.exchangeView;
+  const coin=state.currentCoin;
+  if(!intel || !coin){ el.innerHTML=''; return; }
+  const board=marketBoard();
+  const listing=currentExchangeListing();
+  const prices=board.prices && board.prices.coinId===coin.id ? board.prices : null;
+  const market=prices && listing ? buildMarketRows(prices, listing, coin) : {rows:[]};
+  const priceByKey=Object.fromEntries(market.rows.map(row=>[row.key,row]));
   const symbol=currentMarketSymbol();
-  const wallet=marketBoard().wallet;
-  if(actions){
-    actions.innerHTML=symbol
-      ? `<a class="wallet-link" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer">${escapeHtml(symbol)} 글 모아보기 ↗</a>
-         <button class="btn-sm" onclick="reloadWalletStatus()" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">다시 조회</button>`
-      : '';
+  const wallet=board.wallet.symbol===symbol ? board.wallet : null;
+  const walletRows=wallet?.status==='ready' ? buildWalletRows(wallet.records) : [];
+
+  const rows=[];
+  const unlisted=[];
+  for(const key of EXCHANGE_TABLE_ORDER){
+    const ex=intel[key];
+    if(!ex) continue;
+    const spot=ex.spotStatus || (ex.spot ? 'listed' : 'unlisted');
+    const futures=ex.showFutures===false ? 'none' : (ex.futuresStatus || (ex.futures ? 'listed' : 'unlisted'));
+    const walletItems=walletRows.filter(r=>r.exchange===key && !r.empty);
+    if(spot==='unlisted' && (futures==='unlisted' || futures==='none') && !walletItems.length){ unlisted.push(ex.name); continue; }
+    const price=priceByKey[key]||null;
+    rows.push({key, ex, spot, futures, price, walletItems,
+      rank:price?.isReference ? 0 : spot==='listed' ? 1 : futures==='listed' ? 2 : 3,
+      volume:price?.volumeUsd ?? -1, oi:Number.isFinite(ex.oiUsd) ? ex.oiUsd : -1});
   }
-  if(!state.currentCoin || !symbol){ el.innerHTML=placeholder('코인을 검색하면 업비트·빗썸·바이낸스 지갑 상태가 표시됩니다'); return; }
-  if(wallet.symbol!==symbol || wallet.status==='idle' || wallet.status==='loading'){ el.innerHTML=placeholder('지갑 상태를 확인하는 중입니다…'); return; }
-  if(wallet.status==='error'){ el.innerHTML=placeholder(escapeHtml(wallet.error)); return; }
-  const rows=buildWalletRows(wallet.records);
-  const mark=ok=>ok ? '<span class="wallet-ok">✅</span>' : '<span class="wallet-no">❌</span>';
+  rows.sort((a,b)=>(a.rank-b.rank) || (b.volume-a.volume) || (b.oi-a.oi));
+
+  const ready=Boolean(prices && listing);
+  const ref=prices?.reference;
+  const head=[
+    ready ? (ref ? `<span>기준 ${escapeHtml(ref.label)} <b>${formatMarketPrice(ref.price,'USDT')}</b></span>` : '<span>기준 가격 없음 (바이낸스 미상장)</span>') : '<span>거래소 시세 확인 중…</span>',
+    prices?.usdtKrw ? `<span>USDT <b>${formatMarketPrice(prices.usdtKrw,'KRW')}</b> (${escapeHtml(prices.usdtSource)})</span>` : '',
+    prices ? `<span class="xt-time">${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST</span>` : ''
+  ].join('');
   const body=rows.map(row=>{
-    if(row.empty) return `<tr><td>${escapeHtml(row.name)}</td><td colspan="4" style="color:var(--text-dim)">최근 변경 기록 없음</td></tr>`;
-    const time=`${formatKst(row.at)}${row.old?' · 오래된 기록':''}`;
-    return `<tr class="${row.old?'market-row-dim':''}"><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.network)}</td><td>${mark(row.deposit)}</td><td>${mark(row.withdraw)}</td>
-      <td class="num"><a class="wallet-link" href="https://t.me/${WALLET_CHANNEL}/${Number(row.postId)}" target="_blank" rel="noopener noreferrer">${time} ↗</a></td></tr>`;
-  }).join('');
-  el.innerHTML=`<div class="table-wrap"><table class="market-table">
-      <thead><tr><th>거래소</th><th>네트워크</th><th>입금</th><th>출금</th><th class="num">바뀐 시각 (KST)</th></tr></thead>
+    const p=row.price;
+    const listed=row.spot==='listed' || row.futures==='listed';
+    const tags=[
+      listed && MARKET_SPOT_SOURCES[row.key]?.coingeckoExchange ? '<span class="market-tag" title="CoinGecko 값이라 몇 분 늦을 수 있습니다">지연</span>' : '',
+      p?.quote==='USD' ? '<span class="market-tag">USD</span>' : '',
+      p?.abnormal ? '<span class="market-tag warn" title="CoinGecko가 이 마켓의 시세를 비정상(갱신 멈춤)으로 표시합니다">비정상</span>' : '',
+      p?.unconfirmed ? '<span class="market-tag warn" title="CoinGecko가 이 코인의 마켓으로 확인하지 못했고 차이가 20%를 넘습니다. 다른 코인이거나 입출금이 막힌 시장일 수 있습니다">확인</span>' : ''
+    ].join('');
+    const dim=p?.lowVolume || p?.abnormal;
+    return `<tr class="${dim?'xt-dim-row':''}">
+      <td class="${listed?'':'xt-muted'}">${escapeHtml(row.ex.name)}${tags}</td>
+      <td class="num">${exchangePriceCellHtml(row, ready)}</td>
+      <td class="num">${exchangeGapCellHtml(row)}</td>
+      <td class="num">${p && !p.failed && p.volumeUsd!==null ? formatUsd(p.volumeUsd) : '<span class="xt-muted">-</span>'}</td>
+      <td class="num">${exchangeOiCellHtml(row.ex, row.futures)}</td>
+      <td>${walletCellHtml(row.key, wallet, row.walletItems)}</td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="xt-muted">상장된 거래소가 없습니다</td></tr>';
+  const foot=[
+    unlisted.length ? `<span>미상장: ${unlisted.map(escapeHtml).join(' · ')}</span>` : '',
+    '<span>김프는 업비트 USDT 원화 가격 기준 · KuCoin·MEXC는 CoinGecko 값(지연) · 거래량 $10K 미만 흐림</span>',
+    CONFIG.WALLET_FEED_ENABLED && symbol ? `<span>입출금은 theddari 채널의 바뀐 기록 기준(가능 보장 아님) · <a class="wallet-link" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer">${escapeHtml(symbol)} 글 모아보기 ↗</a> · <button class="xt-link-btn" onclick="reloadWalletStatus()">다시 조회</button></span>` : ''
+  ].join('');
+  el.innerHTML=`<div class="xt-head">${head}</div>
+    <div class="table-wrap"><table class="xt-table">
+      <thead><tr><th>거래소</th><th class="num">현물 가격</th><th class="num">기준 대비</th><th class="num">24h 거래량</th><th class="num">선물 OI</th><th>입출금 (theddari)</th></tr></thead>
       <tbody>${body}</tbody></table></div>
-    <div class="market-foot">theddari 지갑알림 채널에서 입출금 상태가 바뀐 기록을 모은 것입니다. "최근 변경 기록 없음"은 최근 글 안에 변경이 없었다는 뜻이며, 입출금 가능을 보장하지 않습니다. 거래 전에는 원문과 거래소 공지를 꼭 확인하세요.</div>`;
+    <div class="xt-foot">${foot}</div>`;
 }
 
 function renderMarketBoard(){
-  renderMarketPrices();
-  renderWalletStatus();
+  renderExchangeTable();
 }
 
 // ==================== API: DexScreener ====================
@@ -3868,7 +3852,7 @@ async function loadSolanaTransfers(isSilent=false){
         <div style="font-weight:600;margin-bottom:8px;color:var(--warning)">⚠ Moralis API 키 필요 (Solana)</div>
         <p style="color:var(--text-muted);margin-bottom:8px">Solana 체인은 현재 <strong>Moralis Solana API</strong>의 토큰 스왑 데이터를 기준으로 추적합니다. 사이트 내에서 조회하려면 <strong>⚙ 설정</strong>에서 <strong>Moralis API Key</strong>를 입력해주세요.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙ 설정 열기</button>
+          <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#231e11;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙ 설정 열기</button>
           <a href="https://admin.moralis.io/register" target="_blank" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem">Moralis 무료가입</a>
         </div>
       </div>
@@ -3999,7 +3983,7 @@ async function loadTransfers(isSilent=false){
           <div style="font-weight:600;margin-bottom:8px;color:var(--warning)">⚠️ Moralis API 키 필요 (무료)</div>
           <p style="color:var(--text-muted);margin-bottom:8px">${state.currentChain.replace(/-/g,' ')} 체인은 이더스캔 정책 변경으로 전송내역 조회가 차단되었습니다. 사이트 내에서 조회하려면 <strong>⚙️ 설정</strong>에서 <strong>Moralis API Key</strong>를 입력해주세요.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#090a0c;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙️ 설정 열기</button>
+            <button onclick="openSettings()" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;background:linear-gradient(135deg,#ffe268,var(--primary));color:#231e11;border:none;cursor:pointer;font-size:.85rem;font-weight:700">⚙️ 설정 열기</button>
             <a href="https://admin.moralis.io/register" target="_blank" style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem">Moralis 무료가입</a>
           </div>
         </div>
@@ -4681,9 +4665,9 @@ function renderReasonChips(reasons, limit=3){
 
 function getWalletBorderStyle(wallet){
   if(wallet?.washColor) return `border:1px solid ${wallet.washColor}80; box-shadow:0 0 10px ${wallet.washColor}20;`;
-  if(wallet?.signalClass==='danger') return 'border:1px solid rgba(239,68,68,0.45); box-shadow:0 0 12px rgba(239,68,68,0.12);';
+  if(wallet?.signalClass==='danger') return 'border:1px solid rgba(246,70,93,0.45); box-shadow:0 0 12px rgba(246,70,93,0.12);';
   if(wallet?.signalClass==='warning') return 'border:1px solid rgba(245,158,11,0.35); box-shadow:0 0 12px rgba(245,158,11,0.08);';
-  if(wallet?.signalClass==='success') return 'border:1px solid rgba(16,185,129,0.28); box-shadow:0 0 12px rgba(16,185,129,0.06);';
+  if(wallet?.signalClass==='success') return 'border:1px solid rgba(14,203,129,0.28); box-shadow:0 0 12px rgba(14,203,129,0.06);';
   return '';
 }
 
@@ -5487,7 +5471,6 @@ function switchTab(name){
   if(name==='sessions') renderSessions();
   if(name==='news') renderNewsFeed();
   if(name==='history') renderHistory();
-  if(name==='markets') requestMarketBoardRefresh('tab');
 }
 
 // ==================== REFRESH ====================
