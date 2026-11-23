@@ -90,22 +90,44 @@ body{font-family:var(--font);background:radial-gradient(ellipse at 72% 0%,rgba(1
 .exchange-status{margin-top:12px}
 .warning-banner{margin-top:12px;padding:10px 16px;border-radius:var(--radius-sm);background:rgba(246,70,93,0.08);border:1px solid rgba(246,70,93,0.2);color:var(--danger);font-size:.85rem;display:flex;align-items:center;gap:8px;display:none}
 .warning-banner.active{display:flex}
-/* Exchange table: one row per exchange (spot price, gap, volume, futures OI, wallet status). */
-.xt-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:.78rem;color:var(--text-muted);margin-bottom:8px}
-.xt-head b{color:var(--text);font-family:var(--mono);font-weight:600}
-.xt-head .xt-time{margin-left:auto;color:var(--text-dim)}
-.xt-table{min-width:760px;font-size:.84rem}
-.xt-table th,.xt-table td{padding:7px 10px;white-space:nowrap}
-.xt-table th{font-size:.68rem}
-.xt-table .num{text-align:right;font-family:var(--mono)}
-.xt-table .sub{display:block;font-size:.68rem;color:var(--text-dim);margin-top:1px}
-.xt-table tbody tr:hover td{background:rgba(252,213,53,.035)}
-.xt-muted{color:var(--text-dim)}
+/* Exchange table: one row per exchange (spot price, gap, volume, futures OI, wallet status).
+   Numbers use the mono font; labels and empty states stay in the text font. */
+.xt-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.xt-stats,.xt-actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.xt-stat{display:inline-flex;align-items:baseline;gap:7px;padding:5px 11px;border:1px solid var(--border);border-top-color:rgba(255,255,255,.12);border-radius:8px;background:rgba(0,0,0,.25);font-size:.74rem;color:var(--text-muted)}
+.xt-stat b{font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--text)}
+.xt-stat small{font-size:.7rem;color:var(--text-dim)}
+.xt-time{font-family:var(--mono);font-size:.7rem;color:var(--text-dim);margin-right:4px}
+.xt-btn{display:inline-flex;align-items:center;height:28px;padding:0 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);border-top-color:rgba(255,255,255,.2);background:linear-gradient(165deg,rgba(255,255,255,.1),rgba(255,255,255,.04));color:var(--text-muted);font:500 .72rem var(--font);text-decoration:none;cursor:pointer;transition:color .15s,border-color .15s}
+.xt-btn:hover{color:var(--primary);border-color:#6b602f}
+.xt-wrap{border:1px solid var(--border);border-radius:12px;background:rgba(0,0,0,.2)}
+.xt-table{width:100%;min-width:800px;table-layout:fixed;border-collapse:collapse;font-size:.84rem}
+.xt-table th{background:transparent;padding:10px 14px;border-bottom:1px solid var(--border);font:500 .7rem var(--font);letter-spacing:.2px;text-transform:none;color:var(--text-dim);text-align:left}
+.xt-table td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.045);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xt-table tbody tr:last-child td{border-bottom:0}
+.xt-table tbody tr{transition:background-color .12s}
+.xt-table tbody tr:hover{background:rgba(255,255,255,.025)}
+.xt-table .num{text-align:right}
+.xt-num{font-family:var(--mono);font-weight:500;letter-spacing:-.2px;color:var(--text)}
+.xt-sub{display:block;margin-top:1px;font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
+.xt-ex{font-weight:600;color:var(--text)}
+.xt-none,.xt-ex.xt-none{color:var(--text-dim);font-weight:400;font-size:.78rem}
+.xt-gap{display:inline-block;min-width:70px;padding:3px 8px;border-radius:6px;font:600 .78rem var(--mono);text-align:right}
+.xt-gap.up{color:var(--success);background:rgba(14,203,129,.1)}
+.xt-gap.down{color:var(--danger);background:rgba(246,70,93,.1)}
+.xt-gap.flat{color:var(--text-muted);background:rgba(255,255,255,.05)}
+.xt-gap.ref{color:var(--primary);background:rgba(252,213,53,.08);font-family:var(--font);text-align:center}
+.xt-wallet{display:inline-flex;align-items:center;gap:5px;color:inherit;text-decoration:none;max-width:100%}
+.xt-net{font-size:.78rem;color:var(--text);margin-right:2px}
+.xt-wallet:hover .xt-net{color:var(--primary)}
+.xt-pill{display:inline-flex;align-items:center;padding:1px 7px;border-radius:999px;font-size:.68rem;font-weight:600;line-height:1.6}
+.xt-pill.ok{color:var(--success);background:rgba(14,203,129,.1)}
+.xt-pill.no{color:var(--danger);background:rgba(246,70,93,.12)}
+.xt-more{font-size:.7rem;color:var(--text-muted)}
+.xt-date{margin-left:4px;font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
 .xt-dim-row td{opacity:.5}
-.xt-old{opacity:.6}
-.xt-foot{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;font-size:.72rem;color:var(--text-dim);margin-top:8px;line-height:1.6}
-.xt-link-btn{border:0;background:none;padding:0;font:inherit;color:var(--text-muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-.xt-link-btn:hover{color:var(--accent)}
+.xt-foot{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0;margin-top:9px;font-size:.7rem;line-height:1.6;color:var(--text-dim)}
+.xt-dot{margin:0 7px;opacity:.6}
 
 /* Tabs */
 .tabs{display:flex;gap:8px;margin-bottom:16px;padding-bottom:2px;overflow-x:auto}
@@ -427,12 +449,8 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 /* Linked summary reuses the same coin and exchange renderer. */
 .tracker-compact .tabs,.tracker-compact .tab-content,.tracker-compact #btnWatchCoin,.tracker-compact .tracker-settings{display:none!important}
 #trackerFullView[hidden]{display:none!important}
-.market-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:4px;font-size:.66rem;font-weight:500;color:var(--text-dim);border:1px solid var(--border);vertical-align:1px}
-.market-tag.warn{color:var(--warning);border-color:rgba(245,158,11,.35)}
-.wallet-ok{color:var(--success)}
-.wallet-no{color:var(--danger)}
-.wallet-link{color:var(--text-muted);text-decoration:none}
-.wallet-link:hover{color:var(--accent)}
+.market-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;font-size:.64rem;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,.06);vertical-align:1px}
+.market-tag.warn{color:var(--warning);background:rgba(245,158,11,.12)}
 #trackerFullView{border-radius:10px;padding:0 16px;white-space:nowrap}
 </style>
 </head>
@@ -670,7 +688,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.5';
+const APP_VERSION = 'Tracker v1.2.6';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -1895,7 +1913,7 @@ function updateSessionButtons(){
     const el=document.getElementById(id);
     if(!el) return;
     el.style.background=active?'var(--primary)':'transparent';
-    el.style.color=active?'#fff':'var(--text-muted)';
+    el.style.color=active?'#231e11':'var(--text-muted)';
   });
 }
 
@@ -3529,7 +3547,14 @@ function reloadWalletStatus(){
   if(symbol && CONFIG.WALLET_FEED_ENABLED && marketBoard().wallet.status!=='loading') loadWalletStatus(symbol);
 }
 
-// Latest record per exchange and network; blocked ones first, then open, then none.
+// Only changes from the last seven days are shown. The channel posts changes, not the current
+// state, and it sometimes never posts a reopening (Upbit's 2026-11-09 Ethereum-wide closure has
+// no reopening post while Upbit prices show no premium), so an older closure is likely stale.
+const WALLET_RECENT_MS=7*86400000;
+
+// Latest record per exchange and network within the last seven days; blocked ones first, then
+// open. An exchange without a recent record gets one empty row that remembers its last older
+// record (lastOld), shown only as a tooltip.
 function buildWalletRows(records, now=Date.now()){
   const latest=new Map();
   for(const r of records||[]){
@@ -3539,11 +3564,16 @@ function buildWalletRows(records, now=Date.now()){
   }
   const rows=[];
   WALLET_EXCHANGES.forEach((ex,order)=>{
-    const items=[...latest.values()].filter(r=>r.exchange===ex.key);
-    if(!items.length){ rows.push({exchange:ex.key, name:ex.name, order, empty:true, rank:2}); return; }
+    const all=[...latest.values()].filter(r=>r.exchange===ex.key);
+    const items=all.filter(r=>now-r.at<WALLET_RECENT_MS);
+    if(!items.length){
+      const lastOld=all.sort((a,b)=>b.at-a.at)[0]||null;
+      rows.push({exchange:ex.key, name:ex.name, order, empty:true, lastOld, rank:2});
+      return;
+    }
     for(const r of items){
       const blocked=!r.deposit || !r.withdraw;
-      rows.push({...r, name:ex.name, order, blocked, old:blocked && now-r.at>30*86400000, rank:blocked?0:1});
+      rows.push({...r, name:ex.name, order, blocked, rank:blocked?0:1});
     }
   });
   rows.sort((a,b)=>(a.rank-b.rank) || (a.order-b.order) || ((b.at||0)-(a.at||0)));
@@ -3551,54 +3581,69 @@ function buildWalletRows(records, now=Date.now()){
 }
 
 // One row per exchange: spot price, gap (kimchi premium for Upbit/Bithumb), 24h volume,
-// futures OI and the theddari wallet status. Exchanges with neither market (and no wallet
+// futures OI and the theddari wallet status. Exchanges with neither market (and no recent wallet
 // record) go to one "미상장" line, so the whole board fits on one screen.
 const EXCHANGE_TABLE_ORDER=['binance','bybit','okx','bitget','gate','kucoin','mexc','upbit','bithumb','coinbase'];
+const XT_NONE='<span class="xt-none">–</span>';
 
-function walletCellHtml(key, wallet, items){
-  if(!CONFIG.WALLET_FEED_ENABLED || !WALLET_EXCHANGES.some(ex=>ex.key===key)) return '<span class="xt-muted">-</span>';
-  if(!wallet || wallet.status==='idle' || wallet.status==='loading') return '<span class="xt-muted">확인 중…</span>';
-  if(wallet.status==='error') return `<span class="xt-muted" title="${escapeHtml(wallet.error)}">조회 실패</span>`;
-  if(!items.length) return '<span class="xt-muted">최근 변경 기록 없음</span>';
-  const mark=(label,ok)=>`<span class="${ok?'wallet-ok':'wallet-no'}">${label}${ok?'✓':'✕'}</span>`;
-  const shown=items.slice(0,2).map(r=>
-    `<a class="wallet-link${r.old?' xt-old':''}" href="https://t.me/${WALLET_CHANNEL}/${Number(r.postId)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.network)} ${mark('입',r.deposit)} ${mark('출',r.withdraw)}</a>`
-  ).join('<span class="xt-muted"> · </span>');
-  const more=items.length>2 ? ` <span class="xt-muted">외 ${items.length-2}</span>` : '';
-  const title=items.map(r=>`${r.network}: 입금 ${r.deposit?'가능':'중단'} · 출금 ${r.withdraw?'가능':'중단'} · ${formatKst(r.at)} KST 변경${r.old?' (오래된 기록)':''}`).join('\n');
-  return `<span title="${escapeHtml(title)}">${shown}${more} <span class="xt-muted">${formatKst(items[0].at).slice(0,5)}</span></span>`;
+function walletPill(label, ok){
+  return `<span class="xt-pill ${ok?'ok':'no'}">${label} ${ok?'✓':'✕'}</span>`;
+}
+
+// The first network in full (blocked ones come first), the rest as "+n"; every network with its
+// time is in the tooltip. Clicking opens that post in Telegram.
+function walletCellHtml(key, wallet, items, emptyRow){
+  if(!CONFIG.WALLET_FEED_ENABLED || !WALLET_EXCHANGES.some(ex=>ex.key===key)) return XT_NONE;
+  if(!wallet || wallet.status==='idle' || wallet.status==='loading') return '<span class="xt-none">확인 중…</span>';
+  if(wallet.status==='error') return `<span class="xt-none" title="${escapeHtml(wallet.error)}">조회 실패</span>`;
+  if(!items.length){
+    const old=emptyRow?.lastOld;
+    const title=old
+      ? `마지막 기록 ${formatKst(old.at)} KST: ${old.network} 입금 ${old.deposit?'가능':'중단'} · 출금 ${old.withdraw?'가능':'중단'}\n7일이 지나 표시하지 않습니다. 채널이 재개 글을 놓쳤을 수 있으니 거래소 공지로 확인하세요.`
+      : '최근 7일 동안 theddari 채널에 입출금 변경 글이 없습니다.';
+    return `<span class="xt-none" title="${escapeHtml(title)}">최근 7일 변경 없음</span>`;
+  }
+  const first=items[0];
+  const title=items.map(r=>`${r.network}: 입금 ${r.deposit?'가능':'중단'} · 출금 ${r.withdraw?'가능':'중단'} · ${formatKst(r.at)} KST 변경`).join('\n');
+  const more=items.length>1 ? `<span class="xt-more">+${items.length-1}</span>` : '';
+  return `<a class="xt-wallet" href="https://t.me/${WALLET_CHANNEL}/${Number(first.postId)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(title)}">`+
+    `<span class="xt-net">${escapeHtml(first.network)}</span>${walletPill('입금',first.deposit)}${walletPill('출금',first.withdraw)}${more}`+
+    `<span class="xt-date">${formatKst(first.at).slice(0,5)}</span></a>`;
 }
 
 function exchangePriceCellHtml(row, ready){
-  if(row.spot==='checking') return '<span class="xt-muted">확인 중</span>';
-  if(row.spot==='error') return '<span class="xt-muted" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
-  if(row.spot!=='listed') return '<span class="xt-muted">현물 없음</span>';
-  if(!ready) return '<span class="xt-muted">불러오는 중</span>';
+  if(row.spot==='checking') return '<span class="xt-none">확인 중</span>';
+  if(row.spot==='error') return '<span class="xt-none" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
+  if(row.spot!=='listed') return `<span class="xt-none">${row.futures==='listed' ? '선물만' : '현물 없음'}</span>`;
+  if(!ready) return '<span class="xt-none">불러오는 중</span>';
   const p=row.price;
-  if(p?.pending) return '<span class="xt-muted" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
-  if(!p || p.failed) return '<span class="xt-muted">조회 실패</span>';
-  const value=formatMarketPrice(p.price,p.quote)+(p.quote==='KRW' && p.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
+  if(p?.pending) return '<span class="xt-none" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
+  if(!p || p.failed) return '<span class="xt-none">조회 실패</span>';
+  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`+
+    (p.quote==='KRW' && p.priceUsd ? `<span class="xt-sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
   if(!p.storedAt) return value;
   const seconds=Math.max(0, Math.round((Date.now()-p.storedAt)/1000));
   return `<span title="업비트 요청 제한으로 ${seconds}초 전에 받은 값입니다">${value}</span>`;
 }
 
+// Green above the reference, red below, grey when equal; the reference itself is marked 기준.
 function exchangeGapCellHtml(row){
   const p=row.price;
-  if(!p || p.failed || p.pending) return '<span class="xt-muted">-</span>';
-  if(p.isReference) return '<span class="xt-muted">기준</span>';
-  if(p.abnormal || p.gapPct===null) return '<span class="xt-muted">-</span>';
-  return `<span class="${pctClass(p.gapPct)}">${pctStr(p.gapPct)}</span>`;
+  if(!p || p.failed || p.pending) return XT_NONE;
+  if(p.isReference) return '<span class="xt-gap ref">기준</span>';
+  if(p.abnormal || p.gapPct===null) return XT_NONE;
+  const tone=p.gapPct>0 ? 'up' : p.gapPct<0 ? 'down' : 'flat';
+  return `<span class="xt-gap ${tone}">${pctStr(p.gapPct)}</span>`;
 }
 
 function exchangeOiCellHtml(ex, futures){
-  if(futures==='none' || futures==='unlisted') return '<span class="xt-muted">-</span>';
-  if(futures==='checking') return '<span class="xt-muted">확인 중</span>';
-  if(futures==='error') return '<span class="xt-muted" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
-  if(ex.oiStatus==='loading' || ex.oiStatus==='idle') return '<span class="xt-muted">집계 중</span>';
-  if(ex.oiStatus==='error') return `<span class="xt-muted" title="${escapeHtml(ex.oiError||'')}">조회 실패</span>`;
-  if(!Number.isFinite(ex.oiUsd)) return '<span class="xt-muted">-</span>';
-  return `<span title="${escapeHtml(ex.rawOiText||'')}">${formatUsd(ex.oiUsd)}</span>`;
+  if(futures==='none' || futures==='unlisted') return XT_NONE;
+  if(futures==='checking') return '<span class="xt-none">확인 중</span>';
+  if(futures==='error') return '<span class="xt-none" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
+  if(ex.oiStatus==='loading' || ex.oiStatus==='idle') return '<span class="xt-none">집계 중</span>';
+  if(ex.oiStatus==='error') return `<span class="xt-none" title="${escapeHtml(ex.oiError||'')}">조회 실패</span>`;
+  if(!Number.isFinite(ex.oiUsd)) return XT_NONE;
+  return `<span class="xt-num" title="${escapeHtml(ex.rawOiText||'')}">${formatUsd(ex.oiUsd)}</span>`;
 }
 
 function renderExchangeTable(){
@@ -3624,9 +3669,10 @@ function renderExchangeTable(){
     const spot=ex.spotStatus || (ex.spot ? 'listed' : 'unlisted');
     const futures=ex.showFutures===false ? 'none' : (ex.futuresStatus || (ex.futures ? 'listed' : 'unlisted'));
     const walletItems=walletRows.filter(r=>r.exchange===key && !r.empty);
+    const walletEmpty=walletRows.find(r=>r.exchange===key && r.empty)||null;
     if(spot==='unlisted' && (futures==='unlisted' || futures==='none') && !walletItems.length){ unlisted.push(ex.name); continue; }
     const price=priceByKey[key]||null;
-    rows.push({key, ex, spot, futures, price, walletItems,
+    rows.push({key, ex, spot, futures, price, walletItems, walletEmpty,
       rank:price?.isReference ? 0 : spot==='listed' ? 1 : futures==='listed' ? 2 : 3,
       volume:price?.volumeUsd ?? -1, oi:Number.isFinite(ex.oiUsd) ? ex.oiUsd : -1});
   }
@@ -3634,10 +3680,18 @@ function renderExchangeTable(){
 
   const ready=Boolean(prices && listing);
   const ref=prices?.reference;
-  const head=[
-    ready ? (ref ? `<span>기준 ${escapeHtml(ref.label)} <b>${formatMarketPrice(ref.price,'USDT')}</b></span>` : '<span>기준 가격 없음 (바이낸스 미상장)</span>') : '<span>거래소 시세 확인 중…</span>',
-    prices?.usdtKrw ? `<span>USDT <b>${formatMarketPrice(prices.usdtKrw,'KRW')}</b> (${escapeHtml(prices.usdtSource)})</span>` : '',
-    prices ? `<span class="xt-time">${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST</span>` : ''
+  const stats=[
+    ready
+      ? (ref ? `<span class="xt-stat">기준 ${escapeHtml(ref.label)}<b>${formatMarketPrice(ref.price,'USDT')}</b></span>` : '<span class="xt-stat">기준 가격 없음<small>바이낸스 미상장</small></span>')
+      : '<span class="xt-stat">거래소 시세 확인 중…</span>',
+    prices?.usdtKrw ? `<span class="xt-stat">USDT<b>${formatMarketPrice(prices.usdtKrw,'KRW')}</b><small>${escapeHtml(prices.usdtSource)}</small></span>` : ''
+  ].join('');
+  const actions=[
+    prices ? `<span class="xt-time">${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST</span>` : '',
+    CONFIG.WALLET_FEED_ENABLED && symbol
+      ? `<a class="xt-btn" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer" title="theddari 지갑알림 채널에서 ${escapeHtml(symbol)} 글 모아보기">입출금 글 ↗</a>`+
+        `<button class="xt-btn" onclick="reloadWalletStatus()" title="입출금 상태 다시 조회">다시 조회</button>`
+      : ''
   ].join('');
   const body=rows.map(row=>{
     const p=row.price;
@@ -3650,21 +3704,24 @@ function renderExchangeTable(){
     ].join('');
     const dim=p?.lowVolume || p?.abnormal;
     return `<tr class="${dim?'xt-dim-row':''}">
-      <td class="${listed?'':'xt-muted'}">${escapeHtml(row.ex.name)}${tags}</td>
+      <td><span class="xt-ex${listed?'':' xt-none'}">${escapeHtml(row.ex.name)}</span>${tags}</td>
       <td class="num">${exchangePriceCellHtml(row, ready)}</td>
       <td class="num">${exchangeGapCellHtml(row)}</td>
-      <td class="num">${p && !p.failed && !p.pending && p.volumeUsd!==null ? formatUsd(p.volumeUsd) : '<span class="xt-muted">-</span>'}</td>
+      <td class="num">${p && !p.failed && !p.pending && p.volumeUsd!==null ? `<span class="xt-num">${formatUsd(p.volumeUsd)}</span>` : XT_NONE}</td>
       <td class="num">${exchangeOiCellHtml(row.ex, row.futures)}</td>
-      <td>${walletCellHtml(row.key, wallet, row.walletItems)}</td></tr>`;
-  }).join('') || '<tr><td colspan="6" class="xt-muted">상장된 거래소가 없습니다</td></tr>';
+      <td>${walletCellHtml(row.key, wallet, row.walletItems, row.walletEmpty)}</td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="xt-none">상장된 거래소가 없습니다</td></tr>';
   const foot=[
-    unlisted.length ? `<span>미상장: ${unlisted.map(escapeHtml).join(' · ')}</span>` : '',
-    '<span>김프는 USDT 원화 가격(업비트, 없으면 빗썸) 기준 · KuCoin·MEXC는 CoinGecko 값(지연) · 거래량 $10K 미만 흐림</span>',
-    CONFIG.WALLET_FEED_ENABLED && symbol ? `<span>입출금은 theddari 채널의 바뀐 기록 기준(가능 보장 아님) · <a class="wallet-link" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer">${escapeHtml(symbol)} 글 모아보기 ↗</a> · <button class="xt-link-btn" onclick="reloadWalletStatus()">다시 조회</button></span>` : ''
-  ].join('');
-  el.innerHTML=`<div class="xt-head">${head}</div>
-    <div class="table-wrap"><table class="xt-table">
-      <thead><tr><th>거래소</th><th class="num">현물 가격</th><th class="num">기준 대비</th><th class="num">24h 거래량</th><th class="num">선물 OI</th><th>입출금 (theddari)</th></tr></thead>
+    unlisted.length ? `미상장 ${unlisted.map(escapeHtml).join(' · ')}` : '',
+    '김프는 USDT 원화 가격(업비트, 없으면 빗썸) 기준',
+    'KuCoin·MEXC는 CoinGecko 값(지연)',
+    '거래량 $10K 미만 흐림',
+    '입출금은 theddari 채널의 최근 7일 변경 기록(가능 보장 아님)'
+  ].filter(Boolean).map(text=>`<span>${text}</span>`).join('<span class="xt-dot">·</span>');
+  el.innerHTML=`<div class="xt-head"><div class="xt-stats">${stats}</div><div class="xt-actions">${actions}</div></div>
+    <div class="table-wrap xt-wrap"><table class="xt-table">
+      <colgroup><col style="width:15%"><col style="width:14%"><col style="width:12%"><col style="width:13%"><col style="width:12%"><col></colgroup>
+      <thead><tr><th>거래소</th><th class="num">현물 가격</th><th class="num">기준 대비</th><th class="num">24h 거래량</th><th class="num">선물 OI</th><th>입출금 · theddari</th></tr></thead>
       <tbody>${body}</tbody></table></div>
     <div class="xt-foot">${foot}</div>`;
 }
@@ -4691,7 +4748,7 @@ function updateTransferFilterButtons(){
   Object.entries(filters).forEach(([mode,id])=>{
     const isActive=state.transferFilter===mode;
     document.getElementById(id).style.background=isActive?'var(--primary)':'transparent';
-    document.getElementById(id).style.color=isActive?'#fff':'var(--text-muted)';
+    document.getElementById(id).style.color=isActive?'#231e11':'var(--text-muted)';
   });
 }
 
