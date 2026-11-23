@@ -103,13 +103,13 @@ body{font-family:var(--font);background:radial-gradient(ellipse at 72% 0%,rgba(1
 .xt-wrap{border:1px solid var(--border);border-radius:12px;background:rgba(0,0,0,.2)}
 .xt-table{width:100%;min-width:1000px;table-layout:fixed;border-collapse:collapse;font-size:.84rem}
 .xt-table th{background:transparent;padding:10px 14px;border-bottom:1px solid var(--border);font:500 .7rem var(--font);letter-spacing:.2px;text-transform:none;color:var(--text-dim);text-align:left}
-.xt-table td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.045);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xt-table td{height:40px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.045);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .xt-table tbody tr:last-child td{border-bottom:0}
 .xt-table tbody tr{transition:background-color .12s}
 .xt-table tbody tr:hover{background:rgba(255,255,255,.025)}
 .xt-table .num{text-align:right}
 .xt-num{font-family:var(--mono);font-weight:500;letter-spacing:-.2px;color:var(--text)}
-.xt-sub{display:block;margin-top:1px;font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
+.xt-conv{margin-left:6px;font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
 .xt-ex{font-weight:600;color:var(--text)}
 .xt-none,.xt-ex.xt-none{color:var(--text-dim);font-weight:400;font-size:.78rem}
 .xt-gap{display:inline-block;min-width:70px;padding:3px 8px;border-radius:6px;font:600 .78rem var(--mono);text-align:right}
@@ -3730,16 +3730,17 @@ function exchangePriceCellHtml(row, ready){
   const p=row.price;
   if(p?.pending) return '<span class="xt-none" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
   if(!p || p.failed) return '<span class="xt-none">조회 실패</span>';
-  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`+
-    (p.quote==='KRW' && p.priceUsd ? `<span class="xt-sub">≈ ${formatMarketPrice(p.priceUsd,'USDT')}</span>` : '');
+  // The dollar value of a won price sits on the same line, so every row keeps one height.
+  const usd=p.quote==='KRW' && p.priceUsd ? (p.priceUsd>=1000 ? '$'+Math.round(p.priceUsd).toLocaleString('en-US') : formatMarketPrice(p.priceUsd,'USDT')) : '';
+  const value=`<span class="xt-num">${formatMarketPrice(p.price,p.quote)}</span>`+(usd ? `<span class="xt-conv">≈ ${usd}</span>` : '');
   if(!p.storedAt) return value;
   const seconds=Math.max(0, Math.round((Date.now()-p.storedAt)/1000));
   return `<span title="업비트 요청 제한으로 ${seconds}초 전에 받은 값입니다">${value}</span>`;
 }
 
-// Green above, red below, grey when equal.
+// Green above, red below, grey when it shows as 0.00% (under half a basis point either way).
 function gapBadge(pct, title=''){
-  const tone=pct>0 ? 'up' : pct<0 ? 'down' : 'flat';
+  const tone=pct>=0.005 ? 'up' : pct<=-0.005 ? 'down' : 'flat';
   return `<span class="xt-gap ${tone}"${title?` title="${escapeHtml(title)}"`:''}>${pctStr(pct)}</span>`;
 }
 
@@ -3836,7 +3837,7 @@ function renderExchangeTable(){
   const actions=[
     prices ? `<span class="xt-time">${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST</span>` : '',
     CONFIG.WALLET_FEED_ENABLED && symbol
-      ? `<a class="xt-btn" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer" title="theddari 지갑알림 채널에서 ${escapeHtml(symbol)} 글 모아보기">입출금 글 ↗</a>`+
+      ? `<a class="xt-btn" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer" title="theddari 지갑알림 채널에서 ${escapeHtml(symbol)} 입출금 변경 글 모아보기">입출금 현황 ↗</a>`+
         `<button class="xt-btn" onclick="reloadWalletStatus()" title="입출금 상태 다시 조회">다시 조회</button>`
       : ''
   ].join('');
@@ -3855,16 +3856,16 @@ function renderExchangeTable(){
     return `<tr class="${dim?'xt-dim-row':''}">
       <td>${tradeLink(nameUrl, name, row.spotUrl ? '현물 거래 페이지 열기' : '선물 거래 페이지 열기')}${tags}</td>
       <td class="num">${exchangePriceCellHtml(row, ready)}</td>
-      <td class="num">${exchangeGapCellHtml(row)}</td>
       <td class="num">${exchangeFuturesCellHtml(row, ready)}</td>
       <td class="num">${exchangeBasisCellHtml(row)}</td>
+      <td class="num">${exchangeGapCellHtml(row)}</td>
       <td class="num">${p && !p.failed && !p.pending && p.volumeUsd!==null ? `<span class="xt-num">${formatUsd(p.volumeUsd)}</span>` : XT_NONE}</td>
       <td class="num">${exchangeOiCellHtml(row)}</td>
       <td>${walletCellHtml(row.key, wallet, row.walletItems, row.walletEmpty)}</td></tr>`;
   }).join('') || '<tr><td colspan="8" class="xt-none">상장된 거래소가 없습니다</td></tr>';
   const foot=[
     unlisted.length ? `미상장 ${unlisted.map(escapeHtml).join(' · ')}` : '',
-    '기준 갭: 현물 ÷ 기준 가격 · 현선 갭: 같은 거래소 선물 ÷ 현물',
+    '현선 괴리: 같은 거래소 선물 ÷ 현물 · 기준 괴리: 현물 ÷ 기준 가격',
     '김프는 USDT 원화 가격(업비트, 없으면 빗썸) 기준',
     'KuCoin·MEXC는 CoinGecko 값(지연)',
     '거래소 이름·선물 칸을 누르면 거래 페이지',
@@ -3872,8 +3873,8 @@ function renderExchangeTable(){
   ].filter(Boolean).map(text=>`<span>${text}</span>`).join('<span class="xt-dot">·</span>');
   el.innerHTML=`<div class="xt-head"><div class="xt-stats">${stats}</div><div class="xt-actions">${actions}</div></div>
     <div class="table-wrap xt-wrap"><table class="xt-table">
-      <colgroup><col style="width:11%"><col style="width:12%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:11%"><col style="width:11%"><col></colgroup>
-      <thead><tr><th>거래소</th><th class="num">현물 가격</th><th class="num">기준 갭</th><th class="num">선물 가격</th><th class="num">현선 갭</th><th class="num">현물 거래량</th><th class="num">선물 OI</th><th>입출금 · theddari</th></tr></thead>
+      <colgroup><col style="width:10%"><col style="width:14%"><col style="width:11%"><col style="width:9%"><col style="width:9%"><col style="width:11%"><col style="width:10%"><col></colgroup>
+      <thead><tr><th>거래소</th><th class="num">현물 가격</th><th class="num">선물 가격</th><th class="num">현선 괴리</th><th class="num">기준 괴리</th><th class="num">현물 거래량</th><th class="num">선물 OI</th><th>입출금 · theddari</th></tr></thead>
       <tbody>${body}</tbody></table></div>
     <div class="xt-foot">${foot}</div>`;
 }
