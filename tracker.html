@@ -699,7 +699,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.2';
+const APP_VERSION = 'Tracker v1.2.3';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -2426,15 +2426,45 @@ function renderDropdown(coins){
   dd.classList.add('active');
 }
 
+// CoinGecko allows only a few calls a minute per IP and refuses over-limit calls without
+// CORS headers, so a limit looks like a network failure. One retry after a short pause
+// covers a brief burst (several coins opened at once); a missing coin (404) is not retried.
+const COIN_DATA_RETRY_MS=4000;
+async function fetchCoinData(coinId){
+  const url=`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false`;
+  for(let attempt=1; ; attempt++){
+    let status=0;
+    try{
+      const r=await fetch(url);
+      if(r.ok) return await r.json();
+      status=r.status;
+    }catch(err){
+      status=0;
+    }
+    if(attempt===1 && (status===0 || status===429 || status>=500)){
+      toast('CoinGecko 응답을 받지 못해 잠시 후 한 번 더 시도합니다','info');
+      await new Promise(resolve=>setTimeout(resolve, COIN_DATA_RETRY_MS));
+      continue;
+    }
+    const error=new Error(`Coin data fetch failed (${status ? `status ${status}` : 'no response'})`);
+    error.coinDataStatus=status;
+    throw error;
+  }
+}
+
+function coinLoadErrorMessage(err){
+  if(err?.coinDataStatus===404) return 'CoinGecko에서 이 코인을 찾지 못했습니다';
+  if(err && 'coinDataStatus' in err) return 'CoinGecko에서 코인 정보를 받지 못했습니다. 요청 한도일 수 있으니 1분 뒤 다시 시도해 주세요';
+  return '코인 화면을 표시하지 못했습니다';
+}
+
 async function selectCoin(coinId){
   if(!validTrackerCoin(coinId)||state.loading)return;
   document.getElementById('searchDropdown').classList.remove('active');
   state.loading=true;
   showLoading();
   try{
-    const r=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false`);
-    if(!r.ok) throw new Error('Coin data fetch failed');
-    const coin=await r.json();
+    const coin=await fetchCoinData(coinId);
     state.currentCoin=coin;
     state.allPlatforms=coin.platforms||{};
     state.transfers=[];
@@ -2463,7 +2493,7 @@ async function selectCoin(coinId){
     startRefreshTimer();
   }catch(e){
     console.error(e);
-    toast('코인 정보를 불러오지 못했습니다','error');
+    toast(coinLoadErrorMessage(e),'error');
   }finally{
     state.loading=false;
   }
@@ -2627,20 +2657,51 @@ async function fetchDirectJson(targetUrl){
   return r.json();
 }
 
-// CoinGecko futures lists are per exchange, so one copy serves every coin for five minutes.
+// CoinGecko futures lists are per exchange, so one copy serves every coin for five minutes,
+// and it is shared with the visitor's other Tracker tabs through browser storage: the app web
+// opens each coin in a new tab, and CoinGecko allows only a few calls a minute per IP.
+const FUTURES_LIST_TTL_MS=5*60*1000;
+const FUTURES_LIST_STORAGE_PREFIX='tracker_cg_futures_v1:';
+
+// Keeps only what Tracker reads (perpetual USDT contracts and six fields), so the shared copy stays small.
+function compactFuturesTickers(tickers){
+  return (Array.isArray(tickers) ? tickers : [])
+    .filter(t=>t?.contract_type==='perpetual' && t?.target==='USDT')
+    .map(t=>({symbol:t.symbol, base:t.base, target:t.target, coin_id:t.coin_id, contract_type:t.contract_type, open_interest_usd:t.open_interest_usd}));
+}
+
+function readSharedFuturesTickers(stateKey){
+  try{
+    const saved=JSON.parse(localStorage.getItem(FUTURES_LIST_STORAGE_PREFIX+stateKey)||'null');
+    const age=Date.now()-Number(saved?.loadedAt||0);
+    if(Array.isArray(saved?.tickers) && saved.tickers.length && age>=0 && age<FUTURES_LIST_TTL_MS) return saved;
+  }catch{}
+  return null;
+}
+
+function writeSharedFuturesTickers(stateKey, entry){
+  try{ localStorage.setItem(FUTURES_LIST_STORAGE_PREFIX+stateKey, JSON.stringify(entry)); }catch{}
+}
+
 async function getCoinGeckoFuturesTickers(stateKey, url, label){
   const cached=state[stateKey]||{};
-  if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<5*60*1000){
+  if(cached.tickers?.length && Date.now()-Number(cached.loadedAt||0)<FUTURES_LIST_TTL_MS){
     return cached.tickers;
   }
   if(cached.pending) return cached.pending;
+  const shared=readSharedFuturesTickers(stateKey);
+  if(shared){
+    state[stateKey]={loadedAt:Number(shared.loadedAt), tickers:shared.tickers};
+    return shared.tickers;
+  }
   const pending=(async()=>{
     const response=await fetch(url,{cache:'no-store'});
     if(!response.ok) throw new Error(`CoinGecko ${label} status ${response.status}`);
     const data=await response.json();
-    const tickers=Array.isArray(data?.tickers) ? data.tickers : [];
-    state[stateKey]={loadedAt:Date.now(),tickers};
-    return tickers;
+    const entry={loadedAt:Date.now(), tickers:compactFuturesTickers(data?.tickers)};
+    state[stateKey]=entry;
+    if(entry.tickers.length) writeSharedFuturesTickers(stateKey, entry);
+    return entry.tickers;
   })();
   state[stateKey]={...cached,pending};
   try{
