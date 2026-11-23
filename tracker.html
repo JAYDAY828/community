@@ -688,7 +688,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.7';
+const APP_VERSION = 'Tracker v1.2.8';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -3627,7 +3627,7 @@ function walletCellHtml(key, wallet, items, emptyRow){
 function exchangePriceCellHtml(row, ready){
   if(row.spot==='checking') return '<span class="xt-none">확인 중</span>';
   if(row.spot==='error') return '<span class="xt-none" title="거래소 응답을 확인하지 못했습니다">확인 실패</span>';
-  if(row.spot!=='listed') return `<span class="xt-none">${row.futures==='listed' ? '선물만' : '현물 없음'}</span>`;
+  if(row.spot!=='listed') return '<span class="xt-none">미상장</span>';
   if(!ready) return '<span class="xt-none">불러오는 중</span>';
   const p=row.price;
   if(p?.pending) return '<span class="xt-none" title="업비트는 웹페이지 요청을 10초에 한 번만 받아서, 차례가 오면 채웁니다">잠시 후</span>';
