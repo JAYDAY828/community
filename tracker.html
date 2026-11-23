@@ -2932,7 +2932,8 @@ async function checkExchangeListings(tickers, sysSymbol){
   if(!intel.kucoin.futures) addCoinGeckoFuturesCheck(intel.kucoin,fetchKuCoinFallback);
   if(!intel.mexc.futures) addCoinGeckoFuturesCheck(intel.mexc,fetchMexcFallback);
   if(!intel.upbit.spot) addListingCheck(intel.upbit,'spot',()=>fetchDirectJson(`https://api.upbit.com/v1/ticker?markets=KRW-${symbolUpper}`),d=>d[0]?.trade_price);
-  if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchDirectJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(d.value||[]).some(item=>String(item.market||'').endsWith(`-${symbolUpper}`)));
+  // Bithumb returns the market list as a plain array (e.g. [{"market":"KRW-BTC",...}]).
+  if(!intel.bithumb.spot) addListingCheck(intel.bithumb,'spot',()=>fetchDirectJson(`https://api.bithumb.com/v1/market/all?isDetails=false`),d=>(Array.isArray(d)?d:(d?.value||[])).some(item=>String(item?.market||'').endsWith(`-${symbolUpper}`)));
   renderExchangeIntel(intel);
   if(checks.length) await Promise.allSettled(checks);
   if(requestId!==state.exchangeRequestId) return;
