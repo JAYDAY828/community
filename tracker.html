@@ -3191,7 +3191,13 @@ async function fetchMarketQuotes(listing, coin){
   }
   for(const key of ['kucoin','mexc']){
     const base=marketBaseSymbol(key,listing,tickers);
-    if(intel[key]?.spot && base && coin?.id) settle(key, fetchCoinGeckoMarketQuote(coin.id, MARKET_SPOT_SOURCES[key].coingeckoExchange, base));
+    if(!intel[key]?.spot || !base || !coin?.id) continue;
+    // The coin data already holds CoinGecko's KuCoin/MEXC tickers; asking CoinGecko again
+    // only when they are missing keeps a coin view within CoinGecko's per-minute limit.
+    const loaded=findCoinGeckoSpotTicker(tickers,key);
+    const loadedPrice=Number(loaded?.last);
+    if(loadedPrice>0) settle(key, Promise.resolve({price:loadedPrice, quote:'USDT', quoteVolume:Number(loaded?.converted_volume?.usd)}));
+    else settle(key, fetchCoinGeckoMarketQuote(coin.id, MARKET_SPOT_SOURCES[key].coingeckoExchange, base));
   }
   let upbitUsdt=null;
   let bithumbUsdt=null;
