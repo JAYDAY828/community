@@ -688,7 +688,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.6';
+const APP_VERSION = 'Tracker v1.2.7';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -2803,17 +2803,21 @@ async function fetchMexcFallback(symbolUpper){
   return findMexcFallbackTicker(tickers,symbolUpper);
 }
 
-// KuCoin's own API refuses browser calls, so spot listing comes from CoinGecko's
-// KuCoin tickers for this coin, and from CoinPaprika only when CoinGecko fails.
+// CoinGecko's coin data lists at most 100 markets. When it lists fewer, a KuCoin spot market
+// missing from it is simply not there, and nothing more is asked. Only for a coin with 100 or
+// more markets is KuCoin checked again: on CoinPaprika first (not CoinGecko, whose per-minute
+// limit is what the coin view must stay under), and on CoinGecko only if CoinPaprika fails.
+const COINGECKO_COIN_TICKER_LIMIT=100;
 async function fetchKuCoinSpotFallback(symbolUpper){
   if(!symbolUpper) return null;
+  if((state.currentCoin?.tickers||[]).length<COINGECKO_COIN_TICKER_LIMIT) return null;
   try{
-    const ticker=await fetchCoinGeckoSpotTicker('kucoin', symbolUpper);
-    return ticker ? {symbol:getKuCoinSpotSymbol(symbolUpper),source:'coingecko'} : null;
+    return await fetchKuCoinSpotFromCoinPaprika(symbolUpper);
   }catch(err){
-    console.warn('CoinGecko KuCoin spot fallback failed:', redactSensitiveUrl(err?.message||err));
+    console.warn('CoinPaprika KuCoin spot check failed:', redactSensitiveUrl(err?.message||err));
   }
-  return fetchKuCoinSpotFromCoinPaprika(symbolUpper);
+  const ticker=await fetchCoinGeckoSpotTicker('kucoin', symbolUpper);
+  return ticker ? {symbol:getKuCoinSpotSymbol(symbolUpper),source:'coingecko'} : null;
 }
 
 async function fetchKuCoinSpotFromCoinPaprika(symbolUpper){
@@ -2863,8 +2867,17 @@ async function fetchCoinGeckoSpotTicker(exchangeId, symbolUpper){
   ) || null;
 }
 
-async function fetchBinanceSpotFallback(symbolUpper){
-  return fetchCoinGeckoSpotTicker('binance', symbolUpper);
+// Binance answers browsers directly, so its spot listing is asked of Binance (not CoinGecko):
+// a trading USDT pair is listed; "Invalid symbol" (HTTP 400) means it is not.
+async function fetchBinanceSpotListing(symbolUpper){
+  if(!/^[A-Z0-9]{1,20}$/.test(symbolUpper)) return false;
+  try{
+    const data=await fetchDirectJson(`https://api.binance.com/api/v3/exchangeInfo?symbol=${symbolUpper}USDT`);
+    return (data?.symbols||[]).some(item=>item?.symbol===`${symbolUpper}USDT` && item?.status==='TRADING');
+  }catch(err){
+    if(/status 400/.test(String(err?.message||''))) return false;
+    throw err;
+  }
 }
 
 async function fetchExchangeOi(exchangeKey, ex){
@@ -2993,7 +3006,7 @@ async function checkExchangeListings(tickers, sysSymbol){
   checks.push((async()=>{
     if(!intel.binance.spot){
       try{
-        intel.binance.spot=Boolean(await fetchBinanceSpotFallback(symbolUpper));
+        intel.binance.spot=await fetchBinanceSpotListing(symbolUpper);
         intel.binance.spotStatus=intel.binance.spot?'listed':'unlisted';
       }catch(err){
         intel.binance.spotStatus='error';
