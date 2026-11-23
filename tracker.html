@@ -427,7 +427,22 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 }
 /* Linked summary reuses the same coin and exchange renderer. */
 .tracker-compact .tabs,.tracker-compact .tab-content,.tracker-compact #btnWatchCoin,.tracker-compact .tracker-settings{display:none!important}
+.tracker-compact #coinPanel.active ~ #tab-markets{display:block!important}
 #trackerFullView[hidden]{display:none!important}
+.market-summary{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.78rem;color:var(--text-muted);margin-bottom:12px}
+.market-summary b{color:var(--text);font-family:var(--mono);font-weight:600}
+.market-table td,.market-table th{white-space:nowrap}
+.market-table .num{text-align:right;font-family:var(--mono)}
+.market-table .sub{display:block;font-size:.7rem;color:var(--text-dim);margin-top:2px}
+.market-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:4px;font-size:.66rem;font-weight:500;color:var(--text-dim);border:1px solid var(--border);vertical-align:1px}
+.market-tag.warn{color:var(--warning);border-color:rgba(245,158,11,.35)}
+.market-row-dim td{opacity:.5}
+.market-foot{font-size:.74rem;color:var(--text-dim);margin-top:10px;line-height:1.6}
+.market-card-gap{margin-top:16px}
+.wallet-ok{color:var(--success)}
+.wallet-no{color:var(--danger)}
+.wallet-link{color:var(--text-muted);text-decoration:none}
+.wallet-link:hover{color:var(--accent)}
 #trackerFullView{border-radius:10px;padding:0 16px;white-space:nowrap}
 </style>
 </head>
@@ -483,6 +498,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
     <button class="tab-btn active" data-tab="decision" onclick="switchTab('decision')">🧭 판단요약</button>
     <button class="tab-btn" data-tab="transfers" onclick="switchTab('transfers')">📋 전송내역</button>
     <button class="tab-btn" data-tab="wallets" onclick="clearWalletDetail(); switchTab('wallets')">🔍 지갑분석</button>
+    <button class="tab-btn" data-tab="markets" onclick="switchTab('markets')">💱 거래소 시세</button>
     <button class="tab-btn" data-tab="sessions" onclick="switchTab('sessions')">🕒 세션</button>
     <button class="tab-btn" data-tab="dex" onclick="switchTab('dex')">📊 DEX</button>
     <button class="tab-btn" data-tab="news" onclick="switchTab('news')">📰 뉴스피드</button>
@@ -536,6 +552,24 @@ tr:hover td{background:rgba(252,213,53,0.035)}
         </div>
       </div>
       <div id="walletsContent"><div class="loading"><p style="color:var(--text-dim)">전송 데이터를 기반으로 지갑을 분석합니다</p></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: Markets (also shown under the exchange cards in the compact view) -->
+  <div class="tab-content" id="tab-markets">
+    <div class="card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span>💱 거래소별 현물 시세</span>
+        <span id="marketUpdated" style="color:var(--text-dim);font-weight:400;font-size:.75rem"></span>
+      </div>
+      <div id="marketPricesContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 거래소별 현물 시세가 표시됩니다</p></div></div>
+    </div>
+    <div class="card market-card-gap" id="walletStatusCard">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span>👛 지갑 입출금 상태</span>
+        <span id="walletStatusActions" style="display:flex;gap:10px;align-items:center;font-weight:400;font-size:.75rem"></span>
+      </div>
+      <div id="walletStatusContent"><div class="loading"><p style="color:var(--text-dim)">코인을 검색하면 업비트·빗썸·바이낸스 지갑 상태가 표시됩니다</p></div></div>
     </div>
   </div>
 
@@ -665,7 +699,7 @@ tr:hover td{background:rgba(252,213,53,0.035)}
 
 <script>
 // ==================== CONFIGURATION ====================
-const APP_VERSION = 'Tracker v1.2.1';
+const APP_VERSION = 'Tracker v1.2.2';
 const trackerParams=new URLSearchParams(location.search);
 let trackerCompact=trackerParams.get('view')==='compact';
 function validTrackerCoin(id){return typeof id==='string' && /^[a-z0-9][a-z0-9_-]{0,199}$/.test(id);}
@@ -683,6 +717,12 @@ const CONFIG = {
   BINANCE_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/binance_futures?include_tickers=unexpired',
   KUCOIN_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/kumex?include_tickers=unexpired',
   MEXC_FUTURES_FALLBACK: 'https://api.coingecko.com/api/v3/derivatives/exchanges/mxc_futures?include_tickers=unexpired',
+  // Telegram pages refuse browser calls, so only the wallet-status lookup uses this proxy,
+  // and the proxy accepts only the theddari wallet channel. false hides the wallet card.
+  WALLET_FEED_ENABLED: true,
+  WALLET_FEED_PROXY: 'https://tracker-exchange-proxy.jayday.workers.dev',
+  WALLET_FEED_TTL_MS: 10*60*1000,
+  MARKET_PRICE_REFRESH_MS: 60*1000,
   EXPLORERS: {
     'ethereum':           { name:'Etherscan',    chainId:1,     moralisChain:'eth',     url:'https://etherscan.io',               v2Free:true },
     'binance-smart-chain':{ name:'BscScan',      chainId:56,    moralisChain:'bsc',     url:'https://bscscan.com',                v2Free:false },
@@ -796,6 +836,8 @@ const state = {
   funderGroups: {},
   exchangeRequestId: 0,
   exchangeRefreshPending: false,
+  exchangeListing: null,
+  marketBoard: null,
   forceCatchUp: false,
   lastFocusCatchUpAt: 0,
   refreshTimer: null,
@@ -2402,6 +2444,8 @@ async function selectCoin(coinId){
     state.decisionSummary=null;
     state.observation=null;
     state.observationRecord=null;
+    state.exchangeListing=null;
+    resetMarketBoard();
     // pick primary chain
     const chains=Object.keys(state.allPlatforms).filter(k=>k&&state.allPlatforms[k]);
     const supportedChains=chains.filter(c=>CONFIG.EXPLORERS[c]);
@@ -2942,6 +2986,8 @@ async function checkExchangeListings(tickers, sysSymbol){
     ex.spotStatus ||= ex.spot?'listed':'unlisted';
     if(ex.showFutures!==false) ex.futuresStatus ||= ex.futures?'listed':'unlisted';
   });
+  state.exchangeListing={coinId:state.currentCoin?.id||'', symbol:symbolUpper, intel};
+  requestMarketBoardRefresh('listing');
 
   Object.values(intel).forEach(ex=>{ if(ex.futures) ex.oiStatus='loading'; });
   renderExchangeIntel(intel);
@@ -2977,6 +3023,479 @@ async function checkExchangeListings(tickers, sysSymbol){
   state.exchangeIntel=intel;
   renderExchangeIntel(intel);
   buildAndRenderAlerts();
+}
+
+// ==================== EXCHANGE MARKETS ====================
+// Spot prices per exchange and the theddari wallet status. Shown in the 거래소 시세 tab,
+// and under the exchange cards in the compact view used by the app web. Prices come
+// straight from each exchange (KuCoin and MEXC from CoinGecko, a few minutes late); only
+// the wallet status goes through the proxy, once per coin view and never on a timer.
+const MARKET_SPOT_SOURCES={
+  binance:{name:'Binance', isCoinGeckoMarket:id=>id==='binance'},
+  bybit:{name:'Bybit', isCoinGeckoMarket:id=>id==='bybit_spot'||id==='bybit'},
+  okx:{name:'OKX', isCoinGeckoMarket:id=>id==='okex'},
+  bitget:{name:'Bitget', isCoinGeckoMarket:id=>id==='bitget'},
+  gate:{name:'Gate.io', isCoinGeckoMarket:id=>id==='gate'},
+  kucoin:{name:'KuCoin', isCoinGeckoMarket:id=>id==='kucoin', coingeckoExchange:'kucoin'},
+  mexc:{name:'MEXC', isCoinGeckoMarket:id=>id==='mxc', coingeckoExchange:'mxc'},
+  upbit:{name:'Upbit', isCoinGeckoMarket:id=>id==='upbit'},
+  bithumb:{name:'Bithumb', isCoinGeckoMarket:id=>id.includes('bithumb')},
+  coinbase:{name:'Coinbase', isCoinGeckoMarket:id=>id==='gdax'}
+};
+const MARKET_QUOTE_CURRENCY={upbit:'KRW', bithumb:'KRW', coinbase:'USD'};
+const MARKET_LOW_VOLUME_USD=10000;
+const MARKET_UNCONFIRMED_GAP_PCT=20;
+
+function marketBoard(){
+  state.marketBoard ||= { prices:null, priceLoading:false, priceRequestId:0,
+    wallet:{symbol:'', status:'idle', records:[], fetchedAt:0, error:''}, walletRequestId:0, coingeckoQuotes:{} };
+  return state.marketBoard;
+}
+
+function resetMarketBoard(){
+  const board=marketBoard();
+  board.prices=null;
+  board.priceLoading=false;
+  board.priceRequestId++;
+  board.wallet={symbol:'', status:'idle', records:[], fetchedAt:0, error:''};
+  board.walletRequestId++;
+  renderMarketBoard();
+}
+
+function isMarketBoardShown(){
+  if(document.hidden || !state.currentCoin) return false;
+  if(trackerCompact) return true;
+  return Boolean(document.getElementById('tab-markets')?.classList.contains('active'));
+}
+
+function currentExchangeListing(){
+  const listing=state.exchangeListing;
+  return listing && listing.coinId===(state.currentCoin?.id||'') ? listing : null;
+}
+
+function currentMarketSymbol(){
+  const symbol=String(state.currentCoin?.symbol||'').toUpperCase();
+  return /^[A-Z0-9]{1,20}$/.test(symbol) ? symbol : '';
+}
+
+// Called when the listing check finishes, on tab or visibility changes, and every 15 s.
+// Prices reload after a minute; the wallet status loads once per coin and again only
+// when the section is opened or shown after ten minutes.
+function requestMarketBoardRefresh(reason=''){
+  if(!isMarketBoardShown()) return;
+  const board=marketBoard();
+  const listing=currentExchangeListing();
+  if(listing){
+    const prices=board.prices;
+    const stale=!prices || prices.coinId!==listing.coinId || Date.now()-prices.loadedAt>=CONFIG.MARKET_PRICE_REFRESH_MS-1000;
+    if((reason==='listing'||stale) && !board.priceLoading) loadMarketPrices(listing);
+  }
+  const symbol=currentMarketSymbol();
+  if(CONFIG.WALLET_FEED_ENABLED && symbol && board.wallet.status!=='loading'){
+    const sameCoin=board.wallet.symbol===symbol;
+    const expired=Date.now()-board.wallet.fetchedAt>=CONFIG.WALLET_FEED_TTL_MS;
+    if(!sameCoin || (expired && (reason==='tab'||reason==='visible'))) loadWalletStatus(symbol);
+  }
+  renderMarketBoard();
+}
+
+function findCoinGeckoSpotTicker(tickers, key){
+  const source=MARKET_SPOT_SOURCES[key];
+  const target=MARKET_QUOTE_CURRENCY[key]||'USDT';
+  return (tickers||[]).find(t=>
+    t?.market && source.isCoinGeckoMarket(String(t.market.identifier||'')) && !isFut(t) && !t.is_stale &&
+    String(t.target||'').toUpperCase()===target
+  ) || null;
+}
+
+function marketBaseSymbol(key, listing, tickers){
+  const base=String(findCoinGeckoSpotTicker(tickers,key)?.base||listing.symbol||'').toUpperCase();
+  return /^[A-Z0-9]{1,20}$/.test(base) ? base : '';
+}
+
+const MARKET_QUOTE_FETCHERS={
+  async binance(base){
+    const d=await fetchDirectJson(`https://api.binance.com/api/v3/ticker/24hr?symbol=${base}USDT`);
+    return {price:Number(d?.lastPrice), quote:'USDT', quoteVolume:Number(d?.quoteVolume)};
+  },
+  async bybit(base){
+    const d=await fetchDirectJson(`https://api.bybit.com/v5/market/tickers?category=spot&symbol=${base}USDT`);
+    const t=d?.result?.list?.[0];
+    return t ? {price:Number(t.lastPrice), quote:'USDT', quoteVolume:Number(t.turnover24h)} : null;
+  },
+  async okx(base){
+    const d=await fetchDirectJson(`https://www.okx.com/api/v5/market/ticker?instId=${base}-USDT`);
+    const t=d?.data?.[0];
+    return t ? {price:Number(t.last), quote:'USDT', quoteVolume:Number(t.volCcy24h)} : null;
+  },
+  async bitget(base){
+    const d=await fetchDirectJson(`https://api.bitget.com/api/v2/spot/market/tickers?symbol=${base}USDT`);
+    const t=d?.data?.[0];
+    return t ? {price:Number(t.lastPr), quote:'USDT', quoteVolume:Number(t.quoteVolume)} : null;
+  },
+  async gate(base){
+    const d=await fetchDirectJson(`https://api.gateio.ws/api/v4/spot/tickers?currency_pair=${base}_USDT`);
+    const t=Array.isArray(d) ? d[0] : null;
+    return t ? {price:Number(t.last), quote:'USDT', quoteVolume:Number(t.quote_volume)} : null;
+  },
+  async coinbase(base){
+    const d=await fetchDirectJson(`https://api.exchange.coinbase.com/products/${base}-USD/stats`);
+    const last=Number(d?.last);
+    return {price:last, quote:'USD', quoteVolume:last*Number(d?.volume)};
+  }
+};
+
+// Upbit and Bithumb answer several markets in one call; KRW-USDT gives the won price of USDT.
+async function fetchKrwMarketQuotes(host, base){
+  const markets=['KRW-USDT', ...(base ? [`KRW-${base}`] : [])];
+  const d=await fetchDirectJson(`https://${host}/v1/ticker?markets=${markets.join(',')}`);
+  const list=Array.isArray(d) ? d : [];
+  const usdt=list.find(item=>item?.market==='KRW-USDT');
+  const coin=base ? list.find(item=>item?.market===`KRW-${base}`) : null;
+  return {
+    usdtKrw:Number(usdt?.trade_price)>0 ? Number(usdt.trade_price) : null,
+    quote:coin ? {price:Number(coin.trade_price), quote:'KRW', quoteVolume:Number(coin.acc_trade_price_24h)} : null
+  };
+}
+
+// KuCoin and MEXC refuse browser calls, so their spot price is CoinGecko's, kept for five minutes.
+async function fetchCoinGeckoMarketQuote(coinId, exchangeId, base){
+  const board=marketBoard();
+  const cacheKey=`${coinId}:${exchangeId}`;
+  const cached=board.coingeckoQuotes[cacheKey];
+  if(cached && Date.now()-cached.loadedAt<5*60*1000) return cached.quote;
+  const response=await fetch(`${CONFIG.COINGECKO}/coins/${encodeURIComponent(coinId)}/tickers?exchange_ids=${encodeURIComponent(exchangeId)}&page=1`,{cache:'no-store'});
+  if(!response.ok) throw new Error(`CoinGecko ${exchangeId} tickers status ${response.status}`);
+  const data=await response.json();
+  const t=(data?.tickers||[]).find(item=>
+    String(item?.base||'').toUpperCase()===base && String(item?.target||'').toUpperCase()==='USDT' && !item.is_stale
+  );
+  const quote=t ? {price:Number(t.last), quote:'USDT', quoteVolume:Number(t?.converted_volume?.usd)} : null;
+  board.coingeckoQuotes[cacheKey]={loadedAt:Date.now(), quote};
+  return quote;
+}
+
+// Queries only exchanges whose spot market the listing check found.
+async function fetchMarketQuotes(listing, coin){
+  const intel=listing.intel||{};
+  const tickers=coin?.tickers||[];
+  const quotes={};
+  const jobs=[];
+  const settle=(key,promise)=>jobs.push(promise.then(
+    q=>{ quotes[key]=q && q.price>0 ? {ok:true,...q} : {ok:false,error:'no market'}; },
+    err=>{ quotes[key]={ok:false,error:String(err?.message||err)}; }
+  ));
+  for(const key of Object.keys(MARKET_QUOTE_FETCHERS)){
+    const base=marketBaseSymbol(key,listing,tickers);
+    if(intel[key]?.spot && base) settle(key, MARKET_QUOTE_FETCHERS[key](base));
+  }
+  for(const key of ['kucoin','mexc']){
+    const base=marketBaseSymbol(key,listing,tickers);
+    if(intel[key]?.spot && base && coin?.id) settle(key, fetchCoinGeckoMarketQuote(coin.id, MARKET_SPOT_SOURCES[key].coingeckoExchange, base));
+  }
+  let upbitUsdt=null;
+  let bithumbUsdt=null;
+  const upbitBase=intel.upbit?.spot ? marketBaseSymbol('upbit',listing,tickers) : '';
+  jobs.push(fetchKrwMarketQuotes('api.upbit.com', upbitBase).then(r=>{
+    upbitUsdt=r.usdtKrw;
+    if(upbitBase) quotes.upbit=r.quote && r.quote.price>0 ? {ok:true,...r.quote} : {ok:false,error:'no KRW market'};
+  },err=>{ if(upbitBase) quotes.upbit={ok:false,error:String(err?.message||err)}; }));
+  const bithumbBase=intel.bithumb?.spot ? marketBaseSymbol('bithumb',listing,tickers) : '';
+  if(bithumbBase){
+    jobs.push(fetchKrwMarketQuotes('api.bithumb.com', bithumbBase).then(r=>{
+      bithumbUsdt=r.usdtKrw;
+      quotes.bithumb=r.quote && r.quote.price>0 ? {ok:true,...r.quote} : {ok:false,error:'no KRW market'};
+    },err=>{ quotes.bithumb={ok:false,error:String(err?.message||err)}; }));
+  }
+  await Promise.allSettled(jobs);
+
+  let reference=null;
+  if(quotes.binance?.ok) reference={price:quotes.binance.price, label:'Binance 현물'};
+  else if(intel.binance?.futures && intel.binance.futuresSymbol===`${listing.symbol}USDT`){
+    // A plain contract only: a 1000x contract's price would not match the coin's price.
+    try{
+      const d=await fetchDirectJson(`https://fapi.binance.com/fapi/v1/ticker/price?symbol=${listing.symbol}USDT`);
+      if(Number(d?.price)>0) reference={price:Number(d.price), label:'Binance 선물'};
+    }catch(err){
+      console.warn('Binance futures reference failed:', redactSensitiveUrl(err?.message||err));
+    }
+  }
+  return {
+    quotes,
+    reference,
+    usdtKrw:upbitUsdt||bithumbUsdt,
+    usdtSource:upbitUsdt ? 'Upbit' : bithumbUsdt ? 'Bithumb' : ''
+  };
+}
+
+async function loadMarketPrices(listing){
+  const board=marketBoard();
+  const requestId=++board.priceRequestId;
+  board.priceLoading=true;
+  renderMarketBoard();
+  try{
+    const result=await fetchMarketQuotes(listing, state.currentCoin);
+    if(requestId!==board.priceRequestId) return;
+    board.prices={coinId:listing.coinId, symbol:listing.symbol, loadedAt:Date.now(), ...result};
+  }catch(err){
+    console.warn('Market prices failed:', redactSensitiveUrl(err?.message||err));
+  }finally{
+    if(requestId===board.priceRequestId){
+      board.priceLoading=false;
+      renderMarketBoard();
+    }
+  }
+}
+
+// One row per listed exchange. Gaps are against the reference (Binance spot, else a plain
+// Binance futures contract); for Upbit and Bithumb the gap is the kimchi premium on the
+// Upbit USDT price. A gap over 20% on a market CoinGecko does not tie to this coin is flagged.
+function buildMarketRows(prices, listing, coin){
+  const intel=listing?.intel||{};
+  const tickers=coin?.tickers||[];
+  const usdtKrw=prices?.usdtKrw||null;
+  const reference=prices?.reference||null;
+  const rows=[];
+  const unlisted=[];
+  const unknown=[];
+  for(const [key, source] of Object.entries(MARKET_SPOT_SOURCES)){
+    const ex=intel[key];
+    if(!ex) continue;
+    if(ex.spotStatus==='error'){ unknown.push(source.name); continue; }
+    if(!ex.spot){ unlisted.push(source.name); continue; }
+    const row={key, name:source.name, delayed:Boolean(source.coingeckoExchange),
+      isReference:key==='binance' && reference?.label==='Binance 현물'};
+    const q=prices?.quotes?.[key];
+    if(!q?.ok){ rows.push({...row, failed:true, volumeUsd:null}); continue; }
+    const toUsd=q.quote==='KRW' ? (usdtKrw ? 1/usdtKrw : null) : 1;
+    const priceUsd=toUsd ? q.price*toUsd : null;
+    const volumeUsd=toUsd && Number.isFinite(q.quoteVolume) ? q.quoteVolume*toUsd : null;
+    const gapPct=reference && priceUsd && !row.isReference ? (priceUsd/reference.price-1)*100 : null;
+    const unconfirmed=gapPct!==null && Math.abs(gapPct)>MARKET_UNCONFIRMED_GAP_PCT && !findCoinGeckoSpotTicker(tickers,key);
+    rows.push({...row, price:q.price, quote:q.quote, priceUsd, gapPct, volumeUsd, unconfirmed,
+      lowVolume:volumeUsd!==null && volumeUsd<MARKET_LOW_VOLUME_USD});
+  }
+  rows.sort((a,b)=>(Number(b.isReference)-Number(a.isReference)) || ((b.volumeUsd ?? -1)-(a.volumeUsd ?? -1)));
+  return {rows, unlisted, unknown};
+}
+
+function formatMarketPrice(value, quote){
+  const n=Number(value);
+  if(!Number.isFinite(n) || n<=0) return '-';
+  const prefix=quote==='KRW' ? '₩' : '$';
+  let text;
+  if(quote==='KRW') text=n>=1000 ? n.toLocaleString('en-US',{maximumFractionDigits:0}) : n>=100 ? n.toLocaleString('en-US',{maximumFractionDigits:1}) : n.toLocaleString('en-US',{maximumSignificantDigits:4});
+  else text=n>=1000 ? n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : n>=1 ? n.toLocaleString('en-US',{maximumFractionDigits:4}) : n.toLocaleString('en-US',{maximumSignificantDigits:4});
+  return prefix+text;
+}
+
+function formatKst(ms, withSeconds=false){
+  const parts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',
+    hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date(ms)).map(p=>[p.type,p.value]));
+  return withSeconds ? `${parts.hour}:${parts.minute}:${parts.second}` : `${parts.month}/${parts.day} ${parts.hour}:${parts.minute}`;
+}
+
+// ---- Wallet status from the theddari wallet channel (public Telegram preview) ----
+const WALLET_EXCHANGES=[
+  {key:'upbit', label:'업비트', name:'Upbit'},
+  {key:'bithumb', label:'빗썸', name:'Bithumb'},
+  {key:'binance', label:'바이낸스', name:'Binance'}
+];
+const WALLET_CHANNEL='theddari_wallet';
+const WALLET_PAGE_SIZE=20;
+
+function decodeHtmlEntities(text){
+  const named={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' '};
+  return String(text||'').replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi,(all,code)=>{
+    if(code[0]==='#') return String.fromCodePoint(code[1].toLowerCase()==='x' ? parseInt(code.slice(2),16) : parseInt(code.slice(1),10));
+    return named[code.toLowerCase()] ?? all;
+  });
+}
+
+// Reads the channel's posts as text only; nothing from the page is ever inserted as HTML.
+// Each post: "📌업비트 지갑" then lines like "ACE (ETH): 입금❌ 출금✅".
+function parseWalletFeed(html, symbol){
+  const source=String(html||'');
+  const marker=new RegExp(`data-post="${WALLET_CHANNEL}/(\\d+)"`,'g');
+  const posts=[];
+  let m;
+  while((m=marker.exec(source))) posts.push({id:Number(m[1]), index:m.index});
+  const records=[];
+  posts.forEach((post,i)=>{
+    const chunk=source.slice(post.index, posts[i+1]?.index ?? source.length);
+    const textMatch=chunk.match(/<div class="tgme_widget_message_text[^"]*"[^>]*>([\s\S]*?)<\/div>/);
+    const timeMatch=chunk.match(/<time[^>]*datetime="([^"]+)"/);
+    const at=timeMatch ? Date.parse(timeMatch[1]) : NaN;
+    if(!textMatch || !Number.isFinite(at)) return;
+    const text=decodeHtmlEntities(textMatch[1].replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,''));
+    let exchange='';
+    for(const raw of text.split('\n')){
+      const line=raw.trim();
+      if(!line) continue;
+      const header=line.match(/(업비트|빗썸|바이낸스)\s*지갑/);
+      if(header){ exchange=WALLET_EXCHANGES.find(ex=>ex.label===header[1])?.key||''; continue; }
+      const status=line.match(/^([A-Z0-9][A-Z0-9.\-]*)\s*\(([^)]+)\)\s*:\s*입금\s*(✅|❌)️?\s*출금\s*(✅|❌)/u);
+      if(exchange && status && status[1]===symbol){
+        records.push({exchange, network:status[2].trim(), deposit:status[3]==='✅', withdraw:status[4]==='✅', at, postId:post.id});
+      }
+    }
+  });
+  return {
+    records,
+    postCount:posts.length,
+    oldestId:posts.length ? Math.min(...posts.map(p=>p.id)) : null,
+    recognized:posts.length>0 || source.includes('tgme_channel_info')
+  };
+}
+
+async function fetchWalletFeedPage(symbol, before){
+  const target=new URL(`https://t.me/s/${WALLET_CHANNEL}`);
+  target.searchParams.set('q', symbol);
+  if(before) target.searchParams.set('before', String(before));
+  const base=String(CONFIG.WALLET_FEED_PROXY||'').replace(/\/+$/,'');
+  const response=await fetch(`${base}/proxy?url=${encodeURIComponent(target.toString())}`,{cache:'no-store'});
+  if(!response.ok) throw new Error(`wallet feed status ${response.status}`);
+  return response.text();
+}
+
+function walletErrorMessage(err){
+  const message=String(err?.message||err||'');
+  if(/status 403/.test(message)) return '지갑 상태 조회가 막혔습니다. 프록시(Worker)에 텔레그램 채널 허용이 반영됐는지 확인해 주세요.';
+  if(/status 429/.test(message)) return '요청이 많아 지금은 조회할 수 없습니다. 잠시 후 다시 조회해 주세요.';
+  if(message==='format') return '채널 글 형식을 읽지 못했습니다. 원문 링크로 확인해 주세요.';
+  return '지갑 상태를 불러오지 못했습니다. 잠시 후 다시 조회해 주세요.';
+}
+
+// One request per coin; a second (older) page only when the first is full and an
+// exchange has not appeared yet.
+async function loadWalletStatus(symbol){
+  const board=marketBoard();
+  const requestId=++board.walletRequestId;
+  board.wallet={symbol, status:'loading', records:[], fetchedAt:0, error:''};
+  renderMarketBoard();
+  try{
+    const first=parseWalletFeed(await fetchWalletFeedPage(symbol), symbol);
+    if(!first.recognized) throw new Error('format');
+    let records=first.records;
+    const missing=WALLET_EXCHANGES.some(ex=>!records.some(r=>r.exchange===ex.key));
+    if(first.postCount>=WALLET_PAGE_SIZE && first.oldestId && missing){
+      try{
+        records=records.concat(parseWalletFeed(await fetchWalletFeedPage(symbol, first.oldestId), symbol).records);
+      }catch(err){
+        console.warn('Older wallet page failed:', redactSensitiveUrl(err?.message||err));
+      }
+    }
+    if(requestId!==board.walletRequestId) return;
+    board.wallet={symbol, status:'ready', records, fetchedAt:Date.now(), error:''};
+  }catch(err){
+    if(requestId!==board.walletRequestId) return;
+    console.warn('Wallet status failed:', redactSensitiveUrl(err?.message||err));
+    board.wallet={symbol, status:'error', records:[], fetchedAt:Date.now(), error:walletErrorMessage(err)};
+  }
+  renderMarketBoard();
+}
+
+function reloadWalletStatus(){
+  const symbol=currentMarketSymbol();
+  if(symbol && CONFIG.WALLET_FEED_ENABLED && marketBoard().wallet.status!=='loading') loadWalletStatus(symbol);
+}
+
+// Latest record per exchange and network; blocked ones first, then open, then none.
+function buildWalletRows(records, now=Date.now()){
+  const latest=new Map();
+  for(const r of records||[]){
+    const key=`${r.exchange}|${r.network}`;
+    const prev=latest.get(key);
+    if(!prev || r.at>prev.at || (r.at===prev.at && r.postId>prev.postId)) latest.set(key,r);
+  }
+  const rows=[];
+  WALLET_EXCHANGES.forEach((ex,order)=>{
+    const items=[...latest.values()].filter(r=>r.exchange===ex.key);
+    if(!items.length){ rows.push({exchange:ex.key, name:ex.name, order, empty:true, rank:2}); return; }
+    for(const r of items){
+      const blocked=!r.deposit || !r.withdraw;
+      rows.push({...r, name:ex.name, order, blocked, old:blocked && now-r.at>30*86400000, rank:blocked?0:1});
+    }
+  });
+  rows.sort((a,b)=>(a.rank-b.rank) || (a.order-b.order) || ((b.at||0)-(a.at||0)));
+  return rows;
+}
+
+function renderMarketPrices(){
+  const el=document.getElementById('marketPricesContent');
+  const updated=document.getElementById('marketUpdated');
+  if(!el) return;
+  const board=marketBoard();
+  const placeholder=text=>`<div class="loading"><p style="color:var(--text-dim)">${text}</p></div>`;
+  if(updated) updated.textContent='';
+  if(!state.currentCoin){ el.innerHTML=placeholder('코인을 검색하면 거래소별 현물 시세가 표시됩니다'); return; }
+  const listing=currentExchangeListing();
+  const prices=board.prices && board.prices.coinId===state.currentCoin.id ? board.prices : null;
+  if(!listing){ el.innerHTML=placeholder('거래소 상장 여부를 확인하는 중입니다…'); return; }
+  if(!prices){ el.innerHTML=placeholder('거래소별 시세를 불러오는 중입니다…'); return; }
+  if(updated) updated.textContent=`${board.priceLoading?'갱신 중 · ':''}${formatKst(prices.loadedAt,true)} KST`;
+  const {rows, unlisted, unknown}=buildMarketRows(prices, listing, state.currentCoin);
+  const ref=prices.reference;
+  const summary=[
+    ref ? `기준 ${escapeHtml(ref.label)} <b>${formatMarketPrice(ref.price,'USDT')}</b>` : '기준 가격 없음 (바이낸스 미상장)',
+    prices.usdtKrw ? `USDT <b>${formatMarketPrice(prices.usdtKrw,'KRW')}</b> (${escapeHtml(prices.usdtSource)})` : ''
+  ].filter(Boolean).map(part=>`<span>${part}</span>`).join('');
+  const body=rows.length ? rows.map(row=>{
+    const tags=[row.delayed?'<span class="market-tag">지연</span>':'', row.quote==='USD'?'<span class="market-tag">USD</span>':'',
+      row.unconfirmed?'<span class="market-tag warn" title="CoinGecko가 이 코인의 마켓으로 확인하지 못했고 차이가 20%를 넘습니다">다른 코인일 수 있음</span>':''].join('');
+    if(row.failed) return `<tr><td>${escapeHtml(row.name)}${tags}</td><td class="num" colspan="3" style="color:var(--text-dim)">시세 조회 실패</td></tr>`;
+    const price=formatMarketPrice(row.price,row.quote)+(row.quote==='KRW' && row.priceUsd ? `<span class="sub">≈ ${formatMarketPrice(row.priceUsd,'USDT')}</span>` : '');
+    const gap=row.isReference ? '<span style="color:var(--text-dim)">기준</span>' : row.gapPct===null ? '-' : `<span class="${pctClass(row.gapPct)}">${pctStr(row.gapPct)}</span>`;
+    return `<tr class="${row.lowVolume?'market-row-dim':''}"><td>${escapeHtml(row.name)}${tags}</td><td class="num">${price}</td><td class="num">${gap}</td><td class="num">${row.volumeUsd===null?'-':formatUsd(row.volumeUsd)}</td></tr>`;
+  }).join('') : '<tr><td colspan="4" style="color:var(--text-dim)">현물 상장 거래소가 없습니다</td></tr>';
+  const notes=[
+    unlisted.length ? `미상장: ${unlisted.map(escapeHtml).join(' · ')}` : '',
+    unknown.length ? `상장 확인 실패: ${unknown.map(escapeHtml).join(' · ')}` : '',
+    '업비트·빗썸의 기준 대비는 업비트 USDT 원화 가격으로 환산한 김프입니다. KuCoin·MEXC는 CoinGecko 값이라 몇 분 늦을 수 있고, 24시간 거래량이 $10K 미만이면 흐리게 표시합니다. 탭을 보고 있을 때 1분마다 갱신합니다.'
+  ].filter(Boolean).join('<br>');
+  el.innerHTML=`<div class="market-summary">${summary}</div>
+    <div class="table-wrap"><table class="market-table">
+      <thead><tr><th>거래소</th><th class="num">가격</th><th class="num">기준 대비</th><th class="num">24h 거래량</th></tr></thead>
+      <tbody>${body}</tbody></table></div>
+    <div class="market-foot">${notes}</div>`;
+}
+
+function renderWalletStatus(){
+  const card=document.getElementById('walletStatusCard');
+  const el=document.getElementById('walletStatusContent');
+  const actions=document.getElementById('walletStatusActions');
+  if(!card || !el) return;
+  card.hidden=!CONFIG.WALLET_FEED_ENABLED;
+  if(!CONFIG.WALLET_FEED_ENABLED) return;
+  const placeholder=text=>`<div class="loading"><p style="color:var(--text-dim)">${text}</p></div>`;
+  const symbol=currentMarketSymbol();
+  const wallet=marketBoard().wallet;
+  if(actions){
+    actions.innerHTML=symbol
+      ? `<a class="wallet-link" href="https://t.me/s/${WALLET_CHANNEL}?q=${encodeURIComponent(symbol)}" target="_blank" rel="noopener noreferrer">${escapeHtml(symbol)} 글 모아보기 ↗</a>
+         <button class="btn-sm" onclick="reloadWalletStatus()" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:.75rem">다시 조회</button>`
+      : '';
+  }
+  if(!state.currentCoin || !symbol){ el.innerHTML=placeholder('코인을 검색하면 업비트·빗썸·바이낸스 지갑 상태가 표시됩니다'); return; }
+  if(wallet.symbol!==symbol || wallet.status==='idle' || wallet.status==='loading'){ el.innerHTML=placeholder('지갑 상태를 확인하는 중입니다…'); return; }
+  if(wallet.status==='error'){ el.innerHTML=placeholder(escapeHtml(wallet.error)); return; }
+  const rows=buildWalletRows(wallet.records);
+  const mark=ok=>ok ? '<span class="wallet-ok">✅</span>' : '<span class="wallet-no">❌</span>';
+  const body=rows.map(row=>{
+    if(row.empty) return `<tr><td>${escapeHtml(row.name)}</td><td colspan="4" style="color:var(--text-dim)">최근 변경 기록 없음</td></tr>`;
+    const time=`${formatKst(row.at)}${row.old?' · 오래된 기록':''}`;
+    return `<tr class="${row.old?'market-row-dim':''}"><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.network)}</td><td>${mark(row.deposit)}</td><td>${mark(row.withdraw)}</td>
+      <td class="num"><a class="wallet-link" href="https://t.me/${WALLET_CHANNEL}/${Number(row.postId)}" target="_blank" rel="noopener noreferrer">${time} ↗</a></td></tr>`;
+  }).join('');
+  el.innerHTML=`<div class="table-wrap"><table class="market-table">
+      <thead><tr><th>거래소</th><th>네트워크</th><th>입금</th><th>출금</th><th class="num">바뀐 시각 (KST)</th></tr></thead>
+      <tbody>${body}</tbody></table></div>
+    <div class="market-foot">theddari 지갑알림 채널에서 입출금 상태가 바뀐 기록을 모은 것입니다. "최근 변경 기록 없음"은 최근 글 안에 변경이 없었다는 뜻이며, 입출금 가능을 보장하지 않습니다. 거래 전에는 원문과 거래소 공지를 꼭 확인하세요.</div>`;
+}
+
+function renderMarketBoard(){
+  renderMarketPrices();
+  renderWalletStatus();
 }
 
 // ==================== API: DexScreener ====================
@@ -4901,6 +5420,7 @@ function switchTab(name){
   if(name==='sessions') renderSessions();
   if(name==='news') renderNewsFeed();
   if(name==='history') renderHistory();
+  if(name==='markets') requestMarketBoardRefresh('tab');
 }
 
 // ==================== REFRESH ====================
@@ -5007,7 +5527,10 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden) return;
   resumeDeferredExchangeRefresh();
   catchUpAfterFocus('visible');
+  requestMarketBoardRefresh('visible');
 });
+// Keeps the exchange prices fresh while they are on screen; does nothing otherwise.
+setInterval(()=>requestMarketBoardRefresh('tick'), 15000);
 window.addEventListener('focus',()=>catchUpAfterFocus('focus'));
 
 // ==================== SETTINGS ====================
