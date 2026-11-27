@@ -3167,7 +3167,7 @@
                                                 <strong class="text-gray-200 block"
                                                     data-i18n="ot.order.toggles.bbo.title">Best Bid / Offer</strong>
                                                 <div class="text-xs mt-1 text-gray-400 leading-relaxed"
-                                                    data-i18n="ot.order.toggles.bbo.desc">선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class="text-gray-300">좌클릭: 켜기·끄기 / 우클릭: EX 전환</span></div>
+                                                    data-i18n="ot.order.toggles.bbo.desc">선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class="text-gray-300">좌클릭: 켜기·끄기 (마지막에 쓴 BBO·BBO EX로 켜짐) / 우클릭: EX 전환</span></div>
                                             </div>
                                         </li>
 
@@ -3220,7 +3220,7 @@
 
                                         <!-- 검은색 박스 -->
                                         <div
-                                            class="flex flex-col h-full bg-[#0e0e0e] px-5 py-2 rounded border border-gray-700 min-h-[100px]">
+                                            class="flex flex-col h-full bg-[#0e0e0e] px-5 py-2 rounded border border-gray-700 min-h-[136px]">
 
                                             <!-- 상단 행: 좌클릭 (브랜드 컬러) -->
                                             <div class="flex-1 flex items-center gap-3">
@@ -3241,6 +3241,18 @@
                                                     class="fa-solid fa-arrow-pointer text-gray-500 w-4 text-center flex-shrink-0 scale-x-[-1]"></i>
                                                 <span class="text-sm text-gray-400" data-i18n="ot.amount.quick.right">
                                                     <span class="text-white font-bold">우클릭</span> : 수량 감소 (-)
+                                                </span>
+                                            </div>
+
+                                            <!-- 구분선 -->
+                                            <div class="border-t border-gray-800 w-full"></div>
+
+                                            <!-- Shift + 클릭: 그 값으로 맞춤 -->
+                                            <div class="flex-1 flex items-center gap-3">
+                                                <i
+                                                    class="fa-solid fa-equals text-brand w-4 text-center flex-shrink-0"></i>
+                                                <span class="text-sm text-gray-400" data-i18n="ot.amount.quick.shift">
+                                                    <span class="text-white font-bold">Shift + 클릭</span> : 그 값으로 맞춤 (좌·우클릭 같음)
                                                 </span>
                                             </div>
                                         </div>
@@ -3278,6 +3290,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p class="text-xs text-gray-500 leading-relaxed mt-4 !mb-0" data-i18n="ot.amount.custom">
+                                    <strong>SETTING &gt; SIZE BUTTONS</strong>에서 버튼 값을 바꿉니다. 모든 종목에 쓰는 기본값(USDT,
+                                    가격대별 QTY)과 종목별 값을 따로 정할 수 있습니다.
+                                </p>
                             </div>
                             <!-- 6. Risk & Actions -->
                             <div id="ot-actions">
@@ -3524,6 +3540,7 @@
                                                 <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">`</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.extreme">숫자 1 왼쪽 키: BBO EX 켜기·끄기. BBO 우클릭과 동일</dd></div>
                                                 <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Trade</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.trade">헤지: 매수·매도 버튼으로 포지션 이동 또는 양쪽 축소</dd></div>
                                                 <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Trade CLOSE</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.tradeclose">헤지: 매수·매도의 CLOSE 버튼에서 AMOUNT만큼 양쪽 축소</dd></div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)] gap-1 sm:gap-4 py-3 border-b border-white/10"><dt><kbd class="inline-block bg-gray-700 px-1.5 py-0.5 rounded text-white font-mono text-xs break-words">Shift + Size button</kbd></dt><dd class="!m-0 text-sm text-gray-400 leading-relaxed" data-i18n="ot.shortcuts.fixed.sizeset">수량 버튼 좌·우클릭으로 AMOUNT를 그 값으로 맞춤</dd></div>
                                             </dl>
                                         </div>
                                         <div>
@@ -3645,7 +3662,7 @@
                                 <li data-i18n="ws.trade.favorites"><strong>즐겨찾기</strong>: ☆를 눌러 추가합니다. 섹션을 만들어 이름을 바꾸고, 종목을 끌어서 순서를 바꾸거나 다른 섹션으로 옮길 수 있습니다. 브라우저 기록을 지워도 유지됩니다.</li>
                                 <li data-i18n="ws.trade.keys"><strong>빠른 선택</strong>: Shift + 1~0으로 목록 위에서부터 1~10번째 종목을 고릅니다. 새로고침해도 보던 종목이 유지됩니다.</li>
                                 <li data-i18n="ws.trade.header"><strong>상단 정보</strong>: 현재가·마크·인덱스·펀딩비(남은 시간)·24시간 고가/저가·거래량·OI와 1시간/4시간/24시간 OI 변화를 한 줄로 보여 줍니다. 창이 좁으면 값을 줄여 표시하고, 마우스를 올리면 원래 값이 보입니다. OI 변화를 누르면 금액과 %가 바뀝니다. 바이낸스 서버 시각 시계와 경제 캘린더 버튼은 맨 위 Website 버튼 옆에 있습니다.</li>
-                                <li data-i18n="ws.trade.clock"><strong>시계 알림</strong>: 시계를 누르면 Settings의 Alerts 탭이 열립니다. 시간봉(15M·30M·1H·4H·1D·1W·1M) 마감과 한국·미국 주식시장 세션이 열리고 닫히는 시각을 소리와 시계 표시로 알려 주며, 정각·1분 전·5분 전 중에서 고를 수 있습니다. 평일 정규 시간 기준이라 휴장일에도 울립니다. 알림 소리 종류와 음량은 Alert Sound에서 고르고 News 알림에도 함께 적용됩니다.</li>
+                                <li data-i18n="ws.trade.clock"><strong>시계 알림</strong>: 시계를 누르면 Settings의 Alerts 탭이 열립니다. 시간봉(15M·30M·1H·4H·1D·1W·1M) 마감과 한국·미국 주식시장 세션이 열리고 닫히는 시각, 미국 주요 지표(CPI·PPI·고용보고서·FOMC) 발표 시각을 소리와 시계 표시로 알려 주며, 정각·1분 전·5분 전 중에서 고를 수 있습니다. 세션은 평일 정규 시간 기준이라 휴장일에도 울리고, 지표는 발표일에만 울립니다. 알림 소리 종류와 음량은 Alert Sound에서 고르고 News 알림에도 함께 적용됩니다.</li>
                                 <li data-i18n="ws.trade.oi"><strong>OI Flow 차트</strong>: Open Interest 값을 누르면 1일·7일·30일 OI와 거래대금 흐름이 열립니다. Crypto Detector가 실행 중이면 상장 거래소와 시가총액 정보도 함께 표시됩니다.</li>
                                 <li data-i18n="ws.trade.chart"><strong>차트와 노트</strong>: Binance Manager 확장이 설치되어 있으면 오른쪽 빈 공간에 PRO CHART와 NOTES가 열리고, 리스트에서 고른 종목을 따라갑니다. 확장이 없으면 리스트와 시세 정보만 표시됩니다.</li>
                                 <li data-i18n="ws.trade.link"><strong>툴킷 연동</strong>: Trade 화면에서 고른 종목은 Order Toolkit·Trades·Order Book에도 연동됩니다.</li>
@@ -6056,7 +6073,7 @@
             "ot.order.toggles.qty.title": { ko: "Unit Toggle", en: "Unit Toggle" },
             "ot.order.toggles.qty.desc": { ko: "<span class='text-brand font-bold'>QTY</span>(코인 개수) ↔ <span class='text-accent-green font-bold'>USDT</span>(금액 환산) 입력 단위를 전환합니다.", en: "Toggle input unit between <span class='text-brand font-bold'>QTY</span> (coin amount) and <span class='text-accent-green font-bold'>USDT</span> (value)." },
             "ot.order.toggles.bbo.title": { ko: "Best Bid / Offer", en: "Best Bid / Offer" },
-            "ot.order.toggles.bbo.desc": {"ko": "선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class=\"text-gray-300\">좌클릭: 켜기·끄기 / 우클릭: EX 전환</span>", "en": "Sets the order price using your selected order-book mode.<br><span class=\"text-gray-300\">Left-click: on/off / Right-click: switch EX</span>"},
+            "ot.order.toggles.bbo.desc": {"ko": "선택한 호가 모드에 맞춰 주문 가격을 설정합니다.<br><span class=\"text-gray-300\">좌클릭: 켜기·끄기 (마지막에 쓴 BBO·BBO EX로 켜짐) / 우클릭: EX 전환</span>", "en": "Sets the order price using your selected order-book mode.<br><span class=\"text-gray-300\">Left-click: on/off (turns on as the last used BBO or BBO EX) / Right-click: switch EX</span>"},
             "ot.order.toggles.at.title": { ko: "Auto Stop Market", en: "Auto Stop Market" },
             "ot.order.toggles.at.desc": { ko: "활성화 시 포지션 진입과 동시에 스탑로스(SL) 주문을 자동으로 실행합니다.", en: "When enabled, automatically places a stop-loss (SL) order upon entry." },
             "ot.feature.grid.title": { ko: "그리드 자동호가", en: "Grid Auto-Quotes" },
@@ -6068,6 +6085,8 @@
             "ot.amount.quick.title": { ko: "Quick Amount (1K ~ 1M)", en: "Quick Amount (1K-1M)" },
             "ot.amount.quick.left": { ko: "<span class='text-white font-bold'>좌클릭</span> : 수량 추가 (+)", en: "<span class='text-white font-bold'>Left-click</span> : increase amount (+)" },
             "ot.amount.quick.right": { ko: "<span class='text-white font-bold'>우클릭</span> : 수량 감소 (-)", en: "<span class='text-white font-bold'>Right-click</span> : decrease amount (-)" },
+            "ot.amount.quick.shift": { ko: "<span class='text-white font-bold'>Shift + 클릭</span> : 그 값으로 맞춤 (좌·우클릭 같음)", en: "<span class='text-white font-bold'>Shift + click</span> : set amount to that value (left or right)" },
+            "ot.amount.custom": { ko: "<strong>SETTING &gt; SIZE BUTTONS</strong>에서 버튼 값을 바꿉니다. 모든 종목에 쓰는 기본값(USDT, 가격대별 QTY)과 종목별 값을 따로 정할 수 있습니다.", en: "Change the button values in <strong>SETTING &gt; SIZE BUTTONS</strong>: defaults for all symbols (USDT, QTY by price range) and values for individual symbols." },
             "ot.amount.cost.title": { ko: "Cost Value (예상 소요 금액, 자동 갱신)", en: "Cost Value (Estimated Cost, Auto Update)" },
             "ot.amount.cost.left": { ko: "자동 갱신 : 예상 소요 금액 실시간 반영", en: "Auto update: estimated cost is reflected in real time." },
             "ot.amount.cost.right": { ko: "클릭 : 청산가/수수료 안내 팝업", en: "Click: liquidation price/fee info popup" },
@@ -6163,6 +6182,7 @@
             "ot.shortcuts.fixed.extreme": {"ko": "숫자 1 왼쪽 키: BBO EX 켜기·끄기. BBO 우클릭과 동일", "en": "Key left of 1: toggle BBO EX, same as BBO right-click"},
             "ot.shortcuts.fixed.trade": {"ko": "헤지: 매수·매도 버튼으로 포지션 이동 또는 양쪽 축소", "en": "Hedge: use Buy/Sell to transfer a position or reduce both sides"},
             "ot.shortcuts.fixed.tradeclose": {"ko": "헤지: 매수·매도의 CLOSE 버튼에서 AMOUNT만큼 양쪽 축소", "en": "Hedge: use the Buy/Sell CLOSE button to reduce both sides by AMOUNT"},
+            "ot.shortcuts.fixed.sizeset": {"ko": "수량 버튼 좌·우클릭으로 AMOUNT를 그 값으로 맞춤", "en": "Left- or right-click a size button to set AMOUNT to its value"},
             "ot.shortcuts.custom.title": { ko: "설정 패널 관리", en: "Settings Panel" },
             "ot.shortcuts.custom.note": { ko: "<strong>SETTING &gt; SHORTCUTS</strong>에서 키별 사용 여부와 액션을 변경합니다.", en: "Use <strong>SETTING &gt; SHORTCUTS</strong> to change each key's enabled state and action." },
             "ot.shortcuts.custom.item1": { ko: "편집 가능: <code>Ctrl+0~9</code>, <code>F13~F22</code>, <code>Ctrl+F1~F12</code>, <code>Ctrl+F13~F22</code>. 키는 고정이며 액션만 고릅니다. macOS는 <code>Ctrl</code> 대신 <code>Cmd</code>, F키는 <code>fn</code>과 함께 누릅니다.", en: "Editable keys: <code>Ctrl+0~9</code>, <code>F13~F22</code>, <code>Ctrl+F1~F12</code>, <code>Ctrl+F13~F22</code>. The keys are fixed; you only choose the action. On macOS use <code>Cmd</code> instead of <code>Ctrl</code>, and press F-keys with <code>fn</code>." },
@@ -6217,7 +6237,7 @@
             "ws.trade.favorites": { ko: "<strong>즐겨찾기</strong>: ☆를 눌러 추가합니다. 섹션을 만들어 이름을 바꾸고, 종목을 끌어서 순서를 바꾸거나 다른 섹션으로 옮길 수 있습니다. 브라우저 기록을 지워도 유지됩니다.", en: "<strong>Favorites</strong>: click ☆ to add. Create and rename sections, and drag symbols to reorder them or move them between sections. Favorites stay even after clearing browser data." },
             "ws.trade.keys": { ko: "<strong>빠른 선택</strong>: Shift + 1~0으로 목록 위에서부터 1~10번째 종목을 고릅니다. 새로고침해도 보던 종목이 유지됩니다.", en: "<strong>Quick select</strong>: Shift + 1–0 picks the 1st to 10th symbol from the top of the list. Reloading keeps the symbol you were viewing." },
             "ws.trade.header": { ko: "<strong>상단 정보</strong>: 현재가·마크·인덱스·펀딩비(남은 시간)·24시간 고가/저가·거래량·OI와 1시간/4시간/24시간 OI 변화를 한 줄로 보여 줍니다. 창이 좁으면 값을 줄여 표시하고, 마우스를 올리면 원래 값이 보입니다. OI 변화를 누르면 금액과 %가 바뀝니다. 바이낸스 서버 시각 시계와 경제 캘린더 버튼은 맨 위 Website 버튼 옆에 있습니다.", en: "<strong>Header</strong>: last price, mark, index, funding (with countdown), 24h high/low, volume, OI and 1h/4h/24h OI change on one line. In a narrow window values are shortened; hover to see the full value. Click the OI change to switch between value and %. The Binance server-time clock and the economic calendar button sit next to the Website button at the top." },
-            "ws.trade.clock": { ko: "<strong>시계 알림</strong>: 시계를 누르면 Settings의 Alerts 탭이 열립니다. 시간봉(15M·30M·1H·4H·1D·1W·1M) 마감과 한국·미국 주식시장 세션이 열리고 닫히는 시각을 소리와 시계 표시로 알려 주며, 정각·1분 전·5분 전 중에서 고를 수 있습니다. 평일 정규 시간 기준이라 휴장일에도 울립니다. 알림 소리 종류와 음량은 Alert Sound에서 고르고 News 알림에도 함께 적용됩니다.", en: "<strong>Clock alerts</strong>: click the clock to open the Alerts tab in Settings. It announces candle closes (15M, 30M, 1H, 4H, 1D, 1W, 1M) and the opens and closes of the Korean and US stock-market sessions with a sound and a label on the clock, at the time, 1 minute before or 5 minutes before. It follows regular weekday hours, so it also rings on market holidays. The alert sound and volume are chosen under Alert Sound and apply to News alerts as well." },
+            "ws.trade.clock": { ko: "<strong>시계 알림</strong>: 시계를 누르면 Settings의 Alerts 탭이 열립니다. 시간봉(15M·30M·1H·4H·1D·1W·1M) 마감과 한국·미국 주식시장 세션이 열리고 닫히는 시각, 미국 주요 지표(CPI·PPI·고용보고서·FOMC) 발표 시각을 소리와 시계 표시로 알려 주며, 정각·1분 전·5분 전 중에서 고를 수 있습니다. 세션은 평일 정규 시간 기준이라 휴장일에도 울리고, 지표는 발표일에만 울립니다. 알림 소리 종류와 음량은 Alert Sound에서 고르고 News 알림에도 함께 적용됩니다.", en: "<strong>Clock alerts</strong>: click the clock to open the Alerts tab in Settings. It announces candle closes (15M, 30M, 1H, 4H, 1D, 1W, 1M) the opens and closes of the Korean and US stock-market sessions, and major US data releases (CPI, PPI, jobs report, FOMC) with a sound and a label on the clock, at the time, 1 minute before or 5 minutes before. Sessions follow regular weekday hours, so they also ring on market holidays; data releases ring only on their release dates. The alert sound and volume are chosen under Alert Sound and apply to News alerts as well." },
             "ws.trade.oi": { ko: "<strong>OI Flow 차트</strong>: Open Interest 값을 누르면 1일·7일·30일 OI와 거래대금 흐름이 열립니다. Crypto Detector가 실행 중이면 상장 거래소와 시가총액 정보도 함께 표시됩니다.", en: "<strong>OI Flow chart</strong>: click an Open Interest value to open 1-day, 7-day and 30-day OI and volume. With Crypto Detector running, listed exchanges and market cap are shown too." },
             "ws.trade.chart": { ko: "<strong>차트와 노트</strong>: Binance Manager 확장이 설치되어 있으면 오른쪽 빈 공간에 PRO CHART와 NOTES가 열리고, 리스트에서 고른 종목을 따라갑니다. 확장이 없으면 리스트와 시세 정보만 표시됩니다.", en: "<strong>Chart and notes</strong>: with the Binance Manager extension installed, PRO CHART and NOTES open in the free area on the right and follow the symbol you pick. Without it, only the list and market data are shown." },
             "ws.trade.link": { ko: "<strong>툴킷 연동</strong>: Trade 화면에서 고른 종목은 Order Toolkit·Trades·Order Book에도 연동됩니다.", en: "<strong>Toolkit link</strong>: the symbol you pick on the Trade view is also linked to Order Toolkit, Trades and Order Book." },
