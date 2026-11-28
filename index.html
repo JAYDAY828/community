@@ -1181,6 +1181,12 @@
                         <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h12V9m-6 3v3"/></svg>
                         <span data-i18n="nav.extensions">Extensions</span>
                     </button>
+                    <!-- Terminal (toolkit server), a new tab -->
+                    <a href="https://app.xn--2e0bpl290bcojujao44d.com/" target="_blank" rel="noopener"
+                        class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group">
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="m7 14 3-3 3 2 4-5M8 21h8"/></svg>
+                        <span>Terminal</span>
+                    </a>
                     <!-- [NEW] On-Chain Tracker 링크 버튼 -->
                     <button onclick="window.location.href='/tracker'"
                         class="nav-btn w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all group">
@@ -1268,17 +1274,16 @@
                         </div>
                     </a>
 
-                    <!-- On-Chain Tracker -->
-                    <a href="/tracker"
+                    <!-- Terminal (toolkit server); the On-Chain Tracker stays in the sidebar -->
+                    <a href="https://app.xn--2e0bpl290bcojujao44d.com/" target="_blank" rel="noopener"
                         class="glass-panel p-6 rounded-2xl hover:-translate-y-1 transition-transform group cursor-pointer">
                         <div class="flex items-center gap-4 mb-3">
                             <div class="home-service-icon home-service-icon--tracker text-amber-400 text-[1.7rem]">
-                                <i class="fa-solid fa-wallet relative z-10"></i>
-                                <span class="home-service-icon__mini-badge"><i class="fa-solid fa-link"></i></span>
+                                <i class="fa-solid fa-chart-line relative z-10"></i>
                             </div>
-                            <h3 class="font-bold text-white group-hover:text-amber-400 transition-colors" data-i18n="grid.tracker.title">On-Chain Tracker</h3>
+                            <h3 class="font-bold text-white group-hover:text-amber-400 transition-colors" data-i18n="grid.terminal.title">Terminal</h3>
                         </div>
-                        <p class="text-xs text-gray-400" data-i18n="grid.tracker.desc">온체인 추적 및 지갑 분석</p>
+                        <p class="text-xs text-gray-400" data-i18n="grid.terminal.desc">멀티차트 · 알림 · 휴대폰 푸시</p>
                     </a>
 
                     <!-- TradingView -->
@@ -5561,8 +5566,8 @@
             // Grid Items
             "grid.tele.title": { ko: "공식 텔레그램 채널", en: "Official Telegram" },
             "grid.tele.desc": { ko: "공지사항, 업데이트, 실시간 문의 및 커뮤니티", en: "Announcements, Updates, Inquiry & Community" },
-            "grid.tracker.title": { ko: "On-Chain Tracker", en: "On-Chain Tracker" },
-            "grid.tracker.desc": { ko: "온체인 추적 및 지갑 분석", en: "On-chain tracking and wallet analysis" },
+            "grid.terminal.title": { ko: "Terminal", en: "Terminal" },
+            "grid.terminal.desc": { ko: "멀티차트 · 알림 · 휴대폰 푸시", en: "Multi-chart · alerts · phone push" },
             "grid.tradingview.title": { ko: "TradingView 지표", en: "TradingView Indicator" },
             "grid.tradingview.desc": { ko: "Crypto Detector 전용 인디케이터 & 얼러트", en: "Crypto Detector indicator & alerts" },
             "grid.kakao.title": { ko: "카카오톡 1:1 문의", en: "KakaoTalk Support" },
